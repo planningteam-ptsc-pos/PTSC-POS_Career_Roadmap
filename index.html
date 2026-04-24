@@ -32,7 +32,6 @@
         
         /* --- HỆ THỐNG THEME ĐA SẮC ĐỘNG --- */
         :root {
-            /* Default: Ocean Blue */
             --color-primary-50: 240 249 255;
             --color-primary-100: 224 242 254;
             --color-primary-400: 56 189 248;
@@ -87,7 +86,7 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: #f8fafc;
             color: var(--oil-slate);
-            transition: all 0.5s ease; /* Mượt mà khi đổi theme */
+            transition: all 0.5s ease;
         }
 
         .bg-fixed-overlay {
@@ -103,7 +102,6 @@
             border: 1px solid rgba(255, 255, 255, 0.6); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
         }
 
-        /* --- ROADMAP VIEWPORT --- */
         .roadmap-viewport {
             position: relative; width: 100%; height: 100%; overflow: hidden; 
             border-radius: 40px; background: radial-gradient(circle at top right, #ffffff 0%, #f0f4f8 100%);
@@ -267,7 +265,6 @@
         .btn-premium-nav:hover { background: var(--sky-primary); transform: translateY(-2px); }
 
         .btn-premium-action {
-            /* Thay đổi nút sang màu động của Theme */
             background: var(--sky-primary); color: white; padding: 14px 28px; border-radius: 20px;
             font-weight: 800; font-size: 15px; text-transform: uppercase; letter-spacing: 0.1em;
             display: flex; align-items: center; gap: 12px; transition: all 0.4s; box-shadow: 0 10px 25px rgb(var(--color-primary-500) / 0.4); border: 1.5px solid rgba(255,255,255,0.2); position: relative; z-index: 200; cursor: pointer;
@@ -302,13 +299,12 @@
 
 <div id="app" class="absolute inset-0 flex flex-col p-4 md:p-6 lg:p-8 overflow-hidden">
     
-    <!-- Nút Theme Selector góc trái trên Page 1 -->
+    <!-- Theme Selector -->
     <div id="themeSelectorContainer" class="absolute top-6 left-6 md:top-8 md:left-8 z-[200]">
         <div class="relative group">
             <button id="themeTriggerBtn" class="bg-white/70 hover:bg-white backdrop-blur-md border border-slate-200/60 shadow-sm hover:shadow-md px-4 py-2.5 rounded-full text-slate-700 font-black text-[13px] uppercase tracking-widest transition-all flex items-center gap-2" onclick="toggleThemeMenu(event)">
                 <i data-lucide="palette" class="w-4 h-4 text-primary-600"></i> Theme
             </button>
-            <!-- Dropdown menu chọn Theme -->
             <div id="themeMenu" class="absolute top-full left-0 mt-3 w-48 bg-white/95 backdrop-blur-xl border border-slate-100 shadow-2xl rounded-3xl overflow-hidden transition-all duration-300 origin-top opacity-0 scale-y-95 pointer-events-none p-2">
                 <button onclick="setTheme('default')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-2xl hover:bg-slate-50 text-slate-700 font-bold text-[13px] transition-colors"><span class="w-4 h-4 rounded-full bg-[#0ea5e9]"></span> Ocean Blue</button>
                 <button onclick="setTheme('emerald')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-2xl hover:bg-slate-50 text-slate-700 font-bold text-[13px] transition-colors"><span class="w-4 h-4 rounded-full bg-[#10b981]"></span> Emerald Green</button>
@@ -319,7 +315,7 @@
         </div>
     </div>
 
-    <!-- Logo cố định góc phải -->
+    <!-- Logo -->
     <img id="mainLogo" src="image/background/logo.png" alt="O&G Logo" class="absolute top-6 right-6 md:top-8 md:right-8 w-[120px] md:w-[170px] z-[100] object-contain pointer-events-none">
 
     <!-- PAGE 1: SELECTION -->
@@ -328,8 +324,6 @@
             <div class="inline-flex items-center gap-2 bg-white/50 backdrop-blur px-6 py-2.5 rounded-full text-[15px] font-black uppercase tracking-widest border border-white shadow-sm">
                 <i data-lucide="shield-check" class="w-4 h-4 text-primary-600"></i> O&G Standards Verified
             </div>
-            
-            <!-- Khung viền trắng bo phần text -->
             <div class="bg-white/40 backdrop-blur-md border border-white shadow-2xl rounded-[3rem] p-6 md:p-12 max-w-4xl mx-auto">
                 <h1 class="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-black text-slate-900 tracking-tighter mb-4 whitespace-nowrap">
                     CAREER <span class="text-primary-600">PATHWAY</span>
@@ -340,34 +334,25 @@
 
         <div class="glass-panel p-10 rounded-[48px] w-full max-w-md space-y-8 border-white shadow-2xl">
             <div class="space-y-6">
-                <div class="relative" id="customDropdownContainer">
+                <div class="relative">
                     <label class="text-[15px] font-black text-slate-400 uppercase tracking-widest ml-1 mb-2 block">Lựa chọn Lộ trình (Path)</label>
-                    
-                    <!-- Nút Trigger Menu -->
-                    <button id="dropdownTrigger"
-                            class="w-full bg-white border border-slate-100 text-slate-900 rounded-3xl px-6 py-4 flex justify-between items-center focus:ring-4 focus:ring-primary-500/10 outline-none font-bold transition-all text-lg shadow-sm hover:shadow-md opacity-60 cursor-not-allowed animate-pulse">
+                    <button id="dropdownTrigger" class="w-full bg-white border border-slate-100 text-slate-900 rounded-3xl px-6 py-4 flex justify-between items-center outline-none font-bold transition-all text-lg shadow-sm hover:shadow-md opacity-60 cursor-not-allowed animate-pulse">
                         <span id="dropdownSelectedText" class="truncate pr-4 text-slate-400">Đang tải dữ liệu gốc...</span>
                         <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 transition-transform duration-300 shrink-0" id="dropdownIcon"></i>
                     </button>
-
-                    <!-- Khung Menu Xổ Lên (Dropup) -->
                     <div id="dropdownMenu" class="absolute z-[200] bottom-full mb-3 left-0 w-full bg-white/95 backdrop-blur-xl border border-slate-100 shadow-2xl rounded-3xl overflow-hidden transition-all duration-300 origin-bottom opacity-0 scale-y-95 pointer-events-none">
                         <div class="p-3 border-b border-slate-100 bg-slate-50/80">
                             <div class="relative">
                                 <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
-                                <input type="text" id="roleSearchInput" placeholder="Tìm kiếm nhanh lộ trình..." 
-                                       class="w-full bg-white border border-slate-200 text-[15px] font-bold text-slate-700 rounded-2xl pl-10 pr-4 py-3 outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all placeholder:font-medium placeholder:text-slate-400">
+                                <input type="text" id="roleSearchInput" placeholder="Tìm kiếm nhanh lộ trình..." class="w-full bg-white border border-slate-200 text-[15px] font-bold text-slate-700 rounded-2xl pl-10 pr-4 py-3 outline-none focus:border-primary-500 transition-all">
                             </div>
                         </div>
-                        <ul id="customRoleList" class="max-h-[280px] overflow-y-auto custom-scrollbar p-2">
-                            <!-- Danh sách sẽ được JS Inject vào đây -->
-                        </ul>
+                        <ul id="customRoleList" class="max-h-[280px] overflow-y-auto custom-scrollbar p-2"></ul>
                     </div>
                 </div>
             </div>
-            <button id="btnStart"
-                    class="w-full bg-primary-600 text-white font-black py-5 rounded-3xl shadow-xl shadow-primary-600/20 flex items-center justify-center gap-3 uppercase tracking-widest text-[15px] transition-all group opacity-60 cursor-not-allowed">
-                Bắt đầu tìm hiểu <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+            <button id="btnStart" class="w-full bg-primary-600 text-white font-black py-5 rounded-3xl shadow-xl flex items-center justify-center gap-3 uppercase tracking-widest text-[15px] transition-all opacity-60 cursor-not-allowed">
+                Bắt đầu tìm hiểu <i data-lucide="arrow-right" class="w-5 h-5"></i>
             </button>
         </div>
     </div>
@@ -375,89 +360,34 @@
     <!-- PAGE 1.5: JOURNEY OVERVIEW -->
     <div id="pageOverview" class="hidden h-full flex flex-col gap-6 animate-up overflow-hidden">
         <div class="flex items-center justify-between shrink-0 px-2">
-            <button onclick="showPage(1)" class="group flex items-center gap-2 bg-white/70 hover:bg-white backdrop-blur-md border border-slate-200/60 shadow-sm hover:shadow-md px-5 py-2.5 rounded-full text-slate-700 hover:text-primary-600 font-black text-[15px] uppercase tracking-widest transition-all">
-                <i data-lucide="chevron-left" class="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-300"></i> Trang chủ
+            <button onclick="showPage(1)" class="group flex items-center gap-2 bg-white/70 hover:bg-white backdrop-blur-md border border-slate-200/60 px-5 py-2.5 rounded-full text-slate-700 font-black text-[15px] transition-all">
+                <i data-lucide="chevron-left" class="w-4 h-4"></i> Trang chủ
             </button>
             <div class="text-center">
                 <div class="text-[15px] font-black text-primary-600 uppercase tracking-[0.4em] mb-1">Professional Growth Strategy</div>
-                <h2 id="ovTitle" class="text-2xl md:text-4xl font-black text-slate-900 uppercase tracking-tighter leading-none text-center">CAREER <span class="text-primary-600">ROADMAP</span></h2>
+                <h2 id="ovTitle" class="text-2xl md:text-4xl font-black text-slate-900 uppercase leading-none">CAREER <span class="text-primary-600">ROADMAP</span></h2>
             </div>
-            <button id="btnGoToDetail" class="btn-premium-action">
-                Chi tiết <i data-lucide="zap" class="w-4 h-4 text-white"></i>
-            </button>
+            <button id="btnGoToDetail" class="btn-premium-action">Chi tiết <i data-lucide="zap" class="w-4 h-4"></i></button>
         </div>
 
-        <div class="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 min-h-0 overflow-hidden">
-            <div class="lg:col-span-9 relative flex flex-col order-1 h-full overflow-hidden">
+        <div class="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 overflow-hidden">
+            <div class="lg:col-span-9 relative flex h-full overflow-hidden">
                 <div class="roadmap-viewport" id="roadmapViewport">
                     <div class="bg-grid-pattern"></div>
                     <div class="waves-container"><div class="wave"></div><div class="wave wave2"></div></div>
                     <div id="particleContainer"></div>
                     <div class="roadmap-content" id="roadmapContent">
-                        
-                        <svg class="hidden">
-                            <defs>
-                                <linearGradient id="rainbowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%" stop-color="#10b981" />
-                                    <stop offset="25%" stop-color="#0ea5e9" />
-                                    <stop offset="50%" stop-color="#6366f1" />
-                                    <stop offset="75%" stop-color="#d946ef" />
-                                    <stop offset="100%" stop-color="#f59e0b" />
-                                </linearGradient>
-                            </defs>
-                        </svg>
-
-                        <!-- LAYER BẬC THANG (STAIRCASE) -->
-                        <svg id="staircaseSvg" class="absolute top-0 left-0 w-full h-full pointer-events-none" style="z-index: 3;">
-                            <defs>
-                                <linearGradient id="stairGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                                    <stop offset="0%" style="stop-color: rgba(99, 102, 241, 0.45);" /> 
-                                    <stop offset="100%" style="stop-color: rgba(14, 165, 233, 0.1);" />
-                                </linearGradient>
-                            </defs>
-                            <polygon id="stairPolygon" fill="url(#stairGradient)" class="opacity-0 transition-opacity duration-1000 delay-500" />
-                            <path id="stairEdge" fill="none" stroke="url(#rainbowGradient)" stroke-width="3.5" stroke-linejoin="miter" opacity="1" />
-                        </svg>
-
-                        <!-- ĐƯỜNG BAY DI CHUYỂN GỐC -->
-                        <svg id="journeyLine">
-                            <defs>
-                                <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%" style="stop-color:var(--sky-primary);stop-opacity:1" />
-                                    <stop offset="100%" style="stop-color:#ffffff;stop-opacity:1" />
-                                </linearGradient>
-                            </defs>
-                            <path id="svgPath" class="path-glow" d="" fill="none" />
-                        </svg>
+                        <svg class="hidden"><defs><linearGradient id="rainbowGradient"><stop offset="0%" stop-color="#10b981"/><stop offset="25%" stop-color="#0ea5e9"/><stop offset="50%" stop-color="#6366f1"/><stop offset="75%" stop-color="#d946ef"/><stop offset="100%" stop-color="#f59e0b"/></linearGradient></defs></svg>
+                        <svg id="staircaseSvg" class="absolute top-0 left-0 w-full h-full pointer-events-none" style="z-index: 3;"><defs><linearGradient id="stairGradient" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color: rgba(99, 102, 241, 0.45);"/><stop offset="100%" style="stop-color: rgba(14, 165, 233, 0.1);"/></linearGradient></defs><polygon id="stairPolygon" fill="url(#stairGradient)" class="opacity-0 transition-opacity duration-1000"/><path id="stairEdge" fill="none" stroke="url(#rainbowGradient)" stroke-width="3.5" opacity="1"/></svg>
+                        <svg id="journeyLine"><defs><linearGradient id="lineGradient"><stop offset="0%" style="stop-color:var(--sky-primary);"/><stop offset="100%" style="stop-color:#ffffff;"/></linearGradient></defs><path id="svgPath" class="path-glow" d="" fill="none"/></svg>
                     </div>
                 </div>
             </div>
-
-            <!-- Sidebar (Phải) -->
-            <div class="lg:col-span-3 order-2 custom-scrollbar overflow-y-auto lg:h-full pb-6">
-                <div class="sidebar-container lg:h-full">
-                    <div class="job-family-badge group">
-                        <span class="text-[15px] font-black uppercase text-primary-100 tracking-widest block mb-2 opacity-80">Discipline Group</span>
-                        <h3 id="ovJobFamily" class="text-base md:text-xl font-bold leading-tight">---</h3>
-                        <i data-lucide="database" class="absolute -right-4 -bottom-4 w-20 h-20 text-white/10 group-hover:scale-110 transition-transform"></i>
-                    </div>
-
-                    <div class="glass-card-info">
-                        <div class="flex items-center gap-3 mb-5">
-                            <div class="p-2 rounded-xl bg-primary-100 text-primary-600"><i data-lucide="trending-up" class="w-5 h-5"></i></div>
-                            <h4 class="text-[15px] font-black text-slate-900 uppercase tracking-widest">Cơ hội phát triển</h4>
-                        </div>
-                        <div id="ovDevOpp">---</div>
-                    </div>
-                    
-                    <div class="glass-card-info">
-                        <div class="flex items-center gap-3 mb-5">
-                            <!-- Đã đồng bộ icon này theo biến Theme -->
-                            <div class="p-2 rounded-xl bg-primary-100 text-primary-600"><i data-lucide="compass" class="w-5 h-5"></i></div>
-                            <h4 class="text-[15px] font-black text-slate-900 uppercase tracking-widest">Định hướng dài hạn</h4>
-                        </div>
-                        <div id="ovLongTerm">---</div>
-                    </div>
+            <div class="lg:col-span-3 custom-scrollbar overflow-y-auto pb-6">
+                <div class="sidebar-container">
+                    <div class="job-family-badge"><span class="text-[15px] font-black uppercase text-primary-100 tracking-widest block mb-2 opacity-80">Discipline Group</span><h3 id="ovJobFamily" class="text-base md:text-xl font-bold">---</h3><i data-lucide="database" class="absolute -right-4 -bottom-4 w-20 h-20 text-white/10"></i></div>
+                    <div class="glass-card-info"><div class="flex items-center gap-3 mb-5"><div class="p-2 rounded-xl bg-primary-100 text-primary-600"><i data-lucide="trending-up" class="w-5 h-5"></i></div><h4 class="text-[15px] font-black text-slate-900 uppercase">Cơ hội phát triển</h4></div><div id="ovDevOpp">---</div></div>
+                    <div class="glass-card-info"><div class="flex items-center gap-3 mb-5"><div class="p-2 rounded-xl bg-primary-100 text-primary-600"><i data-lucide="compass" class="w-5 h-5"></i></div><h4 class="text-[15px] font-black text-slate-900 uppercase">Định hướng dài hạn</h4></div><div id="ovLongTerm">---</div></div>
                 </div>
             </div>
         </div>
@@ -466,38 +396,25 @@
     <!-- PAGE 2: DASHBOARD -->
     <div id="page2" class="hidden h-full flex flex-col gap-4 animate-up overflow-hidden">
         <div class="flex items-center justify-between shrink-0 px-2">
-            <button onclick="showPage(1.5)" class="group flex items-center gap-2 bg-white/70 hover:bg-white backdrop-blur-md border border-slate-200/60 shadow-sm hover:shadow-md px-5 py-2.5 rounded-full text-slate-700 hover:text-primary-600 font-black text-[15px] uppercase tracking-widest transition-all">
-                <i data-lucide="arrow-left" class="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-300"></i> Lộ trình
+            <button onclick="showPage(1.5)" class="group flex items-center gap-2 bg-white/70 hover:bg-white px-5 py-2.5 rounded-full text-slate-700 font-black text-[15px] transition-all">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i> Lộ trình
             </button>
             <div class="flex flex-col items-end">
-                <h2 id="detailFuncTitle" class="text-2xl font-black text-slate-900 uppercase tracking-tight text-right">---</h2>
-                <span id="detailJobFamily" class="bg-primary-600 text-white text-[15px] font-bold px-3 py-1 rounded-full uppercase tracking-widest mt-1">---</span>
+                <h2 id="detailFuncTitle" class="text-2xl font-black text-slate-900 uppercase tracking-tight">---</h2>
+                <span id="detailJobFamily" class="bg-primary-600 text-white text-[15px] font-bold px-3 py-1 rounded-full mt-1">---</span>
             </div>
         </div>
 
         <div class="flex-1 grid grid-cols-12 gap-6 overflow-hidden pb-4">
             <div class="col-span-12 lg:col-span-3 glass-panel p-6 rounded-[32px] overflow-y-auto no-scrollbar flex lg:flex-col gap-2">
-                <h3 class="hidden lg:block text-[15px] font-black text-slate-400 uppercase tracking-widest mb-2 text-center">Lộ trình thăng tiến</h3>
+                <h3 class="hidden lg:block text-[15px] font-black text-slate-400 uppercase text-center mb-2">Lộ trình thăng tiến</h3>
                 <div class="detail-stepper-container flex lg:flex-col gap-2 w-full">
                     <div id="progressLine" class="progress-line"></div>
                     <div id="detailStepper" class="flex lg:flex-col gap-2 w-full relative z-10"></div>
                 </div>
-
                 <div class="sidebar-dynamic-card">
-                    <div class="mb-5">
-                        <div class="dynamic-header">
-                            <i data-lucide="zap" class="w-4 h-4"></i>
-                            <h4 class="text-[15px] font-black uppercase tracking-widest">Cơ hội thăng tiến</h4>
-                        </div>
-                        <div id="sidebarDevOpp" class="dynamic-content-list">---</div>
-                    </div>
-                    <div>
-                        <div class="dynamic-header">
-                            <i data-lucide="compass" class="w-4 h-4"></i>
-                            <h4 class="text-[15px] font-black uppercase tracking-widest">Định hướng lâu dài</h4>
-                        </div>
-                        <div id="sidebarLongTerm" class="dynamic-content-list">---</div>
-                    </div>
+                    <div class="mb-5"><div class="dynamic-header"><i data-lucide="zap" class="w-4 h-4"></i><h4 class="text-[15px] font-black uppercase">Cơ hội thăng tiến</h4></div><div id="sidebarDevOpp" class="dynamic-content-list">---</div></div>
+                    <div><div class="dynamic-header"><i data-lucide="compass" class="w-4 h-4"></i><h4 class="text-[15px] font-black uppercase">Định hướng lâu dài</h4></div><div id="sidebarLongTerm" class="dynamic-content-list">---</div></div>
                 </div>
             </div>
 
@@ -505,36 +422,35 @@
                 <div class="p-8 bg-white/40 border-b border-slate-100">
                     <div class="flex items-center gap-10">
                         <div class="relative shrink-0">
-                            <div class="w-32 h-32 rounded-3xl bg-white shadow-xl flex items-center justify-center p-2 border border-slate-50 overflow-hidden">
-                                <img id="msIcon" src="" class="w-full h-full object-contain">
-                                <div id="msIconFallback" class="hidden text-slate-200"><i data-lucide="shield-check" class="w-20 h-20"></i></div>
-                            </div>
+                            <div class="w-32 h-32 rounded-3xl bg-white shadow-xl flex items-center justify-center p-2 border border-slate-50 overflow-hidden"><img id="msIcon" src="" class="w-full h-full object-contain"></div>
                             <div id="msOrderBadge" class="absolute -bottom-2 -right-2 w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center font-black text-lg shadow-lg border-4 border-white">1</div>
                         </div>
                         <div class="space-y-2">
-                            <span id="msLevelLabel" class="inline-block px-3 py-0.5 bg-primary-100 text-primary-600 font-black text-[15px] uppercase tracking-widest rounded-full">---</span>
+                            <span id="msLevelLabel" class="inline-block px-3 py-0.5 bg-primary-100 text-primary-600 font-black text-[15px] rounded-full">---</span>
                             <h1 id="roleTitleLabel" class="text-3xl font-black text-slate-900 leading-tight">---</h1>
                             <p id="rolePurposeLabel" class="text-slate-500 font-medium italic text-[15px] leading-relaxed max-w-2xl">---</p>
                         </div>
                     </div>
                 </div>
 
+                <!-- Cập nhật thanh Tab thêm tab thứ 5 -->
                 <div class="flex gap-4 px-10 border-b border-slate-100 bg-white/20 shrink-0 overflow-x-auto no-scrollbar">
                     <button class="tab-btn active" onclick="switchTab('tab-works')">CÔNG VIỆC & KPI</button>
                     <button class="tab-btn" onclick="switchTab('tab-skills')">NĂNG LỰC & KỸ NĂNG</button>
                     <button class="tab-btn" onclick="switchTab('tab-learning')">ĐÀO TẠO & PHÁT TRIỂN</button>
                     <button class="tab-btn" onclick="switchTab('tab-next')">TIÊU CHÍ THĂNG CẤP</button>
+                    <button class="tab-btn" onclick="switchTab('tab-benefits')">ĐÃI NGỘ & PHÚC LỢI</button>
                 </div>
 
                 <div id="detailView" class="flex-1 overflow-y-auto p-10 custom-scrollbar">
                     <div id="tab-works" class="tab-content animate-up">
                         <div class="grid grid-cols-1 lg:grid-cols-5 gap-12">
                             <div class="lg:col-span-3">
-                                <h4 class="text-slate-900 font-black uppercase tracking-widest text-[15px] mb-6 flex items-center gap-2"><i data-lucide="clipboard-list" class="w-5 h-5 text-primary-600"></i> Trách nhiệm</h4>
+                                <h4 class="text-slate-900 font-black uppercase text-[15px] mb-6 flex items-center gap-2"><i data-lucide="clipboard-list" class="w-5 h-5 text-primary-600"></i> Trách nhiệm</h4>
                                 <div id="responsibilitiesList" class="space-y-3"></div>
                             </div>
                             <div class="lg:col-span-2">
-                                <h4 class="text-slate-900 font-black uppercase tracking-widest text-[15px] mb-6 flex items-center gap-2"><i data-lucide="target" class="w-5 h-5 text-primary-600"></i> KPI chính</h4>
+                                <h4 class="text-slate-900 font-black uppercase text-[15px] mb-6 flex items-center gap-2"><i data-lucide="target" class="w-5 h-5 text-primary-600"></i> KPI chính</h4>
                                 <div id="kpiContainer" class="space-y-4"></div>
                             </div>
                         </div>
@@ -547,13 +463,13 @@
                     <div id="tab-skills" class="tab-content hidden animate-up">
                         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
                             <div class="lg:col-span-7">
-                                <h4 class="text-slate-900 font-black uppercase tracking-widest text-[15px] mb-8 flex items-center gap-2"><i data-lucide="zap" class="w-5 h-5 text-amber-500"></i> Năng lực chuyên môn</h4>
+                                <h4 class="text-slate-900 font-black uppercase text-[15px] mb-8 flex items-center gap-2"><i data-lucide="zap" class="w-5 h-5 text-amber-500"></i> Năng lực chuyên môn</h4>
                                 <div id="competenciesContainer" class="space-y-6"></div>
                             </div>
                             <div class="lg:col-span-5">
-                                <h4 class="text-slate-900 font-black uppercase tracking-widest text-[15px] mb-8 flex items-center gap-2"><i data-lucide="users" class="w-5 h-5 text-emerald-600"></i> Kỹ năng hành vi</h4>
+                                <h4 class="text-slate-900 font-black uppercase text-[15px] mb-8 flex items-center gap-2"><i data-lucide="users" class="w-5 h-5 text-emerald-600"></i> Kỹ năng hành vi</h4>
                                 <div id="behavioralContainer" class="flex flex-wrap gap-2.5 mb-10"></div>
-                                <h4 class="text-slate-900 font-black uppercase tracking-widest text-[15px] mb-6 flex items-center gap-2"><i data-lucide="wrench" class="w-5 h-5 text-slate-500"></i> Công cụ kỹ thuật</h4>
+                                <h4 class="text-slate-900 font-black uppercase text-[15px] mb-6 flex items-center gap-2"><i data-lucide="wrench" class="w-5 h-5 text-slate-500"></i> Công cụ kỹ thuật</h4>
                                 <div id="toolsContainer" class="space-y-3"></div>
                             </div>
                         </div>
@@ -561,11 +477,11 @@
 
                     <div id="tab-learning" class="tab-content hidden animate-up space-y-12">
                         <div>
-                            <h4 class="text-slate-900 font-black uppercase tracking-widest text-[15px] mb-6 flex items-center gap-2"><i data-lucide="graduation-cap" class="w-5 h-5 text-primary-600"></i> Đào tạo gợi ý</h4>
+                            <h4 class="text-slate-900 font-black uppercase text-[15px] mb-6 flex items-center gap-2"><i data-lucide="graduation-cap" class="w-5 h-5 text-primary-600"></i> Đào tạo gợi ý</h4>
                             <div id="trainingList" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
                         </div>
                         <div>
-                            <h4 class="text-slate-900 font-black uppercase tracking-widest text-[15px] mb-6 flex items-center gap-2"><i data-lucide="award" class="w-5 h-5 text-amber-500"></i> Chứng chỉ khuyến nghị</h4>
+                            <h4 class="text-slate-900 font-black uppercase text-[15px] mb-6 flex items-center gap-2"><i data-lucide="award" class="w-5 h-5 text-amber-500"></i> Chứng chỉ khuyến nghị</h4>
                             <div id="certList" class="flex flex-wrap gap-2"></div>
                         </div>
                     </div>
@@ -573,11 +489,11 @@
                     <div id="tab-next" class="tab-content hidden animate-up space-y-12">
                          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
                              <div>
-                                <h4 class="text-slate-900 font-black uppercase tracking-widest text-[15px] mb-6 flex items-center gap-2"><i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-600"></i> Dấu hiệu sẵn sàng (Readiness)</h4>
+                                <h4 class="text-slate-900 font-black uppercase text-[15px] mb-6 flex items-center gap-2"><i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-600"></i> Dấu hiệu sẵn sàng</h4>
                                 <div id="readinessList" class="space-y-4"></div>
                              </div>
                              <div>
-                                <h4 class="text-slate-900 font-black uppercase tracking-widest text-[15px] mb-6 flex items-center gap-2"><i data-lucide="trending-up" class="w-5 h-5 text-primary-600"></i> Tiêu chí thăng cấp</h4>
+                                <h4 class="text-slate-900 font-black uppercase text-[15px] mb-6 flex items-center gap-2"><i data-lucide="trending-up" class="w-5 h-5 text-primary-600"></i> Tiêu chí thăng cấp</h4>
                                 <div id="promotionList" class="space-y-4"></div>
                              </div>
                          </div>
@@ -585,6 +501,43 @@
                              <span class="text-[15px] font-black text-primary-600 uppercase mb-1 block">Vị trí mục tiêu tiếp theo</span>
                              <p id="nextTargetRole" class="text-lg font-black text-slate-900 uppercase">---</p>
                          </div>
+                    </div>
+
+                    <!-- NỘI DUNG TAB THỨ 5: ĐÃI NGỘ & PHÚC LỢI -->
+                    <div id="tab-benefits" class="tab-content hidden animate-up space-y-8">
+                        <div class="bg-gradient-to-r from-blue-600 to-blue-500 p-8 rounded-3xl text-white shadow-xl flex items-center justify-between">
+                            <div>
+                                <p class="text-blue-100 font-bold uppercase tracking-widest text-[13px] mb-2">Mức lương tham khảo (VNĐ/Tháng)</p>
+                                <h4 id="salaryDisplay" class="text-5xl font-black tracking-tighter">-- Triệu</h4>
+                                <p class="text-blue-100/70 text-sm mt-3 italic font-medium">* Khoảng lương Gross, tùy thuộc vào thâm niên và địa điểm làm việc.</p>
+                            </div>
+                            <div class="bg-white/10 p-5 rounded-3xl backdrop-blur-md border border-white/20">
+                                <i data-lucide="banknote" class="w-12 h-12 text-white"></i>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="p-6 bg-white/60 border border-slate-100 rounded-2xl shadow-sm">
+                                <h5 class="font-black text-slate-900 uppercase text-[14px] mb-4 flex items-center gap-2">
+                                    <i data-lucide="shield-check" class="w-5 h-5 text-emerald-600"></i> Bảo hiểm & Sức khỏe
+                                </h5>
+                                <ul class="space-y-2 text-[15px] text-slate-600 font-medium">
+                                    <li>• Bảo hiểm PVI / Bảo hiểm sức khỏe quốc tế.</li>
+                                    <li>• Khám sức khỏe định kỳ tiêu chuẩn cao.</li>
+                                    <li>• Bảo hiểm 24/24 cho nhân viên Offshore.</li>
+                                </ul>
+                            </div>
+                            <div class="p-6 bg-white/60 border border-slate-100 rounded-2xl shadow-sm">
+                                <h5 class="font-black text-slate-900 uppercase text-[14px] mb-4 flex items-center gap-2">
+                                    <i data-lucide="award" class="w-5 h-5 text-orange-600"></i> Phụ cấp & Thưởng
+                                </h5>
+                                <ul class="space-y-2 text-[15px] text-slate-600 font-medium">
+                                    <li>• Thưởng KPI hàng năm (1-4 tháng lương).</li>
+                                    <li>• Phụ cấp điện thoại, xăng xe, ăn trưa.</li>
+                                    <li>• Phụ cấp đi biển, công tác phí vùng miền.</li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -612,7 +565,6 @@
     let isFileLoaded = false;
     let isRoleSelected = false;
 
-    // Palette màu tương ứng cho sự thăng tiến (Entry -> Goal)
     const progressionColors = ['#10b981', '#0ea5e9', '#6366f1', '#8b5cf6', '#d946ef', '#f59e0b'];
 
     lucide.createIcons();
@@ -629,26 +581,14 @@
     const customRoleList = document.getElementById('customRoleList');
     const roleSearchInput = document.getElementById('roleSearchInput');
 
-    function showToast(message, type = 'warning') {
+    function showToast(message) {
         const container = document.getElementById('toastContainer');
-        if (!container) return;
-        
         const toast = document.createElement('div');
         toast.className = 'bg-white/95 backdrop-blur-xl border-l-4 border-amber-500 text-slate-800 px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 animate-up pointer-events-auto';
-        toast.innerHTML = `
-            <div class="bg-amber-100 p-2 rounded-full shrink-0"><i data-lucide="alert-circle" class="w-5 h-5 text-amber-600"></i></div>
-            <span class="font-bold text-[15px]">${message}</span>
-        `;
-        
+        toast.innerHTML = `<div class="bg-amber-100 p-2 rounded-full shrink-0"><i data-lucide="alert-circle" class="w-5 h-5 text-amber-600"></i></div><span class="font-bold text-[15px]">${message}</span>`;
         container.appendChild(toast);
         lucide.createIcons();
-
-        setTimeout(() => {
-            toast.style.opacity = '0';
-            toast.style.transform = 'translateY(20px)';
-            toast.style.transition = 'all 0.4s ease';
-            setTimeout(() => toast.remove(), 400);
-        }, 3000);
+        setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 400); }, 3000);
     }
 
     function toggleThemeMenu(e) {
@@ -656,398 +596,169 @@
         const menu = document.getElementById('themeMenu');
         const isOpen = menu.classList.contains('opacity-100');
         if (isOpen) {
-            menu.classList.remove('opacity-100', 'scale-y-100', 'pointer-events-auto');
-            menu.classList.add('opacity-0', 'scale-y-95', 'pointer-events-none');
+            menu.classList.replace('opacity-100', 'opacity-0');
+            menu.classList.replace('scale-y-100', 'scale-y-95');
+            menu.classList.add('pointer-events-none');
         } else {
-            menu.classList.remove('opacity-0', 'scale-y-95', 'pointer-events-none');
-            menu.classList.add('opacity-100', 'scale-y-100', 'pointer-events-auto');
+            menu.classList.replace('opacity-0', 'opacity-100');
+            menu.classList.replace('scale-y-95', 'scale-y-100');
+            menu.classList.remove('pointer-events-none');
         }
     }
 
     function setTheme(themeName) {
         if(themeName === 'default') document.documentElement.removeAttribute('data-theme');
         else document.documentElement.setAttribute('data-theme', themeName);
-        
         toggleThemeMenu(); 
     }
 
     function getRoleIcon(roleName) {
         const name = roleName.toLowerCase();
-        if (name.includes('hvac') || name.includes('mechanical') || name.includes('piping') || name.includes('equipment')) return 'wrench';
-        if (name.includes('electrical') || name.includes('eit') || name.includes('instrument')) return 'zap';
-        if (name.includes('hse') || name.includes('safety') || name.includes('fire') || name.includes('guard')) return 'shield-alert';
-        if (name.includes('plan') || name.includes('schedule')) return 'calendar-clock';
-        if (name.includes('qa') || name.includes('qc') || name.includes('quality') || name.includes('inspect')) return 'check-circle';
-        if (name.includes('manager') || name.includes('lead') || name.includes('coordinator') || name.includes('director')) return 'users';
-        if (name.includes('material') || name.includes('logistic')) return 'package';
-        if (name.includes('lift') || name.includes('scaffold') || name.includes('rigging') || name.includes('crane')) return 'construction';
-        if (name.includes('paint') || name.includes('blast') || name.includes('coat')) return 'paint-roller';
-        if (name.includes('commissioning') || name.includes('start')) return 'power';
-        if (name.includes('flange') || name.includes('weld') || name.includes('joint')) return 'link-2';
+        if (name.includes('hvac') || name.includes('mechanical') || name.includes('piping')) return 'wrench';
+        if (name.includes('electrical') || name.includes('zap') || name.includes('instrument')) return 'zap';
+        if (name.includes('hse') || name.includes('safety')) return 'shield-alert';
+        if (name.includes('plan')) return 'calendar-clock';
+        if (name.includes('qa') || name.includes('quality')) return 'check-circle';
+        if (name.includes('manager') || name.includes('lead')) return 'users';
         return 'briefcase'; 
     }
 
-    // --- NEW: Tự động tải config.json và lấy dữ liệu từ Google Sheets ---
-async function loadExcelDataAutomatically() {
-    try {
-        const protocol = window.location.protocol;
-        if (protocol === 'blob:' || protocol === 'data:' || protocol === 'file:') {
-            console.warn("Fetch API không hỗ trợ tải file tương đối trong môi trường hiện tại:", protocol);
-            dropdownSelectedText.innerText = "Cần chạy trên Web Server (HTTP/HTTPS)";
-            dropdownTrigger.classList.remove('animate-pulse');
-            showToast('Tính năng tải tự động không chạy trong Preview. Vui lòng deploy lên Hosting/Server thật!');
-            return;
-        }
+    async function loadExcelDataAutomatically() {
+        try {
+            const configResponse = await fetch('./config.json');
+            const config = await configResponse.json();
+            const response = await fetch(config.sheetUrl);
+            const csvText = await response.text();
+            masterData = parseCSV(csvText);
 
-        const configResponse = await fetch('./config.json');
-        if (!configResponse.ok) throw new Error('Không tìm thấy file config.json');
-        const config = await configResponse.json();
-
-        const targetUrl = config.sheetUrl;
-        if (!targetUrl) throw new Error('config.json chưa có sheetUrl');
-
-        const response = await fetch(targetUrl);
-        if (!response.ok) throw new Error(`Không thể tải dữ liệu. HTTP ${response.status}`);
-
-        const csvText = await response.text();
-        masterData = parseCSV(csvText);
-
-        const roles = [...new Set(masterData.map(d => d.function_title))].filter(Boolean);
-
-        customRoleList.innerHTML = '';
-        roles.sort().forEach(r => {
-            const li = document.createElement('li');
-            li.className = 'role-list-item group';
-            li.dataset.value = r;
-            const iconName = getRoleIcon(r);
-            li.innerHTML = `<i data-lucide="${iconName}" class="w-4 h-4 text-primary-500/50 group-hover:text-primary-600 transition-colors shrink-0"></i> <span>${r}</span>`;
-            li.onclick = (e) => {
-                e.stopPropagation();
-                selectCustomRole(r, li);
-            };
-            customRoleList.appendChild(li);
-        });
-
-        isFileLoaded = true;
-        dropdownTrigger.classList.remove('opacity-60', 'cursor-not-allowed', 'animate-pulse');
-        dropdownTrigger.classList.add('cursor-pointer');
-
-        dropdownSelectedText.innerText = "-- Vui lòng Chọn Career Path --";
-        dropdownSelectedText.classList.remove('text-slate-900');
-        dropdownSelectedText.classList.add('text-slate-400');
-
-        lucide.createIcons();
-
-    } catch (error) {
-        console.error("Lỗi khi tải dữ liệu:", error);
-        dropdownSelectedText.innerText = "Lỗi tải dữ liệu. Vui lòng tải lại trang.";
-        dropdownTrigger.classList.remove('animate-pulse');
-        showToast('Không thể kết nối đến Google Sheets hoặc file config.json!');
-    }
-}
-
-function parseCSV(csvText) {
-    const rows = [];
-    let current = '';
-    let row = [];
-    let inQuotes = false;
-
-    for (let i = 0; i < csvText.length; i++) {
-        const char = csvText[i];
-        const nextChar = csvText[i + 1];
-
-        if (char === '"') {
-            if (inQuotes && nextChar === '"') {
-                current += '"';
-                i++;
-            } else {
-                inQuotes = !inQuotes;
-            }
-        } else if (char === ',' && !inQuotes) {
-            row.push(current.trim());
-            current = '';
-        } else if ((char === '\n' || char === '\r') && !inQuotes) {
-            if (char === '\r' && nextChar === '\n') i++;
-            row.push(current.trim());
-            current = '';
-            if (row.some(cell => cell !== '')) rows.push(row);
-            row = [];
-        } else {
-            current += char;
-        }
-    }
-
-    if (current.length > 0 || row.length > 0) {
-        row.push(current.trim());
-        if (row.some(cell => cell !== '')) rows.push(row);
-    }
-
-    let headerIndex = 0;
-    for (let i = 0; i < rows.length; i++) {
-        if (rows[i].includes('function_title')) {
-            headerIndex = i;
-            break;
-        }
-    }
-
-    const headers = rows[headerIndex].map(h => h.trim());
-    const dataRows = rows.slice(headerIndex + 1);
-
-    return dataRows
-        .filter(r => r.some(cell => cell !== ''))
-        .map(r => {
-            const obj = {};
-            headers.forEach((h, idx) => {
-                obj[h] = (r[idx] || '').trim();
+            const roles = [...new Set(masterData.map(d => d.function_title))].filter(Boolean);
+            customRoleList.innerHTML = '';
+            roles.sort().forEach(r => {
+                const li = document.createElement('li');
+                li.className = 'role-list-item group';
+                li.dataset.value = r;
+                li.innerHTML = `<i data-lucide="${getRoleIcon(r)}" class="w-4 h-4 text-primary-500/50"></i> <span>${r}</span>`;
+                li.onclick = (e) => { e.stopPropagation(); selectCustomRole(r, li); };
+                customRoleList.appendChild(li);
             });
-            return obj;
+
+            isFileLoaded = true;
+            dropdownTrigger.classList.remove('opacity-60', 'cursor-not-allowed', 'animate-pulse');
+            dropdownSelectedText.innerText = "-- Vui lòng Chọn Career Path --";
+            lucide.createIcons();
+        } catch (error) {
+            dropdownSelectedText.innerText = "Lỗi tải dữ liệu. Vui lòng tải lại trang.";
+        }
+    }
+
+    function parseCSV(csvText) {
+        const rows = []; let current = ''; let row = []; let inQuotes = false;
+        for (let i = 0; i < csvText.length; i++) {
+            const char = csvText[i];
+            if (char === '"') inQuotes = !inQuotes;
+            else if (char === ',' && !inQuotes) { row.push(current.trim()); current = ''; }
+            else if ((char === '\n' || char === '\r') && !inQuotes) {
+                row.push(current.trim()); current = '';
+                if (row.some(cell => cell !== '')) rows.push(row); row = [];
+            } else { current += char; }
+        }
+        if (row.length > 0) { row.push(current.trim()); rows.push(row); }
+        let headerIdx = rows.findIndex(r => r.includes('function_title'));
+        const headers = rows[headerIdx].map(h => h.trim());
+        return rows.slice(headerIdx + 1).map(r => {
+            const obj = {}; headers.forEach((h, idx) => { obj[h] = (r[idx] || '').trim(); }); return obj;
         });
-}
-    // Kích hoạt load dữ liệu ngay khi DOM sẵn sàng
+    }
+
     document.addEventListener('DOMContentLoaded', loadExcelDataAutomatically);
 
     dropdownTrigger.addEventListener('click', (e) => {
         e.stopPropagation();
-        
-        if (!isFileLoaded) {
-            showToast('Dữ liệu đang được tải, vui lòng đợi trong giây lát!');
-            return;
-        }
-
+        if (!isFileLoaded) return showToast('Dữ liệu đang được tải...');
         const isOpen = dropdownMenu.classList.contains('opacity-100');
-        if (isOpen) closeDropdown();
-        else openDropdown();
+        if (isOpen) closeDropdown(); else openDropdown();
     });
 
     function openDropdown() {
-        dropdownMenu.classList.remove('opacity-0', 'scale-y-95', 'pointer-events-none');
-        dropdownMenu.classList.add('opacity-100', 'scale-y-100', 'pointer-events-auto');
+        dropdownMenu.classList.replace('opacity-0', 'opacity-100');
+        dropdownMenu.classList.replace('scale-y-95', 'scale-y-100');
+        dropdownMenu.classList.remove('pointer-events-none');
         dropdownIcon.classList.add('rotate-180');
-        roleSearchInput.value = ''; 
-        filterRoles('');
         roleSearchInput.focus();
     }
 
     function closeDropdown() {
-        dropdownMenu.classList.remove('opacity-100', 'scale-y-100', 'pointer-events-auto');
-        dropdownMenu.classList.add('opacity-0', 'scale-y-95', 'pointer-events-none');
+        dropdownMenu.classList.replace('opacity-100', 'opacity-0');
+        dropdownMenu.classList.replace('scale-y-100', 'scale-y-95');
+        dropdownMenu.classList.add('pointer-events-none');
         dropdownIcon.classList.remove('rotate-180');
     }
 
     function selectCustomRole(roleName, liElement) {
         selectedRoleValue = roleName;
         dropdownSelectedText.innerText = roleName;
-        dropdownSelectedText.classList.replace('text-slate-400', 'text-slate-900'); 
-        
+        dropdownSelectedText.classList.replace('text-slate-400', 'text-slate-900');
         isRoleSelected = true;
         btnStart.classList.remove('opacity-60', 'cursor-not-allowed');
-        btnStart.classList.add('cursor-pointer', 'hover:bg-slate-950');
-        
         document.querySelectorAll('.role-list-item').forEach(el => el.classList.remove('selected'));
         if (liElement) liElement.classList.add('selected');
-        
         closeDropdown();
     }
 
-    roleSearchInput.addEventListener('input', (e) => filterRoles(e.target.value));
-    
-    function filterRoles(term) {
-        const lowerTerm = term.toLowerCase();
-        document.querySelectorAll('.role-list-item').forEach(li => {
-            const text = li.dataset.value.toLowerCase();
-            li.style.display = text.includes(lowerTerm) ? 'flex' : 'none';
-        });
-    }
-
-    document.addEventListener('click', (e) => {
-        if (dropdownTrigger && dropdownMenu && !dropdownTrigger.contains(e.target) && !dropdownMenu.contains(e.target)) {
-            closeDropdown();
-        }
-        const themeMenu = document.getElementById('themeMenu');
-        const themeBtn = document.getElementById('themeTriggerBtn');
-        if (themeMenu && themeBtn && !themeMenu.contains(e.target) && !themeBtn.contains(e.target)) {
-            themeMenu.classList.remove('opacity-100', 'scale-y-100', 'pointer-events-auto');
-            themeMenu.classList.add('opacity-0', 'scale-y-95', 'pointer-events-none');
-        }
+    roleSearchInput.addEventListener('input', (e) => {
+        const lower = e.target.value.toLowerCase();
+        document.querySelectorAll('.role-list-item').forEach(li => li.style.display = li.dataset.value.toLowerCase().includes(lower) ? 'flex' : 'none');
     });
 
     btnStart.addEventListener('click', () => {
-        if (!isFileLoaded) {
-            showToast('Dữ liệu đang được tải xuống, xin vui lòng đợi!');
-            return;
-        }
-        if (!isRoleSelected) {
-            showToast('Vui lòng chọn một Lộ trình (Path) để tiếp tục!');
-            return;
-        }
-
-        const role = selectedRoleValue;
-        currentRoleMilestones = masterData.filter(d => d.function_title === role).sort((a,b) => (Number(a.milestone_order) || 0) - (Number(b.milestone_order) || 0));
-        if(currentRoleMilestones.length > 0) { currentIdx = 0; showPage(1.5); }
+        if (!isRoleSelected) return showToast('Vui lòng chọn một Lộ trình!');
+        currentRoleMilestones = masterData.filter(d => d.function_title === selectedRoleValue).sort((a,b) => (Number(a.milestone_order) || 0) - (Number(b.milestone_order) || 0));
+        showPage(1.5);
     });
 
     function showPage(n) {
         document.querySelectorAll('#app > div').forEach(div => div.classList.add('hidden'));
         if (animationLoopId) cancelAnimationFrame(animationLoopId);
-
         if (n === 1) {
-            if (logo) logo.classList.remove('hidden');
-            if (themeSelectorContainer) themeSelectorContainer.classList.remove('hidden');
             document.getElementById('page1').classList.remove('hidden');
-            bgOverlay.style.backgroundImage = "linear-gradient(to bottom, rgba(248, 250, 252, 0.2), rgba(248, 250, 252, 0.2)), url('image/background/background_3.png')";
+            bgOverlay.style.backgroundImage = "url('image/background/background_3.png')";
         } else if (n === 1.5) {
-            if (logo) logo.classList.add('hidden');
-            if (themeSelectorContainer) themeSelectorContainer.classList.add('hidden');
             document.getElementById('pageOverview').classList.remove('hidden');
-            bgOverlay.style.backgroundImage = "linear-gradient(to bottom, rgba(248, 250, 252, 0.5), rgba(248, 250, 252, 0.5)), url('image/background/background_4.png')";
+            bgOverlay.style.backgroundImage = "url('image/background/background_4.png')";
             setTimeout(renderOverview, 100);
-            initBackgroundParticles();
         } else {
-            if (logo) logo.classList.add('hidden');
-            if (themeSelectorContainer) themeSelectorContainer.classList.add('hidden');
             document.getElementById('page2').classList.remove('hidden');
-            bgOverlay.style.backgroundImage = "linear-gradient(to bottom, rgba(248, 250, 252, 0.5), rgba(248, 250, 252, 0.5)), url('image/background/background_2.png')";
+            bgOverlay.style.backgroundImage = "url('image/background/background_2.png')";
             renderDashboard();
         }
         lucide.createIcons();
-    }
-
-    function initBackgroundParticles() {
-        const container = document.getElementById('particleContainer');
-        if(!container) return; container.innerHTML = '';
-        const particleColors = ['#0ea5e9', '#10b981', '#8b5cf6', '#f59e0b', '#d946ef'];
-        for(let i=0; i<30; i++) {
-            const p = document.createElement('div'); p.className = 'ambient-particle';
-            const size = Math.random() * 6 + 3; 
-            p.style.width = `${size}px`; p.style.height = `${size}px`;
-            p.style.backgroundColor = particleColors[Math.floor(Math.random() * particleColors.length)];
-            p.style.left = `${Math.random() * 100}%`; p.style.bottom = `-50px`;
-            p.style.animationDelay = `${Math.random() * 15}s`; p.style.animationDuration = `${12 + Math.random() * 12}s`;
-            container.appendChild(p);
-        }
     }
 
     function renderOverview() {
         const viewport = document.getElementById('roadmapViewport');
         const content = document.getElementById('roadmapContent');
         const svgPath = document.getElementById('svgPath');
-        if (!viewport || !content || !svgPath) return;
         content.querySelectorAll('.path-node').forEach(n => n.remove());
         const vWidth = viewport.clientWidth, vHeight = viewport.clientHeight;
-        if (vWidth < 100 || vHeight < 100) return;
-
         const data = currentRoleMilestones, total = data.length, cardW = 180;
-        let masterScale = 1.0;
-        const reqH = (total + 1) * 125 + 160; 
-        if (vHeight < reqH) masterScale = Math.max(vHeight / reqH, 0.62);
-
-        const marginX = 10; 
-        const marginY = 60;
-        const startX = marginX + 15;
-        const startY = vHeight - marginY - 140; 
-        const endX = vWidth - marginX - cardW - 15;
-        const endY = marginY + 25;
-
-        const yOffset = 70;
-
+        let masterScale = Math.max(vHeight / ((total + 1) * 125 + 160), 0.62);
         const anchors = [];
         for (let i = 0; i <= total; i++) {
             const isSummit = (i === total), ratio = i / total;
-            
-            const x = startX + ratio * (endX - startX);
-            const y = startY + ratio * (endY - startY) - yOffset;
-            
-            anchors.push({ x: x + (cardW / 2), y: y + (isSummit ? 100 : 80) * masterScale, isSummit, index: i < total ? i : total - 1 });
-
+            const x = 30 + ratio * (vWidth - 60 - cardW), y = (vHeight - 200) + ratio * (60 - (vHeight - 200)) - 70;
+            anchors.push({ x: x + (cardW / 2), y: y + (isSummit ? 100 : 80) * masterScale });
             const node = document.createElement('div');
-            node.className = `path-node`; node.id = isSummit ? `node-summit` : `node-${i}`;
-            node.style.left = `${x}px`; node.style.top = `${y}px`; node.style.width = `${cardW}px`;
-            node.onclick = () => { currentIdx = (i < total ? i : total - 1); renderDashboard(); showPage(2); };
-            
+            node.className = `path-node`; node.style.left = `${x}px`; node.style.top = `${y}px`; node.style.width = `${cardW}px`;
+            node.onclick = () => { currentIdx = Math.min(i, total-1); showPage(2); };
             const nodeColor = isSummit ? '#f59e0b' : progressionColors[i % progressionColors.length];
-
             if (!isSummit) {
                 const m = data[i];
-                node.innerHTML = `
-                <div class="node-card" style="transform: scale(${masterScale}); border-bottom: 3px solid ${nodeColor};">
-                    <div class="node-circle" style="background-color: ${nodeColor};">0${i+1}</div>
-                    <div class="node-icon-wrapper"><img src="${m.icon_image_path}" class="w-full h-full object-contain" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1063/1063376.png'"></div>
-                    <div class="text-center px-1 pb-2">
-                        <span class="text-[15px] font-black uppercase block mb-0.5" style="color: ${nodeColor};">${m.milestone_level}</span>
-                        <h5 class="text-[20px] font-extrabold text-slate-900 line-clamp-3 leading-tight">${m.role_title}</h5>
-                    </div>
-                </div>`;
+                node.innerHTML = `<div class="node-card" style="transform: scale(${masterScale}); border-bottom: 3px solid ${nodeColor};"><div class="node-circle" style="background-color: ${nodeColor};">0${i+1}</div><div class="node-icon-wrapper"><img src="${m.icon_image_path}" class="w-full h-full object-contain"></div><div class="text-center pb-2"><span class="text-[15px] font-black uppercase block" style="color: ${nodeColor};">${m.milestone_level}</span><h5 class="text-[20px] font-extrabold text-slate-900 leading-tight">${m.role_title}</h5></div></div>`;
             } else {
-                const summitData = data[total - 1];
-                node.innerHTML = `
-                <div class="summit-halo" style="transform: translate(-50%, -50%) scale(${masterScale})"></div>
-                <div class="node-card summit-card shadow-xl !bg-amber-50" style="transform: scale(${masterScale}); border: 2px solid ${nodeColor};">
-                    <div class="summit-crown" style="background-color: ${nodeColor};"><i data-lucide="crown" class="w-4 h-4 text-white"></i></div>
-                    <div class="node-icon-wrapper !bg-amber-50/30"><img src="${summitData.icon_image_path || 'https://cdn-icons-png.flaticon.com/512/2618/2618245.png'}" class="w-full h-full object-contain"></div>
-                    <div class="text-center px-1 pb-2">
-                        <span class="text-[15px] font-black uppercase block mb-0.5" style="color: ${nodeColor};">Career Goal</span>
-                        <h5 class="text-[20px] font-black uppercase text-slate-900 line-clamp-3 leading-tight">${summitData.next_target_role || 'Executive'}</h5>
-                    </div>
-                </div>`;
+                node.innerHTML = `<div class="summit-halo" style="transform: translate(-50%, -50%) scale(${masterScale})"></div><div class="node-card !bg-amber-50" style="transform: scale(${masterScale}); border: 2px solid ${nodeColor};"><div class="summit-crown" style="background-color: ${nodeColor};"><i data-lucide="crown"></i></div><div class="node-icon-wrapper !bg-amber-50/30"><img src="${data[total-1].icon_image_path}" class="w-full h-full object-contain"></div><div class="text-center pb-2"><span class="text-[15px] font-black uppercase block" style="color: ${nodeColor};">Career Goal</span><h5 class="text-[20px] font-black uppercase text-slate-900 leading-tight">${data[total-1].next_target_role || 'Executive'}</h5></div></div>`;
             }
             content.appendChild(node);
         }
-
-        setTimeout(() => {
-            const stairEdge = document.getElementById('stairEdge');
-            const stairPoly = document.getElementById('stairPolygon');
-
-            if(stairEdge && stairPoly) {
-                const gapFromCardBottom = 25 * masterScale; 
-
-                const getCardBottomY = (index) => {
-                    const ratio = index / total;
-                    const nodeY = startY + ratio * (endY - startY) - yOffset;
-                    const nodeEl = document.getElementById(index === total ? 'node-summit' : `node-${index}`);
-                    let cardHeight = 180; 
-                    if (nodeEl) {
-                        const cardEl = nodeEl.querySelector('.node-card');
-                        if (cardEl) cardHeight = cardEl.offsetHeight; 
-                    }
-                    return nodeY + (cardHeight / 2) + (cardHeight * masterScale / 2);
-                };
-
-                let stairPath = '';
-                let pts = [];
-
-                let currentX = -50; 
-                let currentY = getCardBottomY(0) + gapFromCardBottom;
-                
-                stairPath += `M ${currentX} ${currentY} `;
-                pts.push(`${currentX},${currentY}`);
-
-                for (let i = 0; i < anchors.length; i++) {
-                    let nextX = (i < anchors.length - 1) ? (anchors[i].x + anchors[i+1].x) / 2 : vWidth + 50;
-
-                    stairPath += `L ${nextX} ${currentY} `;
-                    pts.push(`${nextX},${currentY}`);
-
-                    if (i < anchors.length - 1) {
-                        currentY = getCardBottomY(i + 1) + gapFromCardBottom;
-                        stairPath += `L ${nextX} ${currentY} `;
-                        pts.push(`${nextX},${currentY}`);
-                    }
-                }
-
-                stairEdge.setAttribute('d', stairPath);
-
-                let polyPts = pts.join(' ') + ` ${vWidth + 50},${vHeight + 50} -50,${vHeight + 50}`;
-                stairPoly.setAttribute('points', polyPts);
-
-                const sLen = stairEdge.getTotalLength();
-                stairEdge.style.setProperty('--stair-len', sLen);
-
-                stairEdge.style.strokeDasharray = sLen;
-                stairEdge.style.animation = 'drawStairEdge 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards';
-
-                stairPoly.classList.remove('opacity-0');
-            }
-        }, 150); 
 
         let dStr = `M ${anchors[0].x} ${anchors[0].y}`;
         for (let i = 1; i < anchors.length; i++) {
@@ -1058,7 +769,6 @@ function parseCSV(csvText) {
         const pathLen = svgPath.getTotalLength();
         const moveTime = 9000, pauseTime = 1200;
         let start = null;
-
         function animate(now) {
             if (!start) start = now;
             let elapsed = (now - start) % (moveTime + pauseTime);
@@ -1066,153 +776,74 @@ function parseCSV(csvText) {
                 const progress = elapsed / moveTime, currentDist = progress * pathLen;
                 svgPath.style.strokeDasharray = `${currentDist} ${pathLen}`;
                 svgPath.style.opacity = "1";
-                let activeIdx = -1;
-                for(let i=0; i < anchors.length; i++) {
-                    const trig = (i / (anchors.length - 1)) * pathLen;
-                    if (currentDist >= trig - 20 && currentDist <= trig + 250) { activeIdx = i; break; }
-                }
-                content.querySelectorAll('.path-node').forEach((node, i) => {
-                    const card = node.querySelector('.node-card');
-                    if (i === activeIdx) card.classList.add(i === total ? 'summit-victory' : 'active-glow');
-                    else { card.classList.remove('active-glow', 'summit-victory'); }
-                });
-            } else {
-                svgPath.style.opacity = "0"; 
-                const scNode = document.getElementById('node-summit');
-                if (scNode) scNode.querySelector('.node-card').classList.add('summit-victory');
-                for(let i=0; i<total; i++) { const n = document.getElementById(`node-${i}`); if(n) n.querySelector('.node-card').classList.remove('active-glow'); }
-                if (elapsed > (moveTime + pauseTime - 100)) if (scNode) scNode.querySelector('.node-card').classList.remove('summit-victory');
-            }
+            } else { svgPath.style.opacity = "0"; }
             animationLoopId = requestAnimationFrame(animate);
         }
         animationLoopId = requestAnimationFrame(animate);
 
         const summitData = data[total - 1];
-        const elJ = document.getElementById('ovJobFamily'); if(elJ) elJ.innerText = summitData.job_family || '---';
-        formatSidebarList('ovDevOpp', summitData.development_opportunity, false);
-        formatSidebarList('ovLongTerm', summitData.long_term_direction, false);
-        lucide.createIcons();
+        document.getElementById('ovJobFamily').innerText = summitData.job_family || '---';
+        formatSidebarList('ovDevOpp', summitData.development_opportunity);
+        formatSidebarList('ovLongTerm', summitData.long_term_direction);
         setTimeout(() => content.querySelectorAll('.path-node').forEach(n => n.classList.add('show')), 50);
     }
 
     function renderDashboard() {
         const data = currentRoleMilestones[currentIdx];
-        if(!data) return;
+        document.getElementById('detailFuncTitle').innerText = data.function_title;
+        document.getElementById('detailJobFamily').innerText = data.job_family || '---';
+        document.getElementById('msLevelLabel').innerText = data.milestone_level;
+        document.getElementById('roleTitleLabel').innerText = data.role_title;
+        document.getElementById('rolePurposeLabel').innerText = data.role_purpose || '---';
+        document.getElementById('msIcon').src = data.icon_image_path || '';
+        document.getElementById('msOrderBadge').innerText = currentIdx + 1;
 
-        const elFunc = document.getElementById('detailFuncTitle'); if(elFunc) elFunc.innerText = data.function_title;
-        const elJob = document.getElementById('detailJobFamily'); if(elJob) elJob.innerText = data.job_family || '---';
-        const elMsLvl = document.getElementById('msLevelLabel'); if(elMsLvl) elMsLvl.innerText = data.milestone_level;
-        const elTitle = document.getElementById('roleTitleLabel'); if(elTitle) elTitle.innerText = data.role_title;
-        const elPurpose = document.getElementById('rolePurposeLabel'); if(elPurpose) elPurpose.innerText = data.role_purpose || '---';
-        const elIcon = document.getElementById('msIcon'); if(elIcon) elIcon.src = data.icon_image_path || 'https://cdn-icons-png.flaticon.com/512/1063/1063376.png';
-        const elBadge = document.getElementById('msOrderBadge'); if(elBadge) elBadge.innerText = currentIdx + 1;
-
-        formatSidebarListDynamic('sidebarDevOpp', data.development_opportunity);
-        formatSidebarListDynamic('sidebarLongTerm', data.long_term_direction);
+        // Cập nhật mức lương cho Tab 5
+        const lvl = data.milestone_level.toLowerCase();
+        let salary = "Theo thỏa thuận";
+        if (lvl.includes("entry") || lvl.includes("asst")) salary = "15 - 20";
+        else if (lvl.includes("junior")) salary = "20 - 30";
+        else if (lvl.includes("senior")) salary = "35 - 55";
+        else if (lvl.includes("lead") || lvl.includes("expert")) salary = "60 - 90";
+        else if (lvl.includes("manager") || lvl.includes("head")) salary = "90 - 180+";
+        document.getElementById('salaryDisplay').innerText = salary + " Triệu";
 
         const stepper = document.getElementById('detailStepper');
-        if(stepper) {
-            stepper.innerHTML = '';
-            currentRoleMilestones.forEach((m, i) => {
-                const div = document.createElement('div');
-                div.className = `dashboard-stepper-item ${i === currentIdx ? 'active' : (i < currentIdx ? 'completed' : '')}`;
-                div.innerHTML = `<div class="stepper-num">${i+1}</div><div class="flex flex-col"><span class="text-[15px] font-black uppercase text-slate-400">${m.milestone_level}</span><span class="text-[15px] font-bold text-slate-800 leading-tight pr-2">${m.role_title}</span></div>`;
-                div.onclick = () => { currentIdx = i; renderDashboard(); };
-                stepper.appendChild(div);
-            });
-        }
-        const pLine = document.getElementById('progressLine'); if(pLine) pLine.style.height = `${(currentIdx / (currentRoleMilestones.length - 1)) * 100}%`;
+        stepper.innerHTML = '';
+        currentRoleMilestones.forEach((m, i) => {
+            const div = document.createElement('div');
+            div.className = `dashboard-stepper-item ${i === currentIdx ? 'active' : (i < currentIdx ? 'completed' : '')}`;
+            div.innerHTML = `<div class="stepper-num">${i+1}</div><div class="flex flex-col"><span class="text-[15px] font-black uppercase text-slate-400">${m.milestone_level}</span><span class="text-[15px] font-bold text-slate-800 leading-tight">${m.role_title}</span></div>`;
+            div.onclick = () => { currentIdx = i; renderDashboard(); };
+            stepper.appendChild(div);
+        });
 
         renderBulletList('responsibilitiesList', data.key_responsibilities, 'check-circle-2', 'primary', true);
-        const kpiList = document.getElementById('kpiContainer');
-        if(kpiList) {
-            kpiList.innerHTML = '';
-            if(data.key_outputs_kpis) data.key_outputs_kpis.split(/[\n•·-]/).filter(s => s.trim().length > 5).forEach(kpi => {
-                const card = document.createElement('div'); card.className = "bg-primary-50/50 p-4 rounded-2xl border border-primary-100 flex items-center gap-3";
-                card.innerHTML = `<div class="w-2 h-2 rounded-full bg-primary-500"></div><span class="text-[15px] font-bold text-slate-700">${kpi.trim()}</span>`;
-                kpiList.appendChild(card);
-            });
-        }
-
-        const compCon = document.getElementById('competenciesContainer');
-        if(compCon) {
-            compCon.innerHTML = '';
-            if(data.competencies_to_develop) data.competencies_to_develop.split(/[\n•·-]/).filter(s => s.trim().length > 3).forEach((item, i) => {
-                const lvl = [86, 75, 96, 65, 80][i % 5];
-                const div = document.createElement('div'); div.className = "skill-bar-container";
-                div.innerHTML = `<div class="flex justify-between text-[15px] font-black uppercase text-slate-500"><span>${item.trim()}</span><span>${lvl}%</span></div><div class="skill-bar-bg"><div class="skill-bar-fill" style="width: ${lvl}%"></div></div>`;
-                compCon.appendChild(div);
-            });
-        }
-        const behCon = document.getElementById('behavioralContainer');
-        if(behCon) {
-            behCon.innerHTML = '';
-            if(data.behavioral_leadership_skills) data.behavioral_leadership_skills.split(/[\n•·,]/).filter(s => s.trim().length > 3).forEach(skill => {
-                const chip = document.createElement('div'); chip.className = "skill-chip"; chip.innerText = skill.trim(); behCon.appendChild(chip);
-            });
-        }
-        const toolCon = document.getElementById('toolsContainer');
-        if(toolCon) {
-            toolCon.innerHTML = '';
-            if(data.technical_skills_tools) data.technical_skills_tools.split(/[\n•·-]/).filter(s => s.trim().length > 3).forEach(tool => {
-                const item = document.createElement('div'); item.className = "tool-list-item";
-                item.innerHTML = `<i data-lucide="chevron-right" class="w-4 h-4 text-primary-500"></i><span class="text-[15px]">${tool.trim()}</span>`; toolCon.appendChild(item);
-            });
-        }
+        const kpiList = document.getElementById('kpiContainer'); kpiList.innerHTML = '';
+        (data.key_outputs_kpis || '').split(/[\n•·-]/).filter(s => s.trim().length > 5).forEach(kpi => {
+            const card = document.createElement('div'); card.className = "bg-primary-50/50 p-4 rounded-2xl border border-primary-100 flex items-center gap-3";
+            card.innerHTML = `<div class="w-2 h-2 rounded-full bg-primary-500"></div><span class="text-[15px] font-bold text-slate-700">${kpi.trim()}</span>`;
+            kpiList.appendChild(card);
+        });
 
         renderBulletList('trainingList', data.suggested_training_development, 'graduation-cap', 'primary');
         renderBulletList('readinessList', data.readiness_indicators, 'check-circle-2', 'emerald');
         renderBulletList('promotionList', data.promotion_criteria, 'trending-up', 'indigo');
-        const elNext = document.getElementById('nextTargetRole'); if(elNext) elNext.innerText = data.next_target_role || '---';
-        const elScope = document.getElementById('typicalScopeText'); if(elScope) elScope.innerText = data.typical_scope || '---';
-        const certCon = document.getElementById('certList'); if(certCon) {
-            certCon.innerHTML = '';
-            if(data.recommended_certifications) data.recommended_certifications.split(/[\n•·,]/).filter(s => s.trim().length > 2).forEach(c => {
-                 const chip = document.createElement('div'); chip.className = "px-4 py-2 rounded-xl bg-amber-50 text-amber-700 border border-amber-100 font-bold text-[15px]";
-                 chip.innerText = c.trim(); certCon.appendChild(chip);
-            });
-        }
+        document.getElementById('nextTargetRole').innerText = data.next_target_role || '---';
+        document.getElementById('typicalScopeText').innerText = data.typical_scope || '---';
 
-        const elCnt = document.getElementById('pageCounter'); if(elCnt) elCnt.innerText = `${String(currentIdx+1).padStart(2, '0')} / ${String(currentRoleMilestones.length).padStart(2, '0')}`;
-        const bPrev = document.getElementById('prevBtn'); if(bPrev) bPrev.onclick = () => { if(currentIdx > 0) { currentIdx--; renderDashboard(); } };
-        
-        const bNext = document.getElementById('nextBtn'); 
-        if(bNext) {
-            bNext.onclick = () => { 
-                if(currentIdx < currentRoleMilestones.length - 1) { 
-                    currentIdx++; 
-                    renderDashboard(); 
-                } else {
-                    showPage(1); 
-                }
-            };
-            bNext.innerText = currentIdx === currentRoleMilestones.length - 1 ? 'KẾT THÚC' : 'Tiếp theo';
-        }
-
+        document.getElementById('pageCounter').innerText = `${String(currentIdx+1).padStart(2, '0')} / ${String(currentRoleMilestones.length).padStart(2, '0')}`;
+        document.getElementById('nextBtn').onclick = () => { if(currentIdx < currentRoleMilestones.length - 1) { currentIdx++; renderDashboard(); } else showPage(1); };
+        document.getElementById('nextBtn').innerText = currentIdx === currentRoleMilestones.length - 1 ? 'KẾT THÚC' : 'Tiếp theo';
         lucide.createIcons();
     }
 
-    function formatSidebarList(id, text, isDynamicSidebar = false) {
-        const container = document.getElementById(id); if(!container) return;
-        if(!text) { container.innerHTML = '<span class="text-[15px] italic opacity-60">N/A</span>'; return; }
-        const items = text.split(/[\n•·-]/).filter(s => s.trim().length > 5); container.innerHTML = '';
-        items.forEach(item => {
-            const div = document.createElement('div'); 
-            div.className = 'info-item-list';
-            div.innerHTML = `<div class="dot"></div><span>${item.trim()}</span>`; 
-            container.appendChild(div);
-        });
-    }
-
-    function formatSidebarListDynamic(id, text) {
-        const container = document.getElementById(id); if(!container) return;
-        if(!text) { container.innerHTML = '<div class="text-[15px] italic opacity-60">N/A</div>'; return; }
-        const items = text.split(/[\n•·-]/).filter(s => s.trim().length > 5); container.innerHTML = '';
-        items.forEach(item => {
-            const div = document.createElement('div'); 
-            div.className = 'dynamic-bullet';
-            div.innerHTML = `<div class="white-dot"></div><span class="dynamic-content-list">${item.trim()}</span>`; 
-            container.appendChild(div);
+    function formatSidebarList(id, text) {
+        const container = document.getElementById(id); container.innerHTML = '';
+        if(!text) return;
+        text.split(/[\n•·-]/).filter(s => s.trim().length > 5).forEach(item => {
+            const div = document.createElement('div'); div.className = 'info-item-list';
+            div.innerHTML = `<div class="dot"></div><span>${item.trim()}</span>`; container.appendChild(div);
         });
     }
 
@@ -1221,8 +852,8 @@ function parseCSV(csvText) {
         if(!text) return el.innerHTML = '<div class="text-slate-400 italic text-[15px]">N/A</div>';
         text.split(/[\n•·-]/).filter(s => s.trim().length > 3).forEach(item => {
             const li = document.createElement('div');
-            li.className = isResp ? "responsibility-card" : "flex gap-4 items-start bg-white/60 p-4 rounded-2xl border border-slate-50 shadow-sm mb-3";
-            li.innerHTML = `<i data-lucide="${icon}" class="w-5 h-5 text-${color}-600 mt-0.5 shrink-0"></i> <span class="text-[15px] font-medium text-slate-700 leading-relaxed">${item.trim()}</span>`;
+            li.className = isResp ? "responsibility-card" : "flex gap-4 items-start bg-white/60 p-4 rounded-2xl border border-slate-50 mb-3";
+            li.innerHTML = `<i data-lucide="${icon}" class="w-5 h-5 text-${color}-600 mt-0.5 shrink-0"></i> <span class="text-[15px] font-medium text-slate-700">${item.trim()}</span>`;
             el.appendChild(li);
         });
     }
@@ -1235,8 +866,6 @@ function parseCSV(csvText) {
         lucide.createIcons();
     }
 
-    const observer = new ResizeObserver(() => { if(!document.getElementById('pageOverview').classList.contains('hidden')) renderOverview(); });
-    observer.observe(document.body);
     document.getElementById('btnGoToDetail').addEventListener('click', () => showPage(2));
     showPage(1);
 </script>
