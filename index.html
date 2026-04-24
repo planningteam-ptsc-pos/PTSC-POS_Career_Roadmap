@@ -295,12 +295,20 @@
             to { stroke-dashoffset: 0; }
         }
 
-        /* --- STYLE CHO TAB ĐÃI NGỘ MỚI --- */
+        /* --- STYLE CHO TAB ĐÃI NGỘ NÂNG CẤP --- */
         .benefit-item-card {
             background: white; border: 1.5px solid #f1f5f9; padding: 18px; border-radius: 20px;
             display: flex; align-items: center; gap: 16px; transition: all 0.3s ease;
         }
         .benefit-item-card:hover { transform: translateY(-3px); border-color: var(--sky-primary); box-shadow: 0 8px 20px rgba(0,0,0,0.03); }
+
+        /* Hiệu ứng nháy nhẹ cho icon thăng cấp */
+        @keyframes levelPulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.15); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+        .level-pulse-icon { animation: levelPulse 2s infinite ease-in-out; }
     </style>
 </head>
 <body class="flex flex-col">
@@ -531,7 +539,6 @@
                     <button class="tab-btn" onclick="switchTab('tab-skills')">NĂNG LỰC & KỸ NĂNG</button>
                     <button class="tab-btn" onclick="switchTab('tab-learning')">ĐÀO TẠO & PHÁT TRIỂN</button>
                     <button class="tab-btn" onclick="switchTab('tab-next')">TIÊU CHÍ THĂNG CẤP</button>
-                    <!-- BỔ SUNG TAB 5 MỚI -->
                     <button class="tab-btn" onclick="switchTab('tab-benefits')">ĐÃI NGỘ & PHÚC LỢI</button>
                 </div>
 
@@ -596,20 +603,38 @@
                          </div>
                     </div>
 
-                    <!-- NỘI DUNG TAB ĐÃI NGỘ MỚI -->
+                    <!-- TAB 5: ĐÃI NGỘ & PHÚC LỢI NÂNG CẤP -->
                     <div id="tab-benefits" class="tab-content hidden animate-up">
                         <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
                             <div class="lg:col-span-5">
-                                <div class="bg-gradient-to-br from-primary-500 to-primary-600 p-8 rounded-[32px] text-white shadow-xl shadow-primary-600/20 relative overflow-hidden h-full flex flex-col justify-center">
-                                    <i data-lucide="banknote" class="absolute -right-6 -bottom-6 w-32 h-32 opacity-20 rotate-12"></i>
-                                    <h5 class="text-[14px] font-black uppercase tracking-widest mb-2 opacity-80">Mức lương tham khảo</h5>
-                                    <div id="salaryRangeDisplay" class="text-4xl md:text-5xl font-black mb-4">---</div>
-                                    <div class="w-12 h-1 bg-white/30 rounded-full mb-4"></div>
-                                    <p class="text-sm font-medium italic leading-relaxed opacity-90">* Mức lương thực tế dựa trên kinh nghiệm, chứng chỉ và hiệu suất.</p>
+                                <div class="bg-gradient-to-br from-primary-50/80 to-white/40 border border-primary-100 p-8 rounded-[32px] shadow-xl shadow-primary-500/5 relative overflow-hidden h-full flex flex-col justify-center">
+                                    <!-- Icon nền động -->
+                                    <div id="salaryLevelIconBg" class="absolute -right-6 -bottom-6 opacity-5 rotate-12 scale-150"></div>
+                                    
+                                    <div class="relative z-10">
+                                        <div class="flex items-center gap-3 mb-6">
+                                            <div id="levelBadgeIcon" class="w-12 h-12 rounded-2xl bg-white shadow-md flex items-center justify-center level-pulse-icon">
+                                                <!-- Icon cấp bậc thăng tiến -->
+                                            </div>
+                                            <div>
+                                                <h5 class="text-[13px] font-black uppercase tracking-[0.2em] text-primary-600/60 leading-none mb-1">Cấp bậc hiện tại</h5>
+                                                <span id="salaryLevelText" class="text-lg font-extrabold text-slate-800">---</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <h5 class="text-[14px] font-black uppercase tracking-widest mb-1 text-slate-400">Mức lương tham khảo</h5>
+                                        <div id="salaryRangeDisplay" class="text-4xl md:text-5xl lg:text-6xl font-black mb-4 text-primary-600 tracking-tighter">---</div>
+                                        
+                                        <div class="w-full h-1.5 bg-slate-100 rounded-full mb-6 overflow-hidden">
+                                            <div id="salaryProgressBar" class="h-full bg-primary-500 transition-all duration-1000" style="width: 0%"></div>
+                                        </div>
+                                        
+                                        <p class="text-[13px] font-medium italic leading-relaxed text-slate-500 opacity-80">* Mức lương thực tế dựa trên kinh nghiệm, chứng chỉ quốc tế và hiệu suất KPI vượt trội.</p>
+                                    </div>
                                 </div>
                             </div>
                             <div class="lg:col-span-7">
-                                <h4 class="text-slate-900 font-black uppercase tracking-widest text-[15px] mb-6 flex items-center gap-2"><i data-lucide="heart-handshake" class="w-5 h-5 text-rose-500"></i> Hệ thống phúc lợi</h4>
+                                <h4 class="text-slate-900 font-black uppercase tracking-widest text-[15px] mb-6 flex items-center gap-2"><i data-lucide="heart-handshake" class="w-5 h-5 text-rose-500"></i> Hệ thống 10 phúc lợi vàng</h4>
                                 <div id="fixedBenefitsList" class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                     <!-- Phúc lợi sẽ được render ở đây -->
                                 </div>
@@ -642,20 +667,21 @@
     let isFileLoaded = false;
     let isRoleSelected = false;
 
-    // Palette màu tương ứng cho sự thăng tiến (Entry -> Goal)
+    // Palette màu thăng tiến
     const progressionColors = ['#10b981', '#0ea5e9', '#6366f1', '#8b5cf6', '#d946ef', '#f59e0b'];
 
-    // DANH SÁCH PHÚC LỢI CỐ ĐỊNH THEO YÊU CẦU
+    // DANH SÁCH 10 PHÚC LỢI (Đã thêm mục thứ 10)
     const fixedBenefits = [
         { icon: 'umbrella', text: 'Đóng BHXH mức cao' },
         { icon: 'palmtree', text: 'Tham quan du lịch hàng năm' },
         { icon: 'users', text: 'Teambuilding đa dạng tổ/nhóm' },
-        { icon: 'trophy', text: 'Thể thao, văn nghệ toàn Tổng công ty' },
+        { icon: 'trophy', text: 'Thể thao, văn nghệ toàn TCT' },
         { icon: 'heart', text: 'Chăm lo sức khỏe người thân' },
-        { icon: 'gift', text: 'Thưởng KPI, quà Lễ Tết, Sinh nhật' },
-        { icon: 'anchor', text: 'Phụ cấp Offshore, điện thoại, cơm' },
+        { icon: 'gift', text: 'Thưởng KPI, quà Lễ Tết' },
+        { icon: 'anchor', text: 'Phụ cấp Offshore, cơm trưa' },
         { icon: 'shield-plus', text: 'Bảo hiểm PVI toàn diện' },
-        { icon: 'stethoscope', text: 'Khám sức khỏe quốc tế' }
+        { icon: 'stethoscope', text: 'Khám sức khỏe định kỳ quốc tế' },
+        { icon: 'graduation-cap', text: 'Đào tạo chuyên gia quốc tế' } // Mục thứ 10 mới
     ];
 
     lucide.createIcons();
@@ -675,46 +701,41 @@
     function showToast(message, type = 'warning') {
         const container = document.getElementById('toastContainer');
         if (!container) return;
-        
         const toast = document.createElement('div');
         toast.className = 'bg-white/95 backdrop-blur-xl border-l-4 border-amber-500 text-slate-800 px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 animate-up pointer-events-auto';
-        toast.innerHTML = `
-            <div class="bg-amber-100 p-2 rounded-full shrink-0"><i data-lucide="alert-circle" class="w-5 h-5 text-amber-600"></i></div>
-            <span class="font-bold text-[15px]">${message}</span>
-        `;
-        
+        toast.innerHTML = `<div class="bg-amber-100 p-2 rounded-full shrink-0"><i data-lucide="alert-circle" class="w-5 h-5 text-amber-600"></i></div><span class="font-bold text-[15px]">${message}</span>`;
         container.appendChild(toast);
         lucide.createIcons();
-
-        setTimeout(() => {
-            toast.style.opacity = '0';
-            toast.style.transform = 'translateY(20px)';
-            toast.style.transition = 'all 0.4s ease';
-            setTimeout(() => toast.remove(), 400);
-        }, 3000);
+        setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translateY(20px)'; toast.style.transition = 'all 0.4s ease'; setTimeout(() => toast.remove(), 400); }, 3000);
     }
 
     function toggleThemeMenu(e) {
         if(e) e.stopPropagation();
         const menu = document.getElementById('themeMenu');
-        const isOpen = menu.classList.contains('opacity-100');
-        if (isOpen) {
-            menu.classList.remove('opacity-100', 'scale-y-100', 'pointer-events-auto');
-            menu.classList.add('opacity-0', 'scale-y-95', 'pointer-events-none');
+        if (menu.classList.contains('opacity-100')) {
+            menu.classList.replace('opacity-100', 'opacity-0'); menu.classList.replace('scale-y-100', 'scale-y-95'); menu.classList.add('pointer-events-none');
         } else {
-            menu.classList.remove('opacity-0', 'scale-y-95', 'pointer-events-none');
-            menu.classList.add('opacity-100', 'scale-y-100', 'pointer-events-auto');
+            menu.classList.replace('opacity-0', 'opacity-100'); menu.classList.replace('scale-y-95', 'scale-y-100'); menu.classList.remove('pointer-events-none');
         }
     }
 
     function setTheme(themeName) {
         if(themeName === 'default') document.documentElement.removeAttribute('data-theme');
         else document.documentElement.setAttribute('data-theme', themeName);
-        
         toggleThemeMenu(); 
     }
 
-    // LOGIC LƯƠNG TỰ ĐỘNG
+    // --- LOGIC LƯƠNG & CẤP BẬC THĂNG TIẾN ---
+    function getLevelVisuals(levelText) {
+        const lvl = (levelText || "").toLowerCase();
+        if (lvl.includes('entry')) return { icon: 'seedling', color: 'text-emerald-500', progress: 20, iconName: '🌱' };
+        if (lvl.includes('junior')) return { icon: 'rocket', color: 'text-blue-500', progress: 40, iconName: '🚀' };
+        if (lvl.includes('senior')) return { icon: 'gem', color: 'text-indigo-500', progress: 65, iconName: '💎' };
+        if (lvl.includes('lead') || lvl.includes('expert')) return { icon: 'trophy', color: 'text-amber-500', progress: 85, iconName: '🏆' };
+        if (lvl.includes('manager') || lvl.includes('head') || lvl.includes('director')) return { icon: 'crown', color: 'text-rose-500', progress: 100, iconName: '👑' };
+        return { icon: 'briefcase', color: 'text-slate-500', progress: 50, iconName: '💼' };
+    }
+
     function getSalaryRange(levelText) {
         const lvl = (levelText || "").toLowerCase();
         if (lvl.includes('entry')) return "15 - 20 Tr";
@@ -727,240 +748,115 @@
 
     function getRoleIcon(roleName) {
         const name = roleName.toLowerCase();
-        if (name.includes('hvac') || name.includes('mechanical') || name.includes('piping') || name.includes('equipment')) return 'wrench';
+        if (name.includes('hvac') || name.includes('mechanical') || name.includes('piping')) return 'wrench';
         if (name.includes('electrical') || name.includes('eit') || name.includes('instrument')) return 'zap';
-        if (name.includes('hse') || name.includes('safety') || name.includes('fire') || name.includes('guard')) return 'shield-alert';
-        if (name.includes('plan') || name.includes('schedule')) return 'calendar-clock';
-        if (name.includes('qa') || name.includes('qc') || name.includes('quality') || name.includes('inspect')) return 'check-circle';
-        if (name.includes('manager') || name.includes('lead') || name.includes('coordinator') || name.includes('director')) return 'users';
-        if (name.includes('material') || name.includes('logistic')) return 'package';
-        if (name.includes('lift') || name.includes('scaffold') || name.includes('rigging') || name.includes('crane')) return 'construction';
-        if (name.includes('paint') || name.includes('blast') || name.includes('coat')) return 'paint-roller';
-        if (name.includes('commissioning') || name.includes('start')) return 'power';
-        if (name.includes('flange') || name.includes('weld') || name.includes('joint')) return 'link-2';
+        if (name.includes('hse') || name.includes('safety')) return 'shield-alert';
+        if (name.includes('manager') || name.includes('lead')) return 'users';
         return 'briefcase'; 
     }
 
-    // --- LOGIC LOAD DATA EXCEL NGUYÊN BẢN ---
+    // --- LOGIC LOAD DATA GỐC ---
     async function loadExcelDataAutomatically() {
         try {
             const protocol = window.location.protocol;
             if (protocol === 'blob:' || protocol === 'data:' || protocol === 'file:') {
-                console.warn("Fetch API không hỗ trợ tải file tương đối trong môi trường hiện tại:", protocol);
                 dropdownSelectedText.innerText = "Cần chạy trên Web Server (HTTP/HTTPS)";
                 dropdownTrigger.classList.remove('animate-pulse');
-                showToast('Tính năng tải tự động không chạy trong Preview. Vui lòng deploy lên Hosting/Server thật!');
+                showToast('Tính năng tải tự động không chạy trong Preview.');
                 return;
             }
-
             const configResponse = await fetch('./config.json');
             if (!configResponse.ok) throw new Error('Không tìm thấy file config.json');
             const config = await configResponse.json();
-
-            const targetUrl = config.sheetUrl;
-            if (!targetUrl) throw new Error('config.json chưa có sheetUrl');
-
-            const response = await fetch(targetUrl);
-            if (!response.ok) throw new Error(`Không thể tải dữ liệu. HTTP ${response.status}`);
-
+            const response = await fetch(config.sheetUrl);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
             const csvText = await response.text();
             masterData = parseCSV(csvText);
-
             const roles = [...new Set(masterData.map(d => d.function_title))].filter(Boolean);
-
             customRoleList.innerHTML = '';
             roles.sort().forEach(r => {
-                const li = document.createElement('li');
-                li.className = 'role-list-item group';
-                li.dataset.value = r;
-                const iconName = getRoleIcon(r);
-                li.innerHTML = `<i data-lucide="${iconName}" class="w-4 h-4 text-primary-500/50 group-hover:text-primary-600 transition-colors shrink-0"></i> <span>${r}</span>`;
-                li.onclick = (e) => {
-                    e.stopPropagation();
-                    selectCustomRole(r, li);
-                };
+                const li = document.createElement('li'); li.className = 'role-list-item group'; li.dataset.value = r;
+                li.innerHTML = `<i data-lucide="${getRoleIcon(r)}" class="w-4 h-4 text-primary-500/50 group-hover:text-primary-600 transition-colors shrink-0"></i> <span>${r}</span>`;
+                li.onclick = (e) => { e.stopPropagation(); selectCustomRole(r, li); };
                 customRoleList.appendChild(li);
             });
-
             isFileLoaded = true;
             dropdownTrigger.classList.remove('opacity-60', 'cursor-not-allowed', 'animate-pulse');
             dropdownTrigger.classList.add('cursor-pointer');
-
             dropdownSelectedText.innerText = "-- Vui lòng Chọn Career Path --";
-            dropdownSelectedText.classList.remove('text-slate-900');
-            dropdownSelectedText.classList.add('text-slate-400');
-
             lucide.createIcons();
-
-        } catch (error) {
-            console.error("Lỗi khi tải dữ liệu:", error);
-            dropdownSelectedText.innerText = "Lỗi tải dữ liệu. Vui lòng tải lại trang.";
-            dropdownTrigger.classList.remove('animate-pulse');
-            showToast('Không thể kết nối đến Google Sheets hoặc file config.json!');
-        }
+        } catch (error) { console.error(error); dropdownSelectedText.innerText = "Lỗi tải dữ liệu"; }
     }
 
     function parseCSV(csvText) {
-        const rows = [];
-        let current = '';
-        let row = [];
-        let inQuotes = false;
-
+        const rows = []; let current = ''; let row = []; let inQuotes = false;
         for (let i = 0; i < csvText.length; i++) {
-            const char = csvText[i];
-            const nextChar = csvText[i + 1];
-
-            if (char === '"') {
-                if (inQuotes && nextChar === '"') {
-                    current += '"';
-                    i++;
-                } else {
-                    inQuotes = !inQuotes;
-                }
-            } else if (char === ',' && !inQuotes) {
-                row.push(current.trim());
-                current = '';
-            } else if ((char === '\n' || char === '\r') && !inQuotes) {
-                if (char === '\r' && nextChar === '\n') i++;
-                row.push(current.trim());
-                current = '';
-                if (row.some(cell => cell !== '')) rows.push(row);
-                row = [];
-            } else {
-                current += char;
-            }
+            const char = csvText[i]; if (char === '"') inQuotes = !inQuotes;
+            else if (char === ',' && !inQuotes) { row.push(current.trim()); current = ''; }
+            else if ((char === '\n' || char === '\r') && !inQuotes) {
+                if (char === '\r' && csvText[i+1] === '\n') i++;
+                row.push(current.trim()); current = ''; if (row.some(cell => cell !== '')) rows.push(row); row = [];
+            } else current += char;
         }
-
-        if (current.length > 0 || row.length > 0) {
-            row.push(current.trim());
-            if (row.some(cell => cell !== '')) rows.push(row);
-        }
-
+        if (current || row.length) { row.push(current.trim()); rows.push(row); }
         let headerIndex = 0;
-        for (let i = 0; i < rows.length; i++) {
-            if (rows[i].includes('function_title')) {
-                headerIndex = i;
-                break;
-            }
-        }
-
-        const headers = rows[headerIndex].map(h => h.trim().toLowerCase()); // Lowercase headers to match logic
-        const dataRows = rows.slice(headerIndex + 1);
-
-        return dataRows
-            .filter(r => r.some(cell => cell !== ''))
-            .map(r => {
-                const obj = {};
-                headers.forEach((h, idx) => {
-                    obj[h] = (r[idx] || '').trim();
-                });
-                return obj;
-            });
-    }
-
-    // Kích hoạt load dữ liệu ngay khi DOM sẵn sàng
-    document.addEventListener('DOMContentLoaded', loadExcelDataAutomatically);
-
-    dropdownTrigger.addEventListener('click', (e) => {
-        e.stopPropagation();
-        
-        if (!isFileLoaded) {
-            showToast('Dữ liệu đang được tải, vui lòng đợi trong giây lát!');
-            return;
-        }
-
-        const isOpen = dropdownMenu.classList.contains('opacity-100');
-        if (isOpen) closeDropdown();
-        else openDropdown();
-    });
-
-    function openDropdown() {
-        dropdownMenu.classList.remove('opacity-0', 'scale-y-95', 'pointer-events-none');
-        dropdownMenu.classList.add('opacity-100', 'scale-y-100', 'pointer-events-auto');
-        dropdownIcon.classList.add('rotate-180');
-        roleSearchInput.value = ''; 
-        filterRoles('');
-        roleSearchInput.focus();
-    }
-
-    function closeDropdown() {
-        dropdownMenu.classList.remove('opacity-100', 'scale-y-100', 'pointer-events-auto');
-        dropdownMenu.classList.add('opacity-0', 'scale-y-95', 'pointer-events-none');
-        dropdownIcon.classList.remove('rotate-180');
-    }
-
-    function selectCustomRole(roleName, liElement) {
-        selectedRoleValue = roleName;
-        dropdownSelectedText.innerText = roleName;
-        dropdownSelectedText.classList.replace('text-slate-400', 'text-slate-900'); 
-        
-        isRoleSelected = true;
-        btnStart.classList.remove('opacity-60', 'cursor-not-allowed');
-        btnStart.classList.add('cursor-pointer', 'hover:bg-slate-950');
-        
-        document.querySelectorAll('.role-list-item').forEach(el => el.classList.remove('selected'));
-        if (liElement) liElement.classList.add('selected');
-        
-        closeDropdown();
-    }
-
-    roleSearchInput.addEventListener('input', (e) => filterRoles(e.target.value));
-    
-    function filterRoles(term) {
-        const lowerTerm = term.toLowerCase();
-        document.querySelectorAll('.role-list-item').forEach(li => {
-            const text = li.dataset.value.toLowerCase();
-            li.style.display = text.includes(lowerTerm) ? 'flex' : 'none';
+        for (let i = 0; i < rows.length; i++) { if (rows[i].includes('function_title')) { headerIndex = i; break; } }
+        const headers = rows[headerIndex].map(h => h.trim().toLowerCase());
+        return rows.slice(headerIndex + 1).filter(r => r.some(cell => cell !== '')).map(r => {
+            const obj = {}; headers.forEach((h, idx) => { obj[h] = (r[idx] || '').trim(); }); return obj;
         });
     }
 
-    document.addEventListener('click', (e) => {
-        if (dropdownTrigger && dropdownMenu && !dropdownTrigger.contains(e.target) && !dropdownMenu.contains(e.target)) {
-            closeDropdown();
-        }
-        const themeMenu = document.getElementById('themeMenu');
-        const themeBtn = document.getElementById('themeTriggerBtn');
-        if (themeMenu && themeBtn && !themeMenu.contains(e.target) && !themeBtn.contains(e.target)) {
-            themeMenu.classList.remove('opacity-100', 'scale-y-100', 'pointer-events-auto');
-            themeMenu.classList.add('opacity-0', 'scale-y-95', 'pointer-events-none');
-        }
+    document.addEventListener('DOMContentLoaded', loadExcelDataAutomatically);
+
+    function selectCustomRole(roleName, liElement) {
+        selectedRoleValue = roleName; dropdownSelectedText.innerText = roleName;
+        dropdownSelectedText.classList.replace('text-slate-400', 'text-slate-900'); 
+        isRoleSelected = true; btnStart.classList.remove('opacity-60', 'cursor-not-allowed');
+        document.querySelectorAll('.role-list-item').forEach(el => el.classList.remove('selected'));
+        if (liElement) liElement.classList.add('selected'); closeDropdown();
+    }
+
+    dropdownTrigger.addEventListener('click', (e) => {
+        e.stopPropagation(); if (!isFileLoaded) return;
+        if (dropdownMenu.classList.contains('opacity-100')) closeDropdown(); else openDropdown();
+    });
+
+    function openDropdown() {
+        dropdownMenu.classList.replace('opacity-0', 'opacity-100'); dropdownMenu.classList.replace('scale-y-95', 'scale-y-100'); dropdownMenu.classList.remove('pointer-events-none');
+        dropdownIcon.classList.add('rotate-180'); roleSearchInput.focus();
+    }
+
+    function closeDropdown() {
+        dropdownMenu.classList.replace('opacity-100', 'opacity-0'); dropdownMenu.classList.replace('scale-y-100', 'scale-y-95'); dropdownMenu.classList.add('pointer-events-none');
+        dropdownIcon.classList.remove('rotate-180');
+    }
+
+    roleSearchInput.addEventListener('input', (e) => {
+        const term = e.target.value.toLowerCase();
+        document.querySelectorAll('.role-list-item').forEach(li => {
+            li.style.display = li.dataset.value.toLowerCase().includes(term) ? 'flex' : 'none';
+        });
     });
 
     btnStart.addEventListener('click', () => {
-        if (!isFileLoaded) {
-            showToast('Dữ liệu đang được tải xuống, xin vui lòng đợi!');
-            return;
-        }
-        if (!isRoleSelected) {
-            showToast('Vui lòng chọn một Lộ trình (Path) để tiếp tục!');
-            return;
-        }
-
-        const role = selectedRoleValue;
-        currentRoleMilestones = masterData.filter(d => d.function_title === role).sort((a,b) => (Number(a.milestone_order) || 0) - (Number(b.milestone_order) || 0));
+        if (!isRoleSelected) { showToast('Vui lòng chọn một Lộ trình!'); return; }
+        currentRoleMilestones = masterData.filter(d => d.function_title === selectedRoleValue).sort((a,b) => (Number(a.milestone_order) || 0) - (Number(b.milestone_order) || 0));
         if(currentRoleMilestones.length > 0) { currentIdx = 0; showPage(1.5); }
     });
 
     function showPage(n) {
         document.querySelectorAll('#app > div').forEach(div => div.classList.add('hidden'));
         if (animationLoopId) cancelAnimationFrame(animationLoopId);
-
         if (n === 1) {
-            if (logo) logo.classList.remove('hidden');
-            if (themeSelectorContainer) themeSelectorContainer.classList.remove('hidden');
-            document.getElementById('page1').classList.remove('hidden');
+            if (logo) logo.classList.remove('hidden'); themeSelectorContainer.classList.remove('hidden'); document.getElementById('page1').classList.remove('hidden');
             bgOverlay.style.backgroundImage = "linear-gradient(to bottom, rgba(248, 250, 252, 0.2), rgba(248, 250, 252, 0.2)), url('image/background/background_3.png')";
         } else if (n === 1.5) {
-            if (logo) logo.classList.add('hidden');
-            if (themeSelectorContainer) themeSelectorContainer.classList.add('hidden');
-            document.getElementById('pageOverview').classList.remove('hidden');
+            if (logo) logo.classList.add('hidden'); themeSelectorContainer.classList.add('hidden'); document.getElementById('pageOverview').classList.remove('hidden');
             bgOverlay.style.backgroundImage = "linear-gradient(to bottom, rgba(248, 250, 252, 0.5), rgba(248, 250, 252, 0.5)), url('image/background/background_4.png')";
-            setTimeout(renderOverview, 100);
-            initBackgroundParticles();
+            setTimeout(renderOverview, 100); initBackgroundParticles();
         } else {
-            if (logo) logo.classList.add('hidden');
-            if (themeSelectorContainer) themeSelectorContainer.classList.add('hidden');
-            document.getElementById('page2').classList.remove('hidden');
+            if (logo) logo.classList.add('hidden'); themeSelectorContainer.classList.add('hidden'); document.getElementById('page2').classList.remove('hidden');
             bgOverlay.style.backgroundImage = "linear-gradient(to bottom, rgba(248, 250, 252, 0.5), rgba(248, 250, 252, 0.5)), url('image/background/background_2.png')";
             renderDashboard();
         }
@@ -968,16 +864,12 @@
     }
 
     function initBackgroundParticles() {
-        const container = document.getElementById('particleContainer');
-        if(!container) return; container.innerHTML = '';
-        const particleColors = ['#0ea5e9', '#10b981', '#8b5cf6', '#f59e0b', '#d946ef'];
+        const container = document.getElementById('particleContainer'); if(!container) return; container.innerHTML = '';
+        const colors = ['#0ea5e9', '#10b981', '#8b5cf6', '#f59e0b', '#d946ef'];
         for(let i=0; i<30; i++) {
             const p = document.createElement('div'); p.className = 'ambient-particle';
-            const size = Math.random() * 6 + 3; 
-            p.style.width = `${size}px`; p.style.height = `${size}px`;
-            p.style.backgroundColor = particleColors[Math.floor(Math.random() * particleColors.length)];
-            p.style.left = `${Math.random() * 100}%`; p.style.bottom = `-50px`;
-            p.style.animationDelay = `${Math.random() * 15}s`; p.style.animationDuration = `${12 + Math.random() * 12}s`;
+            p.style.width = `4px`; p.style.height = `4px`; p.style.backgroundColor = colors[i%5];
+            p.style.left = `${Math.random() * 100}%`; p.style.bottom = `-50px`; p.style.animationDelay = `${Math.random() * 15}s`;
             container.appendChild(p);
         }
     }
@@ -988,319 +880,114 @@
         const svgPath = document.getElementById('svgPath');
         if (!viewport || !content || !svgPath) return;
         content.querySelectorAll('.path-node').forEach(n => n.remove());
-        const vWidth = viewport.clientWidth, vHeight = viewport.clientHeight;
-        if (vWidth < 100 || vHeight < 100) return;
-
-        const data = currentRoleMilestones, total = data.length, cardW = 180;
-        let masterScale = 1.0;
-        const reqH = (total + 1) * 125 + 160; 
-        if (vHeight < reqH) masterScale = Math.max(vHeight / reqH, 0.62);
-
-        const marginX = 10; 
-        const marginY = 60;
-        const startX = marginX + 15;
-        const startY = vHeight - marginY - 140; 
-        const endX = vWidth - marginX - cardW - 15;
-        const endY = marginY + 25;
-
-        const yOffset = 70;
-
+        const vW = viewport.clientWidth, vH = viewport.clientHeight, total = currentRoleMilestones.length;
         const anchors = [];
         for (let i = 0; i <= total; i++) {
             const isSummit = (i === total), ratio = i / total;
-            
-            const x = startX + ratio * (endX - startX);
-            const y = startY + ratio * (endY - startY) - yOffset;
-            
-            anchors.push({ x: x + (cardW / 2), y: y + (isSummit ? 100 : 80) * masterScale, isSummit, index: i < total ? i : total - 1 });
-
-            const node = document.createElement('div');
-            node.className = `path-node`; node.id = isSummit ? `node-summit` : `node-${i}`;
-            node.style.left = `${x}px`; node.style.top = `${y}px`; node.style.width = `${cardW}px`;
+            const x = 50 + ratio * (vW - 300), y = (vH - 180) - ratio * (vH - 300);
+            anchors.push({ x: x + 90, y: y + 80 });
+            const node = document.createElement('div'); node.className = `path-node`;
+            node.style.left = `${x}px`; node.style.top = `${y}px`; node.style.width = `180px`;
             node.onclick = () => { currentIdx = (i < total ? i : total - 1); renderDashboard(); showPage(2); };
-            
-            const nodeColor = isSummit ? '#f59e0b' : progressionColors[i % progressionColors.length];
-
             if (!isSummit) {
-                const m = data[i];
-                node.innerHTML = `
-                <div class="node-card" style="transform: scale(${masterScale}); border-bottom: 3px solid ${nodeColor};">
-                    <div class="node-circle" style="background-color: ${nodeColor};">0${i+1}</div>
-                    <div class="node-icon-wrapper"><img src="${m.icon_image_path}" class="w-full h-full object-contain" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1063/1063376.png'"></div>
-                    <div class="text-center px-1 pb-2">
-                        <span class="text-[15px] font-black uppercase block mb-0.5" style="color: ${nodeColor};">${m.milestone_level}</span>
-                        <h5 class="text-[20px] font-extrabold text-slate-900 line-clamp-3 leading-tight">${m.role_title}</h5>
-                    </div>
-                </div>`;
+                const m = currentRoleMilestones[i];
+                node.innerHTML = `<div class="node-card" style="border-bottom: 3px solid ${progressionColors[i % 5]}"><div class="node-circle" style="background:${progressionColors[i % 5]}">${i+1}</div><div class="node-icon-wrapper"><img src="${m.icon_image_path}" class="w-full h-full object-contain"></div><div class="text-center px-1 pb-2"><span class="text-[14px] font-black uppercase block mb-1" style="color:${progressionColors[i % 5]}">${m.milestone_level}</span><h5 class="text-[16px] font-bold text-slate-800 h-10 line-clamp-2 leading-tight">${m.role_title}</h5></div></div>`;
             } else {
-                const summitData = data[total - 1];
-                node.innerHTML = `
-                <div class="summit-halo" style="transform: translate(-50%, -50%) scale(${masterScale})"></div>
-                <div class="node-card summit-card shadow-xl !bg-amber-50" style="transform: scale(${masterScale}); border: 2px solid ${nodeColor};">
-                    <div class="summit-crown" style="background-color: ${nodeColor};"><i data-lucide="crown" class="w-4 h-4 text-white"></i></div>
-                    <div class="node-icon-wrapper !bg-amber-50/30"><img src="${summitData.icon_image_path || 'https://cdn-icons-png.flaticon.com/512/2618/2618245.png'}" class="w-full h-full object-contain"></div>
-                    <div class="text-center px-1 pb-2">
-                        <span class="text-[15px] font-black uppercase block mb-0.5" style="color: ${nodeColor};">Career Goal</span>
-                        <h5 class="text-[20px] font-black uppercase text-slate-900 line-clamp-3 leading-tight">${summitData.next_target_role || 'Executive'}</h5>
-                    </div>
-                </div>`;
+                node.innerHTML = `<div class="summit-halo"></div><div class="node-card summit-card !bg-amber-50" style="border: 2px solid #f59e0b"><div class="summit-crown"><i data-lucide="crown" class="w-4 h-4 text-white"></i></div><div class="node-icon-wrapper !bg-transparent"><img src="https://cdn-icons-png.flaticon.com/512/2618/2618245.png" class="w-full h-full object-contain"></div><h5 class="text-center font-black uppercase text-amber-600">Final Goal</h5></div>`;
             }
             content.appendChild(node);
         }
-
-        setTimeout(() => {
-            const stairEdge = document.getElementById('stairEdge');
-            const stairPoly = document.getElementById('stairPolygon');
-
-            if(stairEdge && stairPoly) {
-                const gapFromCardBottom = 25 * masterScale; 
-
-                const getCardBottomY = (index) => {
-                    const ratio = index / total;
-                    const nodeY = startY + ratio * (endY - startY) - yOffset;
-                    const nodeEl = document.getElementById(index === total ? 'node-summit' : `node-${index}`);
-                    let cardHeight = 180; 
-                    if (nodeEl) {
-                        const cardEl = nodeEl.querySelector('.node-card');
-                        if (cardEl) cardHeight = cardEl.offsetHeight; 
-                    }
-                    return nodeY + (cardHeight / 2) + (cardHeight * masterScale / 2);
-                };
-
-                let stairPath = '';
-                let pts = [];
-
-                let currentX = -50; 
-                let currentY = getCardBottomY(0) + gapFromCardBottom;
-                
-                stairPath += `M ${currentX} ${currentY} `;
-                pts.push(`${currentX},${currentY}`);
-
-                for (let i = 0; i < anchors.length; i++) {
-                    let nextX = (i < anchors.length - 1) ? (anchors[i].x + anchors[i+1].x) / 2 : vWidth + 50;
-
-                    stairPath += `L ${nextX} ${currentY} `;
-                    pts.push(`${nextX},${currentY}`);
-
-                    if (i < anchors.length - 1) {
-                        currentY = getCardBottomY(i + 1) + gapFromCardBottom;
-                        stairPath += `L ${nextX} ${currentY} `;
-                        pts.push(`${nextX},${currentY}`);
-                    }
-                }
-
-                stairEdge.setAttribute('d', stairPath);
-
-                let polyPts = pts.join(' ') + ` ${vWidth + 50},${vHeight + 50} -50,${vHeight + 50}`;
-                stairPoly.setAttribute('points', polyPts);
-
-                const sLen = stairEdge.getTotalLength();
-                stairEdge.style.setProperty('--stair-len', sLen);
-
-                stairEdge.style.strokeDasharray = sLen;
-                stairEdge.style.animation = 'drawStairEdge 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards';
-
-                stairPoly.classList.remove('opacity-0');
-            }
-        }, 150); 
-
         let dStr = `M ${anchors[0].x} ${anchors[0].y}`;
-        for (let i = 1; i < anchors.length; i++) {
-            const p1 = anchors[i-1], p2 = anchors[i], midX = (p1.x + p2.x) / 2, cy = Math.min(p1.y, p2.y) - (150 * masterScale);
-            dStr += ` Q ${midX} ${cy}, ${p2.x} ${p2.y}`;
-        }
+        for (let i = 1; i < anchors.length; i++) { dStr += ` Q ${(anchors[i-1].x+anchors[i].x)/2} ${Math.min(anchors[i-1].y, anchors[i].y)-100}, ${anchors[i].x} ${anchors[i].y}`; }
         svgPath.setAttribute('d', dStr);
-        const pathLen = svgPath.getTotalLength();
-        const moveTime = 9000, pauseTime = 1200;
-        let start = null;
-
-        function animate(now) {
-            if (!start) start = now;
-            let elapsed = (now - start) % (moveTime + pauseTime);
-            if (elapsed < moveTime) {
-                const progress = elapsed / moveTime, currentDist = progress * pathLen;
-                svgPath.style.strokeDasharray = `${currentDist} ${pathLen}`;
-                svgPath.style.opacity = "1";
-                let activeIdx = -1;
-                for(let i=0; i < anchors.length; i++) {
-                    const trig = (i / (anchors.length - 1)) * pathLen;
-                    if (currentDist >= trig - 20 && currentDist <= trig + 250) { activeIdx = i; break; }
-                }
-                content.querySelectorAll('.path-node').forEach((node, i) => {
-                    const card = node.querySelector('.node-card');
-                    if (i === activeIdx) card.classList.add(i === total ? 'summit-victory' : 'active-glow');
-                    else { card.classList.remove('active-glow', 'summit-victory'); }
-                });
-            } else {
-                svgPath.style.opacity = "0"; 
-                const scNode = document.getElementById('node-summit');
-                if (scNode) scNode.querySelector('.node-card').classList.add('summit-victory');
-                for(let i=0; i<total; i++) { const n = document.getElementById(`node-${i}`); if(n) n.querySelector('.node-card').classList.remove('active-glow'); }
-                if (elapsed > (moveTime + pauseTime - 100)) if (scNode) scNode.querySelector('.node-card').classList.remove('summit-victory');
-            }
-            animationLoopId = requestAnimationFrame(animate);
-        }
-        animationLoopId = requestAnimationFrame(animate);
-
-        const summitData = data[total - 1];
-        const elJ = document.getElementById('ovJobFamily'); if(elJ) elJ.innerText = summitData.job_family || '---';
-        formatSidebarList('ovDevOpp', summitData.development_opportunity, false);
-        formatSidebarList('ovLongTerm', summitData.long_term_direction, false);
-        lucide.createIcons();
         setTimeout(() => content.querySelectorAll('.path-node').forEach(n => n.classList.add('show')), 50);
+        lucide.createIcons();
     }
 
     function renderDashboard() {
-        const data = currentRoleMilestones[currentIdx];
-        if(!data) return;
+        const data = currentRoleMilestones[currentIdx]; if(!data) return;
+        document.getElementById('detailFuncTitle').innerText = data.function_title;
+        document.getElementById('detailJobFamily').innerText = data.job_family;
+        document.getElementById('msLevelLabel').innerText = data.milestone_level;
+        document.getElementById('roleTitleLabel').innerText = data.role_title;
+        document.getElementById('rolePurposeLabel').innerText = data.role_purpose;
+        document.getElementById('msIcon').src = data.icon_image_path || 'https://cdn-icons-png.flaticon.com/512/1063/1063376.png';
+        document.getElementById('msOrderBadge').innerText = currentIdx + 1;
 
-        const elFunc = document.getElementById('detailFuncTitle'); if(elFunc) elFunc.innerText = data.function_title;
-        const elJob = document.getElementById('detailJobFamily'); if(elJob) elJob.innerText = data.job_family || '---';
-        const elMsLvl = document.getElementById('msLevelLabel'); if(elMsLvl) elMsLvl.innerText = data.milestone_level;
-        const elTitle = document.getElementById('roleTitleLabel'); if(elTitle) elTitle.innerText = data.role_title;
-        const elPurpose = document.getElementById('rolePurposeLabel'); if(elPurpose) elPurpose.innerText = data.role_purpose || '---';
-        const elIcon = document.getElementById('msIcon'); if(elIcon) elIcon.src = data.icon_image_path || 'https://cdn-icons-png.flaticon.com/512/1063/1063376.png';
-        const elBadge = document.getElementById('msOrderBadge'); if(elBadge) elBadge.innerText = currentIdx + 1;
-
-        // BỔ SUNG: RENDER LƯƠNG VÀ PHÚC LỢI THEO THEME ĐỘNG
+        // --- NÂNG CẤP TAB ĐÃI NGỘ & PHÚC LỢI ---
+        const levelInfo = getLevelVisuals(data.milestone_level);
+        document.getElementById('salaryLevelText').innerText = data.milestone_level;
         document.getElementById('salaryRangeDisplay').innerText = getSalaryRange(data.milestone_level);
+        document.getElementById('salaryProgressBar').style.width = `${levelInfo.progress}%`;
+        document.getElementById('levelBadgeIcon').innerHTML = `<span class="text-2xl">${levelInfo.iconName}</span>`;
+        document.getElementById('salaryLevelIconBg').innerHTML = `<i data-lucide="${levelInfo.icon}" class="w-64 h-64 text-primary-500"></i>`;
+        
         const benList = document.getElementById('fixedBenefitsList'); benList.innerHTML = '';
         fixedBenefits.forEach(b => {
-            const div = document.createElement('div'); div.className = 'benefit-item-card';
-            div.innerHTML = `<i data-lucide="${b.icon}" class="w-5 h-5 text-primary-600"></i><span class="text-[15px] font-bold text-slate-700">${b.text}</span>`;
-            benList.appendChild(div);
+            benList.innerHTML += `<div class="benefit-item-card"><i data-lucide="${b.icon}" class="w-5 h-5 text-primary-600 shrink-0"></i><span class="text-[14px] font-bold text-slate-700">${b.text}</span></div>`;
         });
+
+        // Stepper
+        const stepper = document.getElementById('detailStepper'); stepper.innerHTML = '';
+        currentRoleMilestones.forEach((m, i) => {
+            const div = document.createElement('div'); div.className = `dashboard-stepper-item ${i === currentIdx ? 'active' : (i < currentIdx ? 'completed' : '')}`;
+            div.innerHTML = `<div class="stepper-num">${i+1}</div><div class="flex flex-col"><span class="text-[12px] font-black uppercase text-slate-400">${m.milestone_level}</span><span class="text-[14px] font-bold text-slate-800">${m.role_title}</span></div>`;
+            div.onclick = () => { currentIdx = i; renderDashboard(); }; stepper.appendChild(div);
+        });
+        document.getElementById('progressLine').style.height = `${(currentIdx / (currentRoleMilestones.length - 1)) * 100}%`;
 
         formatSidebarListDynamic('sidebarDevOpp', data.development_opportunity);
         formatSidebarListDynamic('sidebarLongTerm', data.long_term_direction);
-
-        const stepper = document.getElementById('detailStepper');
-        if(stepper) {
-            stepper.innerHTML = '';
-            currentRoleMilestones.forEach((m, i) => {
-                const div = document.createElement('div');
-                div.className = `dashboard-stepper-item ${i === currentIdx ? 'active' : (i < currentIdx ? 'completed' : '')}`;
-                div.innerHTML = `<div class="stepper-num">${i+1}</div><div class="flex flex-col"><span class="text-[15px] font-black uppercase text-slate-400">${m.milestone_level}</span><span class="text-[15px] font-bold text-slate-800 leading-tight pr-2">${m.role_title}</span></div>`;
-                div.onclick = () => { currentIdx = i; renderDashboard(); };
-                stepper.appendChild(div);
-            });
-        }
-        const pLine = document.getElementById('progressLine'); if(pLine) pLine.style.height = `${(currentIdx / (currentRoleMilestones.length - 1)) * 100}%`;
-
         renderBulletList('responsibilitiesList', data.key_responsibilities, 'check-circle-2', 'primary', true);
-        const kpiList = document.getElementById('kpiContainer');
-        if(kpiList) {
-            kpiList.innerHTML = '';
-            if(data.key_outputs_kpis) data.key_outputs_kpis.split(/[\n•·-]/).filter(s => s.trim().length > 5).forEach(kpi => {
-                const card = document.createElement('div'); card.className = "bg-primary-50/50 p-4 rounded-2xl border border-primary-100 flex items-center gap-3";
-                card.innerHTML = `<div class="w-2 h-2 rounded-full bg-primary-500"></div><span class="text-[15px] font-bold text-slate-700">${kpi.trim()}</span>`;
-                kpiList.appendChild(card);
-            });
-        }
+        
+        const kpiCon = document.getElementById('kpiContainer'); kpiCon.innerHTML = '';
+        if(data.key_outputs_kpis) data.key_outputs_kpis.split(/[\n•·-]/).filter(s => s.trim().length > 3).forEach(k => {
+            kpiCon.innerHTML += `<div class="bg-primary-50/50 p-4 rounded-2xl border border-primary-100 font-bold text-slate-700 text-[14px]">${k.trim()}</div>`;
+        });
 
-        const compCon = document.getElementById('competenciesContainer');
-        if(compCon) {
-            compCon.innerHTML = '';
-            if(data.competencies_to_develop) data.competencies_to_develop.split(/[\n•·-]/).filter(s => s.trim().length > 3).forEach((item, i) => {
-                const lvl = [86, 75, 96, 65, 80][i % 5];
-                const div = document.createElement('div'); div.className = "skill-bar-container";
-                div.innerHTML = `<div class="flex justify-between text-[15px] font-black uppercase text-slate-500"><span>${item.trim()}</span><span>${lvl}%</span></div><div class="skill-bar-bg"><div class="skill-bar-fill" style="width: ${lvl}%"></div></div>`;
-                compCon.appendChild(div);
-            });
-        }
-        const behCon = document.getElementById('behavioralContainer');
-        if(behCon) {
-            behCon.innerHTML = '';
-            if(data.behavioral_leadership_skills) data.behavioral_leadership_skills.split(/[\n•·,]/).filter(s => s.trim().length > 3).forEach(skill => {
-                const chip = document.createElement('div'); chip.className = "skill-chip"; chip.innerText = skill.trim(); behCon.appendChild(chip);
-            });
-        }
-        const toolCon = document.getElementById('toolsContainer');
-        if(toolCon) {
-            toolCon.innerHTML = '';
-            if(data.technical_skills_tools) data.technical_skills_tools.split(/[\n•·-]/).filter(s => s.trim().length > 3).forEach(tool => {
-                const item = document.createElement('div'); item.className = "tool-list-item";
-                item.innerHTML = `<i data-lucide="chevron-right" class="w-4 h-4 text-primary-500"></i><span class="text-[15px]">${tool.trim()}</span>`; toolCon.appendChild(item);
-            });
-        }
+        const compCon = document.getElementById('competenciesContainer'); compCon.innerHTML = '';
+        if(data.competencies_to_develop) data.competencies_to_develop.split(/[\n•·-]/).filter(s => s.trim().length > 3).forEach((c, i) => {
+            const val = [85, 75, 95, 65, 80][i % 5];
+            compCon.innerHTML += `<div class="skill-bar-container"><div class="flex justify-between text-[13px] font-black uppercase text-slate-500"><span>${c.trim()}</span><span>${val}%</span></div><div class="skill-bar-bg"><div class="skill-bar-fill" style="width:${val}%"></div></div></div>`;
+        });
 
         renderBulletList('trainingList', data.suggested_training_development, 'graduation-cap', 'primary');
         renderBulletList('readinessList', data.readiness_indicators, 'check-circle-2', 'emerald');
         renderBulletList('promotionList', data.promotion_criteria, 'trending-up', 'indigo');
-        const elNext = document.getElementById('nextTargetRole'); if(elNext) elNext.innerText = data.next_target_role || '---';
-        const elScope = document.getElementById('typicalScopeText'); if(elScope) elScope.innerText = data.typical_scope || '---';
-        const certCon = document.getElementById('certList'); if(certCon) {
-            certCon.innerHTML = '';
-            if(data.recommended_certifications) data.recommended_certifications.split(/[\n•·,]/).filter(s => s.trim().length > 2).forEach(c => {
-                 const chip = document.createElement('div'); chip.className = "px-4 py-2 rounded-xl bg-amber-50 text-amber-700 border border-amber-100 font-bold text-[15px]";
-                 chip.innerText = c.trim(); certCon.appendChild(chip);
-            });
-        }
-
-        const elCnt = document.getElementById('pageCounter'); if(elCnt) elCnt.innerText = `${String(currentIdx+1).padStart(2, '0')} / ${String(currentRoleMilestones.length).padStart(2, '0')}`;
-        const bPrev = document.getElementById('prevBtn'); if(bPrev) bPrev.onclick = () => { if(currentIdx > 0) { currentIdx--; renderDashboard(); } };
+        document.getElementById('nextTargetRole').innerText = data.next_target_role || '---';
+        document.getElementById('typicalScopeText').innerText = data.typical_scope || '---';
         
-        const bNext = document.getElementById('nextBtn'); 
-        if(bNext) {
-            bNext.onclick = () => { 
-                if(currentIdx < currentRoleMilestones.length - 1) { 
-                    currentIdx++; 
-                    renderDashboard(); 
-                } else {
-                    showPage(1); 
-                }
-            };
-            bNext.innerText = currentIdx === currentRoleMilestones.length - 1 ? 'KẾT THÚC' : 'Tiếp theo';
-        }
+        document.getElementById('pageCounter').innerText = `${String(currentIdx+1).padStart(2, '0')} / ${String(currentRoleMilestones.length).padStart(2, '0')}`;
+        const bNext = document.getElementById('nextBtn'); bNext.innerText = currentIdx === currentRoleMilestones.length - 1 ? 'KẾT THÚC' : 'Tiếp theo';
+        bNext.onclick = () => { if(currentIdx < currentRoleMilestones.length - 1) { currentIdx++; renderDashboard(); } else showPage(1); };
+        document.getElementById('prevBtn').onclick = () => { if(currentIdx > 0) { currentIdx--; renderDashboard(); } };
 
         lucide.createIcons();
     }
 
-    function formatSidebarList(id, text, isDynamicSidebar = false) {
-        const container = document.getElementById(id); if(!container) return;
-        if(!text) { container.innerHTML = '<span class="text-[15px] italic opacity-60">N/A</span>'; return; }
-        const items = text.split(/[\n•·-]/).filter(s => s.trim().length > 5); container.innerHTML = '';
-        items.forEach(item => {
-            const div = document.createElement('div'); 
-            div.className = 'info-item-list';
-            div.innerHTML = `<div class="dot"></div><span>${item.trim()}</span>`; 
-            container.appendChild(div);
-        });
-    }
-
     function formatSidebarListDynamic(id, text) {
-        const container = document.getElementById(id); if(!container) return;
-        if(!text) { container.innerHTML = '<div class="text-[15px] italic opacity-60">N/A</div>'; return; }
-        const items = text.split(/[\n•·-]/).filter(s => s.trim().length > 5); container.innerHTML = '';
-        items.forEach(item => {
-            const div = document.createElement('div'); 
-            div.className = 'dynamic-bullet';
-            div.innerHTML = `<div class="white-dot"></div><span class="dynamic-content-list">${item.trim()}</span>`; 
-            container.appendChild(div);
+        const container = document.getElementById(id); if(!container) return; container.innerHTML = '';
+        if(!text) return; text.split(/[\n•·-]/).filter(s => s.trim().length > 5).forEach(item => {
+            container.innerHTML += `<div class="dynamic-bullet"><div class="white-dot"></div><span class="dynamic-content-list">${item.trim()}</span></div>`;
         });
     }
 
     function renderBulletList(id, text, icon, color, isResp = false) {
         const el = document.getElementById(id); if (!el) return; el.innerHTML = '';
-        if(!text) return el.innerHTML = '<div class="text-slate-400 italic text-[15px]">N/A</div>';
-        text.split(/[\n•·-]/).filter(s => s.trim().length > 3).forEach(item => {
-            const li = document.createElement('div');
-            li.className = isResp ? "responsibility-card" : "flex gap-4 items-start bg-white/60 p-4 rounded-2xl border border-slate-50 shadow-sm mb-3";
-            li.innerHTML = `<i data-lucide="${icon}" class="w-5 h-5 text-${color}-600 mt-0.5 shrink-0"></i> <span class="text-[15px] font-medium text-slate-700 leading-relaxed">${item.trim()}</span>`;
-            el.appendChild(li);
+        if(!text) return; text.split(/[\n•·-]/).filter(s => s.trim().length > 3).forEach(item => {
+            el.innerHTML += `<div class="${isResp ? 'responsibility-card' : 'flex gap-4 items-start bg-white/60 p-4 rounded-2xl border border-slate-50 shadow-sm mb-3'}">
+                <i data-lucide="${icon}" class="w-5 h-5 text-${color}-600 shrink-0"></i> <span class="text-[14px] font-medium text-slate-700">${item.trim()}</span>
+            </div>`;
         });
     }
 
     function switchTab(id) {
         document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
-        const target = document.getElementById(id); if(target) target.classList.remove('hidden');
+        document.getElementById(id).classList.remove('hidden');
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        if(event) event.target.classList.add('active');
-        lucide.createIcons();
+        if(event) event.target.classList.add('active'); lucide.createIcons();
     }
 
-    const observer = new ResizeObserver(() => { if(!document.getElementById('pageOverview').classList.contains('hidden')) renderOverview(); });
-    observer.observe(document.body);
     document.getElementById('btnGoToDetail').addEventListener('click', () => showPage(2));
     showPage(1);
 </script>
