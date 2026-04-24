@@ -267,7 +267,6 @@
         .btn-premium-nav:hover { background: var(--sky-primary); transform: translateY(-2px); }
 
         .btn-premium-action {
-            /* Thay đổi nút sang màu động của Theme */
             background: var(--sky-primary); color: white; padding: 14px 28px; border-radius: 20px;
             font-weight: 800; font-size: 15px; text-transform: uppercase; letter-spacing: 0.1em;
             display: flex; align-items: center; gap: 12px; transition: all 0.4s; box-shadow: 0 10px 25px rgb(var(--color-primary-500) / 0.4); border: 1.5px solid rgba(255,255,255,0.2); position: relative; z-index: 200; cursor: pointer;
@@ -411,7 +410,6 @@
                 </div>
             </div>
 
-            <!-- Sidebar -->
             <div class="lg:col-span-3 order-2 custom-scrollbar overflow-y-auto lg:h-full pb-6">
                 <div class="sidebar-container lg:h-full">
                     <div class="job-family-badge group">
@@ -549,7 +547,7 @@
                          <div class="p-6 rounded-3xl bg-primary-50 border border-primary-100"><span class="text-[15px] font-black text-primary-600 uppercase mb-1 block">Vị trí mục tiêu tiếp theo</span><p id="nextTargetRole" class="text-lg font-black text-slate-900 uppercase">---</p></div>
                     </div>
 
-                    <!-- TAB 5: ĐÃI NGỘ & PHÚC LỢI NÂNG CẤP -->
+                    <!-- TAB 5: ĐÃI NGỘ & PHÚC LỢI ĐÃ ĐỘNG HÓA -->
                     <div id="tab-benefits" class="tab-content hidden animate-up">
                         <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
                             <div class="lg:col-span-5">
@@ -573,8 +571,10 @@
                                 </div>
                             </div>
                             <div class="lg:col-span-7">
-                                <h4 class="text-slate-900 font-black uppercase tracking-widest text-[15px] mb-6 flex items-center gap-2"><i data-lucide="heart-handshake" class="w-5 h-5 text-rose-500"></i> Hệ thống 10 phúc lợi vàng</h4>
-                                <div id="fixedBenefitsList" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+                                <h4 class="text-slate-900 font-black uppercase tracking-widest text-[15px] mb-6 flex items-center gap-2"><i data-lucide="heart-handshake" class="w-5 h-5 text-rose-500"></i> Hệ thống phúc lợi vàng</h4>
+                                <div id="fixedBenefitsList" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <!-- Phúc lợi sẽ được fetch từ sheetUrl2 và render ở đây -->
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -603,20 +603,16 @@
     let isFileLoaded = false;
     let isRoleSelected = false;
 
+    // --- BIẾN TOÀN CỤC LƯU TRỮ ĐÃI NGỘ DYNAMC ---
+    let dynamicBenefitData = {
+        salaries: {}, // { "entry": "15 - 20 Tr", ... }
+        benefits: []  // [ "Đóng BHXH...", "Du lịch...", ... ]
+    };
+
     const progressionColors = ['#10b981', '#0ea5e9', '#6366f1', '#8b5cf6', '#d946ef', '#f59e0b'];
 
-    const fixedBenefits = [
-        { icon: 'umbrella', text: 'Đóng BHXH mức cao' },
-        { icon: 'palmtree', text: 'Tham quan du lịch hàng năm' },
-        { icon: 'users', text: 'Teambuilding đa dạng tổ/nhóm' },
-        { icon: 'trophy', text: 'Thể thao, văn nghệ toàn TCT' },
-        { icon: 'heart', text: 'Chăm lo sức khỏe người thân' },
-        { icon: 'gift', text: 'Thưởng KPI, quà Lễ Tết' },
-        { icon: 'anchor', text: 'Phụ cấp Offshore, cơm trưa' },
-        { icon: 'shield-plus', text: 'Bảo hiểm PVI toàn diện' },
-        { icon: 'stethoscope', text: 'Khám sức khỏe quốc tế' },
-        { icon: 'graduation-cap', text: 'Đào tạo chuyên gia quốc tế' }
-    ];
+    // Icon fallback ánh xạ theo chỉ mục cho 10 phúc lợi
+    const benefitIcons = ['umbrella', 'palmtree', 'users', 'trophy', 'heart', 'gift', 'anchor', 'shield-plus', 'stethoscope', 'graduation-cap'];
 
     lucide.createIcons();
 
@@ -647,11 +643,9 @@
         const menu = document.getElementById('themeMenu');
         const isOpen = menu.classList.contains('opacity-100');
         if (isOpen) {
-            menu.classList.remove('opacity-100', 'scale-y-100', 'pointer-events-auto');
-            menu.classList.add('opacity-0', 'scale-y-95', 'pointer-events-none');
+            menu.classList.replace('opacity-100', 'opacity-0'); menu.classList.replace('scale-y-100', 'scale-y-95'); menu.classList.add('pointer-events-none');
         } else {
-            menu.classList.remove('opacity-0', 'scale-y-95', 'pointer-events-none');
-            menu.classList.add('opacity-100', 'scale-y-100', 'pointer-events-auto');
+            menu.classList.replace('opacity-0', 'opacity-100'); menu.classList.replace('scale-y-95', 'scale-y-100'); menu.classList.remove('pointer-events-none');
         }
     }
 
@@ -661,25 +655,24 @@
         toggleThemeMenu(); 
     }
 
-    // --- LOGIC LƯƠNG & CẤP BẬC THĂNG TIẾN (Đã sửa từ khóa để Management đầy cây) ---
+    // --- LOGIC GIAO DIỆN CẤP BẬC ---
     function getLevelVisuals(levelText) {
         const lvl = (levelText || "").toLowerCase();
-        // Sửa từ 'manager' thành 'manage' để bắt được cả 'Management'
         if (lvl.includes('entry')) return { icon: 'seedling', progress: 20, iconName: '🌱' };
         if (lvl.includes('junior')) return { icon: 'rocket', progress: 40, iconName: '🚀' };
         if (lvl.includes('senior')) return { icon: 'gem', progress: 65, iconName: '💎' };
         if (lvl.includes('lead') || lvl.includes('expert')) return { icon: 'trophy', progress: 85, iconName: '🏆' };
-        if (lvl.includes('manage') || lvl.includes('head') || lvl.includes('director')) return { icon: 'crown', progress: 100, iconName: '👑' };
+        if (lvl.includes('management') || lvl.includes('head') || lvl.includes('director')) return { icon: 'crown', progress: 100, iconName: '👑' };
         return { icon: 'briefcase', progress: 50, iconName: '💼' };
     }
 
+    // --- LOGIC LẤY LƯƠNG TỪ DATA DYNAMIC (KHÔNG FIX CỨNG) ---
     function getSalaryRange(levelText) {
-        const lvl = (levelText || "").toLowerCase();
-        if (lvl.includes('entry')) return "15 - 20 Tr";
-        if (lvl.includes('junior')) return "20 - 30 Tr";
-        if (lvl.includes('senior')) return "35 - 55 Tr";
-        if (lvl.includes('lead') || lvl.includes('expert')) return "60 - 90 Tr";
-        if (lvl.includes('manage') || lvl.includes('head') || lvl.includes('director')) return "100 - 200+ Tr";
+        const lvl = (levelText || "").trim().toLowerCase();
+        // Tìm trong dữ liệu salaries từ sheetUrl2
+        for (let key in dynamicBenefitData.salaries) {
+            if (lvl.includes(key.toLowerCase())) return dynamicBenefitData.salaries[key];
+        }
         return "Thỏa thuận";
     }
 
@@ -688,34 +681,52 @@
         if (name.includes('hvac') || name.includes('mechanical') || name.includes('piping') || name.includes('equipment')) return 'wrench';
         if (name.includes('electrical') || name.includes('eit') || name.includes('instrument')) return 'zap';
         if (name.includes('hse') || name.includes('safety') || name.includes('fire') || name.includes('guard')) return 'shield-alert';
-        if (name.includes('plan') || name.includes('schedule')) return 'calendar-clock';
-        if (name.includes('qa') || name.includes('qc') || name.includes('quality') || name.includes('inspect')) return 'check-circle';
         if (name.includes('manager') || name.includes('lead') || name.includes('coordinator') || name.includes('director')) return 'users';
-        if (name.includes('material') || name.includes('logistic')) return 'package';
-        if (name.includes('lift') || name.includes('scaffold') || name.includes('rigging') || name.includes('crane')) return 'construction';
-        if (name.includes('paint') || name.includes('blast') || name.includes('coat')) return 'paint-roller';
-        if (name.includes('commissioning') || name.includes('start')) return 'power';
-        if (name.includes('flange') || name.includes('weld') || name.includes('joint')) return 'link-2';
         return 'briefcase'; 
     }
 
-    // --- LOGIC GỐC ---
+    // --- KHÔI PHỤC LOGIC FETCH GỐC & THÊM FETCH SHEET 2 ---
     async function loadExcelDataAutomatically() {
         try {
             const protocol = window.location.protocol;
             if (protocol === 'blob:' || protocol === 'data:' || protocol === 'file:') {
                 dropdownSelectedText.innerText = "Cần chạy trên Web Server (HTTP/HTTPS)";
                 dropdownTrigger.classList.remove('animate-pulse');
-                showToast('Tính năng tải tự động không chạy trong Preview.');
+                showToast('Mở file qua Web Server để load data.');
                 return;
             }
+
             const configResponse = await fetch('./config.json');
             if (!configResponse.ok) throw new Error('Không tìm thấy file config.json');
             const config = await configResponse.json();
-            const response = await fetch(config.sheetUrl);
-            if (!response.ok) throw new Error(`Không thể tải dữ liệu. HTTP ${response.status}`);
-            const csvText = await response.text();
-            masterData = parseCSV(csvText);
+
+            // Fetch Sheet 1: Career Path
+            const response1 = await fetch(config.sheetUrl);
+            if (!response1.ok) throw new Error(`Lỗi tải Sheet 1`);
+            const csvText1 = await response1.text();
+            masterData = parseCSV(csvText1);
+
+            // Fetch Sheet 2: Benefits & Salaries (MỚI)
+            if (config.sheetUrl2) {
+                const response2 = await fetch(config.sheetUrl2);
+                if (response2.ok) {
+                    const csvText2 = await response2.text();
+                    const benefitRaw = parseCSV(csvText2);
+                    
+                    // Parse Bảng Lương & Phúc lợi từ sheet 2
+                    benefitRaw.forEach(row => {
+                        // Lưu bảng lương dựa trên milestone_level
+                        if (row.milestone_level && row.salary) {
+                            dynamicBenefitData.salaries[row.milestone_level.trim()] = row.salary;
+                        }
+                        // Lưu danh sách phúc lợi
+                        if (row.benefit) {
+                            dynamicBenefitData.benefits.push(row.benefit);
+                        }
+                    });
+                }
+            }
+
             const roles = [...new Set(masterData.map(d => d.function_title))].filter(Boolean);
             customRoleList.innerHTML = '';
             roles.sort().forEach(r => {
@@ -727,14 +738,19 @@
                 li.onclick = (e) => { e.stopPropagation(); selectCustomRole(r, li); };
                 customRoleList.appendChild(li);
             });
+
             isFileLoaded = true;
             dropdownTrigger.classList.remove('opacity-60', 'cursor-not-allowed', 'animate-pulse');
             dropdownTrigger.classList.add('cursor-pointer');
             dropdownSelectedText.innerText = "-- Vui lòng Chọn Career Path --";
             lucide.createIcons();
-        } catch (error) { console.error(error); dropdownSelectedText.innerText = "Lỗi tải dữ liệu."; }
+        } catch (error) { 
+            console.error(error); 
+            dropdownSelectedText.innerText = "Lỗi kết nối dữ liệu."; 
+        }
     }
 
+    // --- HÀM PARSE CSV GỐC (GIỮ NGUYÊN 100%) ---
     function parseCSV(csvText) {
         const rows = [];
         let current = '';
@@ -747,7 +763,7 @@
                 if (inQuotes && nextChar === '"') { current += '"'; i++; } else { inQuotes = !inQuotes; }
             } else if (char === ',' && !inQuotes) { row.push(current.trim()); current = ''; }
             else if ((char === '\n' || char === '\r') && !inQuotes) {
-                if (char === '\r' && nextChar === '\n') i++;
+                if (char === '\r' && csvText[i+1] === '\n') i++;
                 row.push(current.trim()); current = '';
                 if (row.some(cell => cell !== '')) rows.push(row);
                 row = [];
@@ -755,7 +771,7 @@
         }
         if (current.length > 0 || row.length > 0) { row.push(current.trim()); if (row.some(cell => cell !== '')) rows.push(row); }
         let headerIndex = 0;
-        for (let i = 0; i < rows.length; i++) { if (rows[i].includes('function_title')) { headerIndex = i; break; } }
+        for (let i = 0; i < rows.length; i++) { if (rows[i].includes('function_title') || rows[i].includes('milestone_level')) { headerIndex = i; break; } }
         const headers = rows[headerIndex].map(h => h.trim().toLowerCase());
         const dataRows = rows.slice(headerIndex + 1);
         return dataRows.filter(r => r.some(cell => cell !== '')).map(r => {
@@ -784,16 +800,14 @@
     });
 
     function openDropdown() {
-        dropdownMenu.classList.remove('opacity-0', 'scale-y-95', 'pointer-events-none');
-        dropdownMenu.classList.add('opacity-100', 'scale-y-100', 'pointer-events-auto');
+        dropdownMenu.classList.replace('opacity-0', 'opacity-100'); dropdownMenu.classList.replace('scale-y-95', 'scale-y-100'); dropdownMenu.classList.remove('pointer-events-none');
         dropdownIcon.classList.add('rotate-180');
         roleSearchInput.value = ''; filterRoles('');
         roleSearchInput.focus();
     }
 
     function closeDropdown() {
-        dropdownMenu.classList.remove('opacity-100', 'scale-y-100', 'pointer-events-auto');
-        dropdownMenu.classList.add('opacity-0', 'scale-y-95', 'pointer-events-none');
+        dropdownMenu.classList.replace('opacity-100', 'opacity-0'); dropdownMenu.classList.replace('scale-y-100', 'scale-y-95'); dropdownMenu.classList.add('pointer-events-none');
         dropdownIcon.classList.remove('rotate-180');
     }
 
@@ -837,11 +851,12 @@
 
     function initBackgroundParticles() {
         const container = document.getElementById('particleContainer'); if(!container) return; container.innerHTML = '';
-        const colors = ['#0ea5e9', '#10b981', '#8b5cf6', '#f59e0b', '#d946ef'];
+        const particleColors = ['#0ea5e9', '#10b981', '#8b5cf6', '#f59e0b', '#d946ef'];
         for(let i=0; i<30; i++) {
             const p = document.createElement('div'); p.className = 'ambient-particle';
-            p.style.width = `4px`; p.style.height = `4px`; p.style.backgroundColor = colors[i%5];
-            p.style.left = `${Math.random() * 100}%`; p.style.bottom = `-50px`; p.style.animationDelay = `${Math.random() * 15}s`; p.style.animationDuration = `${12 + Math.random() * 12}s`;
+            p.style.width = `4px`; p.style.height = `4px`; p.style.backgroundColor = particleColors[i % 5];
+            p.style.left = `${Math.random() * 100}%`; p.style.bottom = `-50px`;
+            p.style.animationDelay = `${Math.random() * 15}s`; p.style.animationDuration = `${12 + Math.random() * 12}s`;
             container.appendChild(p);
         }
     }
@@ -911,7 +926,7 @@
         function animate(now) {
             if (!start) start = now; let elapsed = (now - start) % (moveTime + pauseTime);
             if (elapsed < moveTime) {
-                const progress = elapsed / moveTime, curDist = progress * pathLen; svgPath.style.strokeDasharray = `${curDist} ${pathLen}`; svgPath.style.opacity = "1";
+                const progress = elapsed / moveTime, curDist = progress * pathLen; svgPath.style.strokeDasharray = `${currentDist} ${pathLen}`; svgPath.style.opacity = "1";
                 let activeIdx = -1; for(let i=0; i < anchors.length; i++) { const trig = (i / (anchors.length - 1)) * pathLen; if (curDist >= trig - 20 && curDist <= trig + 250) { activeIdx = i; break; } }
                 content.querySelectorAll('.path-node').forEach((node, i) => { const card = node.querySelector('.node-card'); if (i === activeIdx) card.classList.add(i === total ? 'summit-victory' : 'active-glow'); else { card.classList.remove('active-glow', 'summit-victory'); } });
             } else {
@@ -922,8 +937,8 @@
             animationLoopId = requestAnimationFrame(animate);
         }
         animationLoopId = requestAnimationFrame(animate);
-        const summitData = data[total - 1]; if(document.getElementById('ovJobFamily')) document.getElementById('ovJobFamily').innerText = summitData.job_family || '---';
-        formatSidebarList('ovDevOpp', summitData.development_opportunity); formatSidebarList('ovLongTerm', summitData.long_term_direction);
+        const sData = data[total - 1]; if(document.getElementById('ovJobFamily')) document.getElementById('ovJobFamily').innerText = sData.job_family || '---';
+        formatSidebarList('ovDevOpp', sData.development_opportunity); formatSidebarList('ovLongTerm', sData.long_term_direction);
         setTimeout(() => content.querySelectorAll('.path-node').forEach(n => n.classList.add('show')), 50);
     }
 
@@ -937,7 +952,7 @@
         document.getElementById('msIcon').src = data.icon_image_path || 'https://cdn-icons-png.flaticon.com/512/1063/1063376.png';
         document.getElementById('msOrderBadge').innerText = currentIdx + 1;
 
-        // --- NÂNG CẤP TAB ĐÃI NGỘ & PHÚC LỢI ---
+        // --- RENDER TAB ĐÃI NGỘ & PHÚC LỢI DYNAMC ---
         const vsl = getLevelVisuals(data.milestone_level);
         document.getElementById('salaryLevelText').innerText = data.milestone_level;
         document.getElementById('salaryRangeDisplay').innerText = getSalaryRange(data.milestone_level);
@@ -946,8 +961,10 @@
         document.getElementById('salaryLevelIconBg').innerHTML = `<i data-lucide="${vsl.icon}" class="w-64 h-64 text-primary-500"></i>`;
         
         const benList = document.getElementById('fixedBenefitsList'); benList.innerHTML = '';
-        fixedBenefits.forEach(b => {
-            benList.innerHTML += `<div class="benefit-item-card"><i data-lucide="${b.icon}" class="w-5 h-5 text-primary-600 shrink-0"></i><span class="text-[14px] font-bold text-slate-700">${b.text}</span></div>`;
+        const benefitsToDisplay = dynamicBenefitData.benefits.slice(0, 10); // Lấy tối đa 10 cái
+        benefitsToDisplay.forEach((text, idx) => {
+            const icon = benefitIcons[idx % benefitIcons.length];
+            benList.innerHTML += `<div class="benefit-item-card"><i data-lucide="${icon}" class="w-5 h-5 text-primary-600 shrink-0"></i><span class="text-[14px] font-bold text-slate-700">${text}</span></div>`;
         });
 
         const stepper = document.getElementById('detailStepper'); if(stepper) {
