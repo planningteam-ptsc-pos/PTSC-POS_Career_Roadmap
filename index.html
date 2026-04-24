@@ -433,7 +433,7 @@
                     </div>
                 </div>
 
-                <!-- Cập nhật thanh Tab thêm tab thứ 5 -->
+                <!-- UPDATED TABS: Added 5th Tab -->
                 <div class="flex gap-4 px-10 border-b border-slate-100 bg-white/20 shrink-0 overflow-x-auto no-scrollbar">
                     <button class="tab-btn active" onclick="switchTab('tab-works')">CÔNG VIỆC & KPI</button>
                     <button class="tab-btn" onclick="switchTab('tab-skills')">NĂNG LỰC & KỸ NĂNG</button>
@@ -503,38 +503,45 @@
                          </div>
                     </div>
 
-                    <!-- NỘI DUNG TAB THỨ 5: ĐÃI NGỘ & PHÚC LỢI -->
-                    <div id="tab-benefits" class="tab-content hidden animate-up space-y-8">
-                        <div class="bg-gradient-to-r from-blue-600 to-blue-500 p-8 rounded-3xl text-white shadow-xl flex items-center justify-between">
-                            <div>
-                                <p class="text-blue-100 font-bold uppercase tracking-widest text-[13px] mb-2">Mức lương tham khảo (VNĐ/Tháng)</p>
-                                <h4 id="salaryDisplay" class="text-5xl font-black tracking-tighter">-- Triệu</h4>
-                                <p class="text-blue-100/70 text-sm mt-3 italic font-medium">* Khoảng lương Gross, tùy thuộc vào thâm niên và địa điểm làm việc.</p>
+                    <!-- NEW TAB CONTENT: BENEFITS -->
+                    <div id="tab-benefits" class="tab-content hidden animate-up space-y-10">
+                        <!-- Salary Display -->
+                        <div class="bg-gradient-to-br from-primary-600 to-indigo-600 p-10 rounded-[2.5rem] text-white shadow-2xl shadow-primary-600/20 relative overflow-hidden group">
+                            <div class="relative z-10 flex flex-col md:flex-row justify-between items-center gap-8">
+                                <div class="text-center md:text-left">
+                                    <p class="text-primary-100 font-black uppercase tracking-[0.2em] text-[13px] mb-3 opacity-80">Mức lương tham khảo (Gross/Tháng)</p>
+                                    <h4 id="salaryDisplay" class="text-5xl md:text-7xl font-black tracking-tighter">-- Triệu</h4>
+                                    <p class="text-primary-100/60 text-sm mt-5 italic font-medium">* Khoảng lương căn bản, chưa bao gồm phụ cấp thâm niên và đi biển.</p>
+                                </div>
+                                <div class="w-24 h-24 bg-white/10 backdrop-blur-xl rounded-full flex items-center justify-center border border-white/20">
+                                    <i data-lucide="banknote" class="w-12 h-12 text-white"></i>
+                                </div>
                             </div>
-                            <div class="bg-white/10 p-5 rounded-3xl backdrop-blur-md border border-white/20">
-                                <i data-lucide="banknote" class="w-12 h-12 text-white"></i>
-                            </div>
+                            <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-white/5 rounded-full blur-3xl pointer-events-none"></div>
                         </div>
 
+                        <!-- Grid Benefits -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div class="p-6 bg-white/60 border border-slate-100 rounded-2xl shadow-sm">
-                                <h5 class="font-black text-slate-900 uppercase text-[14px] mb-4 flex items-center gap-2">
-                                    <i data-lucide="shield-check" class="w-5 h-5 text-emerald-600"></i> Bảo hiểm & Sức khỏe
+                            <div class="p-8 bg-white border border-slate-100 rounded-3xl shadow-sm hover:shadow-md transition-shadow">
+                                <h5 class="font-black text-slate-900 uppercase text-[15px] mb-5 flex items-center gap-3">
+                                    <div class="p-2 bg-emerald-50 text-emerald-600 rounded-xl"><i data-lucide="shield-check" class="w-5 h-5"></i></div>
+                                    Bảo hiểm & Sức khỏe
                                 </h5>
-                                <ul class="space-y-2 text-[15px] text-slate-600 font-medium">
-                                    <li>• Bảo hiểm PVI / Bảo hiểm sức khỏe quốc tế.</li>
-                                    <li>• Khám sức khỏe định kỳ tiêu chuẩn cao.</li>
-                                    <li>• Bảo hiểm 24/24 cho nhân viên Offshore.</li>
+                                <ul class="space-y-3 text-[15px] text-slate-600 font-medium">
+                                    <li class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-emerald-400"></div> Bảo hiểm PVI / AON Care toàn diện.</li>
+                                    <li class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-emerald-400"></div> Khám sức khỏe định kỳ tiêu chuẩn quốc tế.</li>
+                                    <li class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-emerald-400"></div> Chế độ nghỉ dưỡng phục hồi sức khỏe Offshore.</li>
                                 </ul>
                             </div>
-                            <div class="p-6 bg-white/60 border border-slate-100 rounded-2xl shadow-sm">
-                                <h5 class="font-black text-slate-900 uppercase text-[14px] mb-4 flex items-center gap-2">
-                                    <i data-lucide="award" class="w-5 h-5 text-orange-600"></i> Phụ cấp & Thưởng
+                            <div class="p-8 bg-white border border-slate-100 rounded-3xl shadow-sm hover:shadow-md transition-shadow">
+                                <h5 class="font-black text-slate-900 uppercase text-[15px] mb-5 flex items-center gap-3">
+                                    <div class="p-2 bg-amber-50 text-amber-600 rounded-xl"><i data-lucide="award" class="w-5 h-5"></i></div>
+                                    Phụ cấp & Thưởng
                                 </h5>
-                                <ul class="space-y-2 text-[15px] text-slate-600 font-medium">
-                                    <li>• Thưởng KPI hàng năm (1-4 tháng lương).</li>
-                                    <li>• Phụ cấp điện thoại, xăng xe, ăn trưa.</li>
-                                    <li>• Phụ cấp đi biển, công tác phí vùng miền.</li>
+                                <ul class="space-y-3 text-[15px] text-slate-600 font-medium">
+                                    <li class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-amber-400"></div> Thưởng KPI năm (1-4 tháng lương).</li>
+                                    <li class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-amber-400"></div> Phụ cấp Offshore, điện thoại, cơm trưa.</li>
+                                    <li class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-amber-400"></div> Quà tặng dịp Lễ, Tết & Sinh nhật nhân viên.</li>
                                 </ul>
                             </div>
                         </div>
@@ -798,15 +805,17 @@
         document.getElementById('msIcon').src = data.icon_image_path || '';
         document.getElementById('msOrderBadge').innerText = currentIdx + 1;
 
-        // Cập nhật mức lương cho Tab 5
-        const lvl = data.milestone_level.toLowerCase();
-        let salary = "Theo thỏa thuận";
-        if (lvl.includes("entry") || lvl.includes("asst")) salary = "15 - 20";
-        else if (lvl.includes("junior")) salary = "20 - 30";
-        else if (lvl.includes("senior")) salary = "35 - 55";
-        else if (lvl.includes("lead") || lvl.includes("expert")) salary = "60 - 90";
-        else if (lvl.includes("manager") || lvl.includes("head")) salary = "90 - 180+";
-        document.getElementById('salaryDisplay').innerText = salary + " Triệu";
+        // NEW: Salary Logic based on milestone_level
+        const lvl = (data.milestone_level || "").toLowerCase();
+        let salaryRange = "Theo thỏa thuận";
+        if (lvl.includes("entry") || lvl.includes("asst")) salaryRange = "15 - 20 Triệu";
+        else if (lvl.includes("junior")) salaryRange = "20 - 30 Triệu";
+        else if (lvl.includes("senior")) salaryRange = "35 - 55 Triệu";
+        else if (lvl.includes("lead") || lvl.includes("expert")) salaryRange = "60 - 90 Triệu";
+        else if (lvl.includes("manager") || lvl.includes("head") || lvl.includes("director")) salaryRange = "100 - 200+ Triệu";
+        
+        const salaryEl = document.getElementById('salaryDisplay');
+        if(salaryEl) salaryEl.innerText = salaryRange;
 
         const stepper = document.getElementById('detailStepper');
         stepper.innerHTML = '';
@@ -847,13 +856,24 @@
         });
     }
 
+    function formatSidebarListDynamic(id, text) {
+        const container = document.getElementById(id); if(!container) return;
+        if(!text) { container.innerHTML = '<div class="text-[15px] italic opacity-60">N/A</div>'; return; }
+        const items = text.split(/[\n•·-]/).filter(s => s.trim().length > 5); container.innerHTML = '';
+        items.forEach(item => {
+            const div = document.createElement('div'); div.className = 'dynamic-bullet';
+            div.innerHTML = `<div class="white-dot"></div><span class="dynamic-content-list">${item.trim()}</span>`; 
+            container.appendChild(div);
+        });
+    }
+
     function renderBulletList(id, text, icon, color, isResp = false) {
         const el = document.getElementById(id); if (!el) return; el.innerHTML = '';
         if(!text) return el.innerHTML = '<div class="text-slate-400 italic text-[15px]">N/A</div>';
         text.split(/[\n•·-]/).filter(s => s.trim().length > 3).forEach(item => {
             const li = document.createElement('div');
-            li.className = isResp ? "responsibility-card" : "flex gap-4 items-start bg-white/60 p-4 rounded-2xl border border-slate-50 mb-3";
-            li.innerHTML = `<i data-lucide="${icon}" class="w-5 h-5 text-${color}-600 mt-0.5 shrink-0"></i> <span class="text-[15px] font-medium text-slate-700">${item.trim()}</span>`;
+            li.className = isResp ? "responsibility-card" : "flex gap-4 items-start bg-white/60 p-4 rounded-2xl border border-slate-50 shadow-sm mb-3";
+            li.innerHTML = `<i data-lucide="${icon}" class="w-5 h-5 text-${color}-600 mt-0.5 shrink-0"></i> <span class="text-[15px] font-medium text-slate-700 leading-relaxed">${item.trim()}</span>`;
             el.appendChild(li);
         });
     }
@@ -866,6 +886,8 @@
         lucide.createIcons();
     }
 
+    const observer = new ResizeObserver(() => { if(!document.getElementById('pageOverview').classList.contains('hidden')) renderOverview(); });
+    observer.observe(document.body);
     document.getElementById('btnGoToDetail').addEventListener('click', () => showPage(2));
     showPage(1);
 </script>
