@@ -267,6 +267,7 @@
         .btn-premium-nav:hover { background: var(--sky-primary); transform: translateY(-2px); }
 
         .btn-premium-action {
+            /* Thay đổi nút sang màu động của Theme */
             background: var(--sky-primary); color: white; padding: 14px 28px; border-radius: 20px;
             font-weight: 800; font-size: 15px; text-transform: uppercase; letter-spacing: 0.1em;
             display: flex; align-items: center; gap: 12px; transition: all 0.4s; box-shadow: 0 10px 25px rgb(var(--color-primary-500) / 0.4); border: 1.5px solid rgba(255,255,255,0.2); position: relative; z-index: 200; cursor: pointer;
@@ -635,7 +636,7 @@
         if (!container) return;
         const toast = document.createElement('div');
         toast.className = 'bg-white/95 backdrop-blur-xl border-l-4 border-amber-500 text-slate-800 px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 animate-up pointer-events-auto';
-        toast.innerHTML = `<div class="bg-amber-100 p-2 rounded-full shrink-0"><i data-lucide="alert-circle" class="w-5 h-5 text-amber-600"></i></div><span class="font-bold text-[15px]">${message}</span>`;
+        toast.innerHTML = `<div class="bg-amber-100 p-2 rounded-full shrink-0"><i data-lucide=\"alert-circle\" class=\"w-5 h-5 text-amber-600\"></i></div><span class=\"font-bold text-[15px]\">${message}</span>`;
         container.appendChild(toast);
         lucide.createIcons();
         setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translateY(20px)'; toast.style.transition = 'all 0.4s ease'; setTimeout(() => toast.remove(), 400); }, 3000);
@@ -660,13 +661,15 @@
         toggleThemeMenu(); 
     }
 
+    // --- LOGIC LƯƠNG & CẤP BẬC THĂNG TIẾN (Đã sửa từ khóa để Management đầy cây) ---
     function getLevelVisuals(levelText) {
         const lvl = (levelText || "").toLowerCase();
+        // Sửa từ 'manager' thành 'manage' để bắt được cả 'Management'
         if (lvl.includes('entry')) return { icon: 'seedling', progress: 20, iconName: '🌱' };
         if (lvl.includes('junior')) return { icon: 'rocket', progress: 40, iconName: '🚀' };
         if (lvl.includes('senior')) return { icon: 'gem', progress: 65, iconName: '💎' };
         if (lvl.includes('lead') || lvl.includes('expert')) return { icon: 'trophy', progress: 85, iconName: '🏆' };
-        if (lvl.includes('manager') || lvl.includes('head') || lvl.includes('director')) return { icon: 'crown', progress: 100, iconName: '👑' };
+        if (lvl.includes('manage') || lvl.includes('head') || lvl.includes('director')) return { icon: 'crown', progress: 100, iconName: '👑' };
         return { icon: 'briefcase', progress: 50, iconName: '💼' };
     }
 
@@ -676,7 +679,7 @@
         if (lvl.includes('junior')) return "20 - 30 Tr";
         if (lvl.includes('senior')) return "35 - 55 Tr";
         if (lvl.includes('lead') || lvl.includes('expert')) return "60 - 90 Tr";
-        if (lvl.includes('manager') || lvl.includes('head') || lvl.includes('director')) return "100 - 200+ Tr";
+        if (lvl.includes('manage') || lvl.includes('head') || lvl.includes('director')) return "100 - 200+ Tr";
         return "Thỏa thuận";
     }
 
@@ -834,13 +837,11 @@
 
     function initBackgroundParticles() {
         const container = document.getElementById('particleContainer'); if(!container) return; container.innerHTML = '';
-        const particleColors = ['#0ea5e9', '#10b981', '#8b5cf6', '#f59e0b', '#d946ef'];
+        const colors = ['#0ea5e9', '#10b981', '#8b5cf6', '#f59e0b', '#d946ef'];
         for(let i=0; i<30; i++) {
             const p = document.createElement('div'); p.className = 'ambient-particle';
-            p.style.width = `4px`; p.style.height = `4px`;
-            p.style.backgroundColor = particleColors[i % 5];
-            p.style.left = `${Math.random() * 100}%`; p.style.bottom = `-50px`;
-            p.style.animationDelay = `${Math.random() * 15}s`; p.style.animationDuration = `${12 + Math.random() * 12}s`;
+            p.style.width = `4px`; p.style.height = `4px`; p.style.backgroundColor = colors[i%5];
+            p.style.left = `${Math.random() * 100}%`; p.style.bottom = `-50px`; p.style.animationDelay = `${Math.random() * 15}s`; p.style.animationDuration = `${12 + Math.random() * 12}s`;
             container.appendChild(p);
         }
     }
@@ -851,13 +852,13 @@
         const svgPath = document.getElementById('svgPath');
         if (!viewport || !content || !svgPath) return;
         content.querySelectorAll('.path-node').forEach(n => n.remove());
-        const vWidth = viewport.clientWidth, vHeight = viewport.clientHeight;
-        if (vWidth < 100 || vHeight < 100) return;
+        const vW = viewport.clientWidth, vH = viewport.clientHeight;
+        if (vW < 100 || vH < 100) return;
         const data = currentRoleMilestones, total = data.length, cardW = 180;
         let masterScale = 1.0;
         const reqH = (total + 1) * 125 + 160; 
-        if (vHeight < reqH) masterScale = Math.max(vHeight / reqH, 0.62);
-        const marginX = 10, marginY = 60, startX = marginX + 15, startY = vHeight - marginY - 140, endX = vWidth - marginX - cardW - 15, endY = marginY + 25, yOffset = 70;
+        if (vH < reqH) masterScale = Math.max(vH / reqH, 0.62);
+        const marginX = 10, marginY = 60, startX = marginX + 15, startY = vH - marginY - 140, endX = vW - marginX - cardW - 15, endY = marginY + 25, yOffset = 70;
         const anchors = [];
         for (let i = 0; i <= total; i++) {
             const isSummit = (i === total), ratio = i / total;
@@ -870,7 +871,7 @@
             const nodeColor = isSummit ? '#f59e0b' : progressionColors[i % progressionColors.length];
             if (!isSummit) {
                 const m = data[i];
-                node.innerHTML = `<div class="node-card" style="transform: scale(${masterScale}); border-bottom: 3px solid ${nodeColor};"><div class="node-circle" style="background-color: ${nodeColor};">0${i+1}</div><div class="node-icon-wrapper"><img src="${m.icon_image_path}" class="w-full h-full object-contain"></div><div class="text-center px-1 pb-2"><span class="text-[15px] font-black uppercase block mb-0.5" style="color: ${nodeColor};">${m.milestone_level}</span><h5 class="text-[20px] font-extrabold text-slate-900 line-clamp-3 leading-tight">${m.role_title}</h5></div></div>`;
+                node.innerHTML = `<div class="node-card" style="transform: scale(${masterScale}); border-bottom: 3px solid ${nodeColor};"><div class="node-circle" style="background-color: ${nodeColor};">0${i+1}</div><div class="node-icon-wrapper"><img src="${m.icon_image_path}" class="w-full h-full object-contain" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1063/1063376.png'"></div><div class="text-center px-1 pb-2"><span class="text-[15px] font-black uppercase block mb-0.5" style="color: ${nodeColor};">${m.milestone_level}</span><h5 class="text-[20px] font-extrabold text-slate-900 line-clamp-3 leading-tight">${m.role_title}</h5></div></div>`;
             } else {
                 const summitData = data[total - 1];
                 node.innerHTML = `<div class="summit-halo" style="transform: translate(-50%, -50%) scale(${masterScale})"></div><div class="node-card summit-card shadow-xl !bg-amber-50" style="transform: scale(${masterScale}); border: 2px solid ${nodeColor};"><div class="summit-crown" style="background-color: ${nodeColor};"><i data-lucide="crown" class="w-4 h-4 text-white"></i></div><div class="node-icon-wrapper !bg-amber-50/30"><img src="${summitData.icon_image_path || 'https://cdn-icons-png.flaticon.com/512/2618/2618245.png'}" class="w-full h-full object-contain"></div><div class="text-center px-1 pb-2"><span class="text-[15px] font-black uppercase block mb-0.5" style="color: ${nodeColor};">Career Goal</span><h5 class="text-[20px] font-black uppercase text-slate-900 line-clamp-3 leading-tight">${summitData.next_target_role || 'Executive'}</h5></div></div>`;
@@ -890,11 +891,11 @@
                 let sPath = '', pts = [], curX = -50, curY = getCardBottomY(0) + gap;
                 sPath += `M ${curX} ${curY} `; pts.push(`${curX},${curY}`);
                 for (let i = 0; i < anchors.length; i++) {
-                    let nextX = (i < anchors.length - 1) ? (anchors[i].x + anchors[i+1].x) / 2 : vWidth + 50;
+                    let nextX = (i < anchors.length - 1) ? (anchors[i].x + anchors[i+1].x) / 2 : vW + 50;
                     sPath += `L ${nextX} ${curY} `; pts.push(`${nextX},${curY}`);
                     if (i < anchors.length - 1) { curY = getCardBottomY(i + 1) + gap; sPath += `L ${nextX} ${curY} `; pts.push(`${nextX},${curY}`); }
                 }
-                sEdge.setAttribute('d', sPath); let polyPts = pts.join(' ') + ` ${vWidth + 50},${vHeight + 50} -50,${vHeight + 50}`;
+                sEdge.setAttribute('d', sPath); let polyPts = pts.join(' ') + ` ${vW + 50},${vH + 50} -50,${vH + 50}`;
                 sPoly.setAttribute('points', polyPts); const sLen = sEdge.getTotalLength(); sEdge.style.setProperty('--stair-len', sLen);
                 sEdge.style.strokeDasharray = sLen; sEdge.style.animation = 'drawStairEdge 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards';
                 sPoly.classList.remove('opacity-0');
@@ -921,8 +922,8 @@
             animationLoopId = requestAnimationFrame(animate);
         }
         animationLoopId = requestAnimationFrame(animate);
-        const sData = data[total - 1]; if(document.getElementById('ovJobFamily')) document.getElementById('ovJobFamily').innerText = sData.job_family || '---';
-        formatSidebarList('ovDevOpp', sData.development_opportunity); formatSidebarList('ovLongTerm', sData.long_term_direction);
+        const summitData = data[total - 1]; if(document.getElementById('ovJobFamily')) document.getElementById('ovJobFamily').innerText = summitData.job_family || '---';
+        formatSidebarList('ovDevOpp', summitData.development_opportunity); formatSidebarList('ovLongTerm', summitData.long_term_direction);
         setTimeout(() => content.querySelectorAll('.path-node').forEach(n => n.classList.add('show')), 50);
     }
 
@@ -943,54 +944,90 @@
         document.getElementById('salaryProgressBar').style.width = `${vsl.progress}%`;
         document.getElementById('levelBadgeIcon').innerHTML = `<span class="text-3xl">${vsl.iconName}</span>`;
         document.getElementById('salaryLevelIconBg').innerHTML = `<i data-lucide="${vsl.icon}" class="w-64 h-64 text-primary-500"></i>`;
+        
         const benList = document.getElementById('fixedBenefitsList'); benList.innerHTML = '';
-        fixedBenefits.forEach(b => { benList.innerHTML += `<div class="benefit-item-card"><i data-lucide="${b.icon}" class="w-5 h-5 text-primary-600 shrink-0"></i><span class="text-[14px] font-bold text-slate-700">${b.text}</span></div>`; });
+        fixedBenefits.forEach(b => {
+            benList.innerHTML += `<div class="benefit-item-card"><i data-lucide="${b.icon}" class="w-5 h-5 text-primary-600 shrink-0"></i><span class="text-[14px] font-bold text-slate-700">${b.text}</span></div>`;
+        });
 
         const stepper = document.getElementById('detailStepper'); if(stepper) {
-            stepper.innerHTML = ''; currentRoleMilestones.forEach((m, i) => {
+            stepper.innerHTML = '';
+            currentRoleMilestones.forEach((m, i) => {
                 const div = document.createElement('div'); div.className = `dashboard-stepper-item ${i === currentIdx ? 'active' : (i < currentIdx ? 'completed' : '')}`;
                 div.innerHTML = `<div class="stepper-num">${i+1}</div><div class="flex flex-col"><span class="text-[15px] font-black uppercase text-slate-400">${m.milestone_level}</span><span class="text-[15px] font-bold text-slate-800 leading-tight pr-2">${m.role_title}</span></div>`;
                 div.onclick = () => { currentIdx = i; renderDashboard(); }; stepper.appendChild(div);
             });
         }
         if(document.getElementById('progressLine')) document.getElementById('progressLine').style.height = `${(currentIdx / (currentRoleMilestones.length - 1)) * 100}%`;
-        formatSidebarListDynamic('sidebarDevOpp', data.development_opportunity); formatSidebarListDynamic('sidebarLongTerm', data.long_term_direction);
+        
+        formatSidebarListDynamic('sidebarDevOpp', data.development_opportunity);
+        formatSidebarListDynamic('sidebarLongTerm', data.long_term_direction);
         renderBulletList('responsibilitiesList', data.key_responsibilities, 'check-circle-2', 'primary', true);
+        
         const kpiList = document.getElementById('kpiContainer'); kpiList.innerHTML = '';
-        if(data.key_outputs_kpis) data.key_outputs_kpis.split(/[\n•·-]/).filter(s => s.trim().length > 5).forEach(kpi => { kpiList.innerHTML += `<div class="bg-primary-50/50 p-4 rounded-2xl border border-primary-100 flex items-center gap-3"><div class="w-2 h-2 rounded-full bg-primary-500"></div><span class="text-[15px] font-bold text-slate-700">${kpi.trim()}</span></div>`; });
+        if(data.key_outputs_kpis) data.key_outputs_kpis.split(/[\n•·-]/).filter(s => s.trim().length > 5).forEach(kpi => {
+            kpiList.innerHTML += `<div class="bg-primary-50/50 p-4 rounded-2xl border border-primary-100 flex items-center gap-3"><div class="w-2 h-2 rounded-full bg-primary-500"></div><span class="text-[15px] font-bold text-slate-700">${kpi.trim()}</span></div>`;
+        });
+
         const compCon = document.getElementById('competenciesContainer'); compCon.innerHTML = '';
-        if(data.competencies_to_develop) data.competencies_to_develop.split(/[\n•·-]/).filter(s => s.trim().length > 3).forEach((item, i) => { const lvl = [86, 75, 96, 65, 80][i % 5]; compCon.innerHTML += `<div class="skill-bar-container"><div class="flex justify-between text-[15px] font-black uppercase text-slate-500"><span>${item.trim()}</span><span>${lvl}%</span></div><div class="skill-bar-bg"><div class="skill-bar-fill" style="width: ${lvl}%"></div></div></div>`; });
+        if(data.competencies_to_develop) data.competencies_to_develop.split(/[\n•·-]/).filter(s => s.trim().length > 3).forEach((item, i) => {
+            const lvl = [86, 75, 96, 65, 80][i % 5];
+            compCon.innerHTML += `<div class="skill-bar-container"><div class="flex justify-between text-[15px] font-black uppercase text-slate-500"><span>${item.trim()}</span><span>${lvl}%</span></div><div class="skill-bar-bg"><div class="skill-bar-fill" style="width: ${lvl}%"></div></div></div>`;
+        });
+
         const behCon = document.getElementById('behavioralContainer'); behCon.innerHTML = '';
-        if(data.behavioral_leadership_skills) data.behavioral_leadership_skills.split(/[\n•·,]/).filter(s => s.trim().length > 3).forEach(skill => { const chip = document.createElement('div'); chip.className = "skill-chip"; chip.innerText = skill.trim(); behCon.appendChild(chip); });
+        if(data.behavioral_leadership_skills) data.behavioral_leadership_skills.split(/[\n•·,]/).filter(s => s.trim().length > 3).forEach(skill => {
+            const chip = document.createElement('div'); chip.className = "skill-chip"; chip.innerText = skill.trim(); behCon.appendChild(chip);
+        });
+
         const toolCon = document.getElementById('toolsContainer'); toolCon.innerHTML = '';
-        if(data.technical_skills_tools) data.technical_skills_tools.split(/[\n•·-]/).filter(s => s.trim().length > 3).forEach(tool => { toolCon.innerHTML += `<div class="tool-list-item flex items-center gap-2 mb-2"><i data-lucide="chevron-right" class="w-4 h-4 text-primary-500"></i><span class="text-[15px] font-semibold">${tool.trim()}</span></div>`; });
-        renderBulletList('trainingList', data.suggested_training_development, 'graduation-cap', 'primary'); renderBulletList('readinessList', data.readiness_indicators, 'check-circle-2', 'emerald'); renderBulletList('promotionList', data.promotion_criteria, 'trending-up', 'indigo');
-        document.getElementById('nextTargetRole').innerText = data.next_target_role || '---'; document.getElementById('typicalScopeText').innerText = data.typical_scope || '---';
+        if(data.technical_skills_tools) data.technical_skills_tools.split(/[\n•·-]/).filter(s => s.trim().length > 3).forEach(tool => {
+            toolCon.innerHTML += `<div class="tool-list-item flex items-center gap-2 mb-2"><i data-lucide="chevron-right" class="w-4 h-4 text-primary-500"></i><span class="text-[15px] font-semibold">${tool.trim()}</span></div>`;
+        });
+
+        renderBulletList('trainingList', data.suggested_training_development, 'graduation-cap', 'primary');
+        renderBulletList('readinessList', data.readiness_indicators, 'check-circle-2', 'emerald');
+        renderBulletList('promotionList', data.promotion_criteria, 'trending-up', 'indigo');
+        
+        document.getElementById('nextTargetRole').innerText = data.next_target_role || '---';
+        document.getElementById('typicalScopeText').innerText = data.typical_scope || '---';
+        
         const certCon = document.getElementById('certList'); certCon.innerHTML = '';
-        if(data.recommended_certifications) data.recommended_certifications.split(/[\n•·,]/).filter(s => s.trim().length > 2).forEach(c => { certCon.innerHTML += `<div class="px-4 py-2 rounded-xl bg-amber-50 text-amber-700 border border-amber-100 font-bold text-[15px]">${c.trim()}</div>`; });
+        if(data.recommended_certifications) data.recommended_certifications.split(/[\n•·,]/).filter(s => s.trim().length > 2).forEach(c => {
+            certCon.innerHTML += `<div class="px-4 py-2 rounded-xl bg-amber-50 text-amber-700 border border-amber-100 font-bold text-[15px]">${c.trim()}</div>`;
+        });
+
         document.getElementById('pageCounter').innerText = `${String(currentIdx+1).padStart(2, '0')} / ${String(currentRoleMilestones.length).padStart(2, '0')}`;
         document.getElementById('prevBtn').onclick = () => { if(currentIdx > 0) { currentIdx--; renderDashboard(); } };
-        const bNext = document.getElementById('nextBtn'); bNext.innerText = currentIdx === currentRoleMilestones.length - 1 ? 'KẾT THÚC' : 'Tiếp theo';
+        const bNext = document.getElementById('nextBtn');
+        bNext.innerText = currentIdx === currentRoleMilestones.length - 1 ? 'KẾT THÚC' : 'Tiếp theo';
         bNext.onclick = () => { if(currentIdx < currentRoleMilestones.length - 1) { currentIdx++; renderDashboard(); } else showPage(1); };
+        
         lucide.createIcons();
     }
 
     function formatSidebarList(id, text) {
         const container = document.getElementById(id); if(!container) return; container.innerHTML = '';
         if(!text) { container.innerHTML = '<span class="text-[15px] italic opacity-60">N/A</span>'; return; }
-        text.split(/[\n•·-]/).filter(s => s.trim().length > 5).forEach(item => { container.innerHTML += `<div class="info-item-list"><div class="dot"></div><span>${item.trim()}</span></div>`; });
+        text.split(/[\n•·-]/).filter(s => s.trim().length > 5).forEach(item => {
+            container.innerHTML += `<div class="info-item-list"><div class="dot"></div><span>${item.trim()}</span></div>`;
+        });
     }
 
     function formatSidebarListDynamic(id, text) {
         const container = document.getElementById(id); if(!container) return; container.innerHTML = '';
         if(!text) { container.innerHTML = '<div class="text-[15px] italic opacity-60">N/A</div>'; return; }
-        text.split(/[\n•·-]/).filter(s => s.trim().length > 5).forEach(item => { container.innerHTML += `<div class="dynamic-bullet"><div class="white-dot"></div><span class="dynamic-content-list">${item.trim()}</span></div>`; });
+        text.split(/[\n•·-]/).filter(s => s.trim().length > 5).forEach(item => {
+            container.innerHTML += `<div class="dynamic-bullet"><div class="white-dot"></div><span class="dynamic-content-list">${item.trim()}</span></div>`;
+        });
     }
 
     function renderBulletList(id, text, icon, color, isResp = false) {
         const el = document.getElementById(id); if (!el) return; el.innerHTML = '';
         if(!text) return el.innerHTML = '<div class="text-slate-400 italic text-[15px]">N/A</div>';
-        text.split(/[\n•·-]/).filter(s => s.trim().length > 3).forEach(item => { el.innerHTML += `<div class="${isResp ? 'responsibility-card' : 'flex gap-4 items-start bg-white/60 p-4 rounded-2xl border border-slate-50 shadow-sm mb-3'}"><i data-lucide="${icon}" class="w-5 h-5 text-${color}-600 mt-0.5 shrink-0"></i><span class="text-[15px] font-medium text-slate-700 leading-relaxed">${item.trim()}</span></div>`; });
+        text.split(/[\n•·-]/).filter(s => s.trim().length > 3).forEach(item => {
+            el.innerHTML += `<div class="${isResp ? 'responsibility-card' : 'flex gap-4 items-start bg-white/60 p-4 rounded-2xl border border-slate-50 shadow-sm mb-3'}"><i data-lucide="${icon}" class="w-5 h-5 text-${color}-600 mt-0.5 shrink-0"></i><span class="text-[15px] font-medium text-slate-700 leading-relaxed">${item.trim()}</span></div>`;
+        });
     }
 
     function switchTab(id) {
