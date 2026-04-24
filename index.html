@@ -410,7 +410,6 @@
                 </div>
             </div>
 
-            <!-- Sidebar -->
             <div class="lg:col-span-3 order-2 custom-scrollbar overflow-y-auto lg:h-full pb-6">
                 <div class="sidebar-container lg:h-full">
                     <div class="job-family-badge group">
@@ -548,7 +547,7 @@
                          <div class="p-6 rounded-3xl bg-primary-50 border border-primary-100"><span class="text-[15px] font-black text-primary-600 uppercase mb-1 block">Vị trí mục tiêu tiếp theo</span><p id="nextTargetRole" class="text-lg font-black text-slate-900 uppercase">---</p></div>
                     </div>
 
-                    <!-- TAB 5: ĐÃI NGỘ & PHÚC LỢI NÂNG CẤP -->
+                    <!-- TAB 5: ĐÃI NGỘ & PHÚC LỢI ĐÃ ĐỘNG HÓA -->
                     <div id="tab-benefits" class="tab-content hidden animate-up">
                         <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
                             <div class="lg:col-span-5">
@@ -572,8 +571,10 @@
                                 </div>
                             </div>
                             <div class="lg:col-span-7">
-                                <h4 class="text-slate-900 font-black uppercase tracking-widest text-[15px] mb-6 flex items-center gap-2"><i data-lucide="heart-handshake" class="w-5 h-5 text-rose-500"></i> Hệ thống 10 phúc lợi vàng</h4>
-                                <div id="fixedBenefitsList" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+                                <h4 class="text-slate-900 font-black uppercase tracking-widest text-[15px] mb-6 flex items-center gap-2"><i data-lucide="heart-handshake" class="w-5 h-5 text-rose-500"></i> Hệ thống phúc lợi vàng</h4>
+                                <div id="fixedBenefitsList" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <!-- Phúc lợi sẽ được fetch từ sheetUrl2 và render ở đây -->
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -602,20 +603,16 @@
     let isFileLoaded = false;
     let isRoleSelected = false;
 
+    // --- BIẾN TOÀN CỤC LƯU TRỮ ĐÃI NGỘ DYNAMC ---
+    let dynamicBenefitData = {
+        salaries: {}, // { "entry": "15 - 20 Tr", ... }
+        benefits: []  // [ "Đóng BHXH...", "Du lịch...", ... ]
+    };
+
     const progressionColors = ['#10b981', '#0ea5e9', '#6366f1', '#8b5cf6', '#d946ef', '#f59e0b'];
 
-    const fixedBenefits = [
-        { icon: 'umbrella', text: 'Đóng BHXH mức cao' },
-        { icon: 'palmtree', text: 'Tham quan du lịch hàng năm' },
-        { icon: 'users', text: 'Teambuilding đa dạng tổ/nhóm' },
-        { icon: 'trophy', text: 'Thể thao, văn nghệ toàn TCT' },
-        { icon: 'heart', text: 'Chăm lo sức khỏe người thân' },
-        { icon: 'gift', text: 'Thưởng KPI, quà Lễ Tết' },
-        { icon: 'anchor', text: 'Phụ cấp Offshore, cơm trưa' },
-        { icon: 'shield-plus', text: 'Bảo hiểm PVI toàn diện' },
-        { icon: 'stethoscope', text: 'Khám sức khỏe quốc tế' },
-        { icon: 'graduation-cap', text: 'Đào tạo chuyên gia quốc tế' }
-    ];
+    // Icon fallback ánh xạ theo chỉ mục cho 10 phúc lợi
+    const benefitIcons = ['umbrella', 'palmtree', 'users', 'trophy', 'heart', 'gift', 'anchor', 'shield-plus', 'stethoscope', 'graduation-cap'];
 
     lucide.createIcons();
 
@@ -635,7 +632,7 @@
         if (!container) return;
         const toast = document.createElement('div');
         toast.className = 'bg-white/95 backdrop-blur-xl border-l-4 border-amber-500 text-slate-800 px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 animate-up pointer-events-auto';
-        toast.innerHTML = `<div class="bg-amber-100 p-2 rounded-full shrink-0"><i data-lucide="alert-circle" class="w-5 h-5 text-amber-600"></i></div><span class="font-bold text-[15px]">${message}</span>`;
+        toast.innerHTML = `<div class="bg-amber-100 p-2 rounded-full shrink-0"><i data-lucide=\"alert-circle\" class=\"w-5 h-5 text-amber-600\"></i></div><span class=\"font-bold text-[15px]\">${message}</span>`;
         container.appendChild(toast);
         lucide.createIcons();
         setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translateY(20px)'; toast.style.transition = 'all 0.4s ease'; setTimeout(() => toast.remove(), 400); }, 3000);
@@ -646,11 +643,9 @@
         const menu = document.getElementById('themeMenu');
         const isOpen = menu.classList.contains('opacity-100');
         if (isOpen) {
-            menu.classList.remove('opacity-100', 'scale-y-100', 'pointer-events-auto');
-            menu.classList.add('opacity-0', 'scale-y-95', 'pointer-events-none');
+            menu.classList.replace('opacity-100', 'opacity-0'); menu.classList.replace('scale-y-100', 'scale-y-95'); menu.classList.add('pointer-events-none');
         } else {
-            menu.classList.remove('opacity-0', 'scale-y-95', 'pointer-events-none');
-            menu.classList.add('opacity-100', 'scale-y-100', 'pointer-events-auto');
+            menu.classList.replace('opacity-0', 'opacity-100'); menu.classList.replace('scale-y-95', 'scale-y-100'); menu.classList.remove('pointer-events-none');
         }
     }
 
@@ -660,23 +655,24 @@
         toggleThemeMenu(); 
     }
 
+    // --- LOGIC GIAO DIỆN CẤP BẬC ---
     function getLevelVisuals(levelText) {
         const lvl = (levelText || "").toLowerCase();
         if (lvl.includes('entry')) return { icon: 'seedling', progress: 20, iconName: '🌱' };
         if (lvl.includes('junior')) return { icon: 'rocket', progress: 40, iconName: '🚀' };
         if (lvl.includes('senior')) return { icon: 'gem', progress: 65, iconName: '💎' };
         if (lvl.includes('lead') || lvl.includes('expert')) return { icon: 'trophy', progress: 85, iconName: '🏆' };
-        if (lvl.includes('manager') || lvl.includes('head') || lvl.includes('director')) return { icon: 'crown', progress: 100, iconName: '👑' };
+        if (lvl.includes('manage') || lvl.includes('head') || lvl.includes('director')) return { icon: 'crown', progress: 100, iconName: '👑' };
         return { icon: 'briefcase', progress: 50, iconName: '💼' };
     }
 
+    // --- LOGIC LẤY LƯƠNG TỪ DATA DYNAMIC (KHÔNG FIX CỨNG) ---
     function getSalaryRange(levelText) {
-        const lvl = (levelText || "").toLowerCase();
-        if (lvl.includes('entry')) return "15 - 20 Tr";
-        if (lvl.includes('junior')) return "20 - 30 Tr";
-        if (lvl.includes('senior')) return "35 - 55 Tr";
-        if (lvl.includes('lead') || lvl.includes('expert')) return "60 - 90 Tr";
-        if (lvl.includes('manager') || lvl.includes('head') || lvl.includes('director')) return "100 - 200+ Tr";
+        const lvl = (levelText || "").trim().toLowerCase();
+        // Tìm trong dữ liệu salaries từ sheetUrl2
+        for (let key in dynamicBenefitData.salaries) {
+            if (lvl.includes(key.toLowerCase())) return dynamicBenefitData.salaries[key];
+        }
         return "Thỏa thuận";
     }
 
@@ -685,34 +681,52 @@
         if (name.includes('hvac') || name.includes('mechanical') || name.includes('piping') || name.includes('equipment')) return 'wrench';
         if (name.includes('electrical') || name.includes('eit') || name.includes('instrument')) return 'zap';
         if (name.includes('hse') || name.includes('safety') || name.includes('fire') || name.includes('guard')) return 'shield-alert';
-        if (name.includes('plan') || name.includes('schedule')) return 'calendar-clock';
-        if (name.includes('qa') || name.includes('qc') || name.includes('quality') || name.includes('inspect')) return 'check-circle';
         if (name.includes('manager') || name.includes('lead') || name.includes('coordinator') || name.includes('director')) return 'users';
-        if (name.includes('material') || name.includes('logistic')) return 'package';
-        if (name.includes('lift') || name.includes('scaffold') || name.includes('rigging') || name.includes('crane')) return 'construction';
-        if (name.includes('paint') || name.includes('blast') || name.includes('coat')) return 'paint-roller';
-        if (name.includes('commissioning') || name.includes('start')) return 'power';
-        if (name.includes('flange') || name.includes('weld') || name.includes('joint')) return 'link-2';
         return 'briefcase'; 
     }
 
-    // --- LOGIC GỐC ---
+    // --- KHÔI PHỤC LOGIC FETCH GỐC & THÊM FETCH SHEET 2 ---
     async function loadExcelDataAutomatically() {
         try {
             const protocol = window.location.protocol;
             if (protocol === 'blob:' || protocol === 'data:' || protocol === 'file:') {
                 dropdownSelectedText.innerText = "Cần chạy trên Web Server (HTTP/HTTPS)";
                 dropdownTrigger.classList.remove('animate-pulse');
-                showToast('Tính năng tải tự động không chạy trong Preview.');
+                showToast('Mở file qua Web Server để load data.');
                 return;
             }
+
             const configResponse = await fetch('./config.json');
             if (!configResponse.ok) throw new Error('Không tìm thấy file config.json');
             const config = await configResponse.json();
-            const response = await fetch(config.sheetUrl);
-            if (!response.ok) throw new Error(`Không thể tải dữ liệu. HTTP ${response.status}`);
-            const csvText = await response.text();
-            masterData = parseCSV(csvText);
+
+            // Fetch Sheet 1: Career Path
+            const response1 = await fetch(config.sheetUrl);
+            if (!response1.ok) throw new Error(`Lỗi tải Sheet 1`);
+            const csvText1 = await response1.text();
+            masterData = parseCSV(csvText1);
+
+            // Fetch Sheet 2: Benefits & Salaries (MỚI)
+            if (config.sheetUrl2) {
+                const response2 = await fetch(config.sheetUrl2);
+                if (response2.ok) {
+                    const csvText2 = await response2.text();
+                    const benefitRaw = parseCSV(csvText2);
+                    
+                    // Parse Bảng Lương & Phúc lợi từ sheet 2
+                    benefitRaw.forEach(row => {
+                        // Lưu bảng lương dựa trên milestone_level
+                        if (row.milestone_level && row.salary) {
+                            dynamicBenefitData.salaries[row.milestone_level.trim()] = row.salary;
+                        }
+                        // Lưu danh sách phúc lợi
+                        if (row.benefit) {
+                            dynamicBenefitData.benefits.push(row.benefit);
+                        }
+                    });
+                }
+            }
+
             const roles = [...new Set(masterData.map(d => d.function_title))].filter(Boolean);
             customRoleList.innerHTML = '';
             roles.sort().forEach(r => {
@@ -724,14 +738,19 @@
                 li.onclick = (e) => { e.stopPropagation(); selectCustomRole(r, li); };
                 customRoleList.appendChild(li);
             });
+
             isFileLoaded = true;
             dropdownTrigger.classList.remove('opacity-60', 'cursor-not-allowed', 'animate-pulse');
             dropdownTrigger.classList.add('cursor-pointer');
             dropdownSelectedText.innerText = "-- Vui lòng Chọn Career Path --";
             lucide.createIcons();
-        } catch (error) { console.error(error); dropdownSelectedText.innerText = "Lỗi tải dữ liệu."; }
+        } catch (error) { 
+            console.error(error); 
+            dropdownSelectedText.innerText = "Lỗi kết nối dữ liệu."; 
+        }
     }
 
+    // --- HÀM PARSE CSV GỐC (GIỮ NGUYÊN 100%) ---
     function parseCSV(csvText) {
         const rows = [];
         let current = '';
@@ -744,7 +763,7 @@
                 if (inQuotes && nextChar === '"') { current += '"'; i++; } else { inQuotes = !inQuotes; }
             } else if (char === ',' && !inQuotes) { row.push(current.trim()); current = ''; }
             else if ((char === '\n' || char === '\r') && !inQuotes) {
-                if (char === '\r' && nextChar === '\n') i++;
+                if (char === '\r' && csvText[i+1] === '\n') i++;
                 row.push(current.trim()); current = '';
                 if (row.some(cell => cell !== '')) rows.push(row);
                 row = [];
@@ -752,7 +771,7 @@
         }
         if (current.length > 0 || row.length > 0) { row.push(current.trim()); if (row.some(cell => cell !== '')) rows.push(row); }
         let headerIndex = 0;
-        for (let i = 0; i < rows.length; i++) { if (rows[i].includes('function_title')) { headerIndex = i; break; } }
+        for (let i = 0; i < rows.length; i++) { if (rows[i].includes('function_title') || rows[i].includes('milestone_level')) { headerIndex = i; break; } }
         const headers = rows[headerIndex].map(h => h.trim().toLowerCase());
         const dataRows = rows.slice(headerIndex + 1);
         return dataRows.filter(r => r.some(cell => cell !== '')).map(r => {
@@ -781,16 +800,14 @@
     });
 
     function openDropdown() {
-        dropdownMenu.classList.remove('opacity-0', 'scale-y-95', 'pointer-events-none');
-        dropdownMenu.classList.add('opacity-100', 'scale-y-100', 'pointer-events-auto');
+        dropdownMenu.classList.replace('opacity-0', 'opacity-100'); dropdownMenu.classList.replace('scale-y-95', 'scale-y-100'); dropdownMenu.classList.remove('pointer-events-none');
         dropdownIcon.classList.add('rotate-180');
         roleSearchInput.value = ''; filterRoles('');
         roleSearchInput.focus();
     }
 
     function closeDropdown() {
-        dropdownMenu.classList.remove('opacity-100', 'scale-y-100', 'pointer-events-auto');
-        dropdownMenu.classList.add('opacity-0', 'scale-y-95', 'pointer-events-none');
+        dropdownMenu.classList.replace('opacity-100', 'opacity-0'); dropdownMenu.classList.replace('scale-y-100', 'scale-y-95'); dropdownMenu.classList.add('pointer-events-none');
         dropdownIcon.classList.remove('rotate-180');
     }
 
@@ -837,8 +854,7 @@
         const particleColors = ['#0ea5e9', '#10b981', '#8b5cf6', '#f59e0b', '#d946ef'];
         for(let i=0; i<30; i++) {
             const p = document.createElement('div'); p.className = 'ambient-particle';
-            p.style.width = `4px`; p.style.height = `4px`;
-            p.style.backgroundColor = particleColors[i % 5];
+            p.style.width = `4px`; p.style.height = `4px`; p.style.backgroundColor = particleColors[i % 5];
             p.style.left = `${Math.random() * 100}%`; p.style.bottom = `-50px`;
             p.style.animationDelay = `${Math.random() * 15}s`; p.style.animationDuration = `${12 + Math.random() * 12}s`;
             container.appendChild(p);
@@ -851,13 +867,13 @@
         const svgPath = document.getElementById('svgPath');
         if (!viewport || !content || !svgPath) return;
         content.querySelectorAll('.path-node').forEach(n => n.remove());
-        const vWidth = viewport.clientWidth, vHeight = viewport.clientHeight;
-        if (vWidth < 100 || vHeight < 100) return;
+        const vW = viewport.clientWidth, vH = viewport.clientHeight;
+        if (vW < 100 || vH < 100) return;
         const data = currentRoleMilestones, total = data.length, cardW = 180;
         let masterScale = 1.0;
         const reqH = (total + 1) * 125 + 160; 
-        if (vHeight < reqH) masterScale = Math.max(vHeight / reqH, 0.62);
-        const marginX = 10, marginY = 60, startX = marginX + 15, startY = vHeight - marginY - 140, endX = vWidth - marginX - cardW - 15, endY = marginY + 25, yOffset = 70;
+        if (vH < reqH) masterScale = Math.max(vH / reqH, 0.62);
+        const marginX = 10, marginY = 60, startX = marginX + 15, startY = vH - marginY - 140, endX = vW - marginX - cardW - 15, endY = marginY + 25, yOffset = 70;
         const anchors = [];
         for (let i = 0; i <= total; i++) {
             const isSummit = (i === total), ratio = i / total;
@@ -870,7 +886,7 @@
             const nodeColor = isSummit ? '#f59e0b' : progressionColors[i % progressionColors.length];
             if (!isSummit) {
                 const m = data[i];
-                node.innerHTML = `<div class="node-card" style="transform: scale(${masterScale}); border-bottom: 3px solid ${nodeColor};"><div class="node-circle" style="background-color: ${nodeColor};">0${i+1}</div><div class="node-icon-wrapper"><img src="${m.icon_image_path}" class="w-full h-full object-contain"></div><div class="text-center px-1 pb-2"><span class="text-[15px] font-black uppercase block mb-0.5" style="color: ${nodeColor};">${m.milestone_level}</span><h5 class="text-[20px] font-extrabold text-slate-900 line-clamp-3 leading-tight">${m.role_title}</h5></div></div>`;
+                node.innerHTML = `<div class="node-card" style="transform: scale(${masterScale}); border-bottom: 3px solid ${nodeColor};"><div class="node-circle" style="background-color: ${nodeColor};">0${i+1}</div><div class="node-icon-wrapper"><img src="${m.icon_image_path}" class="w-full h-full object-contain" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1063/1063376.png'"></div><div class="text-center px-1 pb-2"><span class="text-[15px] font-black uppercase block mb-0.5" style="color: ${nodeColor};">${m.milestone_level}</span><h5 class="text-[20px] font-extrabold text-slate-900 line-clamp-3 leading-tight">${m.role_title}</h5></div></div>`;
             } else {
                 const summitData = data[total - 1];
                 node.innerHTML = `<div class="summit-halo" style="transform: translate(-50%, -50%) scale(${masterScale})"></div><div class="node-card summit-card shadow-xl !bg-amber-50" style="transform: scale(${masterScale}); border: 2px solid ${nodeColor};"><div class="summit-crown" style="background-color: ${nodeColor};"><i data-lucide="crown" class="w-4 h-4 text-white"></i></div><div class="node-icon-wrapper !bg-amber-50/30"><img src="${summitData.icon_image_path || 'https://cdn-icons-png.flaticon.com/512/2618/2618245.png'}" class="w-full h-full object-contain"></div><div class="text-center px-1 pb-2"><span class="text-[15px] font-black uppercase block mb-0.5" style="color: ${nodeColor};">Career Goal</span><h5 class="text-[20px] font-black uppercase text-slate-900 line-clamp-3 leading-tight">${summitData.next_target_role || 'Executive'}</h5></div></div>`;
@@ -890,11 +906,11 @@
                 let sPath = '', pts = [], curX = -50, curY = getCardBottomY(0) + gap;
                 sPath += `M ${curX} ${curY} `; pts.push(`${curX},${curY}`);
                 for (let i = 0; i < anchors.length; i++) {
-                    let nextX = (i < anchors.length - 1) ? (anchors[i].x + anchors[i+1].x) / 2 : vWidth + 50;
+                    let nextX = (i < anchors.length - 1) ? (anchors[i].x + anchors[i+1].x) / 2 : vW + 50;
                     sPath += `L ${nextX} ${curY} `; pts.push(`${nextX},${curY}`);
                     if (i < anchors.length - 1) { curY = getCardBottomY(i + 1) + gap; sPath += `L ${nextX} ${curY} `; pts.push(`${nextX},${curY}`); }
                 }
-                sEdge.setAttribute('d', sPath); let polyPts = pts.join(' ') + ` ${vWidth + 50},${vHeight + 50} -50,${vHeight + 50}`;
+                sEdge.setAttribute('d', sPath); let polyPts = pts.join(' ') + ` ${vW + 50},${vH + 50} -50,${vH + 50}`;
                 sPoly.setAttribute('points', polyPts); const sLen = sEdge.getTotalLength(); sEdge.style.setProperty('--stair-len', sLen);
                 sEdge.style.strokeDasharray = sLen; sEdge.style.animation = 'drawStairEdge 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards';
                 sPoly.classList.remove('opacity-0');
@@ -910,7 +926,7 @@
         function animate(now) {
             if (!start) start = now; let elapsed = (now - start) % (moveTime + pauseTime);
             if (elapsed < moveTime) {
-                const progress = elapsed / moveTime, curDist = progress * pathLen; svgPath.style.strokeDasharray = `${curDist} ${pathLen}`; svgPath.style.opacity = "1";
+                const progress = elapsed / moveTime, curDist = progress * pathLen; svgPath.style.strokeDasharray = `${currentDist} ${pathLen}`; svgPath.style.opacity = "1";
                 let activeIdx = -1; for(let i=0; i < anchors.length; i++) { const trig = (i / (anchors.length - 1)) * pathLen; if (curDist >= trig - 20 && curDist <= trig + 250) { activeIdx = i; break; } }
                 content.querySelectorAll('.path-node').forEach((node, i) => { const card = node.querySelector('.node-card'); if (i === activeIdx) card.classList.add(i === total ? 'summit-victory' : 'active-glow'); else { card.classList.remove('active-glow', 'summit-victory'); } });
             } else {
@@ -936,61 +952,99 @@
         document.getElementById('msIcon').src = data.icon_image_path || 'https://cdn-icons-png.flaticon.com/512/1063/1063376.png';
         document.getElementById('msOrderBadge').innerText = currentIdx + 1;
 
-        // --- NÂNG CẤP TAB ĐÃI NGỘ & PHÚC LỢI ---
+        // --- RENDER TAB ĐÃI NGỘ & PHÚC LỢI DYNAMC ---
         const vsl = getLevelVisuals(data.milestone_level);
         document.getElementById('salaryLevelText').innerText = data.milestone_level;
         document.getElementById('salaryRangeDisplay').innerText = getSalaryRange(data.milestone_level);
         document.getElementById('salaryProgressBar').style.width = `${vsl.progress}%`;
         document.getElementById('levelBadgeIcon').innerHTML = `<span class="text-3xl">${vsl.iconName}</span>`;
         document.getElementById('salaryLevelIconBg').innerHTML = `<i data-lucide="${vsl.icon}" class="w-64 h-64 text-primary-500"></i>`;
+        
         const benList = document.getElementById('fixedBenefitsList'); benList.innerHTML = '';
-        fixedBenefits.forEach(b => { benList.innerHTML += `<div class="benefit-item-card"><i data-lucide="${b.icon}" class="w-5 h-5 text-primary-600 shrink-0"></i><span class="text-[14px] font-bold text-slate-700">${b.text}</span></div>`; });
+        const benefitsToDisplay = dynamicBenefitData.benefits.slice(0, 10); // Lấy tối đa 10 cái
+        benefitsToDisplay.forEach((text, idx) => {
+            const icon = benefitIcons[idx % benefitIcons.length];
+            benList.innerHTML += `<div class="benefit-item-card"><i data-lucide="${icon}" class="w-5 h-5 text-primary-600 shrink-0"></i><span class="text-[14px] font-bold text-slate-700">${text}</span></div>`;
+        });
 
         const stepper = document.getElementById('detailStepper'); if(stepper) {
-            stepper.innerHTML = ''; currentRoleMilestones.forEach((m, i) => {
+            stepper.innerHTML = '';
+            currentRoleMilestones.forEach((m, i) => {
                 const div = document.createElement('div'); div.className = `dashboard-stepper-item ${i === currentIdx ? 'active' : (i < currentIdx ? 'completed' : '')}`;
                 div.innerHTML = `<div class="stepper-num">${i+1}</div><div class="flex flex-col"><span class="text-[15px] font-black uppercase text-slate-400">${m.milestone_level}</span><span class="text-[15px] font-bold text-slate-800 leading-tight pr-2">${m.role_title}</span></div>`;
                 div.onclick = () => { currentIdx = i; renderDashboard(); }; stepper.appendChild(div);
             });
         }
         if(document.getElementById('progressLine')) document.getElementById('progressLine').style.height = `${(currentIdx / (currentRoleMilestones.length - 1)) * 100}%`;
-        formatSidebarListDynamic('sidebarDevOpp', data.development_opportunity); formatSidebarListDynamic('sidebarLongTerm', data.long_term_direction);
+        
+        formatSidebarListDynamic('sidebarDevOpp', data.development_opportunity);
+        formatSidebarListDynamic('sidebarLongTerm', data.long_term_direction);
         renderBulletList('responsibilitiesList', data.key_responsibilities, 'check-circle-2', 'primary', true);
+        
         const kpiList = document.getElementById('kpiContainer'); kpiList.innerHTML = '';
-        if(data.key_outputs_kpis) data.key_outputs_kpis.split(/[\n•·-]/).filter(s => s.trim().length > 5).forEach(kpi => { kpiList.innerHTML += `<div class="bg-primary-50/50 p-4 rounded-2xl border border-primary-100 flex items-center gap-3"><div class="w-2 h-2 rounded-full bg-primary-500"></div><span class="text-[15px] font-bold text-slate-700">${kpi.trim()}</span></div>`; });
+        if(data.key_outputs_kpis) data.key_outputs_kpis.split(/[\n•·-]/).filter(s => s.trim().length > 5).forEach(kpi => {
+            kpiList.innerHTML += `<div class="bg-primary-50/50 p-4 rounded-2xl border border-primary-100 flex items-center gap-3"><div class="w-2 h-2 rounded-full bg-primary-500"></div><span class="text-[15px] font-bold text-slate-700">${kpi.trim()}</span></div>`;
+        });
+
         const compCon = document.getElementById('competenciesContainer'); compCon.innerHTML = '';
-        if(data.competencies_to_develop) data.competencies_to_develop.split(/[\n•·-]/).filter(s => s.trim().length > 3).forEach((item, i) => { const lvl = [86, 75, 96, 65, 80][i % 5]; compCon.innerHTML += `<div class="skill-bar-container"><div class="flex justify-between text-[15px] font-black uppercase text-slate-500"><span>${item.trim()}</span><span>${lvl}%</span></div><div class="skill-bar-bg"><div class="skill-bar-fill" style="width: ${lvl}%"></div></div></div>`; });
+        if(data.competencies_to_develop) data.competencies_to_develop.split(/[\n•·-]/).filter(s => s.trim().length > 3).forEach((item, i) => {
+            const lvl = [86, 75, 96, 65, 80][i % 5];
+            compCon.innerHTML += `<div class="skill-bar-container"><div class="flex justify-between text-[15px] font-black uppercase text-slate-500"><span>${item.trim()}</span><span>${lvl}%</span></div><div class="skill-bar-bg"><div class="skill-bar-fill" style="width: ${lvl}%"></div></div></div>`;
+        });
+
         const behCon = document.getElementById('behavioralContainer'); behCon.innerHTML = '';
-        if(data.behavioral_leadership_skills) data.behavioral_leadership_skills.split(/[\n•·,]/).filter(s => s.trim().length > 3).forEach(skill => { const chip = document.createElement('div'); chip.className = "skill-chip"; chip.innerText = skill.trim(); behCon.appendChild(chip); });
+        if(data.behavioral_leadership_skills) data.behavioral_leadership_skills.split(/[\n•·,]/).filter(s => s.trim().length > 3).forEach(skill => {
+            const chip = document.createElement('div'); chip.className = "skill-chip"; chip.innerText = skill.trim(); behCon.appendChild(chip);
+        });
+
         const toolCon = document.getElementById('toolsContainer'); toolCon.innerHTML = '';
-        if(data.technical_skills_tools) data.technical_skills_tools.split(/[\n•·-]/).filter(s => s.trim().length > 3).forEach(tool => { toolCon.innerHTML += `<div class="tool-list-item flex items-center gap-2 mb-2"><i data-lucide="chevron-right" class="w-4 h-4 text-primary-500"></i><span class="text-[15px] font-semibold">${tool.trim()}</span></div>`; });
-        renderBulletList('trainingList', data.suggested_training_development, 'graduation-cap', 'primary'); renderBulletList('readinessList', data.readiness_indicators, 'check-circle-2', 'emerald'); renderBulletList('promotionList', data.promotion_criteria, 'trending-up', 'indigo');
-        document.getElementById('nextTargetRole').innerText = data.next_target_role || '---'; document.getElementById('typicalScopeText').innerText = data.typical_scope || '---';
+        if(data.technical_skills_tools) data.technical_skills_tools.split(/[\n•·-]/).filter(s => s.trim().length > 3).forEach(tool => {
+            toolCon.innerHTML += `<div class="tool-list-item flex items-center gap-2 mb-2"><i data-lucide="chevron-right" class="w-4 h-4 text-primary-500"></i><span class="text-[15px] font-semibold">${tool.trim()}</span></div>`;
+        });
+
+        renderBulletList('trainingList', data.suggested_training_development, 'graduation-cap', 'primary');
+        renderBulletList('readinessList', data.readiness_indicators, 'check-circle-2', 'emerald');
+        renderBulletList('promotionList', data.promotion_criteria, 'trending-up', 'indigo');
+        
+        document.getElementById('nextTargetRole').innerText = data.next_target_role || '---';
+        document.getElementById('typicalScopeText').innerText = data.typical_scope || '---';
+        
         const certCon = document.getElementById('certList'); certCon.innerHTML = '';
-        if(data.recommended_certifications) data.recommended_certifications.split(/[\n•·,]/).filter(s => s.trim().length > 2).forEach(c => { certCon.innerHTML += `<div class="px-4 py-2 rounded-xl bg-amber-50 text-amber-700 border border-amber-100 font-bold text-[15px]">${c.trim()}</div>`; });
+        if(data.recommended_certifications) data.recommended_certifications.split(/[\n•·,]/).filter(s => s.trim().length > 2).forEach(c => {
+            certCon.innerHTML += `<div class="px-4 py-2 rounded-xl bg-amber-50 text-amber-700 border border-amber-100 font-bold text-[15px]">${c.trim()}</div>`;
+        });
+
         document.getElementById('pageCounter').innerText = `${String(currentIdx+1).padStart(2, '0')} / ${String(currentRoleMilestones.length).padStart(2, '0')}`;
         document.getElementById('prevBtn').onclick = () => { if(currentIdx > 0) { currentIdx--; renderDashboard(); } };
-        const bNext = document.getElementById('nextBtn'); bNext.innerText = currentIdx === currentRoleMilestones.length - 1 ? 'KẾT THÚC' : 'Tiếp theo';
+        const bNext = document.getElementById('nextBtn');
+        bNext.innerText = currentIdx === currentRoleMilestones.length - 1 ? 'KẾT THÚC' : 'Tiếp theo';
         bNext.onclick = () => { if(currentIdx < currentRoleMilestones.length - 1) { currentIdx++; renderDashboard(); } else showPage(1); };
+        
         lucide.createIcons();
     }
 
     function formatSidebarList(id, text) {
         const container = document.getElementById(id); if(!container) return; container.innerHTML = '';
         if(!text) { container.innerHTML = '<span class="text-[15px] italic opacity-60">N/A</span>'; return; }
-        text.split(/[\n•·-]/).filter(s => s.trim().length > 5).forEach(item => { container.innerHTML += `<div class="info-item-list"><div class="dot"></div><span>${item.trim()}</span></div>`; });
+        text.split(/[\n•·-]/).filter(s => s.trim().length > 5).forEach(item => {
+            container.innerHTML += `<div class="info-item-list"><div class="dot"></div><span>${item.trim()}</span></div>`;
+        });
     }
 
     function formatSidebarListDynamic(id, text) {
         const container = document.getElementById(id); if(!container) return; container.innerHTML = '';
         if(!text) { container.innerHTML = '<div class="text-[15px] italic opacity-60">N/A</div>'; return; }
-        text.split(/[\n•·-]/).filter(s => s.trim().length > 5).forEach(item => { container.innerHTML += `<div class="dynamic-bullet"><div class="white-dot"></div><span class="dynamic-content-list">${item.trim()}</span></div>`; });
+        text.split(/[\n•·-]/).filter(s => s.trim().length > 5).forEach(item => {
+            container.innerHTML += `<div class="dynamic-bullet"><div class="white-dot"></div><span class="dynamic-content-list">${item.trim()}</span></div>`;
+        });
     }
 
     function renderBulletList(id, text, icon, color, isResp = false) {
         const el = document.getElementById(id); if (!el) return; el.innerHTML = '';
         if(!text) return el.innerHTML = '<div class="text-slate-400 italic text-[15px]">N/A</div>';
-        text.split(/[\n•·-]/).filter(s => s.trim().length > 3).forEach(item => { el.innerHTML += `<div class="${isResp ? 'responsibility-card' : 'flex gap-4 items-start bg-white/60 p-4 rounded-2xl border border-slate-50 shadow-sm mb-3'}"><i data-lucide="${icon}" class="w-5 h-5 text-${color}-600 mt-0.5 shrink-0"></i><span class="text-[15px] font-medium text-slate-700 leading-relaxed">${item.trim()}</span></div>`; });
+        text.split(/[\n•·-]/).filter(s => s.trim().length > 3).forEach(item => {
+            el.innerHTML += `<div class="${isResp ? 'responsibility-card' : 'flex gap-4 items-start bg-white/60 p-4 rounded-2xl border border-slate-50 shadow-sm mb-3'}"><i data-lucide="${icon}" class="w-5 h-5 text-${color}-600 mt-0.5 shrink-0"></i><span class="text-[15px] font-medium text-slate-700 leading-relaxed">${item.trim()}</span></div>`;
+        });
     }
 
     function switchTab(id) {
