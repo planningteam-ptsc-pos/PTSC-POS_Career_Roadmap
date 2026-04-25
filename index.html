@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Oil & Gas Career Pro Navigator | Professional Edition</title>
+    
+    <!-- Link Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Cấu hình Tailwind lấy màu động từ CSS Variables -->
@@ -15,34 +17,53 @@
                         primary: {
                             50: 'rgb(var(--color-primary-50) / <alpha-value>)',
                             100: 'rgb(var(--color-primary-100) / <alpha-value>)',
+                            200: 'rgb(var(--color-primary-200) / <alpha-value>)',
+                            300: 'rgb(var(--color-primary-300) / <alpha-value>)',
                             400: 'rgb(var(--color-primary-400) / <alpha-value>)',
                             500: 'rgb(var(--color-primary-500) / <alpha-value>)',
                             600: 'rgb(var(--color-primary-600) / <alpha-value>)',
+                            700: 'rgb(var(--color-primary-700) / <alpha-value>)',
+                            800: 'rgb(var(--color-primary-800) / <alpha-value>)',
+                            900: 'rgb(var(--color-primary-900) / <alpha-value>)',
                         }
+                    },
+                    borderRadius: {
+                        '4xl': '2rem',
+                        '5xl': '3rem',
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                     }
                 }
             }
         }
     </script>
     
+    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        /* Nhúng font chữ chuyên nghiệp */
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap');
         
         /* --- HỆ THỐNG THEME ĐA SẮC ĐỘNG --- */
         :root {
-            /* Default: Ocean Blue */
             --color-primary-50: 240 249 255;
             --color-primary-100: 224 242 254;
+            --color-primary-200: 186 230 253;
+            --color-primary-300: 125 211 252;
             --color-primary-400: 56 189 248;
             --color-primary-500: 14 165 233;
             --color-primary-600: 2 132 199;
+            --color-primary-700: 3 105 161;
+            --color-primary-800: 7 89 133;
+            --color-primary-900: 12 74 110;
             --sky-primary: #0ea5e9;
             --amber-peak: #f59e0b;
             --oil-slate: #0f172a;
         }
 
+        /* Emerald Theme */
         [data-theme="emerald"] {
             --color-primary-50: 236 253 245;
             --color-primary-100: 209 250 229;
@@ -52,6 +73,7 @@
             --sky-primary: #10b981;
         }
 
+        /* Violet Theme */
         [data-theme="violet"] {
             --color-primary-50: 245 243 255;
             --color-primary-100: 237 233 254;
@@ -61,6 +83,7 @@
             --sky-primary: #8b5cf6;
         }
 
+        /* Rose Theme */
         [data-theme="rose"] {
             --color-primary-50: 255 241 242;
             --color-primary-100: 255 228 230;
@@ -70,6 +93,7 @@
             --sky-primary: #f43f5e;
         }
 
+        /* Amber Theme */
         [data-theme="amber"] {
             --color-primary-50: 255 251 235;
             --color-primary-100: 254 243 199;
@@ -79,968 +103,1545 @@
             --sky-primary: #f59e0b;
         }
 
+        /* --- GLOBAL RESET & BASE STYLES --- */
         html, body {
-            margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: #f8fafc;
             color: var(--oil-slate);
-            transition: all 0.5s ease;
+            transition: background-color 0.5s ease, color 0.5s ease;
         }
 
+        /* Lớp nền cố định hỗ trợ thay đổi hình nền mượt mà */
         .bg-fixed-overlay {
-            position: fixed; top: 0vh; bottom: 0vh; left: -2vw; right: -2vw;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: -2vw;
+            right: -2vw;
             background-size: cover !important;
             background-position: center center !important;
             background-repeat: no-repeat !important;
-            z-index: -1; transition: background-image 1s ease-in-out; pointer-events: none;
+            z-index: -1;
+            transition: background-image 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+            filter: saturate(1.1);
         }
 
+        /* Hiệu ứng kính mờ đặc trưng */
         .glass-panel {
-            background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(24px);
-            border: 1px solid rgba(255, 255, 255, 0.6); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            background: rgba(255, 255, 255, 0.82);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.04);
         }
 
-        /* --- ROADMAP VIEWPORT --- */
+        /* Roadmap Viewport & Patterns */
         .roadmap-viewport {
-            position: relative; width: 100%; height: 100%; overflow: hidden; 
-            border-radius: 40px; background: radial-gradient(circle at top right, #ffffff 0%, #f0f4f8 100%);
-            border: 2px solid #fff; box-shadow: inset 0 0 50px rgba(255,255,255,0.8);
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; 
+            border-radius: 40px;
+            background: radial-gradient(circle at top right, #ffffff 0%, #f1f5f9 100%);
+            border: 2px solid #fff;
+            box-shadow: inset 0 0 60px rgba(255,255,255,0.9);
         }
 
         .bg-grid-pattern {
-            background-image: radial-gradient(#cbd5e1 1.5px, transparent 1.5px);
-            background-size: 24px 24px; position: absolute; inset: 0; opacity: 0.4; z-index: 0; pointer-events: none;
+            background-image: radial-gradient(#cbd5e1 1.8px, transparent 1.8px);
+            background-size: 28px 28px;
+            position: absolute;
+            inset: 0;
+            opacity: 0.35;
+            z-index: 0;
+            pointer-events: none;
         }
 
+        /* Hiệu ứng sóng nước mượt mà */
         .waves-container {
-            position: absolute; bottom: 0; left: 0; width: 100%; height: 200px;
-            z-index: 0; pointer-events: none;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 220px;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
         }
         .wave {
-            position: absolute; bottom: 0; left: 0; width: 200%; height: 100%;
-            background-color: var(--sky-primary); opacity: 0.12; transition: background-color 0.5s ease;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 200%;
+            height: 100%;
+            background-color: var(--sky-primary);
+            opacity: 0.12;
+            transition: background-color 0.5s ease;
             -webkit-mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 200"><path fill="white" d="M0,100 C300,50 500,150 800,100 C1100,50 1300,150 1600,100 L1600,200 L0,200 Z"/></svg>') repeat-x;
             mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 200"><path fill="white" d="M0,100 C300,50 500,150 800,100 C1100,50 1300,150 1600,100 L1600,200 L0,200 Z"/></svg>') repeat-x;
-            animation: waveFlow 20s infinite linear;
+            animation: waveFlow 22s infinite linear;
         }
-        .wave2 { bottom: 6px; animation: waveFlow 28s infinite linear reverse; opacity: 0.08; }
-        @keyframes waveFlow { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        .wave2 {
+            bottom: 8px;
+            animation: waveFlow 30s infinite linear reverse;
+            opacity: 0.07;
+        }
+        @keyframes waveFlow {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
 
+        /* Hiệu ứng hạt lơ lửng */
         .ambient-particle {
-            position: absolute; border-radius: 50%;
-            pointer-events: none; opacity: 0; filter: blur(1.5px); z-index: 1;
-            animation: floatParticle 22s infinite linear;
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+            filter: blur(2px);
+            z-index: 1;
+            animation: floatParticle 24s infinite linear;
         }
         @keyframes floatParticle {
-            0% { transform: translateY(0) translateX(0) scale(0.8); opacity: 0; }
-            10% { opacity: 0.3; }
-            90% { opacity: 0.3; }
-            100% { transform: translateY(-100vh) translateX(60px) scale(1.2); opacity: 0; }
+            0% { transform: translateY(0) translateX(0) scale(0.7); opacity: 0; }
+            15% { opacity: 0.35; }
+            85% { opacity: 0.35; }
+            100% { transform: translateY(-110vh) translateX(80px) scale(1.3); opacity: 0; }
         }
 
-        .roadmap-content { position: relative; width: 100%; height: 100%; z-index: 2; }
+        /* ROADMAP NODES & CARDS */
+        .roadmap-content {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+        }
 
         .path-node {
-            position: absolute; transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-            opacity: 0; transform: scale(0.8); z-index: 100;
+            position: absolute;
+            transition: opacity 0.7s ease, transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            opacity: 0;
+            transform: scale(0.75);
+            z-index: 100;
         }
-        .path-node.show { opacity: 1; transform: scale(1); }
+        .path-node.show {
+            opacity: 1;
+            transform: scale(1);
+        }
 
         .node-card {
-            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px);
-            padding: 10px; border-radius: 24px; width: 180px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.04); border: 2px solid rgba(255,255,255,0.8);
-            position: relative; cursor: pointer; transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            margin: 0 auto; transform-origin: center center; overflow: visible;
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(14px);
+            padding: 12px;
+            border-radius: 26px;
+            width: 185px; 
+            box-shadow: 0 12px 30px rgba(0,0,0,0.05);
+            border: 2px solid rgba(255,255,255,0.85);
+            position: relative;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin: 0 auto;
+            transform-origin: center center;
         }
-
-        .node-card:hover { transform: scale(1.05) translateY(-5px) !important; box-shadow: 0 20px 40px rgba(0,0,0,0.08); }
-
+        .node-card:hover {
+            transform: scale(1.06) translateY(-8px) !important;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.1);
+        }
         .node-card.active-glow {
             border-color: var(--sky-primary) !important;
-            box-shadow: 0 0 35px rgb(var(--color-primary-500) / 0.4) !important;
-            transform: scale(1.05) !important; background: #fff !important;
+            box-shadow: 0 0 40px rgb(var(--color-primary-500) / 0.45) !important;
+            transform: scale(1.05) !important;
+            background: #ffffff !important;
         }
-
         .node-card.summit-victory {
             border-color: var(--amber-peak) !important;
-            box-shadow: 0 0 50px rgba(245, 158, 11, 0.5) !important;
-            transform: scale(1.1) !important; background: #fff !important;
+            box-shadow: 0 0 60px rgba(245, 158, 11, 0.55) !important;
+            transform: scale(1.12) !important;
+            background: #fff !important;
         }
 
         .node-icon-wrapper {
-            background: white; border-radius: 18px; padding: 4px; box-shadow: 0 8px 20px rgba(0,0,0,0.03);
-            border: 2px solid #f8fafc; display: flex; align-items: center; justify-content: center;
-            position: relative; width: 100%; height: 115px; margin-bottom: 8px; overflow: hidden;
+            background: white;
+            border-radius: 20px;
+            padding: 6px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.03);
+            border: 2px solid #f8fafc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            width: 100%;
+            height: 120px;
+            margin-bottom: 10px;
+            overflow: hidden;
         }
-
         .node-circle {
-            width: 32px; height: 32px; border-radius: 50%; color: white;
-            display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 15px;
-            position: absolute; top: -12px; right: -12px; border: 3px solid #fff; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); z-index: 120;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 16px;
+            position: absolute;
+            top: -14px;
+            right: -14px;
+            border: 4px solid #fff;
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.12);
+            z-index: 120;
         }
-
         .summit-crown {
-            position: absolute; top: -15px; right: -15px; width: 38px; height: 38px; background: var(--amber-peak);
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            border: 3px solid #fff; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4); color: white; z-index: 120;
+            position: absolute;
+            top: -18px;
+            right: -18px;
+            width: 42px;
+            height: 42px;
+            background: var(--amber-peak);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid #fff;
+            box-shadow: 0 6px 15px rgba(245, 158, 11, 0.45);
+            color: white;
+            z-index: 120;
         }
 
-        #journeyLine { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
-        
-        .path-glow { stroke: url(#lineGradient); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 0 8px rgb(var(--color-primary-500) / 0.5)); transition: stroke 0.5s ease; }
+        /* SVG PATHS & STAIRCASE */
+        #journeyLine {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+        .path-glow {
+            stroke: url(#lineGradient);
+            stroke-width: 6;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            filter: drop-shadow(0 0 10px rgb(var(--color-primary-500) / 0.6));
+            transition: stroke 0.5s ease;
+        }
 
+        /* Summit Halo Effect */
         .summit-halo {
-            position: absolute; width: 300px; height: 300px; background: radial-gradient(circle, rgba(245, 158, 11, 0.2) 0%, transparent 70%);
-            border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: -1; animation: pulseRotate 6s linear infinite;
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.22) 0%, transparent 75%);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            animation: pulseRotate 7s linear infinite;
         }
         @keyframes pulseRotate {
-            0% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 0.3; }
-            50% { transform: translate(-50%, -50%) scale(1.1) rotate(180deg); opacity: 0.5; }
-            100% { transform: translate(-50%, -50%) scale(1) rotate(360deg); opacity: 0.3; }
+            0% { transform: translate(-50%, -50%) scale(0.95) rotate(0deg); opacity: 0.35; }
+            50% { transform: translate(-50%, -50%) scale(1.15) rotate(180deg); opacity: 0.55; }
+            100% { transform: translate(-50%, -50%) scale(0.95) rotate(360deg); opacity: 0.35; }
         }
 
-        /* --- SIDEBAR PAGE 1.5 --- */
-        .sidebar-container { display: flex; flex-direction: column; gap: 1.5rem; padding: 10px 0; min-height: min-content; }
-        .glass-card-info {
-            background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.8);
-            border-radius: 28px; padding: 20px; box-shadow: 0 15px 30px rgba(0, 0, 0, 0.02); transition: all 0.3s ease; flex-shrink: 0;
+        /* DASHBOARD & SIDEBAR STYLES */
+        .sidebar-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.8rem;
+            padding: 12px 0;
+            min-height: min-content;
         }
-        .glass-card-info:hover { transform: translateX(-6px); background: #fff; box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05); }
-        
-        .info-item-list { display: flex; gap: 15px; margin-bottom: 14px; font-size: 15px; font-weight: 600; line-height: 1.7; color: #475569; align-items: flex-start; }
-        .info-item-list:last-child { margin-bottom: 0; }
-        .dot { margin-top: 7px; width: 6px; height: 6px; border-radius: 50%; background: var(--sky-primary); flex-shrink: 0; transition: background 0.5s ease; }
-        
+        .glass-card-info {
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.85);
+            border-radius: 30px;
+            padding: 24px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.03);
+            transition: all 0.4s ease;
+            flex-shrink: 0;
+        }
+        .info-item-list {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 15px;
+            font-size: 15.5px;
+            font-weight: 600;
+            line-height: 1.8;
+            color: #475569;
+            align-items: flex-start;
+        }
+        .dot {
+            margin-top: 8px;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--sky-primary);
+            flex-shrink: 0;
+            box-shadow: 0 0 8px var(--sky-primary);
+        }
         .job-family-badge {
             background: linear-gradient(135deg, var(--sky-primary) 0%, #6366f1 100%);
-            color: white; padding: 22px; border-radius: 24px; box-shadow: 0 10px 30px rgba(99, 102, 241, 0.25);
-            position: relative; overflow: hidden; flex-shrink: 0; transition: background 0.5s ease;
+            color: white;
+            padding: 24px;
+            border-radius: 28px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(14, 165, 233, 0.2);
         }
 
-        /* --- PAGE 2 DASHBOARD STEPPER --- */
-        .detail-stepper-container { position: relative; padding: 5px 0 10px 0; }
-        .detail-stepper-container::before { content: ''; position: absolute; left: 31px; top: 25px; bottom: 25px; width: 2px; background: #e2e8f0; z-index: 1; }
-        .progress-line { position: absolute; left: 31px; top: 25px; width: 2px; background: var(--sky-primary); z-index: 2; transition: all 0.6s ease; }
-
+        .detail-stepper-container {
+            position: relative;
+            padding: 5px 0 15px 0;
+        }
+        .detail-stepper-container::before {
+            content: '';
+            position: absolute;
+            left: 31px;
+            top: 25px;
+            bottom: 25px;
+            width: 2px;
+            background: #e2e8f0;
+            z-index: 1;
+        }
+        .progress-line {
+            position: absolute;
+            left: 31px;
+            top: 25px;
+            width: 3px;
+            background: var(--sky-primary);
+            z-index: 2;
+            transition: height 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
         .dashboard-stepper-item {
-            position: relative; padding: 8px 10px 8px 50px; border-radius: 16px; cursor: pointer; transition: all 0.3s ease;
-            display: flex; align-items: center; gap: 10px; margin-bottom: 4px; z-index: 10;
+            position: relative;
+            padding: 10px 10px 10px 55px;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: all 0.35s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 6px;
+            z-index: 10;
         }
-        .dashboard-stepper-item.active { background: white; box-shadow: 0 6px 20px rgba(0,0,0,0.04); border: 1.5px solid rgb(var(--color-primary-500) / 0.2); }
+        .dashboard-stepper-item:hover {
+            background: rgba(var(--color-primary-50), 0.5);
+        }
         .stepper-num {
-            position: absolute; left: 15px; top: 50%; transform: translateY(-50%); width: 32px; height: 32px; border-radius: 50%; background: white; color: #94a3b8;
-            display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 15px; border: 2px solid #e2e8f0; z-index: 15; transition: all 0.3s ease;
+            position: absolute;
+            left: 15px;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: white;
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            border: 2px solid #e2e8f0;
+            z-index: 15;
+            transition: all 0.4s ease;
         }
-        .completed .stepper-num { background: var(--sky-primary); color: white; border-color: var(--sky-primary); }
-        .active .stepper-num { background: white; color: var(--sky-primary); border-color: var(--sky-primary); box-shadow: 0 0 10px rgb(var(--color-primary-500) / 0.3); }
+        .completed .stepper-num {
+            background: var(--sky-primary);
+            color: white;
+            border-color: var(--sky-primary);
+        }
+        .active .stepper-num {
+            background: white;
+            color: var(--sky-primary);
+            border-color: var(--sky-primary);
+            box-shadow: 0 0 15px rgb(var(--color-primary-500) / 0.35);
+            transform: scale(1.15);
+        }
 
         .sidebar-dynamic-card {
             background: linear-gradient(135deg, var(--sky-primary) 0%, #6366f1 100%);
-            border-radius: 28px; padding: 22px; color: white; margin-top: 10px; box-shadow: 0 10px 25px rgba(99, 102, 241, 0.2); transition: background 0.5s ease;
+            border-radius: 30px;
+            padding: 24px;
+            color: white;
+            margin-top: 15px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
         }
-        .dynamic-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.2); }
-        .dynamic-content-list { font-size: 15px; font-weight: 600; line-height: 1.8; font-style: italic; opacity: 0.95; }
-        .dynamic-bullet { display: flex; gap: 12px; margin-bottom: 10px; align-items: flex-start; }
-        .white-dot { margin-top: 7px; width: 5px; height: 5px; border-radius: 50%; background: white; flex-shrink: 0; }
+        .dynamic-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 22px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.25);
+        }
 
         .responsibility-card {
-            background: white; padding: 18px 22px; border-radius: 18px; margin-bottom: 14px;
-            display: flex; align-items: center; gap: 18px; box-shadow: 0 3px 10px rgba(0,0,0,0.02); border: 1.5px solid #f1f5f9;
+            background: white;
+            padding: 20px 25px;
+            border-radius: 22px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            border: 1.5px solid #f1f5f9;
+            transition: 0.3s;
         }
-        .skill-bar-container { margin-bottom: 24px; }
-        .skill-bar-bg { height: 10px; background: #f1f5f9; border-radius: 20px; overflow: hidden; margin-top: 8px; }
-        .skill-bar-fill { height: 100%; background: #f59e0b; border-radius: 20px; transition: width 1s ease; }
-        .skill-chip { padding: 8px 18px; border-radius: 12px; background: #ecfdf5; color: #059669; border: 1.5px solid #d1fae5; font-weight: 700; font-size: 15px; text-transform: uppercase; }
-
-        .tab-btn { position: relative; padding: 14px 28px; font-weight: 800; font-size: 15px; color: #94a3b8; text-transform: uppercase; transition: 0.3s; }
-        .tab-btn.active { color: var(--sky-primary); }
-        .tab-btn.active::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: var(--sky-primary); border-radius: 10px; transition: background 0.5s ease; }
-
-        .btn-premium-nav {
-            background: #0f172a; color: white; padding: 12px 36px; border-radius: 14px;
-            font-weight: 800; font-size: 15px; text-transform: uppercase; letter-spacing: 0.1em; box-shadow: 0 8px 20px rgba(15, 23, 42, 0.2); transition: all 0.4s;
+        .responsibility-card:hover {
+            border-color: var(--sky-primary);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.03);
+            transform: translateX(5px);
         }
-        .btn-premium-nav:hover { background: var(--sky-primary); transform: translateY(-2px); }
 
-        .btn-premium-action {
-            /* Thay đổi nút sang màu động của Theme */
-            background: var(--sky-primary); color: white; padding: 14px 28px; border-radius: 20px;
-            font-weight: 800; font-size: 15px; text-transform: uppercase; letter-spacing: 0.1em;
-            display: flex; align-items: center; gap: 12px; transition: all 0.4s; box-shadow: 0 10px 25px rgb(var(--color-primary-500) / 0.4); border: 1.5px solid rgba(255,255,255,0.2); position: relative; z-index: 200; cursor: pointer;
+        .skill-bar-container {
+            margin-bottom: 26px;
         }
-        .btn-premium-action:hover { background: var(--oil-slate); transform: translateY(-2px); box-shadow: 0 10px 25px rgba(15, 23, 42, 0.3); }
+        .skill-bar-bg {
+            height: 12px;
+            background: #f1f5f9;
+            border-radius: 25px;
+            overflow: hidden;
+            margin-top: 10px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .skill-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f59e0b, #fbbf24);
+            border-radius: 25px;
+            transition: width 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
 
-        .animate-up { animation: fadeInUp 0.7s ease-out forwards; }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        
-        /* --- CUSTOM DROPDOWN --- */
+        /* TAB STYLING */
+        .tab-btn {
+            position: relative;
+            padding: 16px 30px;
+            font-weight: 800;
+            font-size: 15px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: 0.05em;
+        }
+        .tab-btn:hover {
+            color: var(--sky-primary);
+        }
+        .tab-btn.active {
+            color: var(--sky-primary);
+        }
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--sky-primary);
+            border-radius: 10px 10px 0 0;
+            box-shadow: 0 -2px 10px var(--sky-primary);
+        }
+
+        /* DROPDOWN CUSTOM */
         .role-list-item {
-            padding: 12px 16px; border-radius: 16px; margin-bottom: 4px;
-            font-size: 15px; font-weight: 700; color: #334155; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 12px;
+            padding: 14px 18px;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: 0.25s;
+            display: flex;
+            align-items: center;
+            font-weight: 700;
+            color: #475569;
+            margin-bottom: 2px;
         }
-        .role-list-item:hover { background: rgb(var(--color-primary-50)); color: var(--sky-primary); transform: translateX(6px); }
-        .role-list-item.selected { background: linear-gradient(135deg, var(--sky-primary) 0%, #6366f1 100%); color: white; box-shadow: 0 4px 15px rgb(var(--color-primary-500) / 0.3); }
-        .role-list-item.selected i { color: white !important; }
+        .role-list-item:hover {
+            background: #f8fafc;
+            color: var(--sky-primary);
+            padding-left: 24px;
+        }
+        .role-list-item.selected {
+            background: var(--color-primary-50);
+            color: var(--sky-primary);
+        }
 
-        /* --- STAIRCASE ANIMATIONS --- */
+        /* PREMIUM UI BUTTONS */
+        .btn-premium-action {
+            background: var(--sky-primary);
+            color: white;
+            padding: 15px 32px;
+            border-radius: 22px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            transition: 0.45s;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgb(var(--color-primary-500) / 0.3);
+        }
+        .btn-premium-action:hover {
+            transform: scale(1.04) translateY(-2px);
+            box-shadow: 0 15px 35px rgb(var(--color-primary-500) / 0.4);
+        }
+        .btn-premium-nav {
+            background: #0f172a;
+            color: white;
+            padding: 14px 40px;
+            border-radius: 16px;
+            font-weight: 800;
+            text-transform: uppercase;
+            transition: 0.4s;
+            letter-spacing: 0.05em;
+        }
+        .btn-premium-nav:hover {
+            background: #1e293b;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        /* BENEFITS DYNAMIC CARDS */
+        .benefit-item-card {
+            background: white;
+            border: 1.5px solid #f1f5f9;
+            padding: 20px;
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            transition: 0.4s;
+        }
+        .benefit-item-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--sky-primary);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.04);
+        }
+        .level-pulse-icon {
+            animation: levelPulse 2.8s infinite ease-in-out;
+        }
+        @keyframes levelPulse {
+            0% { transform: scale(1); opacity: 0.85; }
+            50% { transform: scale(1.12); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.85; }
+        }
+
+        /* UTILITY CLASSES */
+        .custom-scrollbar::-webkit-scrollbar { width: 7px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 20px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #cbd5e1; }
+        
+        .animate-up { animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         @keyframes drawStairEdge {
             from { stroke-dashoffset: var(--stair-len); }
             to { stroke-dashoffset: 0; }
         }
-
-        /* --- STYLE CHO TAB ĐÃI NGỘ NÂNG CẤP --- */
-        .benefit-item-card {
-            background: white; border: 1.5px solid #f1f5f9; padding: 18px; border-radius: 20px;
-            display: flex; align-items: center; gap: 16px; transition: all 0.3s ease;
-        }
-        .benefit-item-card:hover { transform: translateY(-3px); border-color: var(--sky-primary); box-shadow: 0 8px 20px rgba(0,0,0,0.03); }
-
-        @keyframes levelPulse {
-            0% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.1); opacity: 1; }
-            100% { transform: scale(1); opacity: 0.8; }
-        }
-        .level-pulse-icon { animation: levelPulse 2.5s infinite ease-in-out; }
+        
+        .no-scrollbar::-webkit-scrollbar { display: none; }
     </style>
 </head>
 <body class="flex flex-col">
 
+<!-- Background Fixed Overlay -->
 <div class="bg-fixed-overlay" id="bgOverlay"></div>
 
-<div id="app" class="absolute inset-0 flex flex-col p-4 md:p-6 lg:p-8 overflow-hidden">
+<div id="app" class="absolute inset-0 flex flex-col p-4 md:p-6 lg:p-10 overflow-hidden">
     
-    <!-- Theme Selector -->
-    <div id="themeSelectorContainer" class="absolute top-6 left-6 md:top-8 md:left-8 z-[200]">
+    <!-- Header Controls: Theme Selector -->
+    <div id="themeSelectorContainer" class="absolute top-8 left-8 z-[200]">
         <div class="relative group">
-            <button id="themeTriggerBtn" class="bg-white/70 hover:bg-white backdrop-blur-md border border-slate-200/60 shadow-sm hover:shadow-md px-4 py-2.5 rounded-full text-slate-700 font-black text-[13px] uppercase tracking-widest transition-all flex items-center gap-2" onclick="toggleThemeMenu(event)">
-                <i data-lucide="palette" class="w-4 h-4 text-primary-600"></i> Theme
+            <button id="themeTriggerBtn" class="bg-white/80 hover:bg-white backdrop-blur-xl border border-slate-200/50 shadow-xl px-6 py-3.5 rounded-full text-slate-800 font-black text-[14px] uppercase flex items-center gap-3 transition-all duration-300" onclick="toggleThemeMenu(event)">
+                <i data-lucide="palette" class="w-5 h-5 text-primary-600"></i> Theme Customizer
             </button>
-            <div id="themeMenu" class="absolute top-full left-0 mt-3 w-48 bg-white/95 backdrop-blur-xl border border-slate-100 shadow-2xl rounded-3xl overflow-hidden transition-all duration-300 origin-top opacity-0 scale-y-95 pointer-events-none p-2">
-                <button onclick="setTheme('default')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-2xl hover:bg-slate-50 text-slate-700 font-bold text-[13px] transition-colors"><span class="w-4 h-4 rounded-full bg-[#0ea5e9]"></span> Ocean Blue</button>
-                <button onclick="setTheme('emerald')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-2xl hover:bg-slate-50 text-slate-700 font-bold text-[13px] transition-colors"><span class="w-4 h-4 rounded-full bg-[#10b981]"></span> Emerald Green</button>
-                <button onclick="setTheme('violet')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-2xl hover:bg-slate-50 text-slate-700 font-bold text-[13px] transition-colors"><span class="w-4 h-4 rounded-full bg-[#8b5cf6]"></span> Royal Purple</button>
-                <button onclick="setTheme('rose')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-2xl hover:bg-slate-50 text-slate-700 font-bold text-[13px] transition-colors"><span class="w-4 h-4 rounded-full bg-[#f43f5e]"></span> Crimson Rose</button>
-                <button onclick="setTheme('amber')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-2xl hover:bg-slate-50 text-slate-700 font-bold text-[13px] transition-colors"><span class="w-4 h-4 rounded-full bg-[#f59e0b]"></span> Sunset Amber</button>
+            <div id="themeMenu" class="absolute top-full left-0 mt-4 w-56 bg-white/95 backdrop-blur-2xl border border-slate-100 shadow-5xl rounded-[2rem] overflow-hidden transition-all duration-400 origin-top opacity-0 scale-y-95 pointer-events-none p-3 border-white/50">
+                <button onclick="setTheme('default')" class="w-full flex items-center gap-4 px-4 py-3.5 rounded-2xl hover:bg-slate-50 text-slate-800 font-bold text-[14px] transition-all"><span class="w-5 h-5 rounded-full bg-[#0ea5e9] shadow-inner"></span> Ocean Blue</button>
+                <button onclick="setTheme('emerald')" class="w-full flex items-center gap-4 px-4 py-3.5 rounded-2xl hover:bg-slate-50 text-slate-800 font-bold text-[14px] transition-all"><span class="w-5 h-5 rounded-full bg-[#10b981] shadow-inner"></span> Emerald Green</button>
+                <button onclick="setTheme('violet')" class="w-full flex items-center gap-4 px-4 py-3.5 rounded-2xl hover:bg-slate-50 text-slate-800 font-bold text-[14px] transition-all"><span class="w-5 h-5 rounded-full bg-[#8b5cf6] shadow-inner"></span> Royal Purple</button>
+                <button onclick="setTheme('rose')" class="w-full flex items-center gap-4 px-4 py-3.5 rounded-2xl hover:bg-slate-50 text-slate-800 font-bold text-[14px] transition-all"><span class="w-5 h-5 rounded-full bg-[#f43f5e] shadow-inner"></span> Crimson Rose</button>
+                <button onclick="setTheme('amber')" class="w-full flex items-center gap-4 px-4 py-3.5 rounded-2xl hover:bg-slate-50 text-slate-800 font-bold text-[14px] transition-all"><span class="w-5 h-5 rounded-full bg-[#f59e0b] shadow-inner"></span> Sunset Amber</button>
             </div>
         </div>
     </div>
 
-    <!-- Logo -->
-    <img id="mainLogo" src="image/background/logo.png" alt="O&G Logo" class="absolute top-6 right-6 md:top-8 md:right-8 w-[120px] md:w-[170px] z-[100] object-contain pointer-events-none">
+    <!-- Corporate Logo -->
+    <img id="mainLogo" src="image/background/logo.png" alt="PTSC Logo" class="absolute top-8 right-8 w-[140px] md:w-[190px] z-[100] object-contain pointer-events-none drop-shadow-sm">
 
-    <!-- PAGE 1: SELECTION -->
-    <div id="page1" class="flex-1 flex flex-col items-center justify-center space-y-10 overflow-y-auto no-scrollbar">
-        <div class="text-center space-y-6 animate-up">
-            <div class="inline-flex items-center gap-2 bg-white/50 backdrop-blur px-6 py-2.5 rounded-full text-[15px] font-black uppercase tracking-widest border border-white shadow-sm">
-                <i data-lucide="shield-check" class="w-4 h-4 text-primary-600"></i> O&G Standards Verified
+    <!-- PAGE 1: CAREER SELECTION SCREEN -->
+    <div id="page1" class="flex-1 flex flex-col items-center justify-center space-y-12 overflow-y-auto no-scrollbar pb-20">
+        <div class="text-center space-y-8 animate-up">
+            <div class="inline-flex items-center gap-3 bg-white/60 backdrop-blur-xl px-8 py-3.5 rounded-full text-[16px] font-black uppercase tracking-widest border border-white/80 shadow-sm text-primary-700">
+                <i data-lucide="shield-check" class="w-5 h-5 text-primary-600"></i> PTSC POS Professional Standards
             </div>
-            
-            <div class="bg-white/40 backdrop-blur-md border border-white shadow-2xl rounded-[3rem] p-6 md:p-12 max-w-4xl mx-auto">
-                <h1 class="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-black text-slate-900 tracking-tighter mb-4 whitespace-nowrap">
-                    CAREER <span class="text-primary-600">PATHWAY</span>
-                </h1>
-                <p class="text-slate-700 font-medium text-[15px] md:text-lg max-w-xl mx-auto text-center">Định hướng nghề nghiệp và phát triển chuyên môn dầu khí</p>
+            <div class="bg-white/40 backdrop-blur-2xl border border-white/60 shadow-5xl rounded-[4rem] p-10 md:p-16 max-w-5xl mx-auto">
+                <h1 class="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-black text-slate-900 tracking-tighter mb-6 uppercase">CAREER <span class="text-primary-600">PATHWAY</span></h1>
+                <p class="text-slate-700 font-semibold text-lg md:text-2xl leading-relaxed max-w-3xl mx-auto">Hệ thống định hướng lộ trình thăng tiến và phát triển năng lực chuyên môn tại PTSC POS</p>
             </div>
         </div>
 
-        <div class="glass-panel p-10 rounded-[48px] w-full max-w-md space-y-8 border-white shadow-2xl">
-            <div class="space-y-6">
+        <div class="glass-panel p-12 rounded-[56px] w-full max-w-lg space-y-10 border-white shadow-6xl border-2">
+            <div class="space-y-8">
                 <div class="relative" id="customDropdownContainer">
-                    <label class="text-[15px] font-black text-slate-400 uppercase tracking-widest ml-1 mb-2 block">Lựa chọn Lộ trình (Path)</label>
-                    <button id="dropdownTrigger"
-                            class="w-full bg-white border border-slate-100 text-slate-900 rounded-3xl px-6 py-4 flex justify-between items-center focus:ring-4 focus:ring-primary-500/10 outline-none font-bold transition-all text-lg shadow-sm hover:shadow-md opacity-60 cursor-not-allowed animate-pulse">
-                        <span id="dropdownSelectedText" class="truncate pr-4 text-slate-400">Đang tải dữ liệu gốc...</span>
-                        <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 transition-transform duration-300 shrink-0" id="dropdownIcon"></i>
+                    <label class="text-[16px] font-black text-slate-500 uppercase tracking-widest ml-2 mb-3 block">Chọn lộ trình chức danh</label>
+                    <button id="dropdownTrigger" class="w-full bg-white border border-slate-100 text-slate-900 rounded-[30px] px-8 py-5 flex justify-between items-center outline-none font-bold transition-all text-xl shadow-inner-sm hover:shadow-lg opacity-60 cursor-not-allowed animate-pulse">
+                        <span id="dropdownSelectedText" class="truncate pr-4 text-slate-400">Đang chuẩn bị dữ liệu...</span>
+                        <i data-lucide="chevron-down" class="w-6 h-6 text-slate-400" id="dropdownIcon"></i>
                     </button>
-                    <div id="dropdownMenu" class="absolute z-[200] bottom-full mb-3 left-0 w-full bg-white/95 backdrop-blur-xl border border-slate-100 shadow-2xl rounded-3xl overflow-hidden transition-all duration-300 origin-bottom opacity-0 scale-y-95 pointer-events-none">
-                        <div class="p-3 border-b border-slate-100 bg-slate-50/80">
+                    <!-- Dropdown Menu -->
+                    <div id="dropdownMenu" class="absolute z-[250] bottom-full mb-4 left-0 w-full bg-white/95 backdrop-blur-3xl border border-slate-100 shadow-7xl rounded-[40px] overflow-hidden transition-all duration-400 origin-bottom opacity-0 scale-y-95 pointer-events-none border-white/60">
+                        <div class="p-5 border-b border-slate-100 bg-slate-50/50">
                             <div class="relative">
-                                <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
-                                <input type="text" id="roleSearchInput" placeholder="Tìm kiếm nhanh lộ trình..." 
-                                       class="w-full bg-white border border-slate-200 text-[15px] font-bold text-slate-700 rounded-2xl pl-10 pr-4 py-3 outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all placeholder:font-medium placeholder:text-slate-400">
+                                <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"></i>
+                                <input type="text" id="roleSearchInput" placeholder="Tìm kiếm nhanh Career Path..." class="w-full bg-white border border-slate-200 text-[16px] font-bold text-slate-800 rounded-2xl pl-12 pr-6 py-4 outline-none focus:ring-4 focus:ring-primary-500/10 transition-all">
                             </div>
                         </div>
-                        <ul id="customRoleList" class="max-h-[280px] overflow-y-auto custom-scrollbar p-2"></ul>
+                        <ul id="customRoleList" class="max-h-[320px] overflow-y-auto p-3 custom-scrollbar"></ul>
                     </div>
                 </div>
             </div>
-            <button id="btnStart" class="w-full bg-primary-600 text-white font-black py-5 rounded-3xl shadow-xl shadow-primary-600/20 flex items-center justify-center gap-3 uppercase tracking-widest text-[15px] transition-all group opacity-60 cursor-not-allowed">
-                Bắt đầu tìm hiểu <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
-            </button>
+            <button id="btnStart" class="w-full bg-primary-600 text-white font-black py-6 rounded-[30px] shadow-2xl flex items-center justify-center gap-4 uppercase tracking-[0.2em] text-[16px] opacity-60 cursor-not-allowed transition-all hover:bg-primary-700 active:scale-95">Khám phá hành trình <i data-lucide="arrow-right" class="w-6 h-6"></i></button>
         </div>
     </div>
 
-    <!-- PAGE 1.5: JOURNEY OVERVIEW -->
-    <div id="pageOverview" class="hidden h-full flex flex-col gap-6 animate-up overflow-hidden">
-        <div class="flex items-center justify-between shrink-0 px-2">
-            <button onclick="showPage(1)" class="group flex items-center gap-2 bg-white/70 hover:bg-white backdrop-blur-md border border-slate-200/60 shadow-sm hover:shadow-md px-5 py-2.5 rounded-full text-slate-700 hover:text-primary-600 font-black text-[15px] uppercase tracking-widest transition-all">
-                <i data-lucide="chevron-left" class="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-300"></i> Trang chủ
-            </button>
+    <!-- PAGE 1.5: JOURNEY ROADMAP VISUALIZATION -->
+    <div id="pageOverview" class="hidden h-full flex flex-col gap-8 animate-up overflow-hidden">
+        <div class="flex items-center justify-between shrink-0 px-4">
+            <button onclick="showPage(1)" class="flex items-center gap-3 bg-white/70 hover:bg-white backdrop-blur-xl px-7 py-3.5 rounded-full text-slate-800 font-black text-[15px] uppercase transition-all shadow-sm border border-white/80"><i data-lucide="chevron-left" class="w-5 h-5"></i> Back to Selection</button>
             <div class="text-center">
-                <div class="text-[15px] font-black text-primary-600 uppercase tracking-[0.4em] mb-1">Professional Growth Strategy</div>
-                <h2 id="ovTitle" class="text-2xl md:text-4xl font-black text-slate-900 uppercase tracking-tighter leading-none text-center">CAREER <span class="text-primary-600">ROADMAP</span></h2>
+                <div class="text-[16px] font-black text-primary-600 uppercase tracking-[0.5em] mb-2">Succession Planning Strategy</div>
+                <h2 id="ovTitle" class="text-3xl md:text-5xl font-black text-slate-900 uppercase">PROFESSIONAL <span class="text-primary-600">ROADMAP</span></h2>
             </div>
-            <button id="btnGoToDetail" class="btn-premium-action">Chi tiết <i data-lucide="zap" class="w-4 h-4 text-white"></i></button>
+            <button id="btnGoToDetail" class="btn-premium-action">Chi tiết từng bước <i data-lucide="zap" class="w-5 h-5 text-white animate-pulse"></i></button>
         </div>
 
-        <div class="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 min-h-0 overflow-hidden">
-            <div class="lg:col-span-9 relative flex flex-col order-1 h-full overflow-hidden">
+        <div class="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-8 min-h-0 overflow-hidden">
+            <div class="lg:col-span-9 relative h-full overflow-hidden">
                 <div class="roadmap-viewport" id="roadmapViewport">
                     <div class="bg-grid-pattern"></div>
                     <div class="waves-container"><div class="wave"></div><div class="wave wave2"></div></div>
                     <div id="particleContainer"></div>
+                    
                     <div class="roadmap-content" id="roadmapContent">
-                        <svg class="hidden"><defs><linearGradient id="rainbowGradient" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#10b981" /><stop offset="25%" stop-color="#0ea5e9" /><stop offset="50%" stop-color="#6366f1" /><stop offset="75%" stop-color="#d946ef" /><stop offset="100%" stop-color="#f59e0b" /></linearGradient></defs></svg>
+                        <!-- Staircase Background Elements -->
                         <svg id="staircaseSvg" class="absolute top-0 left-0 w-full h-full pointer-events-none" style="z-index: 3;">
-                            <defs><linearGradient id="stairGradient" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color: rgba(99, 102, 241, 0.45);" /><stop offset="100%" style="stop-color: rgba(14, 165, 233, 0.1);" /></linearGradient></defs>
-                            <polygon id="stairPolygon" fill="url(#stairGradient)" class="opacity-0 transition-opacity duration-1000 delay-500" />
-                            <path id="stairEdge" fill="none" stroke="url(#rainbowGradient)" stroke-width="3.5" stroke-linejoin="miter" opacity="1" />
+                            <defs>
+                                <linearGradient id="stairGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" style="stop-color: rgba(99, 102, 241, 0.48);" /> 
+                                    <stop offset="100%" style="stop-color: rgba(14, 165, 233, 0.12);" />
+                                </linearGradient>
+                                <linearGradient id="rainbowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#10b981" /><stop offset="50%" stop-color="#6366f1" /><stop offset="100%" stop-color="#f59e0b" />
+                                </linearGradient>
+                            </defs>
+                            <polygon id="stairPolygon" fill="url(#stairGradient)" class="opacity-0 transition-opacity duration-1200 delay-500" />
+                            <path id="stairEdge" fill="none" stroke="url(#rainbowGradient)" stroke-width="4.5" opacity="1" />
                         </svg>
+
+                        <!-- Animated Path Line -->
                         <svg id="journeyLine">
-                            <defs><linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:var(--sky-primary);stop-opacity:1" /><stop offset="100%" style="stop-color:#ffffff;stop-opacity:1" /></linearGradient></defs>
+                            <defs>
+                                <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" style="stop-color:var(--sky-primary);stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#ffffff;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
                             <path id="svgPath" class="path-glow" d="" fill="none" />
                         </svg>
+                        
+                        <!-- Nodes will be injected here via JS -->
                     </div>
                 </div>
             </div>
-
-            <!-- Sidebar -->
-            <div class="lg:col-span-3 order-2 custom-scrollbar overflow-y-auto lg:h-full pb-6">
+            
+            <!-- Roadmap Sidebar Info -->
+            <div class="lg:col-span-3 custom-scrollbar overflow-y-auto lg:h-full pb-10">
                 <div class="sidebar-container lg:h-full">
                     <div class="job-family-badge group">
-                        <span class="text-[15px] font-black uppercase text-primary-100 tracking-widest block mb-2 opacity-80">Discipline Group</span>
-                        <h3 id="ovJobFamily" class="text-base md:text-xl font-bold leading-tight">---</h3>
-                        <i data-lucide="database" class="absolute -right-4 -bottom-4 w-20 h-20 text-white/10 group-hover:scale-110 transition-transform"></i>
+                        <span class="text-[16px] font-black uppercase text-primary-100 mb-3 block opacity-90 tracking-widest">Discipline Group</span>
+                        <h3 id="ovJobFamily" class="text-2xl font-bold leading-tight">---</h3>
+                        <i data-lucide="database" class="absolute -right-6 -bottom-6 w-24 h-24 text-white/10 group-hover:scale-125 transition-transform duration-700"></i>
                     </div>
+                    
                     <div class="glass-card-info">
-                        <div class="flex items-center gap-3 mb-5">
-                            <div class="p-2 rounded-xl bg-primary-100 text-primary-600"><i data-lucide="trending-up" class="w-5 h-5"></i></div>
-                            <h4 class="text-[15px] font-black text-slate-900 uppercase tracking-widest">Cơ hội phát triển</h4>
-                        </div>
-                        <div id="ovDevOpp">---</div>
+                        <h4 class="text-[16px] font-black uppercase mb-6 flex items-center gap-3 text-slate-800">
+                            <i data-lucide="trending-up" class="w-5 h-5 text-primary-600"></i> Cơ hội phát triển
+                        </h4>
+                        <div id="ovDevOpp" class="space-y-2"></div>
                     </div>
+                    
                     <div class="glass-card-info">
-                        <div class="flex items-center gap-3 mb-5">
-                            <div class="p-2 rounded-xl bg-primary-100 text-primary-600"><i data-lucide="compass" class="w-5 h-5"></i></div>
-                            <h4 class="text-[15px] font-black text-slate-900 uppercase tracking-widest">Định hướng dài hạn</h4>
-                        </div>
-                        <div id="ovLongTerm">---</div>
+                        <h4 class="text-[16px] font-black uppercase mb-6 flex items-center gap-3 text-slate-800">
+                            <i data-lucide="compass" class="w-5 h-5 text-primary-600"></i> Định hướng dài hạn
+                        </h4>
+                        <div id="ovLongTerm" class="space-y-2"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- PAGE 2: DASHBOARD -->
-    <div id="page2" class="hidden h-full flex flex-col gap-4 animate-up overflow-hidden">
+    <!-- PAGE 2: DETAILED DASHBOARD -->
+    <div id="page2" class="hidden h-full flex flex-col gap-5 animate-up overflow-hidden">
+        <!-- Dashboard Header -->
         <div class="flex items-center justify-between shrink-0 px-2">
-            <button onclick="showPage(1.5)" class="group flex items-center gap-2 bg-white/70 hover:bg-white backdrop-blur-md border border-slate-200/60 shadow-sm hover:shadow-md px-5 py-2.5 rounded-full text-slate-700 hover:text-primary-600 font-black text-[15px] uppercase tracking-widest transition-all">
-                <i data-lucide="arrow-left" class="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-300"></i> Lộ trình
-            </button>
+            <button onclick="showPage(1.5)" class="bg-white/80 hover:bg-white px-7 py-3.5 rounded-full text-slate-800 font-black flex items-center gap-3 transition-all border border-slate-100 shadow-sm"><i data-lucide="arrow-left" class="w-5 h-5"></i> Xem lộ trình tổng quát</button>
             <div class="flex flex-col items-end">
-                <h2 id="detailFuncTitle" class="text-2xl font-black text-slate-900 uppercase tracking-tight text-right">---</h2>
-                <span id="detailJobFamily" class="bg-primary-600 text-white text-[15px] font-bold px-3 py-1 rounded-full uppercase tracking-widest mt-1">---</span>
+                <h2 id="detailFuncTitle" class="text-3xl font-black uppercase text-slate-900 tracking-tight">---</h2>
+                <span id="detailJobFamily" class="bg-primary-600 text-white text-[15px] font-black px-5 py-1.5 rounded-full uppercase mt-1.5 shadow-lg shadow-primary-500/20">---</span>
             </div>
         </div>
 
-        <div class="flex-1 grid grid-cols-12 gap-6 overflow-hidden pb-4">
-            <div class="col-span-12 lg:col-span-3 glass-panel p-6 rounded-[32px] overflow-y-auto no-scrollbar flex lg:flex-col gap-2">
-                <h3 class="hidden lg:block text-[15px] font-black text-slate-400 uppercase tracking-widest mb-2 text-center">Lộ trình thăng tiến</h3>
-                <div class="detail-stepper-container flex lg:flex-col gap-2 w-full">
+        <div class="flex-1 grid grid-cols-12 gap-8 overflow-hidden pb-6">
+            <!-- Left Navigation Stepper Sidebar -->
+            <div class="col-span-12 lg:col-span-3 glass-panel p-8 rounded-[40px] overflow-y-auto no-scrollbar flex lg:flex-col gap-4">
+                <div class="detail-stepper-container flex lg:flex-col gap-3 w-full relative">
                     <div id="progressLine" class="progress-line"></div>
-                    <div id="detailStepper" class="flex lg:flex-col gap-2 w-full relative z-10"></div>
+                    <div id="detailStepper" class="flex lg:flex-col gap-3 w-full relative z-10"></div>
                 </div>
-                <div class="sidebar-dynamic-card">
-                    <div class="mb-5">
-                        <div class="dynamic-header"><i data-lucide="zap" class="w-4 h-4"></i><h4 class="text-[15px] font-black uppercase tracking-widest">Cơ hội thăng tiến</h4></div>
-                        <div id="sidebarDevOpp" class="dynamic-content-list">---</div>
+                
+                <div class="sidebar-dynamic-card mt-8">
+                    <div class="dynamic-header">
+                        <i data-lucide="zap" class="w-5 h-5 text-white animate-bounce"></i>
+                        <h4 class="text-[16px] font-black uppercase tracking-wider">Cơ hội thăng tiến</h4>
                     </div>
-                    <div>
-                        <div class="dynamic-header"><i data-lucide="compass" class="w-4 h-4"></i><h4 class="text-[15px] font-black uppercase tracking-widest">Định hướng lâu dài</h4></div>
-                        <div id="sidebarLongTerm" class="dynamic-content-list">---</div>
-                    </div>
+                    <div id="sidebarDevOpp" class="text-[15px] italic font-medium leading-relaxed opacity-95">---</div>
                 </div>
             </div>
 
-            <div class="col-span-12 lg:col-span-9 flex flex-col glass-panel rounded-[32px] overflow-hidden">
-                <div class="p-8 bg-white/40 border-b border-slate-100">
-                    <div class="flex items-center gap-10">
-                        <div class="relative shrink-0">
-                            <div class="w-32 h-32 rounded-3xl bg-white shadow-xl flex items-center justify-center p-2 border border-slate-50 overflow-hidden">
-                                <img id="msIcon" src="" class="w-full h-full object-contain">
-                            </div>
-                            <div id="msOrderBadge" class="absolute -bottom-2 -right-2 w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center font-black text-lg shadow-lg border-4 border-white">1</div>
+            <!-- Detailed Content Panel -->
+            <div class="col-span-12 lg:col-span-9 flex flex-col glass-panel rounded-[40px] overflow-hidden border-white shadow-6xl">
+                <!-- Role Summary Header -->
+                <div class="p-10 border-b border-slate-100 bg-white/50 flex flex-col md:flex-row items-center gap-12">
+                    <div class="relative shrink-0">
+                        <div class="w-36 h-36 rounded-[2rem] bg-white shadow-2xl flex items-center justify-center p-3 border border-slate-50 transition-transform duration-500 hover:rotate-3 hover:scale-105">
+                            <img id="msIcon" src="" class="w-full h-full object-contain" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1063/1063376.png'">
                         </div>
-                        <div class="space-y-2">
-                            <span id="msLevelLabel" class="inline-block px-3 py-0.5 bg-primary-100 text-primary-600 font-black text-[15px] uppercase tracking-widest rounded-full">---</span>
-                            <h1 id="roleTitleLabel" class="text-3xl font-black text-slate-900 leading-tight">---</h1>
-                            <p id="rolePurposeLabel" class="text-slate-500 font-medium italic text-[15px] leading-relaxed max-w-2xl">---</p>
-                        </div>
+                        <div id="msOrderBadge" class="absolute -bottom-3 -right-3 w-12 h-12 rounded-2xl bg-slate-900 text-white flex items-center justify-center font-black text-xl shadow-2xl border-4 border-white">1</div>
+                    </div>
+                    <div class="space-y-2 text-center md:text-left">
+                        <span id="msLevelLabel" class="inline-block px-5 py-1 bg-primary-100 text-primary-700 font-black text-[14px] rounded-full uppercase tracking-[0.2em] mb-2">---</span>
+                        <h1 id="roleTitleLabel" class="text-4xl md:text-5xl font-black text-slate-900 leading-none tracking-tight">---</h1>
+                        <p id="rolePurposeLabel" class="text-slate-500 font-medium italic text-lg leading-relaxed max-w-2xl">---</p>
                     </div>
                 </div>
 
-                <div class="flex gap-4 px-10 border-b border-slate-100 bg-white/20 shrink-0 overflow-x-auto no-scrollbar">
-                    <button class="tab-btn active" onclick="switchTab('tab-works')">CÔNG VIỆC & KPI</button>
-                    <button class="tab-btn" onclick="switchTab('tab-skills')">NĂNG LỰC & KỸ NĂNG</button>
-                    <button class="tab-btn" onclick="switchTab('tab-learning')">ĐÀO TẠO & PHÁT TRIỂN</button>
-                    <button class="tab-btn" onclick="switchTab('tab-next')">TIÊU CHÍ THĂNG CẤP</button>
-                    <button class="tab-btn" onclick="switchTab('tab-benefits')">ĐÃI NGỘ & PHÚC LỢI</button>
+                <!-- Detail Tabs Controller -->
+                <div class="flex gap-6 px-12 border-b border-slate-100 overflow-x-auto no-scrollbar shrink-0 bg-white/20">
+                    <button class="tab-btn active" onclick="switchTab('tab-works', event)">TRÁCH NHIỆM</button>
+                    <button class="tab-btn" onclick="switchTab('tab-skills', event)">NĂNG LỰC</button>
+                    <button class="tab-btn" onclick="switchTab('tab-learning', event)">ĐÀO TẠO</button>
+                    <button class="tab-btn" onclick="switchTab('tab-next', event)">THĂNG TIẾN</button>
+                    <button class="tab-btn" onclick="switchTab('tab-benefits', event)">ĐÃI NGỘ & PHÚC LỢI</button>
                 </div>
 
-                <div id="detailView" class="flex-1 overflow-y-auto p-10 custom-scrollbar">
+                <!-- Scrollable Tab Content View -->
+                <div id="detailView" class="flex-1 overflow-y-auto p-12 custom-scrollbar">
+                    
+                    <!-- TAB 1: Responsibilities & KPIs -->
                     <div id="tab-works" class="tab-content animate-up">
-                        <div class="grid grid-cols-1 lg:grid-cols-5 gap-12">
-                            <div class="lg:col-span-3">
-                                <h4 class="text-slate-900 font-black uppercase tracking-widest text-[15px] mb-6 flex items-center gap-2"><i data-lucide="clipboard-list" class="w-5 h-5 text-primary-600"></i> Trách nhiệm</h4>
-                                <div id="responsibilitiesList" class="space-y-3"></div>
+                        <div class="space-y-10">
+                            <div>
+                                <h4 class="text-slate-900 font-black mb-6 uppercase flex items-center gap-3 text-lg">
+                                    <i data-lucide="check-circle-2" class="w-6 h-6 text-primary-600"></i> Trách nhiệm then chốt (Key Responsibilities)
+                                </h4>
+                                <div id="responsibilitiesList" class="grid grid-cols-1 gap-4"></div>
                             </div>
-                            <div class="lg:col-span-2">
-                                <h4 class="text-slate-900 font-black uppercase tracking-widest text-[15px] mb-6 flex items-center gap-2"><i data-lucide="target" class="w-5 h-5 text-primary-600"></i> KPI chính</h4>
-                                <div id="kpiContainer" class="space-y-4"></div>
+                            
+                            <div>
+                                <h4 class="text-slate-900 font-black mb-6 uppercase flex items-center gap-3 text-lg">
+                                    <i data-lucide="target" class="w-6 h-6 text-primary-600"></i> Sản phẩm & KPI mục tiêu (Key Outputs)
+                                </h4>
+                                <div id="kpiContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                            </div>
+                            
+                            <div class="mt-8 p-8 rounded-[30px] bg-primary-50/70 border border-primary-100 shadow-inner">
+                                <h5 class="font-black text-primary-800 uppercase text-[15px] mb-3 flex items-center gap-2">
+                                    <i data-lucide="info" class="w-4 h-4"></i> Typical Scope & Context
+                                </h5>
+                                <p id="typicalScopeText" class="italic text-slate-700 leading-relaxed text-[16px]"></p>
                             </div>
                         </div>
-                        <div class="mt-12 p-6 rounded-3xl bg-primary-50 border border-primary-100"><span class="text-[15px] font-black text-primary-600 uppercase mb-2 block">Phạm vi công việc</span><p id="typicalScopeText" class="text-[15px] font-medium text-slate-700 italic leading-relaxed">---</p></div>
                     </div>
 
+                    <!-- TAB 2: Skills & Competencies -->
                     <div id="tab-skills" class="tab-content hidden animate-up">
-                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
-                            <div class="lg:col-span-7">
-                                <h4 class="text-slate-900 font-black uppercase tracking-widest text-[15px] mb-8 flex items-center gap-2"><i data-lucide="zap" class="w-5 h-5 text-amber-500"></i> Năng lực chuyên môn</h4>
-                                <div id="competenciesContainer" class="space-y-6"></div>
+                        <div class="space-y-12">
+                            <div>
+                                <h4 class="text-slate-900 font-black mb-8 uppercase flex items-center gap-3 text-lg">
+                                    <i data-lucide="layers" class="w-6 h-6 text-amber-500"></i> Ma trận Năng lực Chuyên môn (Hard Skills)
+                                </h4>
+                                <div id="competenciesContainer" class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-2"></div>
                             </div>
-                            <div class="lg:col-span-5">
-                                <h4 class="text-slate-900 font-black uppercase tracking-widest text-[15px] mb-8 flex items-center gap-2"><i data-lucide="users" class="w-5 h-5 text-emerald-600"></i> Kỹ năng hành vi</h4>
-                                <div id="behavioralContainer" class="flex flex-wrap gap-2.5 mb-10"></div>
-                                <h4 class="text-slate-900 font-black uppercase tracking-widest text-[15px] mb-6 flex items-center gap-2"><i data-lucide="wrench" class="w-5 h-5 text-slate-500"></i> Công cụ kỹ thuật</h4>
-                                <div id="toolsContainer" class="space-y-3"></div>
+                            
+                            <div id="behavioralSection" class="hidden">
+                                <h4 class="text-slate-900 font-black mb-6 uppercase flex items-center gap-3 text-lg">
+                                    <i data-lucide="smile" class="w-6 h-6 text-emerald-500"></i> Năng lực Hành vi (Soft Skills)
+                                </h4>
+                                <div id="behavioralContainer" class="flex flex-wrap gap-4"></div>
                             </div>
                         </div>
                     </div>
 
+                    <!-- TAB 3: Learning & Training -->
                     <div id="tab-learning" class="tab-content hidden animate-up space-y-12">
                         <div>
-                            <h4 class="text-slate-900 font-black uppercase tracking-widest text-[15px] mb-6 flex items-center gap-2"><i data-lucide="graduation-cap" class="w-5 h-5 text-primary-600"></i> Đào tạo gợi ý</h4>
-                            <div id="trainingList" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                            <h4 class="text-slate-900 font-black mb-8 uppercase flex items-center gap-3 text-lg">
+                                <i data-lucide="graduation-cap" class="w-6 h-6 text-primary-600"></i> Danh mục Đào tạo & Phát triển gợi ý
+                            </h4>
+                            <div id="trainingList" class="grid grid-cols-1 md:grid-cols-2 gap-5"></div>
                         </div>
                         <div>
-                            <h4 class="text-slate-900 font-black uppercase tracking-widest text-[15px] mb-6 flex items-center gap-2"><i data-lucide="award" class="w-5 h-5 text-amber-500"></i> Chứng chỉ khuyến nghị</h4>
-                            <div id="certList" class="flex flex-wrap gap-2"></div>
+                            <h4 class="text-slate-900 font-black mb-8 uppercase flex items-center gap-3 text-lg">
+                                <i data-lucide="award" class="w-6 h-6 text-amber-600"></i> Chứng chỉ chuyên môn yêu cầu (Certifications)
+                            </h4>
+                            <div id="certList" class="flex flex-wrap gap-4"></div>
                         </div>
                     </div>
 
+                    <!-- TAB 4: Promotion & Criteria -->
                     <div id="tab-next" class="tab-content hidden animate-up space-y-12">
-                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                             <div>
-                                <h4 class="text-slate-900 font-black uppercase tracking-widest text-[15px] mb-6 flex items-center gap-2"><i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-600"></i> Dấu hiệu sẵn sàng</h4>
-                                <div id="readinessList" class="space-y-4"></div>
-                             </div>
-                             <div>
-                                <h4 class="text-slate-900 font-black uppercase tracking-widest text-[15px] mb-6 flex items-center gap-2"><i data-lucide="trending-up" class="w-5 h-5 text-primary-600"></i> Tiêu chí thăng cấp</h4>
-                                <div id="promotionList" class="space-y-4"></div>
-                             </div>
-                         </div>
-                         <div class="p-6 rounded-3xl bg-primary-50 border border-primary-100"><span class="text-[15px] font-black text-primary-600 uppercase mb-1 block">Vị trí mục tiêu tiếp theo</span><p id="nextTargetRole" class="text-lg font-black text-slate-900 uppercase">---</p></div>
+                        <div class="bg-emerald-50/50 p-8 rounded-[35px] border border-emerald-100">
+                            <h4 class="text-emerald-900 font-black mb-8 uppercase flex items-center gap-3 text-lg">
+                                <i data-lucide="thumbs-up" class="w-6 h-6 text-emerald-600"></i> Chỉ báo mức độ sẵn sàng (Readiness Indicators)
+                            </h4>
+                            <div id="readinessList" class="space-y-4"></div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-slate-900 font-black mb-8 uppercase flex items-center gap-3 text-lg">
+                                <i data-lucide="trending-up" class="w-6 h-6 text-primary-600"></i> Tiêu chí thăng tiến lên cấp bậc kế tiếp
+                            </h4>
+                            <div id="promotionList" class="space-y-4"></div>
+                            <div class="mt-12 p-10 rounded-[35px] bg-slate-900 text-white flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl relative overflow-hidden">
+                                <i data-lucide="rocket" class="absolute -left-10 -bottom-10 w-48 h-48 text-white/5 -rotate-12"></i>
+                                <div class="z-10">
+                                    <h5 class="text-primary-400 font-black uppercase tracking-widest text-[14px] mb-2">Mục tiêu nghề nghiệp tiếp theo</h5>
+                                    <span id="nextTargetRole" class="text-3xl font-black">---</span>
+                                </div>
+                                <button onclick="showToast('Hệ thống đang cập nhật lộ trình này!')" class="bg-primary-600 hover:bg-primary-500 text-white px-8 py-4 rounded-2xl font-bold uppercase transition-all z-10 whitespace-nowrap">Đăng ký lộ trình</button>
+                            </div>
+                        </div>
                     </div>
-
-                    <!-- TAB 5: ĐÃI NGỘ & PHÚC LỢI NÂNG CẤP -->
+                    
+                    <!-- TAB 5: DYNAMIC BENEFITS & SALARY (FETCH FROM SHEET 2) -->
                     <div id="tab-benefits" class="tab-content hidden animate-up">
-                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                            <!-- Salary Range Visual -->
                             <div class="lg:col-span-5">
-                                <div class="bg-gradient-to-br from-primary-50/50 to-white/30 border border-primary-100 p-8 rounded-[32px] shadow-xl shadow-primary-500/5 relative overflow-hidden h-full flex flex-col justify-center">
-                                    <div id="salaryLevelIconBg" class="absolute -right-6 -bottom-6 opacity-5 rotate-12 scale-150"></div>
-                                    <div class="relative z-10">
-                                        <div class="flex items-center gap-4 mb-8">
-                                            <div id="levelBadgeIcon" class="w-16 h-16 rounded-2xl bg-white shadow-lg flex items-center justify-center level-pulse-icon border border-slate-50"></div>
+                                <div class="bg-gradient-to-br from-primary-50/60 to-white border border-primary-100 p-10 rounded-[40px] relative overflow-hidden h-full flex flex-col justify-center shadow-2xl shadow-primary-500/5 min-h-[420px]">
+                                    <!-- Background Icon Decoration -->
+                                    <div id="salaryLevelIconBg" class="absolute -right-10 -bottom-10 opacity-5 rotate-12 scale-150"></div>
+                                    
+                                    <div class="relative z-10 text-center lg:text-left space-y-10">
+                                        <div class="flex items-center justify-center lg:justify-start gap-5">
+                                            <div id="levelBadgeIcon" class="w-20 h-20 rounded-[2rem] bg-white shadow-xl flex items-center justify-center level-pulse-icon border border-slate-50 text-4xl shadow-primary-500/10"></div>
                                             <div>
-                                                <h5 class="text-[13px] font-black uppercase tracking-[0.2em] text-primary-600/60 mb-1">Cấp bậc thăng tiến</h5>
-                                                <span id="salaryLevelText" class="text-xl font-extrabold text-slate-800">---</span>
+                                                <h5 class="text-[14px] font-black uppercase text-primary-600/70 mb-1 leading-none tracking-widest">Cấp bậc xếp hạng</h5>
+                                                <span id="salaryLevelText" class="text-3xl font-black text-slate-800">---</span>
                                             </div>
                                         </div>
-                                        <h5 class="text-[14px] font-black uppercase tracking-widest mb-1 text-slate-400">Thu nhập tham khảo</h5>
-                                        <div id="salaryRangeDisplay" class="text-5xl md:text-6xl font-black mb-6 text-primary-600 tracking-tighter">---</div>
-                                        <div class="w-full h-2 bg-slate-100/50 rounded-full mb-8 overflow-hidden border border-slate-100">
-                                            <div id="salaryProgressBar" class="h-full bg-primary-500 transition-all duration-1000 shadow-lg" style="width: 0%"></div>
+                                        
+                                        <div>
+                                            <h5 class="text-[15px] font-black uppercase text-slate-400 mb-2 tracking-widest">Mức lương tham khảo</h5>
+                                            <div id="salaryRangeDisplay" class="text-5xl lg:text-7xl font-black text-primary-600 mb-8 tracking-tighter drop-shadow-sm">---</div>
+                                            
+                                            <div class="w-full h-3.5 bg-slate-100/80 rounded-full mb-10 overflow-hidden shadow-inner">
+                                                <div id="salaryProgressBar" class="h-full bg-primary-500 transition-all duration-1500 ease-out" style="width: 0%"></div>
+                                            </div>
+                                            
+                                            <div class="flex items-start gap-3 bg-white/60 p-4 rounded-2xl border border-primary-50 shadow-sm">
+                                                <i data-lucide="info" class="w-5 h-5 text-primary-400 shrink-0 mt-0.5"></i>
+                                                <p class="text-[14px] italic text-slate-500 font-medium leading-relaxed">Dữ liệu được cập nhật từ hệ thống quản trị nhân sự PTSC POS và dựa trên các khảo sát lương thị trường dầu khí hiện hành.</p>
+                                            </div>
                                         </div>
-                                        <p class="text-[13px] font-medium italic leading-relaxed text-slate-500 opacity-80">* Thu nhập thực tế dựa trên kinh nghiệm, chứng chỉ quốc tế và hiệu suất KPI vượt trội.</p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="lg:col-span-7">
-                                <h4 class="text-slate-900 font-black uppercase tracking-widest text-[15px] mb-6 flex items-center gap-2"><i data-lucide="heart-handshake" class="w-5 h-5 text-rose-500"></i> Hệ thống phúc lợi</h4>
-                                <div id="fixedBenefitsList" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+
+                            <!-- Benefits Grid -->
+                            <div class="lg:col-span-7 space-y-8">
+                                <div class="flex items-center justify-between">
+                                    <h4 class="text-slate-900 font-black uppercase text-lg flex items-center gap-3">
+                                        <i data-lucide="heart-handshake" class="w-7 h-7 text-rose-500"></i> Hệ thống 10 phúc lợi vàng (Golden Benefits)
+                                    </h4>
+                                    <span class="px-4 py-1.5 bg-rose-50 text-rose-600 text-[13px] font-black rounded-full uppercase">Standard Package</span>
+                                </div>
+                                <div id="fixedBenefitsList" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <!-- Populated dynamically via JS -->
+                                </div>
+                                <div class="p-6 bg-slate-50 rounded-3xl border border-slate-100">
+                                    <p class="text-sm text-slate-500 italic text-center">Các chế độ đãi ngộ khác được thực hiện theo quy chế quản trị nhân sự hiện hành của Tổng Công ty PTSC và Đơn vị.</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="p-6 border-t border-slate-100 bg-white/40 flex items-center justify-between">
-                    <button id="prevBtn" class="text-[15px] font-black uppercase text-slate-400 hover:text-primary-600 transition-all flex items-center gap-2"><i data-lucide="chevron-left" class="w-5 h-5"></i> Trước</button>
-                    <div id="pageCounter" class="text-[15px] font-black text-slate-300">01 / 05</div>
-                    <button id="nextBtn" class="btn-premium-nav">Tiếp theo</button>
+                <!-- Dashboard Footer Navigation -->
+                <div class="p-8 border-t border-slate-100 bg-white/50 flex items-center justify-between">
+                    <button id="prevBtn" class="text-[16px] font-black uppercase text-slate-400 hover:text-primary-600 transition-all flex items-center gap-3 group">
+                        <i data-lucide="chevron-left" class="w-6 h-6 group-hover:-translate-x-1 transition-transform"></i> Trước đó
+                    </button>
+                    <div id="pageCounter" class="text-[18px] font-black text-slate-300 tracking-[0.2em]">01 / 05</div>
+                    <button id="nextBtn" class="btn-premium-nav">Bước kế tiếp</button>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- TOAST -->
-    <div id="toastContainer" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[999] flex flex-col gap-3 pointer-events-none"></div>
-
+    
+    <!-- UI Toast Notifications -->
+    <div id="toastContainer" class="fixed bottom-12 left-1/2 -translate-x-1/2 z-[999] flex flex-col gap-4 pointer-events-none"></div>
 </div>
 
+<!-- JAVASCRIPT LOGIC -->
 <script>
+    // --- GLOBAL STATE ---
     let masterData = [];
     let currentRoleMilestones = [];
     let currentIdx = 0;
     let animationLoopId = null;
-    let selectedRoleValue = ""; 
+    let selectedRoleValue = "";
     let isFileLoaded = false;
     let isRoleSelected = false;
 
+    // Lưu trữ dữ liệu từ Sheet 2
+    let dynamicBenefitData = {
+        salaries: {}, // Dạng: { "Milestone Name": "Salary Value" }
+        benefits: []  // Dạng: ["Benefit 1", "Benefit 2", ...]
+    };
+
+    // Design Tokens
     const progressionColors = ['#10b981', '#0ea5e9', '#6366f1', '#8b5cf6', '#d946ef', '#f59e0b'];
+    const benefitIcons = ['umbrella', 'palmtree', 'users', 'trophy', 'heart', 'gift', 'anchor', 'shield-plus', 'stethoscope', 'graduation-cap'];
 
-    const fixedBenefits = [
-        { icon: 'umbrella', text: 'Đóng BHXH mức cao' },
-        { icon: 'palmtree', text: 'Tham quan du lịch hàng năm' },
-        { icon: 'users', text: 'Teambuilding đa dạng tổ/nhóm' },
-        { icon: 'trophy', text: 'Thể thao, văn nghệ toàn TCT' },
-        { icon: 'heart', text: 'Chăm lo sức khỏe người thân' },
-        { icon: 'gift', text: 'Thưởng KPI, quà Lễ Tết' },
-        { icon: 'anchor', text: 'Phụ cấp Offshore, cơm trưa' },
-        { icon: 'shield-plus', text: 'Bảo hiểm PVI toàn diện' },
-        { icon: 'stethoscope', text: 'Khám sức khỏe quốc tế' },
-        { icon: 'graduation-cap', text: 'Đào tạo chuyên gia quốc tế' }
-    ];
+    // --- CORE UI FUNCTIONS ---
 
-    lucide.createIcons();
-
-    const btnStart = document.getElementById('btnStart');
-    const bgOverlay = document.getElementById('bgOverlay');
-    const themeSelectorContainer = document.getElementById('themeSelectorContainer');
-    const logo = document.getElementById('mainLogo');
-    const dropdownTrigger = document.getElementById('dropdownTrigger');
-    const dropdownMenu = document.getElementById('dropdownMenu');
-    const dropdownIcon = document.getElementById('dropdownIcon');
-    const dropdownSelectedText = document.getElementById('dropdownSelectedText');
-    const customRoleList = document.getElementById('customRoleList');
-    const roleSearchInput = document.getElementById('roleSearchInput');
-
-    function showToast(message, type = 'warning') {
-        const container = document.getElementById('toastContainer');
-        if (!container) return;
-        const toast = document.createElement('div');
-        toast.className = 'bg-white/95 backdrop-blur-xl border-l-4 border-amber-500 text-slate-800 px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 animate-up pointer-events-auto';
-        toast.innerHTML = `<div class="bg-amber-100 p-2 rounded-full shrink-0"><i data-lucide=\"alert-circle\" class=\"w-5 h-5 text-amber-600\"></i></div><span class=\"font-bold text-[15px]\">${message}</span>`;
-        container.appendChild(toast);
+    function showToast(m) {
+        const c = document.getElementById('toastContainer');
+        const t = document.createElement('div');
+        t.className = 'bg-white shadow-7xl px-8 py-5 rounded-[24px] border-l-8 border-amber-500 animate-up flex items-center gap-4 pointer-events-auto min-w-[320px]';
+        t.innerHTML = `<i data-lucide="alert-circle" class="w-6 h-6 text-amber-500"></i><span class="font-black text-slate-800 text-[15px] uppercase tracking-wide">${m}</span>`;
+        c.appendChild(t);
         lucide.createIcons();
-        setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translateY(20px)'; toast.style.transition = 'all 0.4s ease'; setTimeout(() => toast.remove(), 400); }, 3000);
+        setTimeout(() => {
+            t.style.opacity = '0';
+            t.style.transform = 'translateY(10px) scale(0.95)';
+            setTimeout(() => t.remove(), 400);
+        }, 3500);
     }
 
     function toggleThemeMenu(e) {
         if(e) e.stopPropagation();
-        const menu = document.getElementById('themeMenu');
-        const isOpen = menu.classList.contains('opacity-100');
-        if (isOpen) {
-            menu.classList.remove('opacity-100', 'scale-y-100', 'pointer-events-auto');
-            menu.classList.add('opacity-0', 'scale-y-95', 'pointer-events-none');
-        } else {
-            menu.classList.remove('opacity-0', 'scale-y-95', 'pointer-events-none');
-            menu.classList.add('opacity-100', 'scale-y-100', 'pointer-events-auto');
-        }
+        const m = document.getElementById('themeMenu');
+        m.classList.toggle('opacity-100');
+        m.classList.toggle('scale-y-100');
+        m.classList.toggle('pointer-events-auto');
     }
 
-    function setTheme(themeName) {
-        if(themeName === 'default') document.documentElement.removeAttribute('data-theme');
-        else document.documentElement.setAttribute('data-theme', themeName);
-        toggleThemeMenu(); 
+    function setTheme(t) {
+        if(t === 'default') document.documentElement.removeAttribute('data-theme');
+        else document.documentElement.setAttribute('data-theme', t);
+        toggleThemeMenu();
     }
 
-    // --- LOGIC LƯƠNG & CẤP BẬC THĂNG TIẾN (Đã sửa từ khóa để Management đầy cây) ---
-    function getLevelVisuals(levelText) {
-        const lvl = (levelText || "").toLowerCase();
-        // Sửa từ 'manager' thành 'manage' để bắt được cả 'Management'
-        if (lvl.includes('entry')) return { icon: 'seedling', progress: 20, iconName: '🌱' };
-        if (lvl.includes('junior')) return { icon: 'rocket', progress: 40, iconName: '🚀' };
-        if (lvl.includes('senior')) return { icon: 'gem', progress: 65, iconName: '💎' };
-        if (lvl.includes('lead') || lvl.includes('expert')) return { icon: 'trophy', progress: 85, iconName: '🏆' };
-        if (lvl.includes('manager') || lvl.includes('management') || lvl.includes('director')) return { icon: 'crown', progress: 100, iconName: '👑' };
+    function getLevelVisuals(txt) {
+        const l = (txt || "").toLowerCase();
+        if (l.includes('entry')) return { icon: 'seedling', progress: 20, iconName: '🌱' };
+        if (l.includes('junior')) return { icon: 'rocket', progress: 40, iconName: '🚀' };
+        if (l.includes('senior')) return { icon: 'gem', progress: 65, iconName: '💎' };
+        if (l.includes('lead') || l.includes('expert')) return { icon: 'trophy', progress: 85, iconName: '🏆' };
+        if (l.includes('manage') || l.includes('head')) return { icon: 'crown', progress: 100, iconName: '👑' };
         return { icon: 'briefcase', progress: 50, iconName: '💼' };
     }
 
-    function getSalaryRange(levelText) {
-        const lvl = (levelText || "").toLowerCase();
-        if (lvl.includes('entry')) return "15 - 20 Tr";
-        if (lvl.includes('junior')) return "20 - 40 Tr";
-        if (lvl.includes('senior')) return "30 - 60 Tr";
-        if (lvl.includes('lead') || lvl.includes('expert')) return "40 - 80 Tr";
-        if (lvl.includes('manage') || lvl.includes('head') || lvl.includes('director')) return "60 - 100+ Tr";
-        return "Thỏa thuận";
+    // Tra cứu lương từ dữ liệu Sheet 2
+    function getSalaryRange(txt) {
+        const l = (txt || "").trim().toLowerCase();
+        for (let k in dynamicBenefitData.salaries) {
+            if (l.includes(k.toLowerCase())) return dynamicBenefitData.salaries[k];
+        }
+        return "Theo quy chế";
     }
 
-    function getRoleIcon(roleName) {
-        const name = roleName.toLowerCase();
-        if (name.includes('hvac') || name.includes('mechanical') || name.includes('piping') || name.includes('equipment')) return 'wrench';
-        if (name.includes('electrical') || name.includes('eit') || name.includes('instrument')) return 'zap';
-        if (name.includes('hse') || name.includes('safety') || name.includes('fire') || name.includes('guard')) return 'shield-alert';
-        if (name.includes('plan') || name.includes('schedule')) return 'calendar-clock';
-        if (name.includes('qa') || name.includes('qc') || name.includes('quality') || name.includes('inspect')) return 'check-circle';
-        if (name.includes('manager') || name.includes('lead') || name.includes('coordinator') || name.includes('director')) return 'users';
-        if (name.includes('material') || name.includes('logistic')) return 'package';
-        if (name.includes('lift') || name.includes('scaffold') || name.includes('rigging') || name.includes('crane')) return 'construction';
-        if (name.includes('paint') || name.includes('blast') || name.includes('coat')) return 'paint-roller';
-        if (name.includes('commissioning') || name.includes('start')) return 'power';
-        if (name.includes('flange') || name.includes('weld') || name.includes('joint')) return 'link-2';
-        return 'briefcase'; 
-    }
+    // --- DATA HANDLING & PARSING ---
 
-    // --- LOGIC GỐC ---
     async function loadExcelDataAutomatically() {
         try {
-            const protocol = window.location.protocol;
-            if (protocol === 'blob:' || protocol === 'data:' || protocol === 'file:') {
-                dropdownSelectedText.innerText = "Cần chạy trên Web Server (HTTP/HTTPS)";
-                dropdownTrigger.classList.remove('animate-pulse');
-                showToast('Tính năng tải tự động không chạy trong Preview.');
-                return;
-            }
-            const configResponse = await fetch('./config.json');
-            if (!configResponse.ok) throw new Error('Không tìm thấy file config.json');
-            const config = await configResponse.json();
-            const response = await fetch(config.sheetUrl);
-            if (!response.ok) throw new Error(`Không thể tải dữ liệu. HTTP ${response.status}`);
-            const csvText = await response.text();
-            masterData = parseCSV(csvText);
-            const roles = [...new Set(masterData.map(d => d.function_title))].filter(Boolean);
-            customRoleList.innerHTML = '';
-            roles.sort().forEach(r => {
-                const li = document.createElement('li');
-                li.className = 'role-list-item group';
-                li.dataset.value = r;
-                const iconName = getRoleIcon(r);
-                li.innerHTML = `<i data-lucide="${iconName}" class="w-4 h-4 text-primary-500/50 group-hover:text-primary-600 transition-colors shrink-0"></i> <span>${r}</span>`;
-                li.onclick = (e) => { e.stopPropagation(); selectCustomRole(r, li); };
-                customRoleList.appendChild(li);
+            // Thay vì fetch config.json (bị lỗi URL do môi trường blob), 
+            // chúng ta khai báo trực tiếp URL để đảm bảo ứng dụng luôn chạy được.
+            const config = {
+                "sheetUrl": "https://docs.google.com/spreadsheets/d/1aWQVU9ROmEere2vvPSF5WZNdqjVRFrjMtTHEwPTBX6M/export?format=csv&gid=0",
+                "sheetUrl2": "https://docs.google.com/spreadsheets/d/1aWQVU9ROmEere2vvPSF5WZNdqjVRFrjMtTHEwPTBX6M/export?format=csv&gid=1158800031"
+            };
+
+            // Fetch song song 2 Sheet
+            const [res1, res2] = await Promise.all([
+                fetch(config.sheetUrl),
+                fetch(config.sheetUrl2)
+            ]);
+
+            if (!res1.ok || !res2.ok) throw new Error("Failed to fetch Google Sheets data");
+            
+            const csv1 = await res1.text();
+            const csv2 = await res2.text();
+
+            // Parse Sheet 1: Career Data
+            masterData = parseCSV(csv1);
+            
+            // Parse Sheet 2: Benefits & Salaries
+            const benefitRows = parseCSV(csv2);
+            dynamicBenefitData.benefits = [];
+            benefitRows.forEach(r => {
+                // Ánh xạ lương
+                if (r.milestone_level && r.salary) {
+                    dynamicBenefitData.salaries[r.milestone_level.trim()] = r.salary;
+                }
+                // Danh sách phúc lợi
+                if (r.benefit) {
+                    dynamicBenefitData.benefits.push(r.benefit);
+                }
             });
+
+            // Chuẩn bị danh sách Dropdown
+            const roles = [...new Set(masterData.map(d => d.function_title))].filter(Boolean).sort();
+            const roleListEl = document.getElementById('customRoleList');
+            roleListEl.innerHTML = roles.map(r => `
+                <li class="role-list-item" onclick="selectCustomRole('${r}', this)">
+                    <div class="w-2 h-2 rounded-full bg-slate-300 mr-3"></div>
+                    <span>${r}</span>
+                </li>
+            `).join('');
+
             isFileLoaded = true;
-            dropdownTrigger.classList.remove('opacity-60', 'cursor-not-allowed', 'animate-pulse');
-            dropdownTrigger.classList.add('cursor-pointer');
-            dropdownSelectedText.innerText = "-- Vui lòng Chọn Career Path --";
+            const trigger = document.getElementById('dropdownTrigger');
+            trigger.classList.remove('opacity-60', 'cursor-not-allowed', 'animate-pulse');
+            document.getElementById('dropdownSelectedText').innerText = "-- Chọn lộ trình chức danh --";
             lucide.createIcons();
-        } catch (error) { console.error(error); dropdownSelectedText.innerText = "Lỗi tải dữ liệu."; }
-    }
 
-    function parseCSV(csvText) {
-        const rows = [];
-        let current = '';
-        let row = [];
-        let inQuotes = false;
-        for (let i = 0; i < csvText.length; i++) {
-            const char = csvText[i];
-            const nextChar = csvText[i + 1];
-            if (char === '"') {
-                if (inQuotes && nextChar === '"') { current += '"'; i++; } else { inQuotes = !inQuotes; }
-            } else if (char === ',' && !inQuotes) { row.push(current.trim()); current = ''; }
-            else if ((char === '\n' || char === '\r') && !inQuotes) {
-                if (char === '\r' && nextChar === '\n') i++;
-                row.push(current.trim()); current = '';
-                if (row.some(cell => cell !== '')) rows.push(row);
-                row = [];
-            } else { current += char; }
+        } catch (e) {
+            console.error(e);
+            document.getElementById('dropdownSelectedText').innerText = "Lỗi kết nối máy chủ dữ liệu.";
+            showToast("Không thể tải cấu hình dữ liệu!");
         }
-        if (current.length > 0 || row.length > 0) { row.push(current.trim()); if (row.some(cell => cell !== '')) rows.push(row); }
-        let headerIndex = 0;
-        for (let i = 0; i < rows.length; i++) { if (rows[i].includes('function_title')) { headerIndex = i; break; } }
-        const headers = rows[headerIndex].map(h => h.trim().toLowerCase());
-        const dataRows = rows.slice(headerIndex + 1);
-        return dataRows.filter(r => r.some(cell => cell !== '')).map(r => {
-            const obj = {}; headers.forEach((h, idx) => { obj[h] = (r[idx] || '').trim(); }); return obj;
+    }
+
+    function parseCSV(text) {
+        const rows = [];
+        let cur = '', r = [], inQ = false;
+        
+        for (let i = 0; i < text.length; i++) {
+            const c = text[i], n = text[i+1];
+            if (c === '"') {
+                if (inQ && n === '"') { cur += '"'; i++; } else inQ = !inQ;
+            } else if (c === ',' && !inQ) {
+                r.push(cur.trim()); cur = '';
+            } else if ((c === '\n' || c === '\r') && !inQ) {
+                if (c === '\r' && n === '\n') i++;
+                r.push(cur.trim()); cur = '';
+                if (r.some(x => x !== '')) rows.push(r);
+                r = [];
+            } else cur += c;
+        }
+        if (cur || r.length) { r.push(cur.trim()); if (r.some(x => x !== '')) rows.push(r); }
+        
+        // Tìm header
+        let hIdx = rows.findIndex(row => 
+            row.some(cell => cell.toLowerCase().includes('function_title') || 
+                            cell.toLowerCase().includes('milestone_level') || 
+                            cell.toLowerCase().includes('benefit'))
+        );
+        
+        if (hIdx === -1) return [];
+        const heads = rows[hIdx].map(h => h.trim().toLowerCase());
+        
+        return rows.slice(hIdx + 1).map(row => {
+            const o = {};
+            heads.forEach((h, idx) => o[h] = (row[idx] || '').trim());
+            return o;
         });
     }
 
-    document.addEventListener('DOMContentLoaded', loadExcelDataAutomatically);
+    // --- VIEW LOGIC ---
 
-    function selectCustomRole(roleName, liElement) {
-        selectedRoleValue = roleName;
-        dropdownSelectedText.innerText = roleName;
-        dropdownSelectedText.classList.replace('text-slate-400', 'text-slate-900'); 
+    function selectCustomRole(name, el) {
+        selectedRoleValue = name;
+        document.getElementById('dropdownSelectedText').innerText = name;
+        document.getElementById('dropdownSelectedText').classList.replace('text-slate-400', 'text-slate-900');
         isRoleSelected = true;
-        btnStart.classList.remove('opacity-60', 'cursor-not-allowed');
-        btnStart.classList.add('cursor-pointer', 'hover:bg-slate-950');
-        document.querySelectorAll('.role-list-item').forEach(el => el.classList.remove('selected'));
-        if (liElement) liElement.classList.add('selected');
-        closeDropdown();
+        
+        document.getElementById('btnStart').classList.remove('opacity-60', 'cursor-not-allowed');
+        document.querySelectorAll('.role-list-item').forEach(li => li.classList.remove('selected'));
+        el.classList.add('selected');
+        
+        // Đóng menu
+        const m = document.getElementById('dropdownMenu');
+        m.classList.remove('opacity-100', 'scale-y-100', 'pointer-events-auto');
     }
-
-    dropdownTrigger.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (!isFileLoaded) return;
-        if (dropdownMenu.classList.contains('opacity-100')) closeDropdown(); else openDropdown();
-    });
-
-    function openDropdown() {
-        dropdownMenu.classList.remove('opacity-0', 'scale-y-95', 'pointer-events-none');
-        dropdownMenu.classList.add('opacity-100', 'scale-y-100', 'pointer-events-auto');
-        dropdownIcon.classList.add('rotate-180');
-        roleSearchInput.value = ''; filterRoles('');
-        roleSearchInput.focus();
-    }
-
-    function closeDropdown() {
-        dropdownMenu.classList.remove('opacity-100', 'scale-y-100', 'pointer-events-auto');
-        dropdownMenu.classList.add('opacity-0', 'scale-y-95', 'pointer-events-none');
-        dropdownIcon.classList.remove('rotate-180');
-    }
-
-    roleSearchInput.addEventListener('input', (e) => filterRoles(e.target.value));
-    function filterRoles(term) {
-        const lowerTerm = term.toLowerCase();
-        document.querySelectorAll('.role-list-item').forEach(li => {
-            li.style.display = li.dataset.value.toLowerCase().includes(lowerTerm) ? 'flex' : 'none';
-        });
-    }
-
-    document.addEventListener('click', (e) => {
-        if (dropdownTrigger && dropdownMenu && !dropdownTrigger.contains(e.target) && !dropdownMenu.contains(e.target)) closeDropdown();
-        const tMenu = document.getElementById('themeMenu'); const tBtn = document.getElementById('themeTriggerBtn');
-        if (tMenu && tBtn && !tMenu.contains(e.target) && !tBtn.contains(e.target)) { tMenu.classList.remove('opacity-100', 'scale-y-100', 'pointer-events-auto'); tMenu.classList.add('opacity-0', 'scale-y-95', 'pointer-events-none'); }
-    });
-
-    btnStart.addEventListener('click', () => {
-        if (!isRoleSelected) { showToast('Vui lòng chọn một Lộ trình!'); return; }
-        currentRoleMilestones = masterData.filter(d => d.function_title === selectedRoleValue).sort((a,b) => (Number(a.milestone_order) || 0) - (Number(b.milestone_order) || 0));
-        if(currentRoleMilestones.length > 0) { currentIdx = 0; showPage(1.5); }
-    });
 
     function showPage(n) {
-        document.querySelectorAll('#app > div').forEach(div => div.classList.add('hidden'));
+        document.querySelectorAll('#app > div').forEach(div => {
+            if (div.id.startsWith('page')) div.classList.add('hidden');
+        });
+
         if (animationLoopId) cancelAnimationFrame(animationLoopId);
+        
+        const overlay = document.getElementById('bgOverlay');
+        const logo = document.getElementById('mainLogo');
+        const tCon = document.getElementById('themeSelectorContainer');
+
         if (n === 1) {
-            if (logo) logo.classList.remove('hidden'); themeSelectorContainer.classList.remove('hidden'); document.getElementById('page1').classList.remove('hidden');
-            bgOverlay.style.backgroundImage = "linear-gradient(to bottom, rgba(248, 250, 252, 0.2), rgba(248, 250, 252, 0.2)), url('image/background/background_3.png')";
+            logo.classList.remove('hidden');
+            tCon.classList.remove('hidden');
+            document.getElementById('page1').classList.remove('hidden');
+            overlay.style.backgroundImage = "url('image/background/background_3.png')";
         } else if (n === 1.5) {
-            if (logo) logo.classList.add('hidden'); themeSelectorContainer.classList.add('hidden'); document.getElementById('pageOverview').classList.remove('hidden');
-            bgOverlay.style.backgroundImage = "linear-gradient(to bottom, rgba(248, 250, 252, 0.5), rgba(248, 250, 252, 0.5)), url('image/background/background_4.png')";
-            setTimeout(renderOverview, 100); initBackgroundParticles();
+            logo.classList.add('hidden');
+            tCon.classList.add('hidden');
+            document.getElementById('pageOverview').classList.remove('hidden');
+            overlay.style.backgroundImage = "url('image/background/background_4.png')";
+            setTimeout(renderOverview, 100);
+            initParticles();
         } else {
-            if (logo) logo.classList.add('hidden'); themeSelectorContainer.classList.add('hidden'); document.getElementById('page2').classList.remove('hidden');
-            bgOverlay.style.backgroundImage = "linear-gradient(to bottom, rgba(248, 250, 252, 0.5), rgba(248, 250, 252, 0.5)), url('image/background/background_2.png')";
+            logo.classList.add('hidden');
+            tCon.classList.add('hidden');
+            document.getElementById('page2').classList.remove('hidden');
+            overlay.style.backgroundImage = "url('image/background/background_2.png')";
             renderDashboard();
         }
         lucide.createIcons();
     }
 
-    function initBackgroundParticles() {
-        const container = document.getElementById('particleContainer'); if(!container) return; container.innerHTML = '';
-        const colors = ['#0ea5e9', '#10b981', '#8b5cf6', '#f59e0b', '#d946ef'];
-        for(let i=0; i<30; i++) {
-            const p = document.createElement('div'); p.className = 'ambient-particle';
-            p.style.width = `4px`; p.style.height = `4px`; p.style.backgroundColor = colors[i%5];
-            p.style.left = `${Math.random() * 100}%`; p.style.bottom = `-50px`; p.style.animationDelay = `${Math.random() * 15}s`; p.style.animationDuration = `${12 + Math.random() * 12}s`;
-            container.appendChild(p);
-        }
-    }
+    // --- ROADMAP OVERVIEW ENGINE ---
 
     function renderOverview() {
-        const viewport = document.getElementById('roadmapViewport');
+        const vp = document.getElementById('roadmapViewport');
         const content = document.getElementById('roadmapContent');
-        const svgPath = document.getElementById('svgPath');
-        if (!viewport || !content || !svgPath) return;
+        const svgLine = document.getElementById('svgPath');
+        
+        if (!vp || !content || !svgLine) return;
         content.querySelectorAll('.path-node').forEach(n => n.remove());
-        const vW = viewport.clientWidth, vH = viewport.clientHeight;
-        if (vW < 100 || vH < 100) return;
-        const data = currentRoleMilestones, total = data.length, cardW = 180;
+
+        const vW = vp.clientWidth, vH = vp.clientHeight;
+        const total = currentRoleMilestones.length;
+        const cardW = 185;
+        
+        // Tính toán scale dựa trên số lượng node và chiều cao màn hình
         let masterScale = 1.0;
-        const reqH = (total + 1) * 125 + 160; 
-        if (vH < reqH) masterScale = Math.max(vH / reqH, 0.62);
-        const marginX = 10, marginY = 60, startX = marginX + 15, startY = vH - marginY - 140, endX = vW - marginX - cardW - 15, endY = marginY + 25, yOffset = 70;
+        const reqH = (total + 1) * 130 + 180;
+        if (vH < reqH) masterScale = Math.max(vH / reqH, 0.6);
+
+        const startX = 75, startY = vH - 220, endX = vW - 270, endY = 90, yOffset = 80;
         const anchors = [];
+
         for (let i = 0; i <= total; i++) {
-            const isSummit = (i === total), ratio = i / total;
-            const x = startX + ratio * (endX - startX), y = startY + ratio * (endY - startY) - yOffset;
-            anchors.push({ x: x + (cardW / 2), y: y + (isSummit ? 100 : 80) * masterScale, isSummit, index: i < total ? i : total - 1 });
+            const isSummit = (i === total);
+            const ratio = i / total;
+            const x = startX + ratio * (endX - startX);
+            const y = startY + ratio * (endY - startY) - yOffset;
+            
+            anchors.push({ 
+                x: x + (cardW / 2), 
+                y: y + (isSummit ? 100 : 85) * masterScale, 
+                isSummit 
+            });
+
             const node = document.createElement('div');
-            node.className = `path-node`; node.id = isSummit ? `node-summit` : `node-${i}`;
-            node.style.left = `${x}px`; node.style.top = `${y}px`; node.style.width = `${cardW}px`;
-            node.onclick = () => { currentIdx = (i < total ? i : total - 1); renderDashboard(); showPage(2); };
-            const nodeColor = isSummit ? '#f59e0b' : progressionColors[i % progressionColors.length];
+            node.className = 'path-node';
+            node.id = isSummit ? 'node-summit' : `node-${i}`;
+            node.style.left = x + 'px';
+            node.style.top = y + 'px';
+            node.style.width = cardW + 'px';
+            
+            node.onclick = () => {
+                currentIdx = (i < total ? i : total - 1);
+                renderDashboard();
+                showPage(2);
+            };
+
+            const nodeColor = isSummit ? '#f59e0b' : progressionColors[i % 6];
+            
             if (!isSummit) {
-                const m = data[i];
-                node.innerHTML = `<div class="node-card" style="transform: scale(${masterScale}); border-bottom: 3px solid ${nodeColor};"><div class="node-circle" style="background-color: ${nodeColor};">0${i+1}</div><div class="node-icon-wrapper"><img src="${m.icon_image_path}" class="w-full h-full object-contain" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1063/1063376.png'"></div><div class="text-center px-1 pb-2"><span class="text-[15px] font-black uppercase block mb-0.5" style="color: ${nodeColor};">${m.milestone_level}</span><h5 class="text-[20px] font-extrabold text-slate-900 line-clamp-3 leading-tight">${m.role_title}</h5></div></div>`;
+                const m = currentRoleMilestones[i];
+                node.innerHTML = `
+                    <div class="node-card" style="transform: scale(${masterScale}); border-bottom: 4px solid ${nodeColor};">
+                        <div class="node-circle" style="background:${nodeColor}">0${i+1}</div>
+                        <div class="node-icon-wrapper">
+                            <img src="${m.icon_image_path}" class="w-full h-full object-contain" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1063/1063376.png'">
+                        </div>
+                        <div class="text-center px-1 pb-3">
+                            <span class="text-[12px] font-black uppercase" style="color: ${nodeColor}">${m.milestone_level}</span>
+                            <h5 class="text-[15.5px] font-bold text-slate-900 h-11 line-clamp-2 leading-tight mt-1">${m.role_title}</h5>
+                        </div>
+                    </div>
+                `;
             } else {
-                const summitData = data[total - 1];
-                node.innerHTML = `<div class="summit-halo" style="transform: translate(-50%, -50%) scale(${masterScale})"></div><div class="node-card summit-card shadow-xl !bg-amber-50" style="transform: scale(${masterScale}); border: 2px solid ${nodeColor};"><div class="summit-crown" style="background-color: ${nodeColor};"><i data-lucide="crown" class="w-4 h-4 text-white"></i></div><div class="node-icon-wrapper !bg-amber-50/30"><img src="${summitData.icon_image_path || 'https://cdn-icons-png.flaticon.com/512/2618/2618245.png'}" class="w-full h-full object-contain"></div><div class="text-center px-1 pb-2"><span class="text-[15px] font-black uppercase block mb-0.5" style="color: ${nodeColor};">Career Goal</span><h5 class="text-[20px] font-black uppercase text-slate-900 line-clamp-3 leading-tight">${summitData.next_target_role || 'Executive'}</h5></div></div>`;
+                node.innerHTML = `
+                    <div class="summit-halo" style="transform: translate(-50%, -50%) scale(${masterScale})"></div>
+                    <div class="node-card summit-card shadow-2xl !bg-amber-50" style="transform: scale(${masterScale}); border: 3px solid ${nodeColor};">
+                        <div class="summit-crown" style="background:${nodeColor}">
+                            <i data-lucide="crown" class="w-5 h-5 text-white"></i>
+                        </div>
+                        <div class="node-icon-wrapper !bg-transparent">
+                            <img src="https://cdn-icons-png.flaticon.com/512/2618/2618245.png" class="w-full h-full object-contain">
+                        </div>
+                        <h5 class="text-center font-black uppercase text-amber-600 text-sm tracking-widest pb-2">Ultimate Goal</h5>
+                    </div>
+                `;
             }
             content.appendChild(node);
         }
 
-        setTimeout(() => {
-            const sEdge = document.getElementById('stairEdge'), sPoly = document.getElementById('stairPolygon');
-            if(sEdge && sPoly) {
-                const gap = 25 * masterScale;
-                const getCardBottomY = (idx) => {
-                    const ratio = idx / total, nodeY = startY + ratio * (endY - startY) - yOffset, nodeEl = document.getElementById(idx === total ? 'node-summit' : `node-${idx}`);
-                    let cardH = 180; if (nodeEl) { const cardEl = nodeEl.querySelector('.node-card'); if (cardEl) cardH = cardEl.offsetHeight; }
-                    return nodeY + (cardH / 2) + (cardH * masterScale / 2);
-                };
-                let sPath = '', pts = [], curX = -50, curY = getCardBottomY(0) + gap;
-                sPath += `M ${curX} ${curY} `; pts.push(`${curX},${curY}`);
-                for (let i = 0; i < anchors.length; i++) {
-                    let nextX = (i < anchors.length - 1) ? (anchors[i].x + anchors[i+1].x) / 2 : vW + 50;
-                    sPath += `L ${nextX} ${curY} `; pts.push(`${nextX},${curY}`);
-                    if (i < anchors.length - 1) { curY = getCardBottomY(i + 1) + gap; sPath += `L ${nextX} ${curY} `; pts.push(`${nextX},${curY}`); }
+        // Vẽ hiệu ứng cầu thang (Staircase)
+        const sEdge = document.getElementById('stairEdge');
+        const sPoly = document.getElementById('stairPolygon');
+        if (sEdge && sPoly) {
+            const getCardY = (idx) => {
+                const r = idx / total, nY = startY + r * (endY - startY) - yOffset;
+                const nodeEl = document.getElementById(idx === total ? 'node-summit' : `node-${idx}`);
+                let cH = 185; 
+                if (nodeEl) { 
+                    const card = nodeEl.querySelector('.node-card');
+                    if (card) cH = card.offsetHeight;
                 }
-                sEdge.setAttribute('d', sPath); let polyPts = pts.join(' ') + ` ${vW + 50},${vH + 50} -50,${vH + 50}`;
-                sPoly.setAttribute('points', polyPts); const sLen = sEdge.getTotalLength(); sEdge.style.setProperty('--stair-len', sLen);
-                sEdge.style.strokeDasharray = sLen; sEdge.style.animation = 'drawStairEdge 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards';
-                sPoly.classList.remove('opacity-0');
-            }
-        }, 150);
+                return nY + (cH / 2) + (cH * masterScale / 2);
+            };
 
+            let sPath = '';
+            let pts = [];
+            let curX = -60, curY = getCardY(0) + 30;
+            
+            sPath += `M ${curX} ${curY} `;
+            pts.push(`${curX},${curY}`);
+            
+            for (let i = 0; i < anchors.length; i++) {
+                let nX = (i < anchors.length - 1) ? (anchors[i].x + anchors[i+1].x) / 2 : vW + 80;
+                sPath += `L ${nX} ${curY} `;
+                pts.push(`${nX},${curY}`);
+                
+                if (i < anchors.length - 1) {
+                    curY = getCardY(i + 1) + 30;
+                    sPath += `L ${nX} ${curY} `;
+                    pts.push(`${nX},${curY}`);
+                }
+            }
+            
+            sEdge.setAttribute('d', sPath);
+            sPoly.setAttribute('points', pts.join(' ') + ` ${vW+100},${vH+100} -100,${vH+100}`);
+            
+            const sLen = sEdge.getTotalLength();
+            sEdge.style.setProperty('--stair-len', sLen);
+            sEdge.style.strokeDasharray = sLen;
+            sEdge.style.animation = 'drawStairEdge 1.6s ease-out forwards';
+            sPoly.classList.remove('opacity-0');
+        }
+
+        // Tạo đường bay Journey Line (Bezier)
         let dStr = `M ${anchors[0].x} ${anchors[0].y}`;
         for (let i = 1; i < anchors.length; i++) {
-            const p1 = anchors[i-1], p2 = anchors[i], midX = (p1.x + p2.x) / 2, cy = Math.min(p1.y, p2.y) - (150 * masterScale);
-            dStr += ` Q ${midX} ${cy}, ${p2.x} ${p2.y}`;
+            const cx = (anchors[i-1].x + anchors[i].x) / 2;
+            const cy = Math.min(anchors[i-1].y, anchors[i].y) - (160 * masterScale);
+            dStr += ` Q ${cx} ${cy}, ${anchors[i].x} ${anchors[i].y}`;
         }
-        svgPath.setAttribute('d', dStr); const pathLen = svgPath.getTotalLength(); const moveTime = 9000, pauseTime = 1200; let start = null;
-        function animate(now) {
-            if (!start) start = now; let elapsed = (now - start) % (moveTime + pauseTime);
-            if (elapsed < moveTime) {
-                const progress = elapsed / moveTime, curDist = progress * pathLen; svgPath.style.strokeDasharray = `${curDist} ${pathLen}`; svgPath.style.opacity = "1";
-                let activeIdx = -1; for(let i=0; i < anchors.length; i++) { const trig = (i / (anchors.length - 1)) * pathLen; if (curDist >= trig - 20 && curDist <= trig + 250) { activeIdx = i; break; } }
-                content.querySelectorAll('.path-node').forEach((node, i) => { const card = node.querySelector('.node-card'); if (i === activeIdx) card.classList.add(i === total ? 'summit-victory' : 'active-glow'); else { card.classList.remove('active-glow', 'summit-victory'); } });
+        svgLine.setAttribute('d', dStr);
+        const pathLen = svgLine.getTotalLength();
+
+        let startAni = null;
+        function animatePath(now) {
+            if (!startAni) startAni = now;
+            let elapsed = (now - startAni) % 10500;
+            
+            if (elapsed < 9000) {
+                const progress = elapsed / 9000;
+                const curDist = progress * pathLen;
+                svgLine.style.strokeDasharray = `${curDist} ${pathLen}`;
+                svgLine.style.opacity = "1";
+                
+                // Highlight Node tương ứng
+                let activeIdx = -1;
+                for (let i = 0; i < anchors.length; i++) {
+                    const trig = (i / (anchors.length - 1)) * pathLen;
+                    if (curDist >= trig - 25 && curDist <= trig + 250) { activeIdx = i; break; }
+                }
+                
+                content.querySelectorAll('.path-node').forEach((node, idx) => {
+                    const card = node.querySelector('.node-card');
+                    if (idx === activeIdx) {
+                        card.classList.add(idx === total ? 'summit-victory' : 'active-glow');
+                    } else {
+                        card.classList.remove('active-glow', 'summit-victory');
+                    }
+                });
             } else {
-                svgPath.style.opacity = "0"; const scNode = document.getElementById('node-summit'); if (scNode) scNode.querySelector('.node-card').classList.add('summit-victory');
-                for(let i=0; i<total; i++) { const n = document.getElementById(`node-${i}`); if(n) n.querySelector('.node-card').classList.remove('active-glow'); }
-                if (elapsed > (moveTime + pauseTime - 100)) if (scNode) scNode.querySelector('.node-card').classList.remove('summit-victory');
+                svgLine.style.opacity = "0";
             }
-            animationLoopId = requestAnimationFrame(animate);
+            animationLoopId = requestAnimationFrame(animatePath);
         }
-        animationLoopId = requestAnimationFrame(animate);
-        const summitData = data[total - 1]; if(document.getElementById('ovJobFamily')) document.getElementById('ovJobFamily').innerText = summitData.job_family || '---';
-        formatSidebarList('ovDevOpp', summitData.development_opportunity); formatSidebarList('ovLongTerm', summitData.long_term_direction);
-        setTimeout(() => content.querySelectorAll('.path-node').forEach(n => n.classList.add('show')), 50);
+        animationLoopId = requestAnimationFrame(animatePath);
+
+        // Sidebar Summary
+        const lastMilestone = currentRoleMilestones[total - 1];
+        document.getElementById('ovJobFamily').innerText = lastMilestone.job_family || 'Generic Group';
+        renderSidebarList('ovDevOpp', lastMilestone.development_opportunity);
+        renderSidebarList('ovLongTerm', lastMilestone.long_term_direction);
+
+        // Show nodes with delay
+        setTimeout(() => {
+            content.querySelectorAll('.path-node').forEach(n => n.classList.add('show'));
+        }, 100);
+        lucide.createIcons();
     }
 
+    // --- DASHBOARD RENDERER ---
+
     function renderDashboard() {
-        const data = currentRoleMilestones[currentIdx]; if(!data) return;
+        const data = currentRoleMilestones[currentIdx];
+        if (!data) return;
+
+        // Header
         document.getElementById('detailFuncTitle').innerText = data.function_title;
-        document.getElementById('detailJobFamily').innerText = data.job_family || '---';
+        document.getElementById('detailJobFamily').innerText = data.job_family;
         document.getElementById('msLevelLabel').innerText = data.milestone_level;
         document.getElementById('roleTitleLabel').innerText = data.role_title;
-        document.getElementById('rolePurposeLabel').innerText = data.role_purpose || '---';
+        document.getElementById('rolePurposeLabel').innerText = data.role_purpose;
         document.getElementById('msIcon').src = data.icon_image_path || 'https://cdn-icons-png.flaticon.com/512/1063/1063376.png';
         document.getElementById('msOrderBadge').innerText = currentIdx + 1;
 
-        // --- NÂNG CẤP TAB ĐÃI NGỘ & PHÚC LỢI ---
-        const vsl = getLevelVisuals(data.milestone_level);
+        // --- FETCH DYNAMIC BENEFITS & SALARIES ---
+        const visuals = getLevelVisuals(data.milestone_level);
         document.getElementById('salaryLevelText').innerText = data.milestone_level;
         document.getElementById('salaryRangeDisplay').innerText = getSalaryRange(data.milestone_level);
-        document.getElementById('salaryProgressBar').style.width = `${vsl.progress}%`;
-        document.getElementById('levelBadgeIcon').innerHTML = `<span class="text-3xl">${vsl.iconName}</span>`;
-        document.getElementById('salaryLevelIconBg').innerHTML = `<i data-lucide="${vsl.icon}" class="w-64 h-64 text-primary-500"></i>`;
+        document.getElementById('salaryProgressBar').style.width = visuals.progress + '%';
+        document.getElementById('levelBadgeIcon').innerHTML = `<span class="drop-shadow-md">${visuals.iconName}</span>`;
+        document.getElementById('salaryLevelIconBg').innerHTML = `<i data-lucide="${visuals.icon}" class="w-64 h-64 text-primary-500"></i>`;
         
-        const benList = document.getElementById('fixedBenefitsList'); benList.innerHTML = '';
-        fixedBenefits.forEach(b => {
-            benList.innerHTML += `<div class="benefit-item-card"><i data-lucide="${b.icon}" class="w-5 h-5 text-primary-600 shrink-0"></i><span class="text-[14px] font-bold text-slate-700">${b.text}</span></div>`;
-        });
+        // Danh sách phúc lợi từ Sheet 2
+        const benefitsListEl = document.getElementById('fixedBenefitsList');
+        benefitsListEl.innerHTML = dynamicBenefitData.benefits.slice(0, 10).map((b, i) => `
+            <div class="benefit-item-card">
+                <i data-lucide="${benefitIcons[i % 10]}" class="w-6 h-6 text-primary-600 shrink-0"></i>
+                <span class="text-[15px] font-bold text-slate-700">${b}</span>
+            </div>
+        `).join('');
 
-        const stepper = document.getElementById('detailStepper'); if(stepper) {
-            stepper.innerHTML = '';
-            currentRoleMilestones.forEach((m, i) => {
-                const div = document.createElement('div'); div.className = `dashboard-stepper-item ${i === currentIdx ? 'active' : (i < currentIdx ? 'completed' : '')}`;
-                div.innerHTML = `<div class="stepper-num">${i+1}</div><div class="flex flex-col"><span class="text-[15px] font-black uppercase text-slate-400">${m.milestone_level}</span><span class="text-[15px] font-bold text-slate-800 leading-tight pr-2">${m.role_title}</span></div>`;
-                div.onclick = () => { currentIdx = i; renderDashboard(); }; stepper.appendChild(div);
-            });
-        }
-        if(document.getElementById('progressLine')) document.getElementById('progressLine').style.height = `${(currentIdx / (currentRoleMilestones.length - 1)) * 100}%`;
+        // Sidebar Navigation
+        const stepper = document.getElementById('detailStepper');
+        stepper.innerHTML = '';
+        currentRoleMilestones.forEach((m, i) => {
+            const div = document.createElement('div');
+            div.className = `dashboard-stepper-item ${i === currentIdx ? 'active' : (i < currentIdx ? 'completed' : '')}`;
+            div.innerHTML = `
+                <div class="stepper-num">${i+1}</div>
+                <div class="flex flex-col">
+                    <span class="text-[11px] font-black uppercase text-slate-400 tracking-wider">${m.milestone_level}</span>
+                    <span class="text-[14.5px] font-bold leading-tight">${m.role_title}</span>
+                </div>
+            `;
+            div.onclick = () => { currentIdx = i; renderDashboard(); };
+            stepper.appendChild(div);
+        });
         
-        formatSidebarListDynamic('sidebarDevOpp', data.development_opportunity);
-        formatSidebarListDynamic('sidebarLongTerm', data.long_term_direction);
+        // Progress line height calculation
+        const stepItems = stepper.querySelectorAll('.dashboard-stepper-item');
+        if (stepItems.length > 1) {
+            document.getElementById('progressLine').style.height = `${(currentIdx / (currentRoleMilestones.length - 1)) * 100}%`;
+        }
+
+        // Tab Contents
         renderBulletList('responsibilitiesList', data.key_responsibilities, 'check-circle-2', 'primary', true);
         
-        const kpiList = document.getElementById('kpiContainer'); kpiList.innerHTML = '';
-        if(data.key_outputs_kpis) data.key_outputs_kpis.split(/[\n•·-]/).filter(s => s.trim().length > 5).forEach(kpi => {
-            kpiList.innerHTML += `<div class="bg-primary-50/50 p-4 rounded-2xl border border-primary-100 flex items-center gap-3"><div class="w-2 h-2 rounded-full bg-primary-500"></div><span class="text-[15px] font-bold text-slate-700">${kpi.trim()}</span></div>`;
-        });
+        // KPIs
+        const kpiCon = document.getElementById('kpiContainer');
+        kpiCon.innerHTML = '';
+        if (data.key_outputs_kpis) {
+            data.key_outputs_kpis.split(/[\n•·-]/).filter(s => s.trim().length > 3).forEach(k => {
+                kpiCon.innerHTML += `<div class="bg-primary-50/50 p-5 rounded-3xl border border-primary-100 font-bold text-slate-700 text-[14.5px] flex items-center gap-3"><div class="w-2 h-2 rounded-full bg-primary-400"></div>${k.trim()}</div>`;
+            });
+        }
 
-        const compCon = document.getElementById('competenciesContainer'); compCon.innerHTML = '';
-        if(data.competencies_to_develop) data.competencies_to_develop.split(/[\n•·-]/).filter(s => s.trim().length > 3).forEach((item, i) => {
-            const lvl = [86, 75, 96, 65, 80][i % 5];
-            compCon.innerHTML += `<div class="skill-bar-container"><div class="flex justify-between text-[15px] font-black uppercase text-slate-500"><span>${item.trim()}</span><span>${lvl}%</span></div><div class="skill-bar-bg"><div class="skill-bar-fill" style="width: ${lvl}%"></div></div></div>`;
-        });
+        // Competencies (Progress Bars)
+        const compCon = document.getElementById('competenciesContainer');
+        compCon.innerHTML = '';
+        if (data.competencies_to_develop) {
+            data.competencies_to_develop.split(/[\n•·-]/).filter(s => s.trim().length > 3).forEach((c, i) => {
+                const values = [85, 75, 90, 65, 80, 70];
+                const v = values[i % values.length];
+                compCon.innerHTML += `
+                    <div class="skill-bar-container">
+                        <div class="flex justify-between text-[13px] font-black uppercase text-slate-500">
+                            <span>${c.trim()}</span>
+                            <span>${v}%</span>
+                        </div>
+                        <div class="skill-bar-bg">
+                            <div class="skill-bar-fill" style="width: ${v}%"></div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
 
-        const behCon = document.getElementById('behavioralContainer'); behCon.innerHTML = '';
-        if(data.behavioral_leadership_skills) data.behavioral_leadership_skills.split(/[\n•·,]/).filter(s => s.trim().length > 3).forEach(skill => {
-            const chip = document.createElement('div'); chip.className = "skill-chip"; chip.innerText = skill.trim(); behCon.appendChild(chip);
-        });
-
-        const toolCon = document.getElementById('toolsContainer'); toolCon.innerHTML = '';
-        if(data.technical_skills_tools) data.technical_skills_tools.split(/[\n•·-]/).filter(s => s.trim().length > 3).forEach(tool => {
-            toolCon.innerHTML += `<div class="tool-list-item flex items-center gap-2 mb-2"><i data-lucide="chevron-right" class="w-4 h-4 text-primary-500"></i><span class="text-[15px] font-semibold">${tool.trim()}</span></div>`;
-        });
-
+        // Others
         renderBulletList('trainingList', data.suggested_training_development, 'graduation-cap', 'primary');
         renderBulletList('readinessList', data.readiness_indicators, 'check-circle-2', 'emerald');
         renderBulletList('promotionList', data.promotion_criteria, 'trending-up', 'indigo');
         
-        document.getElementById('nextTargetRole').innerText = data.next_target_role || '---';
-        document.getElementById('typicalScopeText').innerText = data.typical_scope || '---';
+        document.getElementById('nextTargetRole').innerText = data.next_target_role || 'Đang cập nhật lộ trình...';
+        document.getElementById('typicalScopeText').innerText = data.typical_scope || 'Thông tin bối cảnh công việc đang được cập nhật.';
+        document.getElementById('sidebarDevOpp').innerText = data.development_opportunity || 'N/A';
         
-        const certCon = document.getElementById('certList'); certCon.innerHTML = '';
-        if(data.recommended_certifications) data.recommended_certifications.split(/[\n•·,]/).filter(s => s.trim().length > 2).forEach(c => {
-            certCon.innerHTML += `<div class="px-4 py-2 rounded-xl bg-amber-50 text-amber-700 border border-amber-100 font-bold text-[15px]">${c.trim()}</div>`;
-        });
-
-        document.getElementById('pageCounter').innerText = `${String(currentIdx+1).padStart(2, '0')} / ${String(currentRoleMilestones.length).padStart(2, '0')}`;
-        document.getElementById('prevBtn').onclick = () => { if(currentIdx > 0) { currentIdx--; renderDashboard(); } };
+        // Footer stats
+        document.getElementById('pageCounter').innerText = `${String(currentIdx + 1).padStart(2, '0')} / ${String(currentRoleMilestones.length).padStart(2, '0')}`;
+        
+        // Button Logic
+        const bPrev = document.getElementById('prevBtn');
+        bPrev.style.visibility = currentIdx === 0 ? 'hidden' : 'visible';
+        
         const bNext = document.getElementById('nextBtn');
-        bNext.innerText = currentIdx === currentRoleMilestones.length - 1 ? 'KẾT THÚC' : 'Tiếp theo';
-        bNext.onclick = () => { if(currentIdx < currentRoleMilestones.length - 1) { currentIdx++; renderDashboard(); } else showPage(1); };
+        if (currentIdx === currentRoleMilestones.length - 1) {
+            bNext.innerText = "Hoàn tất tìm hiểu";
+            bNext.onclick = () => showPage(1);
+        } else {
+            bNext.innerText = "Cấp bậc kế tiếp";
+            bNext.onclick = () => { currentIdx++; renderDashboard(); };
+        }
+
+        lucide.createIcons();
+    }
+
+    // --- HELPER RENDERING FUNCTIONS ---
+
+    function renderBulletList(id, text, icon, color, isResp = false) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.innerHTML = '';
+        if (!text || text.trim() === '') {
+            el.innerHTML = '<div class="text-slate-400 italic text-[16px] p-4">Thông tin hiện chưa khả dụng.</div>';
+            return;
+        }
+        
+        text.split(/[\n•·-]/).filter(s => s.trim().length > 3).forEach(item => {
+            const li = document.createElement('div');
+            li.className = isResp ? "responsibility-card" : "flex gap-5 items-start bg-white/60 p-5 rounded-[22px] border border-slate-50 mb-4 shadow-sm";
+            li.innerHTML = `
+                <i data-lucide="${icon}" class="w-6 h-6 text-${color}-600 shrink-0 mt-0.5"></i> 
+                <span class="text-[15.5px] font-semibold text-slate-700 leading-relaxed">${item.trim()}</span>
+            `;
+            el.appendChild(li);
+        });
+    }
+
+    function renderSidebarList(id, text) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        if (!text) { el.innerHTML = '<span class="text-slate-400 italic">Updating...</span>'; return; }
+        
+        el.innerHTML = text.split(/[\n•·-]/).filter(s => s.trim().length > 5).map(s => `
+            <div class="info-item-list">
+                <div class="dot"></div>
+                <span class="leading-relaxed text-[14.5px]">${s.trim()}</span>
+            </div>
+        `).join('');
+    }
+
+    function switchTab(id, event) {
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+        document.getElementById(id).classList.remove('hidden');
+        
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        if (event) event.currentTarget.classList.add('active');
         
         lucide.createIcons();
     }
 
-    function formatSidebarList(id, text) {
-        const container = document.getElementById(id); if(!container) return; container.innerHTML = '';
-        if(!text) { container.innerHTML = '<span class="text-[15px] italic opacity-60">N/A</span>'; return; }
-        text.split(/[\n•·-]/).filter(s => s.trim().length > 5).forEach(item => {
-            container.innerHTML += `<div class="info-item-list"><div class="dot"></div><span>${item.trim()}</span></div>`;
+    function initParticles() {
+        const container = document.getElementById('particleContainer');
+        if (!container) return;
+        container.innerHTML = '';
+        
+        const colors = ['#0ea5e9', '#10b981', '#8b5cf6', '#f59e0b', '#d946ef'];
+        for (let i = 0; i < 35; i++) {
+            const p = document.createElement('div');
+            p.className = 'ambient-particle';
+            const size = Math.random() * 8 + 4;
+            p.style.width = size + 'px';
+            p.style.height = size + 'px';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.bottom = '-60px';
+            p.style.backgroundColor = colors[i % colors.length];
+            p.style.animationDelay = Math.random() * 20 + 's';
+            p.style.animationDuration = (Math.random() * 10 + 20) + 's';
+            container.appendChild(p);
+        }
+    }
+
+    // --- EVENT LISTENERS ---
+
+    document.getElementById('roleSearchInput').oninput = function() {
+        const val = this.value.toLowerCase();
+        document.querySelectorAll('.role-list-item').forEach(li => {
+            const text = li.innerText.toLowerCase();
+            li.style.display = text.includes(val) ? 'flex' : 'none';
         });
-    }
+    };
 
-    function formatSidebarListDynamic(id, text) {
-        const container = document.getElementById(id); if(!container) return; container.innerHTML = '';
-        if(!text) { container.innerHTML = '<div class="text-[15px] italic opacity-60">N/A</div>'; return; }
-        text.split(/[\n•·-]/).filter(s => s.trim().length > 5).forEach(item => {
-            container.innerHTML += `<div class="dynamic-bullet"><div class="white-dot"></div><span class="dynamic-content-list">${item.trim()}</span></div>`;
-        });
-    }
+    document.getElementById('dropdownTrigger').onclick = (e) => {
+        e.stopPropagation();
+        if (isFileLoaded) {
+            const m = document.getElementById('dropdownMenu');
+            m.classList.toggle('opacity-100');
+            m.classList.toggle('scale-y-100');
+            m.classList.toggle('pointer-events-auto');
+        }
+    };
 
-    function renderBulletList(id, text, icon, color, isResp = false) {
-        const el = document.getElementById(id); if (!el) return; el.innerHTML = '';
-        if(!text) return el.innerHTML = '<div class="text-slate-400 italic text-[15px]">N/A</div>';
-        text.split(/[\n•·-]/).filter(s => s.trim().length > 3).forEach(item => {
-            el.innerHTML += `<div class="${isResp ? 'responsibility-card' : 'flex gap-4 items-start bg-white/60 p-4 rounded-2xl border border-slate-50 shadow-sm mb-3'}"><i data-lucide="${icon}" class="w-5 h-5 text-${color}-600 mt-0.5 shrink-0"></i><span class="text-[15px] font-medium text-slate-700 leading-relaxed">${item.trim()}</span></div>`;
-        });
-    }
+    // Close menus on click outside
+    window.onclick = function(e) {
+        if (!e.target.closest('#themeSelectorContainer')) {
+            const themeMenu = document.getElementById('themeMenu');
+            themeMenu.classList.remove('opacity-100', 'scale-y-100', 'pointer-events-auto');
+        }
+        if (!e.target.closest('#customDropdownContainer')) {
+            const dropMenu = document.getElementById('dropdownMenu');
+            dropMenu.classList.remove('opacity-100', 'scale-y-100', 'pointer-events-auto');
+        }
+    };
 
-    function switchTab(id) {
-        document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
-        const target = document.getElementById(id); if(target) target.classList.remove('hidden');
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        if(event) event.target.classList.add('active'); lucide.createIcons();
-    }
+    document.getElementById('btnStart').onclick = () => {
+        if (!isRoleSelected) {
+            showToast("Vui lòng chọn lộ trình trước!");
+            return;
+        }
+        
+        // Lọc dữ liệu theo chức danh đã chọn
+        currentRoleMilestones = masterData
+            .filter(d => d.function_title === selectedRoleValue)
+            .sort((a, b) => (Number(a.milestone_order) || 0) - (Number(b.milestone_order) || 0));
+            
+        showPage(1.5);
+    };
 
-    const obs = new ResizeObserver(() => { if(!document.getElementById('pageOverview').classList.contains('hidden')) renderOverview(); });
-    obs.observe(document.body);
-    document.getElementById('btnGoToDetail').addEventListener('click', () => showPage(2));
-    showPage(1);
+    document.getElementById('btnGoToDetail').onclick = () => {
+        currentIdx = 0;
+        showPage(2);
+    };
+
+    // --- APP START ---
+    window.addEventListener('load', () => {
+        loadExcelDataAutomatically();
+        showPage(1);
+    });
+
 </script>
 
 </body>
