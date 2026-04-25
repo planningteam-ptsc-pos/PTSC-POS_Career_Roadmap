@@ -596,6 +596,8 @@
 
 <script>
     let masterData = [];
+    let salaryBenefitData = []; 
+    let benefitListData = [];
     let currentRoleMilestones = [];
     let currentIdx = 0;
     let animationLoopId = null;
@@ -673,7 +675,7 @@
         return { icon: 'briefcase', progress: 50, iconName: '💼' };
     }
 
-    function getSalaryRange(levelText) {
+    function getSalaryRange_old(levelText) {
         const lvl = (levelText || "").toLowerCase();
         if (lvl.includes('entry')) return "15 - 20 Tr";
         if (lvl.includes('junior')) return "20 - 40 Tr";
@@ -681,6 +683,12 @@
         if (lvl.includes('lead') || lvl.includes('expert')) return "40 - 80 Tr";
         if (lvl.includes('manage') || lvl.includes('head') || lvl.includes('director')) return "60 - 100+ Tr";
         return "Thỏa thuận";
+    }
+
+    function getSalaryRange(levelText) {
+        const lvl = (levelText || "").toLowerCase();
+        const found = salaryBenefitData.find(d => (d.milestone_level || "").trim().toLowerCase() === lvl);
+        return found ? found.salary : "Thỏa thuận";                      
     }
 
     function getRoleIcon(roleName) {
@@ -716,6 +724,14 @@
             if (!response.ok) throw new Error(`Không thể tải dữ liệu. HTTP ${response.status}`);
             const csvText = await response.text();
             masterData = parseCSV(csvText);
+
+            const benefitResponse = await fetch(config.sheetUrl2);
+            if (!benefitResponse.ok) throw new Error('Không thể tải dữ liệu Benefit');
+            const benefitCsvText = await benefitResponse.text();
+            const benefitData = parseCSV(benefitCsvText);
+            salaryBenefitData = benefitData.filter(d => d.milestone_level && d.salary);
+            benefitListData = benefitData.filter(d => d.benefit);
+            
             const roles = [...new Set(masterData.map(d => d.function_title))].filter(Boolean);
             customRoleList.innerHTML = '';
             roles.sort().forEach(r => {
@@ -944,12 +960,15 @@
         document.getElementById('salaryProgressBar').style.width = `${vsl.progress}%`;
         document.getElementById('levelBadgeIcon').innerHTML = `<span class="text-3xl">${vsl.iconName}</span>`;
         document.getElementById('salaryLevelIconBg').innerHTML = `<i data-lucide="${vsl.icon}" class="w-64 h-64 text-primary-500"></i>`;
-        
-        const benList = document.getElementById('fixedBenefitsList'); benList.innerHTML = '';
-        fixedBenefits.forEach(b => {
-            benList.innerHTML += `<div class="benefit-item-card"><i data-lucide="${b.icon}" class="w-5 h-5 text-primary-600 shrink-0"></i><span class="text-[14px] font-bold text-slate-700">${b.text}</span></div>`;
-        });
 
+        const benList = document.getElementById('fixedBenefitsList');
+        benList.innerHTML = '';
+        benefitListData.forEach((b, index) => {
+            const iconList = ['umbrella', 'palmtree', 'users', 'trophy', 'heart', 'gift', 'anchor', 'shield-plus', 'stethoscope', 'graduation-cap'];
+            const icon = iconList[index % iconList.length];
+            benList.innerHTML += `<div class="benefit-item-card"><i data-lucide="${icon}" class="w-5 h-5 text-primary-600 shrink-0"></i><span class="text-[14px] font-bold text-slate-700">${b.benefit}</span></div>`;
+        });
+        
         const stepper = document.getElementById('detailStepper'); if(stepper) {
             stepper.innerHTML = '';
             currentRoleMilestones.forEach((m, i) => {
