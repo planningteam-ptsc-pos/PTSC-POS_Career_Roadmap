@@ -563,12 +563,12 @@
                                                 <span id="salaryLevelText" class="text-xl font-extrabold text-slate-800">---</span>
                                             </div>
                                         </div>
-                                        <h5 class="text-[14px] font-black uppercase tracking-widest mb-1 text-slate-400">Mức lương tham khảo</h5>
+                                        <h5 class="text-[14px] font-black uppercase tracking-widest mb-1 text-slate-400">Thu nhập tham khảo</h5>
                                         <div id="salaryRangeDisplay" class="text-5xl md:text-6xl font-black mb-6 text-primary-600 tracking-tighter">---</div>
                                         <div class="w-full h-2 bg-slate-100/50 rounded-full mb-8 overflow-hidden border border-slate-100">
                                             <div id="salaryProgressBar" class="h-full bg-primary-500 transition-all duration-1000 shadow-lg" style="width: 0%"></div>
                                         </div>
-                                        <p class="text-[13px] font-medium italic leading-relaxed text-slate-500 opacity-80">* Mức lương thực tế dựa trên kinh nghiệm, chứng chỉ quốc tế và hiệu suất KPI vượt trội.</p>
+                                        <p class="text-[13px] font-medium italic leading-relaxed text-slate-500 opacity-80">* Thu nhập thực tế dựa trên kinh nghiệm, chứng chỉ quốc tế và hiệu suất KPI vượt trội.</p>
                                     </div>
                                 </div>
                             </div>
@@ -676,10 +676,10 @@
     function getSalaryRange(levelText) {
         const lvl = (levelText || "").toLowerCase();
         if (lvl.includes('entry')) return "15 - 20 Tr";
-        if (lvl.includes('junior')) return "20 - 30 Tr";
-        if (lvl.includes('senior')) return "35 - 55 Tr";
-        if (lvl.includes('lead') || lvl.includes('expert')) return "60 - 90 Tr";
-        if (lvl.includes('manage') || lvl.includes('head') || lvl.includes('director')) return "100 - 200+ Tr";
+        if (lvl.includes('junior')) return "18 - 30 Tr";
+        if (lvl.includes('senior')) return "25 - 50 Tr";
+        if (lvl.includes('lead') || lvl.includes('expert')) return "40 - 70 Tr";
+        if (lvl.includes('manage') || lvl.includes('head') || lvl.includes('director')) return "60 - 100+ Tr";
         return "Thỏa thuận";
     }
 
