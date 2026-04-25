@@ -676,9 +676,9 @@
     function getSalaryRange(levelText) {
         const lvl = (levelText || "").toLowerCase();
         if (lvl.includes('entry')) return "15 - 20 Tr";
-        if (lvl.includes('junior')) return "18 - 30 Tr";
-        if (lvl.includes('senior')) return "25 - 50 Tr";
-        if (lvl.includes('lead') || lvl.includes('expert')) return "40 - 70 Tr";
+        if (lvl.includes('junior')) return "20 - 40 Tr";
+        if (lvl.includes('senior')) return "30 - 60 Tr";
+        if (lvl.includes('lead') || lvl.includes('expert')) return "40 - 80 Tr";
         if (lvl.includes('manage') || lvl.includes('head') || lvl.includes('director')) return "60 - 100+ Tr";
         return "Thỏa thuận";
     }
