@@ -343,7 +343,7 @@
 
         #ai-bot-panel {
             position: fixed; z-index: 1001;
-            width: 420px; max-width: calc(100vw - 24px); height: 620px; max-height: calc(100vh - 150px);
+            width: 420px; max-width: calc(100vw - 32px); height: 620px; max-height: calc(100vh - 150px);
             background: white; border-radius: 32px; box-shadow: 0 25px 70px -10px rgba(0,0,0,0.2);
             display: flex; flex-direction: column; overflow: hidden;
             transition: opacity 0.3s, transform 0.3s;
@@ -362,6 +362,7 @@
         .ai-bot-bubble-user { align-self: flex-end; background: #2563eb; color: white; border-bottom-right-radius: 4px; font-weight: 600; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1); }
         .ai-bot-bubble-bot { align-self: flex-start; background: white; color: #1e293b; border-bottom-left-radius: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.02); border: 1px solid #f1f5f9; }
 
+        /* AI BOT COMPACT MARKDOWN STYLE - NO BR */
         .ai-bot-markdown { 
             line-height: 1.35; 
             color: #1e293b;
@@ -377,6 +378,8 @@
             padding: 0; 
         }
         .ai-bot-section:first-child { margin-top: 0; }
+        
+        /* Section Title: BOLD & BLUE */
         .ai-bot-section-title { 
             display: flex; 
             align-items: flex-start; 
@@ -396,19 +399,31 @@
             font-weight: 900; 
             flex-shrink: 0; 
         }
+        
+        /* Content inside sections: BLACK & NORMAL */
         .ai-bot-section-list { 
             margin: 0; 
             padding-left: 1.15rem; 
             list-style-type: disc;
+            color: #1e293b;
         }
         .ai-bot-section-list li { 
             margin: 0; 
             padding: 0; 
             line-height: 1.35; 
+            font-weight: 400;
+            color: #1e293b;
         }
         .ai-bot-section-list li + li { margin-top: 0.1rem; }
         
-        .ai-bot-markdown strong { font-weight: 700; color: inherit; }
+        /* Labels inside bullet: BOLD & BLACK */
+        .ai-bot-section-list li strong {
+            font-weight: 700;
+            color: #1e293b;
+        }
+        
+        /* Global override to prevent blue color inheriting down to detail labels */
+        .ai-bot-markdown strong { color: inherit; }
         .ai-bot-markdown br { display: none; }
 
         .ai-bot-input-area { padding: 14px; background: white; border-top: 1px solid #f1f5f9; }
@@ -920,7 +935,6 @@
             if (!configResponse.ok) throw new Error('Không tìm thấy file config.json');
             const config = await configResponse.json();
             
-            // Tải dữ liệu song song
             const [roadmapRes, benefitRes] = await Promise.all([
                 fetch(config.sheetUrl),
                 fetch(config.sheetUrl2)
@@ -1295,7 +1309,8 @@
             isDragging: false,
             isPanelOpen: false,
             isTyping: false,
-            pos: JSON.parse(localStorage.getItem('ai-bot-widget-pos')) || { left: 30, bottom: 30 }
+            // Reset position on reload - Default value always used here
+            pos: { left: 30, bottom: 30 }
         };
 
         const trigger = document.getElementById('ai-bot-trigger');
@@ -1307,6 +1322,8 @@
         const statusLabel = document.getElementById('ai-bot-status');
 
         function aiBotInitPos() {
+            // Clean up any old stored positions
+            localStorage.removeItem('ai-bot-widget-pos');
             trigger.style.left = aiBotState.pos.left + 'px';
             trigger.style.bottom = aiBotState.pos.bottom + 'px';
             trigger.style.top = 'auto'; 
@@ -1371,9 +1388,8 @@
             document.removeEventListener('mouseup', onDragEnd);
             document.removeEventListener('touchmove', onDragging);
             document.removeEventListener('touchend', onDragEnd);
-            if (aiBotState.isDragging) {
-                localStorage.setItem('ai-bot-widget-pos', JSON.stringify(aiBotState.pos));
-            } else {
+            // No persistent saving of position - user requested reset on reload
+            if (!aiBotState.isDragging) {
                 aiBotTogglePanel();
             }
         }
@@ -1399,8 +1415,8 @@
             if (!text) return "";
             return text
                 .replace(/[\u{1F300}-\u{1F6FF}\u{1F900}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '') // Xóa emoji
-                .replace(/[#@]/g, '') // Xóa ký tự trang trí #, @
-                .replace(/(\d+)\s*-\s*(\d+)/g, '$1 đến $2') // Chuyển "15 - 20" thành "15 đến 20"
+                .replace(/[#@]/g, '') // Xóa #, @
+                .replace(/(\d+)\s*-\s*(\d+)/g, '$1 đến $2') // "15 - 20" -> "15 đến 20"
                 .replace(/\r\n/g, '\n')
                 .replace(/\n\s*\n+/g, '\n')
                 .trim();
@@ -1416,22 +1432,35 @@
             return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
         }
 
+        function aiBotFormatListItem(text) {
+            const escaped = aiBotEscapeHtml(text);
+            // Bold the label before the colon (black color is inherited from CSS)
+            return escaped.replace(/^([^:：]{2,40}[:：])\s*(.+)$/u, '<strong>$1</strong> $2');
+        }
+
         function aiBotIsSectionHeading(line) {
-            const clean = line.replace(/\*\*/g, '').replace(/[:：]\s*$/, '').trim();
-            const headingKeywords = [
+            const raw = line.trim();
+            // Not a heading if it starts with a bullet
+            if (/^[-*•·]\s+/.test(raw)) return false;
+
+            const clean = raw.replace(/\*\*/g, '').replace(/[:：]\s*$/, '').trim();
+
+            // Level 1: Numbered lines
+            if (/^\d+[\.\)]\s+.+/.test(clean)) return true;
+            // Level 1: Keywords for paths
+            if (/^(Option|Lựa chọn|Hướng|Nhóm|Mục)\s*\d+\s*[:\-]\s*.+/i.test(clean)) return true;
+
+            // Global High Level Headings
+            const highLevelHeadings = [
                 'Mức thu nhập tham khảo', 'Thu nhập tham khảo', 'Mức lương tham khảo',
                 'Chính sách đãi ngộ và phúc lợi', 'Đãi ngộ và phúc lợi', 'Phúc lợi',
-                'Lưu ý', 'Kỹ năng chuyên môn', 'Kỹ năng hành vi', 'Kỹ năng cần chuẩn bị',
-                'Bước tiếp theo', 'Vị trí phù hợp', 'Lý do phù hợp', 'Định hướng dài hạn',
-                'Cơ hội phát triển', 'Chứng chỉ khuyến nghị', 'Đào tạo gợi ý',
-                'Công cụ chuyên môn', 'Trách nhiệm chính', 'KPI chính'
+                'Lưu ý', 'Kỹ năng chuyên môn', 'Kỹ năng hành vi', 
+                'Chứng chỉ khuyến nghị', 'Đào tạo gợi ý', 'KPI chính', 'Trách nhiệm chính'
             ];
-            return (
-                /^(\d+)[.\)]\s+.+/.test(clean) ||
-                /^(Option|Lựa chọn|Hướng|Nhóm|Mục)\s*\d+\s*[:\-]\s*.+/i.test(clean) ||
-                headingKeywords.some(k => clean.toLowerCase().includes(k.toLowerCase())) ||
-                (clean.length <= 60 && /[:：]$/.test(line.trim()))
-            );
+
+            if (highLevelHeadings.some(k => clean.toLowerCase() === k.toLowerCase())) return true;
+            
+            return false;
         }
 
         function aiBotParseStructuredResponse(text) {
@@ -1444,7 +1473,7 @@
             const flushList = () => {
                 if (currentList.length > 0) {
                     finalHtml += `<ul class="ai-bot-section-list">` + 
-                        currentList.map(li => `<li>${aiBotRenderInlineMarkdown(aiBotEscapeHtml(li))}</li>`).join('') + 
+                        currentList.map(li => `<li>${aiBotFormatListItem(li)}</li>`).join('') + 
                         `</ul>`;
                     currentList = [];
                 }
@@ -1458,7 +1487,7 @@
                 const isHeading = aiBotIsSectionHeading(line);
                 const bulletMatch = line.match(bulletPattern);
                 
-                if (sectionMatch || isHeading) {
+                if (isHeading) {
                     flushList();
                     let num = "";
                     let title = line.replace(/[:：]$/, '').replace(/\*\*/g, '').trim();
@@ -1471,12 +1500,13 @@
                     finalHtml += `<div class="ai-bot-section">
                         <div class="ai-bot-section-title">
                             ${num ? `<span class="ai-bot-section-number">${num}.</span>` : ""}
-                            <strong>${aiBotRenderInlineMarkdown(aiBotEscapeHtml(title))}</strong>
+                            <strong>${aiBotEscapeHtml(title)}</strong>
                         </div>
                     </div>`;
                 } else if (bulletMatch) {
                     currentList.push(bulletMatch[1]);
-                } else if (line.includes(': ')) {
+                } else if (index > 0 && line.includes(': ')) {
+                    // Lines with colons appearing after an intro are likely detail bullets
                     currentList.push(line);
                 } else {
                     flushList();
@@ -1505,34 +1535,26 @@
         }
 
         function aiBotPickRelevantRows(query) {
-            const intent = aiBotGetQueryIntent(query);
             const qNorm = aiBotNormalizeSearchText(query);
             const tokens = qNorm.split(/\s+/).filter(t => t.length > 2 && !['toi','anh','chi','can','la','gi','nen'].includes(t));
             
             const scored = masterData.map(row => {
                 let score = 0;
                 const rowText = aiBotNormalizeSearchText(Object.values(row).join(' '));
-                
                 tokens.forEach(t => { if (rowText.includes(t)) score += 1; });
-                
-                // Trọng số cho các trường quan trọng
                 if (tokens.some(t => aiBotNormalizeSearchText(row.role_title).includes(t))) score += 5;
                 if (tokens.some(t => aiBotNormalizeSearchText(row.function_title).includes(t))) score += 5;
-
-                // Ưu tiên Career Path đang chọn
                 if (selectedRoleValue && row.function_title === selectedRoleValue) score += 3;
-
                 return { row, score };
             });
 
             const filtered = scored.filter(s => s.score > 0).sort((a,b) => b.score - a.score);
-            
             if (filtered.length === 0) return masterData.slice(0, 8);
             return filtered.slice(0, 12).map(s => s.row);
         }
 
         function aiBotBuildCompactKnowledge(rows) {
-            return rows.map((r, i) => `[Dòng ${i+1}] Lộ trình: ${r.function_title} | Cấp: ${r.milestone_level} | Vị trí: ${r.role_title} | Trách nhiệm: ${r.key_responsibilities.slice(0, 150)} | Kỹ năng: ${r.competencies_to_develop} | Tiêu chí thăng cấp: ${r.promotion_criteria}`).join('\n');
+            return rows.map((r, i) => `[Path ${i+1}] Lộ trình: ${r.function_title} | Cấp: ${r.milestone_level} | Vị trí: ${r.role_title} | Trách nhiệm: ${r.key_responsibilities.slice(0, 120)} | Kỹ năng: ${r.competencies_to_develop} | Tiêu chí thăng cấp: ${r.promotion_criteria}`).join('\n');
         }
 
         // --- TYPEWRITING ---
@@ -1550,13 +1572,13 @@
                 const words = line.split(' ');
                 let currentLineTyped = "";
                 
-                // Type by word clusters for smoothness
                 for (let j = 0; j < words.length; j += 2) {
                     const chunk = words.slice(j, j + 2).join(' ') + " ";
                     currentLineTyped += chunk;
+                    // Format while typing
                     element.innerHTML = aiBotParseStructuredResponse(partialContent + currentLineTyped);
                     messagesContainer.scrollTop = messagesContainer.scrollHeight;
-                    await new Promise(r => setTimeout(r, 25));
+                    await new Promise(r => setTimeout(r, 12));
                 }
                 partialContent += line + "\n";
             }
@@ -1605,7 +1627,7 @@
             const intent = aiBotGetQueryIntent(prompt);
             const relevantRows = (intent === "compensation") ? [] : aiBotPickRelevantRows(prompt);
             const kb = (intent === "compensation") 
-                ? "Dữ liệu Roadmap nén không cần thiết cho câu hỏi về thu nhập." 
+                ? "Dữ liệu Roadmap rút gọn không cần thiết cho thông tin thu nhập." 
                 : aiBotBuildCompactKnowledge(relevantRows);
 
             const systemPrompt = `Bạn là trợ lý tư vấn lộ trình nghề nghiệp dựa trên dữ liệu Roadmap nội bộ.
@@ -1616,7 +1638,7 @@ DỮ LIỆU ROADMAP LIÊN QUAN:
 ${kb}
 
 DỮ LIỆU THU NHẬP, ĐÃI NGỘ, PHÚC LỢI THAM KHẢO:
-${intent === "compensation" ? (aiBotCompensationData || "Không có dữ liệu thu nhập cụ thể.") : "Sử dụng khi được hỏi về đãi ngộ."}
+${intent === "compensation" ? (aiBotCompensationData || "Không có dữ liệu thu nhập cụ thể.") : "Chỉ sử dụng khi được hỏi về đãi ngộ."}
 
 ${aiBotAnswerRule}`;
 
