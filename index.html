@@ -362,7 +362,7 @@
         .ai-bot-bubble-user { align-self: flex-end; background: #2563eb; color: white; border-bottom-right-radius: 4px; font-weight: 600; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1); }
         .ai-bot-bubble-bot { align-self: flex-start; background: white; color: #1e293b; border-bottom-left-radius: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.02); border: 1px solid #f1f5f9; }
 
-        /* AI BOT COMPACT MARKDOWN STYLE - NO BR */
+        /* AI BOT CLEAN STYLE - NO BR */
         .ai-bot-markdown { 
             line-height: 1.35; 
             color: #1e293b;
@@ -372,6 +372,7 @@
             margin: 0 0 0.35rem 0; 
             padding: 0; 
             line-height: 1.35;
+            color: #1e293b;
         }
         .ai-bot-section { 
             margin: 0.45rem 0 0 0; 
@@ -379,7 +380,7 @@
         }
         .ai-bot-section:first-child { margin-top: 0; }
         
-        /* Section Title: BOLD & BLUE */
+        /* Heading màu xanh chuẩn */
         .ai-bot-section-title { 
             display: flex; 
             align-items: flex-start; 
@@ -400,7 +401,7 @@
             flex-shrink: 0; 
         }
         
-        /* Content inside sections: BLACK & NORMAL */
+        /* Bullet chi tiết màu đen */
         .ai-bot-section-list { 
             margin: 0; 
             padding-left: 1.15rem; 
@@ -416,13 +417,12 @@
         }
         .ai-bot-section-list li + li { margin-top: 0.1rem; }
         
-        /* Labels inside bullet: BOLD & BLACK */
+        /* Label in bullet đen in đậm */
         .ai-bot-section-list li strong {
             font-weight: 700;
             color: #1e293b;
         }
         
-        /* Global override to prevent blue color inheriting down to detail labels */
         .ai-bot-markdown strong { color: inherit; }
         .ai-bot-markdown br { display: none; }
 
@@ -820,11 +820,14 @@
 3. Trả lời ngắn gọn, ưu tiên dạng gạch đầu dòng.
 4. Mỗi câu trả lời tối đa 150 từ.
 5. Nếu người dùng hỏi định hướng nghề nghiệp, gợi ý tối đa 2 lộ trình phù hợp nhất.
-6. Với mỗi lộ trình, chỉ nêu: Vị trí phù hợp, lý do, kỹ năng cần chuẩn bị, bước tiếp theo.
+6. Với mỗi lộ trình, chỉ nêu: Vị trí phù hợp, lý do phù hợp, kỹ năng cần chuẩn bị, bước tiếp theo.
 7. Nếu người dùng hỏi về mức thu nhập, lương, đãi ngộ hoặc phúc lợi, hãy sử dụng dữ liệu salary và benefit nếu có.
 8. Khi trả lời về lương hoặc thu nhập, luôn nói rõ đây chỉ là mức tham khảo. Thực tế phụ thuộc vào kinh nghiệm, năng lực, vị trí, cấp bậc, phạm vi công việc, dự án tham gia, hiệu quả công việc và chính sách lương thưởng từng thời kỳ của Công ty.
-9. Khi trả lời nhiều nhóm nội dung, hãy chia thành các đầu mục rõ ràng. Đầu mục nên viết trên một dòng riêng.
-10. Ngôn ngữ: tiếng Việt, rõ ràng, chuyên nghiệp. Không dùng emoji, ký tự trang trí như #, @. Không dùng dấu gạch ngang làm bullet thô. Nếu nêu khoảng giá, dùng chữ "đến" thay cho dấu gạch ngang.`;
+9. Khi trả lời nhiều nhóm nội dung, hãy dùng cấu trúc:
+1. Tên mục chính
+Vị trí phù hợp: ...
+Lý do phù hợp: ...
+10. Ngôn ngữ: tiếng Việt, rõ ràng, chuyên nghiệp. Tuyệt đối không dùng markdown thô như **, ##, ### hay dấu * trước nội dung chi tiết.`;
     /* AI BOT WIDGET CONFIG END */
 
     const progressionColors = ['#10b981', '#0ea5e9', '#6366f1', '#8b5cf6', '#d946ef', '#f59e0b'];
@@ -885,6 +888,7 @@
         toggleThemeMenu(); 
     }
 
+    // --- LOGIC LƯƠNG & CẤP BẬC THĂNG TIẾN ---
     function getLevelVisuals(levelText) {
         const lvl = (levelText || "").toLowerCase();
         if (lvl.includes('entry')) return { icon: 'seedling', progress: 20, iconName: '🌱' };
@@ -917,6 +921,7 @@
         return 'briefcase'; 
     }
 
+    // --- LOGIC GỐC (TẢI DỮ LIỆU SONG SONG) ---
     function aiBotNormalizeAnswerRule(value) {
         if (!value) return null;
         return value.trim().replace(/""/g, '"');
@@ -935,6 +940,7 @@
             if (!configResponse.ok) throw new Error('Không tìm thấy file config.json');
             const config = await configResponse.json();
             
+            // Tải dữ liệu song song
             const [roadmapRes, benefitRes] = await Promise.all([
                 fetch(config.sheetUrl),
                 fetch(config.sheetUrl2)
@@ -1302,14 +1308,14 @@
     /* AI BOT WIDGET JS START */
     (function() {
         const aiBotConfig = {
-            retryDelays: [3000, 5000, 7500, 10000, 15000]
+            retryDelays: [1500, 3000, 4500]
         };
 
         const aiBotState = {
             isDragging: false,
             isPanelOpen: false,
             isTyping: false,
-            // Reset position on reload - Default value always used here
+            // Vị trí mặc định luôn reset khi load trang
             pos: { left: 30, bottom: 30 }
         };
 
@@ -1322,7 +1328,7 @@
         const statusLabel = document.getElementById('ai-bot-status');
 
         function aiBotInitPos() {
-            // Clean up any old stored positions
+            // Xóa rác localStorage cũ
             localStorage.removeItem('ai-bot-widget-pos');
             trigger.style.left = aiBotState.pos.left + 'px';
             trigger.style.bottom = aiBotState.pos.bottom + 'px';
@@ -1358,7 +1364,6 @@
             panel.style.transformOrigin = `${originY} ${originX}`;
         }
 
-        // --- KÉO THẢ & CLICK ---
         let startX, startY, initLeft, initBottom;
         function onDragStart(e) {
             const touch = e.type === 'touchstart' ? e.touches[0] : e;
@@ -1388,7 +1393,6 @@
             document.removeEventListener('mouseup', onDragEnd);
             document.removeEventListener('touchmove', onDragging);
             document.removeEventListener('touchend', onDragEnd);
-            // No persistent saving of position - user requested reset on reload
             if (!aiBotState.isDragging) {
                 aiBotTogglePanel();
             }
@@ -1410,15 +1414,18 @@
         }
         closeBtn.onclick = () => aiBotTogglePanel();
 
-        // --- HỆ THỐNG XỬ LÝ TEXT & RENDER CẤU TRÚC ---
+        // --- HỆ THỐNG XỬ LÝ TEXT & RENDER CẤU TRÚC CHỐNG LỖI HIỂN THỊ ---
         function aiBotNormalizeMarkdownText(text) {
             if (!text) return "";
-            return text
-                .replace(/[\u{1F300}-\u{1F6FF}\u{1F900}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '') // Xóa emoji
-                .replace(/[#@]/g, '') // Xóa #, @
-                .replace(/(\d+)\s*-\s*(\d+)/g, '$1 đến $2') // "15 - 20" -> "15 đến 20"
-                .replace(/\r\n/g, '\n')
-                .replace(/\n\s*\n+/g, '\n')
+            return String(text)
+                .replace(/[\u{1F300}-\u{1F6FF}\u{1F900}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, "") // Xóa emoji
+                .replace(/\r\n/g, "\n")
+                .replace(/[ \t]+/g, " ")
+                .replace(/#{1,6}\s*/g, "") // Xóa ##, ###
+                .replace(/\*{2,}/g, "") // Xóa **, ***
+                .replace(/@/g, "")
+                .replace(/(\d+)\s*-\s*(\d+)/g, "$1 đến $2") // "15 - 20" -> "15 đến 20"
+                .replace(/\n\s*\n+/g, "\n")
                 .trim();
         }
 
@@ -1429,38 +1436,45 @@
         }
 
         function aiBotRenderInlineMarkdown(text) {
-            return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-        }
-
-        function aiBotFormatListItem(text) {
-            const escaped = aiBotEscapeHtml(text);
-            // Bold the label before the colon (black color is inherited from CSS)
-            return escaped.replace(/^([^:：]{2,40}[:：])\s*(.+)$/u, '<strong>$1</strong> $2');
+            // Chỉ render <strong> thủ công ở tầng format, không dùng replace regex đơn giản gây hiện dấu **
+            return text; 
         }
 
         function aiBotIsSectionHeading(line) {
-            const raw = line.trim();
-            // Not a heading if it starts with a bullet
+            const raw = String(line || "").trim();
+            if (!raw) return false;
+            // Bullet thô không bao giờ là heading
             if (/^[-*•·]\s+/.test(raw)) return false;
 
-            const clean = raw.replace(/\*\*/g, '').replace(/[:：]\s*$/, '').trim();
+            const clean = raw.replace(/#{1,6}\s*/g, "").replace(/\*{1,}/g, "").replace(/[:：]\s*$/, "").trim();
 
-            // Level 1: Numbered lines
-            if (/^\d+[\.\)]\s+.+/.test(clean)) return true;
-            // Level 1: Keywords for paths
-            if (/^(Option|Lựa chọn|Hướng|Nhóm|Mục)\s*\d+\s*[:\-]\s*.+/i.test(clean)) return true;
-
-            // Global High Level Headings
-            const highLevelHeadings = [
-                'Mức thu nhập tham khảo', 'Thu nhập tham khảo', 'Mức lương tham khảo',
-                'Chính sách đãi ngộ và phúc lợi', 'Đãi ngộ và phúc lợi', 'Phúc lợi',
-                'Lưu ý', 'Kỹ năng chuyên môn', 'Kỹ năng hành vi', 
-                'Chứng chỉ khuyến nghị', 'Đào tạo gợi ý', 'KPI chính', 'Trách nhiệm chính'
-            ];
-
-            if (highLevelHeadings.some(k => clean.toLowerCase() === k.toLowerCase())) return true;
+            // Nhận diện số thứ tự chính: 1. , 2. 
+            if (/^\d+[\.\)]\s+.{3,}/.test(clean)) return true;
             
-            return false;
+            // Nhận diện các từ khóa lộ trình
+            if (/^(Lộ trình|Huong|Hướng|Option|Lựa chọn|Nhom|Nhóm|Mục)\s*\d+\s*[:\-]?\s+.+/i.test(clean)) return true;
+
+            const highLevelHeadings = [
+                "Thu nhập theo cấp bậc", "Mức thu nhập tham khảo", "Thu nhập tham khảo",
+                "Mức lương tham khảo", "Phúc lợi chung", "Chính sách đãi ngộ và phúc lợi",
+                "Đãi ngộ và phúc lợi", "Lưu ý", "Kỹ năng chuyên môn", "Kỹ năng hành vi",
+                "Công cụ chuyên môn", "Đào tạo gợi ý", "Chứng chỉ khuyến nghị"
+            ];
+            return highLevelHeadings.some(k => clean.toLowerCase() === k.toLowerCase());
+        }
+
+        function aiBotFormatListItem(text) {
+            // Làm sạch triệt để các ký tự markdown thừa trong bullet
+            let clean = String(text || "")
+                .replace(/#{1,6}\s*/g, "")
+                .replace(/\*{1,}/g, "")
+                .replace(/^[-•·]\s*/, "")
+                .replace(/@/g, "")
+                .trim();
+
+            const escaped = aiBotEscapeHtml(clean);
+            // Chỉ in đậm phần nhãn trước dấu ":" và giữ màu đen (thông qua CSS)
+            return escaped.replace(/^([^:：]{2,45}[:：])\s*(.+)$/u, '<strong>$1</strong> $2');
         }
 
         function aiBotParseStructuredResponse(text) {
@@ -1480,17 +1494,15 @@
             };
 
             const sectionPattern = /^(\d+)[.\)]\s+(.+)$|^(Option|Lựa chọn|Hướng|Nhóm|Mục)\s*(\d+)\s*[:\-]\s*(.+)$/i;
-            const bulletPattern = /^[-*•·]\s*(.+)$/;
 
             lines.forEach((line, index) => {
-                const sectionMatch = line.match(sectionPattern);
                 const isHeading = aiBotIsSectionHeading(line);
-                const bulletMatch = line.match(bulletPattern);
                 
                 if (isHeading) {
                     flushList();
+                    const sectionMatch = line.match(sectionPattern);
                     let num = "";
-                    let title = line.replace(/[:：]$/, '').replace(/\*\*/g, '').trim();
+                    let title = line.replace(/[:：]$/, '').replace(/\*{1,}/g, '').replace(/#{1,6}\s*/, '').trim();
 
                     if (sectionMatch) {
                         num = sectionMatch[1] || sectionMatch[4];
@@ -1503,20 +1515,17 @@
                             <strong>${aiBotEscapeHtml(title)}</strong>
                         </div>
                     </div>`;
-                } else if (bulletMatch) {
-                    currentList.push(bulletMatch[1]);
-                } else if (index > 0 && line.includes(': ')) {
-                    // Lines with colons appearing after an intro are likely detail bullets
+                } else if (line.match(/^[-*•·]\s+/) || (index > 0 && line.includes(': '))) {
                     currentList.push(line);
                 } else {
                     flushList();
                     const cssClass = (index === 0) ? 'ai-bot-intro' : 'ai-bot-followup';
-                    finalHtml += `<p class="${cssClass}">${aiBotRenderInlineMarkdown(aiBotEscapeHtml(line))}</p>`;
+                    finalHtml += `<p class="${cssClass}">${aiBotEscapeHtml(line)}</p>`;
                 }
             });
 
             flushList();
-            return finalHtml ? `<div class="ai-bot-markdown">${finalHtml}</div>` : `<p>${aiBotRenderInlineMarkdown(aiBotEscapeHtml(clean))}</p>`;
+            return finalHtml ? `<div class="ai-bot-markdown">${finalHtml}</div>` : `<p>${aiBotEscapeHtml(clean)}</p>`;
         }
 
         // --- OPTIMIZED DATA RETRIEVAL (RAG) ---
@@ -1575,7 +1584,7 @@
                 for (let j = 0; j < words.length; j += 2) {
                     const chunk = words.slice(j, j + 2).join(' ') + " ";
                     currentLineTyped += chunk;
-                    // Format while typing
+                    // Render HTML có cấu trúc ngay trong quá trình gõ (không chứa ký hiệu markdown thô)
                     element.innerHTML = aiBotParseStructuredResponse(partialContent + currentLineTyped);
                     messagesContainer.scrollTop = messagesContainer.scrollHeight;
                     await new Promise(r => setTimeout(r, 12));
@@ -1627,7 +1636,7 @@
             const intent = aiBotGetQueryIntent(prompt);
             const relevantRows = (intent === "compensation") ? [] : aiBotPickRelevantRows(prompt);
             const kb = (intent === "compensation") 
-                ? "Dữ liệu Roadmap rút gọn không cần thiết cho thông tin thu nhập." 
+                ? "Dữ liệu Roadmap nén không cần thiết cho câu hỏi về thu nhập." 
                 : aiBotBuildCompactKnowledge(relevantRows);
 
             const systemPrompt = `Bạn là trợ lý tư vấn lộ trình nghề nghiệp dựa trên dữ liệu Roadmap nội bộ.
@@ -1663,7 +1672,7 @@ ${aiBotAnswerRule}`;
                 }
                 return data.candidates?.[0]?.content?.parts?.[0]?.text || "Không có phản hồi.";
             } catch (e) {
-                if (retry < 5 && e.message.includes("high demand")) {
+                if (retry < 3 && e.message.includes("high demand")) {
                     await new Promise(r => setTimeout(r, aiBotConfig.retryDelays[retry]));
                     return aiBotFetchAI(prompt, retry + 1);
                 }
