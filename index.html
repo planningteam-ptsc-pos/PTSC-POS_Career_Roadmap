@@ -308,6 +308,147 @@
             100% { transform: scale(1); opacity: 0.8; }
         }
         .level-pulse-icon { animation: levelPulse 2.5s infinite ease-in-out; }
+
+        /* AI BOT WIDGET START */
+        #ai-bot-trigger {
+            position: fixed; z-index: 1000;
+            width: 65px; height: 65px; cursor: pointer; 
+            background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            touch-action: none; user-select: none;
+        }
+        #ai-bot-trigger:hover { transform: scale(1.1); }
+        #ai-bot-trigger svg { width: 32px; height: 32px; fill: white; pointer-events: none; }
+
+        #ai-bot-trigger::before {
+            content: ''; position: absolute; inset: 0; border-radius: 50%;
+            background: #38bdf8; z-index: -1; opacity: 0.4;
+            animation: ai-bot-pulse-ring 3s infinite ease-out;
+        }
+        @keyframes ai-bot-pulse-ring {
+            0% { transform: scale(1); opacity: 0.4; }
+            100% { transform: scale(1.8); opacity: 0; }
+        }
+
+        .ai-bot-periodic-shake { animation: ai-bot-shake-anim 6s infinite; }
+        @keyframes ai-bot-shake-anim {
+            0%, 90%, 100% { transform: rotate(0); }
+            92% { transform: rotate(-8deg); }
+            94% { transform: rotate(8deg); }
+            96% { transform: rotate(-8deg); }
+            98% { transform: rotate(8deg); }
+        }
+
+        #ai-bot-panel {
+            position: fixed; z-index: 1001;
+            width: 420px; max-width: calc(100vw - 24px); height: 620px; max-height: calc(100vh - 150px);
+            background: white; border-radius: 32px; box-shadow: 0 25px 70px -10px rgba(0,0,0,0.2);
+            display: flex; flex-direction: column; overflow: hidden;
+            transition: opacity 0.3s, transform 0.3s;
+            opacity: 0; transform: scale(0.9) translateY(20px); pointer-events: none;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        #ai-bot-panel.active { opacity: 1; transform: scale(1) translateY(0); pointer-events: auto; }
+
+        .ai-bot-header {
+            background: linear-gradient(135deg, #38bdf8 0%, #2563eb 55%, #60a5fa 100%);
+            padding: 16px 24px; color: white; display: flex; align-items: center; justify-content: space-between;
+        }
+        .ai-bot-messages { flex: 1; overflow-y: auto; padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; background: #f8fafc; }
+        
+        .ai-bot-bubble { max-width: 88%; padding: 10px 14px; border-radius: 18px; font-size: 14px; word-wrap: break-word; position: relative; }
+        .ai-bot-bubble-user { align-self: flex-end; background: #2563eb; color: white; border-bottom-right-radius: 4px; font-weight: 600; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1); }
+        .ai-bot-bubble-bot { align-self: flex-start; background: white; color: #1e293b; border-bottom-left-radius: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.02); border: 1px solid #f1f5f9; }
+
+        .ai-bot-markdown { 
+            line-height: 1.35; 
+            color: #1e293b;
+            font-size: 14px;
+        }
+        .ai-bot-intro, .ai-bot-followup { 
+            margin: 0 0 0.35rem 0; 
+            padding: 0; 
+            line-height: 1.35;
+        }
+        .ai-bot-section { 
+            margin: 0.45rem 0 0 0; 
+            padding: 0; 
+        }
+        .ai-bot-section:first-child { margin-top: 0; }
+        .ai-bot-section-title { 
+            display: flex; 
+            align-items: flex-start; 
+            gap: 0.4rem; 
+            margin: 0 0 0.18rem 0; 
+            padding: 0; 
+            font-weight: 800; 
+            color: #2563eb; 
+            line-height: 1.3; 
+        }
+        .ai-bot-section-title strong {
+            font-weight: 800;
+            color: #2563eb;
+        }
+        .ai-bot-section-number { 
+            color: #2563eb; 
+            font-weight: 900; 
+            flex-shrink: 0; 
+        }
+        .ai-bot-section-list { 
+            margin: 0; 
+            padding-left: 1.15rem; 
+            list-style-type: disc;
+        }
+        .ai-bot-section-list li { 
+            margin: 0; 
+            padding: 0; 
+            line-height: 1.35; 
+        }
+        .ai-bot-section-list li + li { margin-top: 0.1rem; }
+        
+        .ai-bot-markdown strong { font-weight: 700; color: inherit; }
+        .ai-bot-markdown br { display: none; }
+
+        .ai-bot-input-area { padding: 14px; background: white; border-top: 1px solid #f1f5f9; }
+        .ai-bot-input-container { display: flex; gap: 8px; align-items: center; }
+        #ai-bot-input {
+            flex: 1; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 10px 18px; outline: none;
+            font-size: 14px; font-weight: 600; transition: border-color 0.2s;
+        }
+        #ai-bot-input:focus { border-color: #38bdf8; }
+        #ai-bot-input:disabled { background: #f8fafc; color: #94a3b8; }
+
+        #ai-bot-send { 
+            background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%); 
+            color: white; width: 42px; height: 42px; border-radius: 12px; 
+            display: flex; align-items: center; justify-content: center; 
+            transition: 0.2s; border: none; cursor: pointer; 
+        }
+        #ai-bot-send:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15); }
+        #ai-bot-send:disabled { opacity: 0.5; cursor: not-allowed; }
+        #ai-bot-send svg { width: 20px; height: 20px; fill: white; }
+
+        .ai-bot-suggestions { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 16px 12px 16px; background: #f8fafc; }
+        .ai-bot-suggest-btn {
+            background: white; border: 1.5px solid #e2e8f0; padding: 6px 10px; border-radius: 10px;
+            font-size: 10.5px; font-weight: 800; color: #64748b; cursor: pointer; transition: 0.2s;
+        }
+        .ai-bot-suggest-btn:hover { border-color: #38bdf8; color: #2563eb; background: #f0f9ff; }
+
+        .ai-bot-status-text { font-size: 10px; color: #94a3b8; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 8px; display: none; text-align: center; }
+
+        .ai-bot-thinking { display: flex; gap: 4px; padding: 4px 0; }
+        .ai-bot-dot { width: 6px; height: 6px; background: #94a3b8; border-radius: 50%; animation: ai-bot-bounce 1.4s infinite ease-in-out; }
+        .ai-bot-dot:nth-child(2) { animation-delay: 0.2s; }
+        .ai-bot-dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes ai-bot-bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
+
+        @media (max-width: 640px) {
+            #ai-bot-panel { width: calc(100vw - 24px); height: 500px; }
+        }
+        /* AI BOT WIDGET END */
     </style>
 </head>
 <body class="flex flex-col">
@@ -594,6 +735,55 @@
 
 </div>
 
+<!-- AI BOT WIDGET START -->
+<div id="ai-bot-trigger" class="ai-bot-periodic-shake">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="white"><path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12l4 4V4c0-1.1-.9-2-2-2zm-2 12H4V4h14v10zM6 7h8v2H6V7zm0 3h5v2H6v-2z"/></svg>
+</div>
+
+<div id="ai-bot-panel">
+    <div class="ai-bot-header">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
+                <svg viewBox="0 0 24 24" style="width:24px; height:24px; fill:white;"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3H9a3 3 0 0 1-3-3v-8a3 3 0 0 1 3-3h1V5.73c-.6-.34-1-1.01-1-1.73a2 2 0 0 1 2-2zM9 9a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1H9zm1.5 3a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm3 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/></svg>
+            </div>
+            <div>
+                <h4 class="font-black text-[15px] tracking-tight leading-tight">Career Path Assistant</h4>
+                <div class="flex items-center gap-1.5 opacity-90">
+                    <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
+                    <span class="text-[10px] font-extrabold uppercase tracking-widest">AI Consultant</span>
+                </div>
+            </div>
+        </div>
+        <button id="ai-bot-close" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors">
+            <svg viewBox="0 0 24 24" style="width:20px; height:20px; fill:white;"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+    </div>
+
+    <div id="ai-bot-messages" class="ai-bot-messages custom-scrollbar">
+        <div class="ai-bot-bubble ai-bot-bubble-bot">
+            <div class="ai-bot-markdown">Xin chào! Tôi là trợ lý định hướng nghề nghiệp Dầu khí của Công ty cổ phần Vận hành và Xây lắp PTSC. Tôi có thể giúp gì cho bạn hôm nay?</div>
+        </div>
+    </div>
+
+    <div class="ai-bot-suggestions">
+        <button class="ai-bot-suggest-btn" data-query="Ngành Điện - Tự động hóa nên chọn vị trí nào?">Điện - Tự động hóa?</button>
+        <button class="ai-bot-suggest-btn" data-query="Planning Engineer cần kỹ năng gì?">Planning Engineer?</button>
+        <button class="ai-bot-suggest-btn" data-query="Mức thu nhập trung bình cho các cấp bậc và đãi ngộ, phúc lợi?">Thu nhập?</button>
+        <button class="ai-bot-suggest-btn" data-query="Tôi chưa biết mình thích ngành gì, hãy định hướng cho tôi.">Định hướng nghề nghiệp?</button>
+    </div>
+
+    <div class="ai-bot-input-area">
+        <div class="ai-bot-input-container">
+            <input type="text" id="ai-bot-input" placeholder="Đặt câu hỏi cho trợ lý AI..." autocomplete="off">
+            <button id="ai-bot-send">
+                <svg viewBox="0 0 24 24" fill="white"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 7z"/></svg>
+            </button>
+        </div>
+        <div id="ai-bot-status" class="ai-bot-status-text">AI đang soạn câu trả lời...</div>
+    </div>
+</div>
+<!-- AI BOT WIDGET END -->
+
 <script>
     let masterData = [];
     let salaryBenefitData = []; 
@@ -604,6 +794,23 @@
     let selectedRoleValue = ""; 
     let isFileLoaded = false;
     let isRoleSelected = false;
+
+    /* AI BOT WIDGET CONFIG START */
+    let aiBotGeminiModel = "gemini-3.1-flash-lite-preview";
+    let aiBotGeminiApiKey = "";
+    let aiBotCompensationData = "";
+    let aiBotAnswerRule = `QUY TẮC TRẢ LỜI:
+1. Chỉ sử dụng thông tin có trong dữ liệu CSV và dữ liệu thu nhập/phúc lợi được cung cấp. Không tự bịa thêm.
+2. Nếu dữ liệu không đủ, trả lời ngắn: "Dữ liệu hiện tại chưa có đủ thông tin về nội dung này."
+3. Trả lời ngắn gọn, ưu tiên dạng gạch đầu dòng.
+4. Mỗi câu trả lời tối đa 150 từ.
+5. Nếu người dùng hỏi định hướng nghề nghiệp, gợi ý tối đa 2 lộ trình phù hợp nhất.
+6. Với mỗi lộ trình, chỉ nêu: Vị trí phù hợp, lý do, kỹ năng cần chuẩn bị, bước tiếp theo.
+7. Nếu người dùng hỏi về mức thu nhập, lương, đãi ngộ hoặc phúc lợi, hãy sử dụng dữ liệu salary và benefit nếu có.
+8. Khi trả lời về lương hoặc thu nhập, luôn nói rõ đây chỉ là mức tham khảo. Thực tế phụ thuộc vào kinh nghiệm, năng lực, vị trí, cấp bậc, phạm vi công việc, dự án tham gia, hiệu quả công việc và chính sách lương thưởng từng thời kỳ của Công ty.
+9. Khi trả lời nhiều nhóm nội dung, hãy chia thành các đầu mục rõ ràng. Đầu mục nên viết trên một dòng riêng.
+10. Ngôn ngữ: tiếng Việt, rõ ràng, chuyên nghiệp. Không dùng emoji, ký tự trang trí như #, @. Không dùng dấu gạch ngang làm bullet thô. Nếu nêu khoảng giá, dùng chữ "đến" thay cho dấu gạch ngang.`;
+    /* AI BOT WIDGET CONFIG END */
 
     const progressionColors = ['#10b981', '#0ea5e9', '#6366f1', '#8b5cf6', '#d946ef', '#f59e0b'];
 
@@ -638,7 +845,7 @@
         if (!container) return;
         const toast = document.createElement('div');
         toast.className = 'bg-white/95 backdrop-blur-xl border-l-4 border-amber-500 text-slate-800 px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 animate-up pointer-events-auto';
-        toast.innerHTML = `<div class="bg-amber-100 p-2 rounded-full shrink-0"><i data-lucide=\"alert-circle\" class=\"w-5 h-5 text-amber-600\"></i></div><span class=\"font-bold text-[15px]\">${message}</span>`;
+        toast.innerHTML = `<div class=\"bg-amber-100 p-2 rounded-full shrink-0\"><i data-lucide=\"alert-circle\" class=\"w-5 h-5 text-amber-600\"></i></div><span class=\"font-bold text-[15px]\">${message}</span>`;
         container.appendChild(toast);
         lucide.createIcons();
         setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translateY(20px)'; toast.style.transition = 'all 0.4s ease'; setTimeout(() => toast.remove(), 400); }, 3000);
@@ -663,26 +870,14 @@
         toggleThemeMenu(); 
     }
 
-    // --- LOGIC LƯƠNG & CẤP BẬC THĂNG TIẾN (Đã sửa từ khóa để Management đầy cây) ---
     function getLevelVisuals(levelText) {
         const lvl = (levelText || "").toLowerCase();
-        // Sửa từ 'manager' thành 'manage' để bắt được cả 'Management'
         if (lvl.includes('entry')) return { icon: 'seedling', progress: 20, iconName: '🌱' };
         if (lvl.includes('junior')) return { icon: 'rocket', progress: 40, iconName: '🚀' };
         if (lvl.includes('senior')) return { icon: 'gem', progress: 65, iconName: '💎' };
         if (lvl.includes('lead') || lvl.includes('expert')) return { icon: 'trophy', progress: 85, iconName: '🏆' };
         if (lvl.includes('manager') || lvl.includes('management') || lvl.includes('director')) return { icon: 'crown', progress: 100, iconName: '👑' };
         return { icon: 'briefcase', progress: 50, iconName: '💼' };
-    }
-
-    function getSalaryRange_old(levelText) {
-        const lvl = (levelText || "").toLowerCase();
-        if (lvl.includes('entry')) return "15 - 20 Tr";
-        if (lvl.includes('junior')) return "20 - 40 Tr";
-        if (lvl.includes('senior')) return "30 - 60 Tr";
-        if (lvl.includes('lead') || lvl.includes('expert')) return "40 - 80 Tr";
-        if (lvl.includes('manage') || lvl.includes('head') || lvl.includes('director')) return "60 - 100+ Tr";
-        return "Thỏa thuận";
     }
 
     function getSalaryRange(levelText) {
@@ -707,7 +902,11 @@
         return 'briefcase'; 
     }
 
-    // --- LOGIC GỐC ---
+    function aiBotNormalizeAnswerRule(value) {
+        if (!value) return null;
+        return value.trim().replace(/""/g, '"');
+    }
+
     async function loadExcelDataAutomatically() {
         try {
             const protocol = window.location.protocol;
@@ -720,17 +919,43 @@
             const configResponse = await fetch('./config.json');
             if (!configResponse.ok) throw new Error('Không tìm thấy file config.json');
             const config = await configResponse.json();
-            const response = await fetch(config.sheetUrl);
-            if (!response.ok) throw new Error(`Không thể tải dữ liệu. HTTP ${response.status}`);
-            const csvText = await response.text();
-            masterData = parseCSV(csvText);
+            
+            // Tải dữ liệu song song
+            const [roadmapRes, benefitRes] = await Promise.all([
+                fetch(config.sheetUrl),
+                fetch(config.sheetUrl2)
+            ]);
 
-            const benefitResponse = await fetch(config.sheetUrl2);
-            if (!benefitResponse.ok) throw new Error('Không thể tải dữ liệu Benefit');
-            const benefitCsvText = await benefitResponse.text();
+            if (!roadmapRes.ok || !benefitRes.ok) throw new Error(`Lỗi kết nối dữ liệu.`);
+
+            const [csvText, benefitCsvText] = await Promise.all([
+                roadmapRes.text(),
+                benefitRes.text()
+            ]);
+
+            masterData = parseCSV(csvText);
             const benefitData = parseCSV(benefitCsvText);
+            
             salaryBenefitData = benefitData.filter(d => d.milestone_level && d.salary);
             benefitListData = benefitData.filter(d => d.benefit);
+
+            const aiConfigRow = benefitData.find(row => row.model || row.api_key || row.answer_rule);
+            if (aiConfigRow) {
+                if (aiConfigRow.model) aiBotGeminiModel = aiConfigRow.model.trim();
+                if (aiConfigRow.api_key) aiBotGeminiApiKey = aiConfigRow.api_key.trim();
+                if (aiConfigRow.answer_rule) {
+                    const normRule = aiBotNormalizeAnswerRule(aiConfigRow.answer_rule);
+                    if (normRule) aiBotAnswerRule = normRule;
+                }
+            }
+
+            let compText = "";
+            benefitData.forEach(row => {
+                if (row.milestone_level || row.salary || row.benefit) {
+                    compText += `- Cấp bậc: ${row.milestone_level || '---'} | Lương tham khảo: ${row.salary || 'Thỏa thuận'} | Phúc lợi: ${row.benefit || 'Theo quy định'}\n`;
+                }
+            });
+            aiBotCompensationData = compText.trim();
             
             const roles = [...new Set(masterData.map(d => d.function_title))].filter(Boolean);
             customRoleList.innerHTML = '';
@@ -739,7 +964,7 @@
                 li.className = 'role-list-item group';
                 li.dataset.value = r;
                 const iconName = getRoleIcon(r);
-                li.innerHTML = `<i data-lucide="${iconName}" class="w-4 h-4 text-primary-500/50 group-hover:text-primary-600 transition-colors shrink-0"></i> <span>${r}</span>`;
+                li.innerHTML = `<i data-lucide=\"${iconName}\" class=\"w-4 h-4 text-primary-500/50 group-hover:text-primary-600 transition-colors shrink-0\"></i> <span>${r}</span>`;
                 li.onclick = (e) => { e.stopPropagation(); selectCustomRole(r, li); };
                 customRoleList.appendChild(li);
             });
@@ -753,29 +978,29 @@
 
     function parseCSV(csvText) {
         const rows = [];
-        let current = '';
         let row = [];
+        let cell = '';
         let inQuotes = false;
         for (let i = 0; i < csvText.length; i++) {
             const char = csvText[i];
-            const nextChar = csvText[i + 1];
+            const next = csvText[i+1];
             if (char === '"') {
-                if (inQuotes && nextChar === '"') { current += '"'; i++; } else { inQuotes = !inQuotes; }
-            } else if (char === ',' && !inQuotes) { row.push(current.trim()); current = ''; }
+                if (inQuotes && next === '"') { cell += '"'; i++; } else { inQuotes = !inQuotes; }
+            } else if (char === ',' && !inQuotes) { row.push(cell.trim()); cell = ''; }
             else if ((char === '\n' || char === '\r') && !inQuotes) {
-                if (char === '\r' && nextChar === '\n') i++;
-                row.push(current.trim()); current = '';
-                if (row.some(cell => cell !== '')) rows.push(row);
-                row = [];
-            } else { current += char; }
+                if (char === '\r' && next === '\n') i++;
+                row.push(cell.trim());
+                if (row.some(c => c !== '')) rows.push(row);
+                row = []; cell = '';
+            } else { cell += char; }
         }
-        if (current.length > 0 || row.length > 0) { row.push(current.trim()); if (row.some(cell => cell !== '')) rows.push(row); }
+        if (cell || row.length > 0) { row.push(cell.trim()); if (row.some(c => c !== '')) rows.push(row); }
         let headerIndex = 0;
-        for (let i = 0; i < rows.length; i++) { if (rows[i].includes('function_title')) { headerIndex = i; break; } }
+        for (let i = 0; i < rows.length; i++) { if (rows[i].includes('function_title') || rows[i].includes('milestone_level')) { headerIndex = i; break; } }
         const headers = rows[headerIndex].map(h => h.trim().toLowerCase());
         const dataRows = rows.slice(headerIndex + 1);
-        return dataRows.filter(r => r.some(cell => cell !== '')).map(r => {
-            const obj = {}; headers.forEach((h, idx) => { obj[h] = (r[idx] || '').trim(); }); return obj;
+        return dataRows.map(r => {
+            const obj = {}; headers.forEach((h, idx) => { obj[h] = (r[idx] || ''); }); return obj;
         });
     }
 
@@ -887,10 +1112,10 @@
             const nodeColor = isSummit ? '#f59e0b' : progressionColors[i % progressionColors.length];
             if (!isSummit) {
                 const m = data[i];
-                node.innerHTML = `<div class="node-card" style="transform: scale(${masterScale}); border-bottom: 3px solid ${nodeColor};"><div class="node-circle" style="background-color: ${nodeColor};">0${i+1}</div><div class="node-icon-wrapper"><img src="${m.icon_image_path}" class="w-full h-full object-contain" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1063/1063376.png'"></div><div class="text-center px-1 pb-2"><span class="text-[15px] font-black uppercase block mb-0.5" style="color: ${nodeColor};">${m.milestone_level}</span><h5 class="text-[20px] font-extrabold text-slate-900 line-clamp-3 leading-tight">${m.role_title}</h5></div></div>`;
+                node.innerHTML = `<div class=\"node-card\" style=\"transform: scale(${masterScale}); border-bottom: 3px solid ${nodeColor};\"><div class=\"node-circle\" style=\"background-color: ${nodeColor};\">0${i+1}</div><div class=\"node-icon-wrapper\"><img src=\"${m.icon_image_path}\" class=\"w-full h-full object-contain\" onerror=\"this.src='https://cdn-icons-png.flaticon.com/512/1063/1063376.png'\"></div><div class=\"text-center px-1 pb-2\"><span class=\"text-[15px] font-black uppercase block mb-0.5\" style=\"color: ${nodeColor};\">${m.milestone_level}</span><h5 class=\"text-[20px] font-extrabold text-slate-900 line-clamp-3 leading-tight\">${m.role_title}</h5></div></div>`;
             } else {
                 const summitData = data[total - 1];
-                node.innerHTML = `<div class="summit-halo" style="transform: translate(-50%, -50%) scale(${masterScale})"></div><div class="node-card summit-card shadow-xl !bg-amber-50" style="transform: scale(${masterScale}); border: 2px solid ${nodeColor};"><div class="summit-crown" style="background-color: ${nodeColor};"><i data-lucide="crown" class="w-4 h-4 text-white"></i></div><div class="node-icon-wrapper !bg-amber-50/30"><img src="${summitData.icon_image_path || 'https://cdn-icons-png.flaticon.com/512/2618/2618245.png'}" class="w-full h-full object-contain"></div><div class="text-center px-1 pb-2"><span class="text-[15px] font-black uppercase block mb-0.5" style="color: ${nodeColor};">Career Goal</span><h5 class="text-[20px] font-black uppercase text-slate-900 line-clamp-3 leading-tight">${summitData.next_target_role || 'Executive'}</h5></div></div>`;
+                node.innerHTML = `<div class=\"summit-halo\" style=\"transform: translate(-50%, -50%) scale(${masterScale})\"></div><div class=\"node-card summit-card shadow-xl !bg-amber-50\" style=\"transform: scale(${masterScale}); border: 2px solid ${nodeColor};\"><div class=\"summit-crown\" style=\"background-color: ${nodeColor};\"><i data-lucide=\"crown\" class=\"w-4 h-4 text-white\"></i></div><div class=\"node-icon-wrapper !bg-amber-50/30\"><img src=\"${summitData.icon_image_path || 'https://cdn-icons-png.flaticon.com/512/2618/2618245.png'}\" class=\"w-full h-full object-contain\"></div><div class=\"text-center px-1 pb-2\"><span class=\"text-[15px] font-black uppercase block mb-0.5\" style=\"color: ${nodeColor};\">Career Goal</span><h5 class=\"text-[20px] font-black uppercase text-slate-900 line-clamp-3 leading-tight\">${summitData.next_target_role || 'Executive'}</h5></div></div>`;
             }
             content.appendChild(node);
         }
@@ -953,27 +1178,26 @@
         document.getElementById('msIcon').src = data.icon_image_path || 'https://cdn-icons-png.flaticon.com/512/1063/1063376.png';
         document.getElementById('msOrderBadge').innerText = currentIdx + 1;
 
-        // --- NÂNG CẤP TAB ĐÃI NGỘ & PHÚC LỢI ---
         const vsl = getLevelVisuals(data.milestone_level);
         document.getElementById('salaryLevelText').innerText = data.milestone_level;
         document.getElementById('salaryRangeDisplay').innerText = getSalaryRange(data.milestone_level);
         document.getElementById('salaryProgressBar').style.width = `${vsl.progress}%`;
-        document.getElementById('levelBadgeIcon').innerHTML = `<span class="text-3xl">${vsl.iconName}</span>`;
-        document.getElementById('salaryLevelIconBg').innerHTML = `<i data-lucide="${vsl.icon}" class="w-64 h-64 text-primary-500"></i>`;
+        document.getElementById('levelBadgeIcon').innerHTML = `<span class=\"text-3xl\">${vsl.iconName}</span>`;
+        document.getElementById('salaryLevelIconBg').innerHTML = `<i data-lucide=\"${vsl.icon}\" class=\"w-64 h-64 text-primary-500\"></i>`;
 
         const benList = document.getElementById('fixedBenefitsList');
         benList.innerHTML = '';
         benefitListData.forEach((b, index) => {
             const iconList = ['umbrella', 'palmtree', 'users', 'trophy', 'heart', 'gift', 'anchor', 'shield-plus', 'stethoscope', 'graduation-cap'];
             const icon = iconList[index % iconList.length];
-            benList.innerHTML += `<div class="benefit-item-card"><i data-lucide="${icon}" class="w-5 h-5 text-primary-600 shrink-0"></i><span class="text-[14px] font-bold text-slate-700">${b.benefit}</span></div>`;
+            benList.innerHTML += `<div class=\"benefit-item-card\"><i data-lucide=\"${icon}\" class=\"w-5 h-5 text-primary-600 shrink-0\"></i><span class=\"text-[14px] font-bold text-slate-700\">${b.benefit}</span></div>`;
         });
         
         const stepper = document.getElementById('detailStepper'); if(stepper) {
             stepper.innerHTML = '';
             currentRoleMilestones.forEach((m, i) => {
                 const div = document.createElement('div'); div.className = `dashboard-stepper-item ${i === currentIdx ? 'active' : (i < currentIdx ? 'completed' : '')}`;
-                div.innerHTML = `<div class="stepper-num">${i+1}</div><div class="flex flex-col"><span class="text-[15px] font-black uppercase text-slate-400">${m.milestone_level}</span><span class="text-[15px] font-bold text-slate-800 leading-tight pr-2">${m.role_title}</span></div>`;
+                div.innerHTML = `<div class=\"stepper-num\">${i+1}</div><div class=\"flex flex-col\"><span class=\"text-[15px] font-black uppercase text-slate-400\">${m.milestone_level}</span><span class=\"text-[15px] font-bold text-slate-800 leading-tight pr-2\">${m.role_title}</span></div>`;
                 div.onclick = () => { currentIdx = i; renderDashboard(); }; stepper.appendChild(div);
             });
         }
@@ -985,13 +1209,13 @@
         
         const kpiList = document.getElementById('kpiContainer'); kpiList.innerHTML = '';
         if(data.key_outputs_kpis) data.key_outputs_kpis.split(/[\n•·-]/).filter(s => s.trim().length > 5).forEach(kpi => {
-            kpiList.innerHTML += `<div class="bg-primary-50/50 p-4 rounded-2xl border border-primary-100 flex items-center gap-3"><div class="w-2 h-2 rounded-full bg-primary-500"></div><span class="text-[15px] font-bold text-slate-700">${kpi.trim()}</span></div>`;
+            kpiList.innerHTML += `<div class=\"bg-primary-50/50 p-4 rounded-2xl border border-primary-100 flex items-center gap-3\"><div class=\"w-2 h-2 rounded-full bg-primary-500\"></div><span class=\"text-[15px] font-bold text-slate-700\">${kpi.trim()}</span></div>`;
         });
 
         const compCon = document.getElementById('competenciesContainer'); compCon.innerHTML = '';
         if(data.competencies_to_develop) data.competencies_to_develop.split(/[\n•·-]/).filter(s => s.trim().length > 3).forEach((item, i) => {
             const lvl = [86, 75, 96, 65, 80][i % 5];
-            compCon.innerHTML += `<div class="skill-bar-container"><div class="flex justify-between text-[15px] font-black uppercase text-slate-500"><span>${item.trim()}</span><span>${lvl}%</span></div><div class="skill-bar-bg"><div class="skill-bar-fill" style="width: ${lvl}%"></div></div></div>`;
+            compCon.innerHTML += `<div class=\"skill-bar-container\"><div class=\"flex justify-between text-[15px] font-black uppercase text-slate-500\"><span>${item.trim()}</span><span>${lvl}%</span></div><div class=\"skill-bar-bg\"><div class=\"skill-bar-fill\" style=\"width: ${lvl}%\"></div></div></div>`;
         });
 
         const behCon = document.getElementById('behavioralContainer'); behCon.innerHTML = '';
@@ -1001,7 +1225,7 @@
 
         const toolCon = document.getElementById('toolsContainer'); toolCon.innerHTML = '';
         if(data.technical_skills_tools) data.technical_skills_tools.split(/[\n•·-]/).filter(s => s.trim().length > 3).forEach(tool => {
-            toolCon.innerHTML += `<div class="tool-list-item flex items-center gap-2 mb-2"><i data-lucide="chevron-right" class="w-4 h-4 text-primary-500"></i><span class="text-[15px] font-semibold">${tool.trim()}</span></div>`;
+            toolCon.innerHTML += `<div class=\"tool-list-item flex items-center gap-2 mb-2\"><i data-lucide=\"chevron-right\" class=\"w-4 h-4 text-primary-500\"></i><span class=\"text-[15px] font-semibold\">${tool.trim()}</span></div>`;
         });
 
         renderBulletList('trainingList', data.suggested_training_development, 'graduation-cap', 'primary');
@@ -1013,7 +1237,7 @@
         
         const certCon = document.getElementById('certList'); certCon.innerHTML = '';
         if(data.recommended_certifications) data.recommended_certifications.split(/[\n•·,]/).filter(s => s.trim().length > 2).forEach(c => {
-            certCon.innerHTML += `<div class="px-4 py-2 rounded-xl bg-amber-50 text-amber-700 border border-amber-100 font-bold text-[15px]">${c.trim()}</div>`;
+            certCon.innerHTML += `<div class=\"px-4 py-2 rounded-xl bg-amber-50 text-amber-700 border border-amber-100 font-bold text-[15px]\">${c.trim()}</div>`;
         });
 
         document.getElementById('pageCounter').innerText = `${String(currentIdx+1).padStart(2, '0')} / ${String(currentRoleMilestones.length).padStart(2, '0')}`;
@@ -1027,25 +1251,25 @@
 
     function formatSidebarList(id, text) {
         const container = document.getElementById(id); if(!container) return; container.innerHTML = '';
-        if(!text) { container.innerHTML = '<span class="text-[15px] italic opacity-60">N/A</span>'; return; }
+        if(!text) { container.innerHTML = '<span class=\"text-[15px] italic opacity-60\">N/A</span>'; return; }
         text.split(/[\n•·-]/).filter(s => s.trim().length > 5).forEach(item => {
-            container.innerHTML += `<div class="info-item-list"><div class="dot"></div><span>${item.trim()}</span></div>`;
+            container.innerHTML += `<div class=\"info-item-list\"><div class=\"dot\"></div><span>${item.trim()}</span></div>`;
         });
     }
 
     function formatSidebarListDynamic(id, text) {
         const container = document.getElementById(id); if(!container) return; container.innerHTML = '';
-        if(!text) { container.innerHTML = '<div class="text-[15px] italic opacity-60">N/A</div>'; return; }
+        if(!text) { container.innerHTML = '<div class=\"text-[15px] italic opacity-60\">N/A</div>'; return; }
         text.split(/[\n•·-]/).filter(s => s.trim().length > 5).forEach(item => {
-            container.innerHTML += `<div class="dynamic-bullet"><div class="white-dot"></div><span class="dynamic-content-list">${item.trim()}</span></div>`;
+            container.innerHTML += `<div class=\"dynamic-bullet\"><div class=\"white-dot\"></div><span class=\"dynamic-content-list\">${item.trim()}</span></div>`;
         });
     }
 
     function renderBulletList(id, text, icon, color, isResp = false) {
         const el = document.getElementById(id); if (!el) return; el.innerHTML = '';
-        if(!text) return el.innerHTML = '<div class="text-slate-400 italic text-[15px]">N/A</div>';
+        if(!text) return el.innerHTML = '<div class=\"text-slate-400 italic text-[15px]\">N/A</div>';
         text.split(/[\n•·-]/).filter(s => s.trim().length > 3).forEach(item => {
-            el.innerHTML += `<div class="${isResp ? 'responsibility-card' : 'flex gap-4 items-start bg-white/60 p-4 rounded-2xl border border-slate-50 shadow-sm mb-3'}"><i data-lucide="${icon}" class="w-5 h-5 text-${color}-600 mt-0.5 shrink-0"></i><span class="text-[15px] font-medium text-slate-700 leading-relaxed">${item.trim()}</span></div>`;
+            el.innerHTML += `<div class=\"${isResp ? 'responsibility-card' : 'flex gap-4 items-start bg-white/60 p-4 rounded-2xl border border-slate-50 shadow-sm mb-3'}\"><i data-lucide=\"${icon}\" class=\"w-5 h-5 text-${color}-600 mt-0.5 shrink-0\"></i><span class=\"text-[15px] font-medium text-slate-700 leading-relaxed\">${item.trim()}</span></div>`;
         });
     }
 
@@ -1060,6 +1284,387 @@
     obs.observe(document.body);
     document.getElementById('btnGoToDetail').addEventListener('click', () => showPage(2));
     showPage(1);
+
+    /* AI BOT WIDGET JS START */
+    (function() {
+        const aiBotConfig = {
+            retryDelays: [1500, 3000, 4500]
+        };
+
+        const aiBotState = {
+            isDragging: false,
+            isPanelOpen: false,
+            isTyping: false,
+            pos: JSON.parse(localStorage.getItem('ai-bot-widget-pos')) || { left: 30, bottom: 30 }
+        };
+
+        const trigger = document.getElementById('ai-bot-trigger');
+        const panel = document.getElementById('ai-bot-panel');
+        const closeBtn = document.getElementById('ai-bot-close');
+        const input = document.getElementById('ai-bot-input');
+        const sendBtn = document.getElementById('ai-bot-send');
+        const messagesContainer = document.getElementById('ai-bot-messages');
+        const statusLabel = document.getElementById('ai-bot-status');
+
+        function aiBotInitPos() {
+            trigger.style.left = aiBotState.pos.left + 'px';
+            trigger.style.bottom = aiBotState.pos.bottom + 'px';
+            trigger.style.top = 'auto'; 
+            if (aiBotState.isPanelOpen) aiBotPositionPanel();
+        }
+        aiBotInitPos();
+
+        function aiBotPositionPanel() {
+            if (!aiBotState.isPanelOpen) return;
+            const rect = trigger.getBoundingClientRect();
+            const panelWidth = Math.min(420, window.innerWidth - 32);
+            const panelHeight = Math.min(620, window.innerHeight - 150);
+            const margin = 12;
+
+            const isLeftSide = rect.left < window.innerWidth / 2;
+            const isTopHalf = rect.top < window.innerHeight / 2;
+
+            let left, top;
+            if (isLeftSide) { left = rect.left; } else { left = rect.right - panelWidth; }
+            if (isTopHalf) { top = rect.bottom + 10; } else { top = rect.top - panelHeight - 10; }
+
+            left = Math.max(margin, Math.min(left, window.innerWidth - panelWidth - margin));
+            top = Math.max(margin, Math.min(top, window.innerHeight - panelHeight - margin));
+
+            panel.style.left = left + 'px';
+            panel.style.top = top + 'px';
+            panel.style.bottom = 'auto';
+            panel.style.right = 'auto';
+            
+            const originX = isLeftSide ? 'left' : 'right';
+            const originY = isTopHalf ? 'top' : 'bottom';
+            panel.style.transformOrigin = `${originY} ${originX}`;
+        }
+
+        // --- KÉO THẢ & CLICK ---
+        let startX, startY, initLeft, initBottom;
+        function onDragStart(e) {
+            const touch = e.type === 'touchstart' ? e.touches[0] : e;
+            startX = touch.clientX; startY = touch.clientY;
+            initLeft = trigger.offsetLeft;
+            initBottom = parseInt(window.getComputedStyle(trigger).bottom);
+            aiBotState.isDragging = false;
+            document.addEventListener(e.type === 'touchstart' ? 'touchmove' : 'mousemove', onDragging);
+            document.addEventListener(e.type === 'touchstart' ? 'touchend' : 'mouseup', onDragEnd);
+        }
+        function onDragging(e) {
+            const touch = e.type === 'touchmove' ? e.touches[0] : e;
+            const dx = touch.clientX - startX; const dy = touch.clientY - startY;
+            if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
+                aiBotState.isDragging = true;
+                let newLeft = initLeft + dx; let newBottom = initBottom - dy;
+                newLeft = Math.max(5, Math.min(window.innerWidth - 70, newLeft));
+                newBottom = Math.max(5, Math.min(window.innerHeight - 70, newBottom));
+                trigger.style.left = newLeft + 'px';
+                trigger.style.bottom = newBottom + 'px';
+                aiBotState.pos = { left: newLeft, bottom: newBottom };
+                if (aiBotState.isPanelOpen) aiBotPositionPanel();
+            }
+        }
+        function onDragEnd() {
+            document.removeEventListener('mousemove', onDragging);
+            document.removeEventListener('mouseup', onDragEnd);
+            document.removeEventListener('touchmove', onDragging);
+            document.removeEventListener('touchend', onDragEnd);
+            if (aiBotState.isDragging) {
+                localStorage.setItem('ai-bot-widget-pos', JSON.stringify(aiBotState.pos));
+            } else {
+                aiBotTogglePanel();
+            }
+        }
+        trigger.addEventListener('mousedown', onDragStart);
+        trigger.addEventListener('touchstart', onDragStart, { passive: true });
+
+        function aiBotTogglePanel() {
+            aiBotState.isPanelOpen = !aiBotState.isPanelOpen;
+            if (aiBotState.isPanelOpen) {
+                aiBotPositionPanel();
+                panel.classList.add('active');
+                trigger.classList.remove('ai-bot-periodic-shake');
+                setTimeout(() => input.focus(), 300);
+            } else {
+                panel.classList.remove('active');
+                trigger.classList.add('ai-bot-periodic-shake');
+            }
+        }
+        closeBtn.onclick = () => aiBotTogglePanel();
+
+        // --- HỆ THỐNG XỬ LÝ TEXT & RENDER CẤU TRÚC ---
+        function aiBotNormalizeMarkdownText(text) {
+            if (!text) return "";
+            return text
+                .replace(/[\u{1F300}-\u{1F6FF}\u{1F900}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '') // Xóa emoji
+                .replace(/[#@]/g, '') // Xóa ký tự trang trí #, @
+                .replace(/(\d+)\s*-\s*(\d+)/g, '$1 đến $2') // Chuyển "15 - 20" thành "15 đến 20"
+                .replace(/\r\n/g, '\n')
+                .replace(/\n\s*\n+/g, '\n')
+                .trim();
+        }
+
+        function aiBotEscapeHtml(unsafe) {
+            return unsafe
+                 .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+                 .replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+
+        function aiBotRenderInlineMarkdown(text) {
+            return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        }
+
+        function aiBotIsSectionHeading(line) {
+            const clean = line.replace(/\*\*/g, '').replace(/[:：]\s*$/, '').trim();
+            const headingKeywords = [
+                'Mức thu nhập tham khảo', 'Thu nhập tham khảo', 'Mức lương tham khảo',
+                'Chính sách đãi ngộ và phúc lợi', 'Đãi ngộ và phúc lợi', 'Phúc lợi',
+                'Lưu ý', 'Kỹ năng chuyên môn', 'Kỹ năng hành vi', 'Kỹ năng cần chuẩn bị',
+                'Bước tiếp theo', 'Vị trí phù hợp', 'Lý do phù hợp', 'Định hướng dài hạn',
+                'Cơ hội phát triển', 'Chứng chỉ khuyến nghị', 'Đào tạo gợi ý',
+                'Công cụ chuyên môn', 'Trách nhiệm chính', 'KPI chính'
+            ];
+            return (
+                /^(\d+)[.\)]\s+.+/.test(clean) ||
+                /^(Option|Lựa chọn|Hướng|Nhóm|Mục)\s*\d+\s*[:\-]\s*.+/i.test(clean) ||
+                headingKeywords.some(k => clean.toLowerCase().includes(k.toLowerCase())) ||
+                (clean.length <= 60 && /[:：]$/.test(line.trim()))
+            );
+        }
+
+        function aiBotParseStructuredResponse(text) {
+            const clean = aiBotNormalizeMarkdownText(text);
+            const lines = clean.split(/\n+/).map(line => line.trim()).filter(Boolean);
+            
+            let finalHtml = "";
+            let currentList = [];
+            
+            const flushList = () => {
+                if (currentList.length > 0) {
+                    finalHtml += `<ul class="ai-bot-section-list">` + 
+                        currentList.map(li => `<li>${aiBotRenderInlineMarkdown(aiBotEscapeHtml(li))}</li>`).join('') + 
+                        `</ul>`;
+                    currentList = [];
+                }
+            };
+
+            const sectionPattern = /^(\d+)[.\)]\s+(.+)$|^(Option|Lựa chọn|Hướng|Nhóm|Mục)\s*(\d+)\s*[:\-]\s*(.+)$/i;
+            const bulletPattern = /^[-*•·]\s*(.+)$/;
+
+            lines.forEach((line, index) => {
+                const sectionMatch = line.match(sectionPattern);
+                const isHeading = aiBotIsSectionHeading(line);
+                const bulletMatch = line.match(bulletPattern);
+                
+                if (sectionMatch || isHeading) {
+                    flushList();
+                    let num = "";
+                    let title = line.replace(/[:：]$/, '').replace(/\*\*/g, '').trim();
+
+                    if (sectionMatch) {
+                        num = sectionMatch[1] || sectionMatch[4];
+                        title = sectionMatch[2] || sectionMatch[5];
+                    }
+
+                    finalHtml += `<div class="ai-bot-section">
+                        <div class="ai-bot-section-title">
+                            ${num ? `<span class="ai-bot-section-number">${num}.</span>` : ""}
+                            <strong>${aiBotRenderInlineMarkdown(aiBotEscapeHtml(title))}</strong>
+                        </div>
+                    </div>`;
+                } else if (bulletMatch) {
+                    currentList.push(bulletMatch[1]);
+                } else if (line.includes(': ')) {
+                    currentList.push(line);
+                } else {
+                    flushList();
+                    const cssClass = (index === 0) ? 'ai-bot-intro' : 'ai-bot-followup';
+                    finalHtml += `<p class="${cssClass}">${aiBotRenderInlineMarkdown(aiBotEscapeHtml(line))}</p>`;
+                }
+            });
+
+            flushList();
+            return finalHtml ? `<div class="ai-bot-markdown">${finalHtml}</div>` : `<p>${aiBotRenderInlineMarkdown(aiBotEscapeHtml(clean))}</p>`;
+        }
+
+        // --- OPTIMIZED DATA RETRIEVAL (RAG) ---
+        function aiBotNormalizeSearchText(value) {
+            if (!value) return "";
+            return value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^\w\s]/gi, '');
+        }
+
+        function aiBotGetQueryIntent(query) {
+            const q = query.toLowerCase();
+            if (/\b(lương|thu nhập|salary|phúc lợi|benefit|đãi ngộ)\b/.test(q)) return "compensation";
+            if (/\b(pos|ptsc|công ty|dự án|tuyển dụng)\b/.test(q)) return "company";
+            if (/\b(kỹ năng|skill|chứng chỉ|đào tạo|học|phần mềm)\b/.test(q)) return "skills";
+            if (/\b(lộ trình|thăng tiến|cấp bậc|senior|lead|expert|career)\b/.test(q)) return "career_path";
+            return "general";
+        }
+
+        function aiBotPickRelevantRows(query) {
+            const intent = aiBotGetQueryIntent(query);
+            const qNorm = aiBotNormalizeSearchText(query);
+            const tokens = qNorm.split(/\s+/).filter(t => t.length > 2 && !['toi','anh','chi','can','la','gi','nen'].includes(t));
+            
+            const scored = masterData.map(row => {
+                let score = 0;
+                const rowText = aiBotNormalizeSearchText(Object.values(row).join(' '));
+                
+                tokens.forEach(t => { if (rowText.includes(t)) score += 1; });
+                
+                // Trọng số cho các trường quan trọng
+                if (tokens.some(t => aiBotNormalizeSearchText(row.role_title).includes(t))) score += 5;
+                if (tokens.some(t => aiBotNormalizeSearchText(row.function_title).includes(t))) score += 5;
+
+                // Ưu tiên Career Path đang chọn
+                if (selectedRoleValue && row.function_title === selectedRoleValue) score += 3;
+
+                return { row, score };
+            });
+
+            const filtered = scored.filter(s => s.score > 0).sort((a,b) => b.score - a.score);
+            
+            if (filtered.length === 0) return masterData.slice(0, 8);
+            return filtered.slice(0, 12).map(s => s.row);
+        }
+
+        function aiBotBuildCompactKnowledge(rows) {
+            return rows.map((r, i) => `[Dòng ${i+1}] Lộ trình: ${r.function_title} | Cấp: ${r.milestone_level} | Vị trí: ${r.role_title} | Trách nhiệm: ${r.key_responsibilities.slice(0, 150)} | Kỹ năng: ${r.competencies_to_develop} | Tiêu chí thăng cấp: ${r.promotion_criteria}`).join('\n');
+        }
+
+        // --- TYPEWRITING ---
+        async function aiBotTypewrite(element, fullText) {
+            aiBotState.isTyping = true;
+            input.disabled = true; sendBtn.disabled = true;
+            statusLabel.style.display = 'block';
+            
+            const normalizedText = aiBotNormalizeMarkdownText(fullText);
+            const lines = normalizedText.split(/\n/);
+            let partialContent = "";
+            
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                const words = line.split(' ');
+                let currentLineTyped = "";
+                
+                // Type by word clusters for smoothness
+                for (let j = 0; j < words.length; j += 2) {
+                    const chunk = words.slice(j, j + 2).join(' ') + " ";
+                    currentLineTyped += chunk;
+                    element.innerHTML = aiBotParseStructuredResponse(partialContent + currentLineTyped);
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                    await new Promise(r => setTimeout(r, 25));
+                }
+                partialContent += line + "\n";
+            }
+
+            aiBotState.isTyping = false;
+            input.disabled = false; sendBtn.disabled = false;
+            statusLabel.style.display = 'none';
+            input.focus();
+        }
+
+        async function aiBotHandleSend(customText = null) {
+            if (!aiBotGeminiApiKey) {
+                const errDiv = document.createElement('div');
+                errDiv.className = 'ai-bot-bubble ai-bot-bubble-bot text-rose-500 font-bold';
+                errDiv.innerText = "Chưa có API key để kết nối AI.";
+                messagesContainer.appendChild(errDiv);
+                return;
+            }
+            const query = customText || input.value.trim();
+            if (!query || aiBotState.isTyping) return;
+
+            const uDiv = document.createElement('div');
+            uDiv.className = 'ai-bot-bubble ai-bot-bubble-user';
+            uDiv.innerText = query;
+            messagesContainer.appendChild(uDiv);
+            input.value = '';
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+            const bDiv = document.createElement('div');
+            bDiv.className = 'ai-bot-bubble ai-bot-bubble-bot';
+            bDiv.innerHTML = `<div class=\"ai-bot-thinking\"><div class=\"ai-bot-dot\"></div><div class=\"ai-bot-dot\"></div><div class=\"ai-bot-dot\"></div></div>`;
+            messagesContainer.appendChild(bDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+            try {
+                const response = await aiBotFetchAI(query);
+                bDiv.innerHTML = ""; 
+                await aiBotTypewrite(bDiv, response);
+            } catch (err) {
+                bDiv.innerText = "Lỗi: " + err.message;
+                input.disabled = false; sendBtn.disabled = false;
+            }
+        }
+
+        async function aiBotFetchAI(prompt, retry = 0) {
+            const intent = aiBotGetQueryIntent(prompt);
+            const relevantRows = (intent === "compensation") ? [] : aiBotPickRelevantRows(prompt);
+            const kb = (intent === "compensation") 
+                ? "Dữ liệu Roadmap nén không cần thiết cho câu hỏi về thu nhập." 
+                : aiBotBuildCompactKnowledge(relevantRows);
+
+            const systemPrompt = `Bạn là trợ lý tư vấn lộ trình nghề nghiệp dựa trên dữ liệu Roadmap nội bộ.
+
+LOẠI CÂU HỎI: ${intent}
+
+DỮ LIỆU ROADMAP LIÊN QUAN:
+${kb}
+
+DỮ LIỆU THU NHẬP, ĐÃI NGỘ, PHÚC LỢI THAM KHẢO:
+${intent === "compensation" ? (aiBotCompensationData || "Không có dữ liệu thu nhập cụ thể.") : "Sử dụng khi được hỏi về đãi ngộ."}
+
+${aiBotAnswerRule}`;
+
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/${aiBotGeminiModel}:generateContent?key=${aiBotGeminiApiKey}`;
+            try {
+                const res = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: prompt }] }],
+                        systemInstruction: { parts: [{ text: systemPrompt }] }
+                    })
+                });
+                const data = await res.json();
+                if (!res.ok) {
+                    const msg = data.error?.message || "";
+                    if (msg.includes("high demand") && retry < 3) {
+                        await new Promise(r => setTimeout(r, aiBotConfig.retryDelays[retry]));
+                        return aiBotFetchAI(prompt, retry + 1);
+                    }
+                    throw new Error(msg || "Lỗi API");
+                }
+                return data.candidates?.[0]?.content?.parts?.[0]?.text || "Không có phản hồi.";
+            } catch (e) {
+                if (retry < 3 && e.message.includes("high demand")) {
+                    await new Promise(r => setTimeout(r, aiBotConfig.retryDelays[retry]));
+                    return aiBotFetchAI(prompt, retry + 1);
+                }
+                throw e;
+            }
+        }
+
+        sendBtn.onclick = () => aiBotHandleSend();
+        input.onkeypress = (e) => { if(e.key === 'Enter') aiBotHandleSend(); };
+        document.querySelectorAll('.ai-bot-suggest-btn').forEach(btn => {
+            btn.onclick = () => aiBotHandleSend(btn.dataset.query);
+        });
+
+        window.addEventListener('resize', () => {
+            const rect = trigger.getBoundingClientRect();
+            if (rect.right > window.innerWidth || rect.bottom > window.innerHeight) {
+                aiBotState.pos = { left: 30, bottom: 30 };
+                aiBotInitPos();
+            }
+            if (aiBotState.isPanelOpen) aiBotPositionPanel();
+        });
+    })();
+    /* AI BOT WIDGET JS END */
 </script>
 
 </body>
