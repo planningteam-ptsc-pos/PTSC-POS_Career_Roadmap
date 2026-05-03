@@ -468,19 +468,51 @@
         .company-video-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); border-color: var(--sky-primary); }
         
         .company-video-thumbnail {
-            position: relative; width: 100%; aspect-ratio: 16/9; overflow: hidden; background: #000;
-        }
-        
-        .company-video-thumbnail img { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: contain;
-            object-position: center;
-            transition: filter 0.4s ease;
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            overflow: hidden;
             background: #0f172a;
         }
         
-        .company-video-card:hover .company-video-thumbnail img { 
+        /* Nền phụ: phủ kín toàn khung bằng chính ảnh thumbnail, có blur */
+        .company-video-thumbnail::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: var(--thumb-bg);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: blur(14px);
+            transform: scale(1.12);
+            opacity: 0.55;
+            z-index: 0;
+        }
+        
+        /* Lớp phủ nhẹ để nền không lấn ảnh chính */
+        .company-video-thumbnail::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.18);
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        /* Ảnh chính: hiển thị đủ, không bị crop */
+        .company-video-thumbnail img {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
+            transition: filter 0.4s ease;
+        }
+        
+        /* Không zoom ảnh để tránh bị che chữ/logo */
+        .company-video-card:hover .company-video-thumbnail img {
             transform: none;
             filter: brightness(1.05);
         }
@@ -1640,7 +1672,7 @@
             card.addEventListener('click', () => openVideoModal(v.driveId, v.title));
             
             card.innerHTML = `
-                <div class="company-video-thumbnail">
+                <div class="company-video-thumbnail" style="--thumb-bg: url('${v.thumbnail}')">
                     <div class="company-video-overlay"></div>
                     <img src="${v.thumbnail}" alt="${v.title}" onerror="this.src='https://placehold.co/600x400/0ea5e9/ffffff?text=${encodeURIComponent(v.title)}'">
                     <div class="company-video-play-btn"><i data-lucide="play" class="fill-current ml-1"></i></div>
