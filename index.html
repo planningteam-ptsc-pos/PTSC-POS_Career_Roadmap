@@ -32,7 +32,6 @@
         
         /* --- HỆ THỐNG THEME ĐA SẮC ĐỘNG --- */
         :root {
-            /* Default: Ocean Blue */
             --color-primary-50: 240 249 255;
             --color-primary-100: 224 242 254;
             --color-primary-400: 56 189 248;
@@ -152,7 +151,7 @@
         .node-card {
             background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px);
             padding: 10px; border-radius: 24px; width: 180px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.04); border: 2px solid rgba(255,255,255,0.8);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.04); border: 1px solid rgba(255,255,255,0.6);
             position: relative; cursor: pointer; transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             margin: 0 auto; transform-origin: center center; overflow: visible;
         }
@@ -267,7 +266,6 @@
         .btn-premium-nav:hover { background: var(--sky-primary); transform: translateY(-2px); }
 
         .btn-premium-action {
-            /* Thay đổi nút sang màu động của Theme */
             background: var(--sky-primary); color: white; padding: 14px 28px; border-radius: 20px;
             font-weight: 800; font-size: 15px; text-transform: uppercase; letter-spacing: 0.1em;
             display: flex; align-items: center; gap: 12px; transition: all 0.4s; box-shadow: 0 10px 25px rgb(var(--color-primary-500) / 0.4); border: 1.5px solid rgba(255,255,255,0.2); position: relative; z-index: 200; cursor: pointer;
@@ -362,67 +360,17 @@
         .ai-bot-bubble-user { align-self: flex-end; background: #2563eb; color: white; border-bottom-right-radius: 4px; font-weight: 600; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1); }
         .ai-bot-bubble-bot { align-self: flex-start; background: white; color: #1e293b; border-bottom-left-radius: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.02); border: 1px solid #f1f5f9; }
 
-        /* AI BOT CLEAN STYLE - NO BR */
-        .ai-bot-markdown { 
-            line-height: 1.35; 
-            color: #1e293b;
-            font-size: 14px;
-        }
-        .ai-bot-intro, .ai-bot-followup { 
-            margin: 0 0 0.35rem 0; 
-            padding: 0; 
-            line-height: 1.35;
-            color: #1e293b;
-        }
-        .ai-bot-section { 
-            margin: 0.45rem 0 0 0; 
-            padding: 0; 
-        }
+        .ai-bot-markdown { line-height: 1.35; color: #1e293b; font-size: 14px; }
+        .ai-bot-intro, .ai-bot-followup { margin: 0 0 0.35rem 0; padding: 0; line-height: 1.35; color: #1e293b; }
+        .ai-bot-section { margin: 0.45rem 0 0 0; padding: 0; }
         .ai-bot-section:first-child { margin-top: 0; }
-        
-        /* Heading màu xanh chuẩn */
-        .ai-bot-section-title { 
-            display: flex; 
-            align-items: flex-start; 
-            gap: 0.4rem; 
-            margin: 0 0 0.18rem 0; 
-            padding: 0; 
-            font-weight: 800; 
-            color: #2563eb; 
-            line-height: 1.3; 
-        }
-        .ai-bot-section-title strong {
-            font-weight: 800;
-            color: #2563eb;
-        }
-        .ai-bot-section-number { 
-            color: #2563eb; 
-            font-weight: 900; 
-            flex-shrink: 0; 
-        }
-        
-        /* Bullet chi tiết màu đen */
-        .ai-bot-section-list { 
-            margin: 0; 
-            padding-left: 1.15rem; 
-            list-style-type: disc;
-            color: #1e293b;
-        }
-        .ai-bot-section-list li { 
-            margin: 0; 
-            padding: 0; 
-            line-height: 1.35; 
-            font-weight: 400;
-            color: #1e293b;
-        }
+        .ai-bot-section-title { display: flex; align-items: flex-start; gap: 0.4rem; margin: 0 0 0.18rem 0; padding: 0; font-weight: 800; color: #2563eb; line-height: 1.3; }
+        .ai-bot-section-title strong { font-weight: 800; color: #2563eb; }
+        .ai-bot-section-number { color: #2563eb; font-weight: 900; flex-shrink: 0; }
+        .ai-bot-section-list { margin: 0; padding-left: 1.15rem; list-style-type: disc; color: #1e293b; }
+        .ai-bot-section-list li { margin: 0; padding: 0; line-height: 1.35; font-weight: 400; color: #1e293b; }
         .ai-bot-section-list li + li { margin-top: 0.1rem; }
-        
-        /* Label in bullet đen in đậm */
-        .ai-bot-section-list li strong {
-            font-weight: 700;
-            color: #1e293b;
-        }
-        
+        .ai-bot-section-list li strong { font-weight: 700; color: #1e293b; }
         .ai-bot-markdown strong { color: inherit; }
         .ai-bot-markdown br { display: none; }
 
@@ -464,6 +412,115 @@
             #ai-bot-panel { width: calc(100vw - 24px); height: 500px; }
         }
         /* AI BOT WIDGET END */
+
+        /* --- PHẦN BỔ SUNG: COMPANY INTRO & VIDEO --- */
+        .company-intro-card {
+            background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); border: 1.5px solid rgba(255,255,255,0.7);
+            border-radius: 40px; padding: 40px; text-align: center; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 20px;
+        }
+        .company-intro-card:hover { transform: translateY(-12px); background: #fff; box-shadow: 0 30px 60px rgba(0,0,0,0.1); }
+        .company-intro-icon-circle {
+            width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, var(--sky-primary) 0%, #6366f1 100%);
+            display: flex; align-items: center; justify-content: center; color: white; box-shadow: 0 10px 25px rgba(14, 165, 233, 0.3);
+        }
+        
+        /* Video Page Enhanced */
+        .company-video-card {
+            background: rgba(255, 255, 255, 0.95); border: 1px solid #f1f5f9; border-radius: 32px; overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer;
+        }
+        .company-video-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); border-color: var(--sky-primary); }
+        
+        .company-video-thumbnail {
+            position: relative; width: 100%; aspect-ratio: 16/9; overflow: hidden; background: #000;
+        }
+        .company-video-thumbnail img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+        .company-video-card:hover .company-video-thumbnail img { transform: scale(1.08); }
+        
+        .company-video-overlay {
+            position: absolute; inset: 0; background: rgba(0,0,0,0); transition: background 0.4s; z-index: 5;
+        }
+        .company-video-card:hover .company-video-overlay { background: rgba(0,0,0,0.2); }
+        
+        .company-video-play-btn {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 54px; height: 54px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2); transition: all 0.4s; z-index: 10; color: var(--oil-slate);
+        }
+        .company-video-card:hover .company-video-play-btn { transform: translate(-50%, -50%) scale(1.15); background: var(--sky-primary); color: white; }
+
+        /* --- PHẦN BỔ SUNG: COMPANY MINDMAP (PREFIXED) --- */
+        .company-map-viewport {
+            width: 100%; height: 100%; overflow-x: auto; overflow-y: auto; border-radius: 40px; position: relative;
+            background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(10px); padding-bottom: 120px;
+        }
+        .company-map-wrapper { min-width: 1300px; min-height: 800px; position: relative; display: flex; align-items: center; justify-content: center; padding: 40px; }
+        .company-map-side { flex: 1; display: flex; flex-direction: column; gap: 30px; z-index: 10; }
+        .company-map-side.left { align-items: flex-end; padding-right: 120px; }
+        .company-map-side.right { align-items: flex-start; padding-left: 120px; }
+        
+        .company-map-center {
+            background: linear-gradient(135deg, #06b6d4, #2563eb); color: white; padding: 25px 50px; border-radius: 100px;
+            font-weight: 800; font-size: 1.3rem; text-align: center; box-shadow: 0 10px 30px rgba(6, 182, 212, 0.4); border: 4px solid white; text-transform: uppercase; letter-spacing: 1px; z-index: 100;
+        }
+        
+        .company-map-node-l1 {
+            width: clamp(380px, 32vw, 460px);
+            padding: 14px 22px; border-radius: 45px; color: white; font-weight: 700; font-size: 15px; cursor: pointer; transition: all 0.3s; 
+            border: 2px solid white; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: space-between; gap: 15px;
+        }
+        .company-map-node-l1:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
+        
+        /* Giới hạn 2 dòng cho node text */
+        .company-map-node-text {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 1.35;
+            max-height: 2.7em;
+            flex: 1;
+        }
+        
+        /* Cấu trúc nút dấu cộng mới */
+        .company-map-toggle-btn {
+            width: 28px; height: 28px; background: rgba(255, 255, 255, 0.9); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); flex-shrink: 0; border: 1.5px solid white;
+        }
+        .company-map-node-l1:hover .company-map-toggle-btn { transform: scale(1.1); box-shadow: 0 0 12px rgba(255,255,255,0.8); }
+        .company-map-node-l1.expanded .company-map-toggle-btn { transform: rotate(45deg); background: white; }
+        
+        .company-map-children-container { max-height: 0; overflow: hidden; transition: all 0.4s ease; opacity: 0; width: 92%; margin-top: 8px; }
+        .company-map-node-l1.expanded + .company-map-children-container { max-height: 800px; opacity: 1; }
+        .company-map-l2-box { background: white; border-radius: 20px; padding: 12px; display: flex; flex-direction: column; gap: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-left: 6px solid; overflow-y: auto; max-height: 350px; }
+        .company-map-child-item { padding: 9px 16px; font-size: 14px; background: #f8fafc; border-radius: 12px; font-weight: 600; color: #1e293b; transition: 0.2s; border: 1px solid transparent; }
+        .company-map-child-item:hover { transform: translateX(6px); background: #f1f5f9; border-color: #e2e8f0; }
+        .company-map-connection-path { fill: none; stroke-width: 2.8; stroke-linecap: round; opacity: 0.4; pointer-events: none; transition: d 0.4s; }
+        
+        /* Modal Video Logic Mẫu */
+        .video-modal-overlay {
+            position: fixed; inset: 0; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); z-index: 2000;
+            display: flex; align-items: center; justify-content: center; padding: 20px; 
+        }
+        .video-modal-container { width: 100%; max-width: 1100px; display: flex; flex-direction: column; gap: 15px; position: relative; }
+        .video-modal-iframe-wrapper { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 32px; overflow: hidden; box-shadow: 0 25px 60px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); }
+        .video-modal-header { display: flex; justify-content: space-between; align-items: center; padding: 0 10px; color: white; }
+        .video-modal-close { background: rgba(255,255,255,0.1); color: white; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.3s; cursor: pointer; }
+        .video-modal-close:hover { background: #f43f5e; transform: rotate(90deg); }
+        
+        /* Media Queries adjustments */
+        @media (max-width: 1024px) {
+            .company-map-wrapper { flex-direction: column; gap: 80px; min-width: auto; }
+            .company-map-side { padding: 0 !important; align-items: center !important; }
+            .company-map-node-l1 { width: clamp(300px, 90vw, 430px); }
+            .company-map-side.left { order: 2; }
+            .company-map-center { order: 1; }
+            .company-map-side.right { order: 3; }
+            #companyMapConnectionLayer { display: none; }
+        }
     </style>
 </head>
 <body class="flex flex-col">
@@ -506,7 +563,7 @@
             </div>
         </div>
 
-        <div class="glass-panel p-10 rounded-[48px] w-full max-w-md space-y-8 border-white shadow-2xl">
+        <div class="glass-panel p-10 rounded-[48px] w-full max-w-md space-y-6 border-white shadow-2xl">
             <div class="space-y-6">
                 <div class="relative" id="customDropdownContainer">
                     <label class="text-[15px] font-black text-slate-400 uppercase tracking-widest ml-1 mb-2 block">Lựa chọn Lộ trình (Path)</label>
@@ -527,9 +584,101 @@
                     </div>
                 </div>
             </div>
-            <button id="btnStart" class="w-full bg-primary-600 text-white font-black py-5 rounded-3xl shadow-xl shadow-primary-600/20 flex items-center justify-center gap-3 uppercase tracking-widest text-[15px] transition-all group opacity-60 cursor-not-allowed">
-                Bắt đầu tìm hiểu <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+            
+            <div class="space-y-3">
+                <button id="btnStart" class="w-full bg-primary-600 text-white font-black py-5 rounded-3xl shadow-xl shadow-primary-600/20 flex items-center justify-center gap-3 uppercase tracking-widest text-[15px] transition-all group opacity-60 cursor-not-allowed">
+                    Bắt đầu tìm hiểu <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+                </button>
+                
+                <button onclick="showPage('companyIntro')" class="w-full bg-white/60 hover:bg-white text-primary-600 border-2 border-primary-100 font-black py-4 rounded-3xl flex items-center justify-center gap-3 uppercase tracking-widest text-[14px] transition-all group backdrop-blur-sm">
+                    <i data-lucide="building-2" class="w-5 h-5"></i> Tìm hiểu về công ty
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE: COMPANY INTRO -->
+    <div id="pageCompanyIntro" class="hidden h-full flex flex-col gap-10 animate-up overflow-y-auto custom-scrollbar px-4 py-10 items-center">
+        <div class="w-full flex items-center justify-between px-6 max-w-7xl">
+            <button onclick="showPage(1)" class="flex items-center gap-2 bg-white/80 backdrop-blur px-5 py-2.5 rounded-full text-slate-700 font-black text-[15px] uppercase tracking-widest border shadow-sm hover:bg-white transition-all">
+                <i data-lucide="home" class="w-4 h-4"></i> Trang chủ
             </button>
+            <img src="image/background/logo.png" alt="Logo" class="w-[140px] md:w-[180px] object-contain">
+        </div>
+
+        <div class="text-center space-y-4">
+            <div class="w-20 h-20 bg-primary-600 text-white rounded-full flex items-center justify-center mx-auto shadow-xl shadow-primary-500/30">
+                <i data-lucide="info" class="w-10 h-10"></i>
+            </div>
+            <h2 class="text-3xl md:text-5xl font-black text-slate-900 uppercase tracking-tighter">Tìm hiểu về <span class="text-primary-600">PTSC POS</span></h2>
+            <p class="text-slate-600 font-bold text-lg">Khám phá thông tin tổng quan về Công ty và hệ thống chức danh nghề nghiệp</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl w-full px-6">
+            <div class="company-intro-card group" onclick="showPage('companyVideos')">
+                <div class="company-intro-icon-circle"><i data-lucide="play-circle" class="w-10 h-10"></i></div>
+                <h3 class="text-2xl font-black text-slate-800">Tìm hiểu tổng quan về công ty</h3>
+                <p class="text-slate-500 font-medium leading-relaxed">Xem các video giới thiệu về lĩnh vực hoạt động, môi trường làm việc và hình ảnh Công ty.</p>
+                <button class="mt-4 bg-primary-600 text-white px-8 py-3 rounded-2xl font-black text-[14px] uppercase tracking-widest shadow-lg shadow-primary-500/20 flex items-center gap-3">
+                    Xem video giới thiệu <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+            </div>
+            <div class="company-intro-card group" onclick="showPage('companyMindmap')">
+                <div class="company-intro-icon-circle"><i data-lucide="network" class="w-10 h-10"></i></div>
+                <h3 class="text-2xl font-black text-slate-800">Tìm hiểu về các chức danh</h3>
+                <p class="text-slate-500 font-medium leading-relaxed">Khám phá các nhóm chức năng, chức danh và vai trò nghề nghiệp tại PTSC POS.</p>
+                <button class="mt-4 bg-violet-600 text-white px-8 py-3 rounded-2xl font-black text-[14px] uppercase tracking-widest shadow-lg shadow-violet-500/20 flex items-center gap-3">
+                    Xem sơ đồ chức danh <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE: COMPANY VIDEOS -->
+    <div id="pageCompanyVideos" class="hidden h-full flex flex-col gap-6 animate-up overflow-hidden">
+        <div class="flex items-center justify-between px-6 shrink-0">
+            <button onclick="showPage('companyIntro')" class="flex items-center gap-2 bg-white/80 backdrop-blur px-5 py-2.5 rounded-full text-slate-700 font-black text-[15px] uppercase tracking-widest border shadow-sm hover:bg-white transition-all">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i> Quay lại
+            </button>
+            <div class="text-center">
+                <h2 class="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tighter">TÌM HIỂU TỔNG QUAN VỀ CÔNG TY</h2>
+                <p class="text-slate-500 font-bold text-[14px]">Danh sách video giới thiệu về PTSC POS</p>
+            </div>
+            <div class="w-[100px] hidden md:block"></div>
+        </div>
+
+        <div id="videoGrid" class="flex-1 overflow-y-auto px-8 pb-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 custom-scrollbar">
+            <!-- Video Cards injected via JS -->
+            <div class="col-span-full text-center py-20 text-slate-400 font-bold text-lg animate-pulse">Đang tải danh sách video...</div>
+        </div>
+    </div>
+
+    <!-- PAGE: COMPANY MINDMAP -->
+    <div id="pageCompanyMindmap" class="hidden h-full flex flex-col animate-up overflow-hidden">
+        <div class="flex flex-col md:flex-row items-center justify-between px-6 py-4 shrink-0 gap-4">
+            <button onclick="showPage('companyIntro')" class="flex items-center gap-2 bg-white/80 backdrop-blur px-5 py-2.5 rounded-full text-slate-700 font-black text-[15px] uppercase tracking-widest border shadow-sm hover:bg-white transition-all">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i> Quay lại
+            </button>
+            
+            <div class="flex items-center gap-3">
+                <input type="text" id="companyMapSearchInput" class="bg-white/90 border border-slate-200 px-6 py-2.5 rounded-full text-[14px] font-bold outline-none focus:ring-4 focus:ring-primary-500/10 min-w-[250px]" placeholder="Tìm nhanh chức danh...">
+                <button onclick="companyMapToggleAll(true)" class="bg-slate-100 hover:bg-white text-slate-700 px-4 py-2.5 rounded-full font-black text-[12px] uppercase tracking-widest transition-all">Mở hết</button>
+                <button onclick="companyMapToggleAll(false)" class="bg-slate-100 hover:bg-white text-slate-700 px-4 py-2.5 rounded-full font-black text-[12px] uppercase tracking-widest transition-all">Thu gọn</button>
+            </div>
+            
+            <div class="text-right hidden md:block">
+                <h2 class="text-xl font-black text-slate-900 uppercase">Sơ đồ chức danh</h2>
+                <span class="text-[12px] font-bold text-primary-600 uppercase tracking-widest">PTSC POS ORGANIZATION</span>
+            </div>
+        </div>
+
+        <div class="company-map-viewport custom-scrollbar" id="companyMapViewport">
+            <div class="company-map-wrapper" id="companyMapWrapper">
+                <svg id="companyMapConnectionLayer" class="absolute top-0 left-0 w-full h-full pointer-events-none" style="z-index: 1;"></svg>
+                <div class="company-map-side left" id="companyMapSideLeft"></div>
+                <div class="company-map-center" id="companyMapCenterNode">CÔNG TY PTSC POS</div>
+                <div class="company-map-side right" id="companyMapSideRight"></div>
+            </div>
         </div>
     </div>
 
@@ -719,7 +868,7 @@
                                                 <span id="salaryLevelText" class="text-xl font-extrabold text-slate-800">---</span>
                                             </div>
                                         </div>
-                                        <h5 class="text-[14px] font-black uppercase tracking-widest mb-1 text-slate-400">Thu nhập tham khảo</h5>
+                                        <h5 class="text-[14px] font-black uppercase tracking-widest mb-1 text-slate-400">Thu nhập tham khảo</h5>
                                         <div id="salaryRangeDisplay" class="text-5xl md:text-6xl font-black mb-6 text-primary-600 tracking-tighter">---</div>
                                         <div class="w-full h-2 bg-slate-100/50 rounded-full mb-8 overflow-hidden border border-slate-100">
                                             <div id="salaryProgressBar" class="h-full bg-primary-500 transition-all duration-1000 shadow-lg" style="width: 0%"></div>
@@ -745,12 +894,27 @@
         </div>
     </div>
 
+    <!-- VIDEO MODAL ENHANCED Logic Patch -->
+    <div id="videoModal" class="video-modal-overlay hidden opacity-0 transition-opacity duration-300" onclick="closeVideoModal()">
+        <div id="videoModalContent" class="video-modal-container scale-95 transition-transform duration-300" onclick="event.stopPropagation()">
+            <div class="video-modal-header">
+                <h3 id="modalVideoTitle" class="text-xl md:text-2xl font-black uppercase tracking-tighter truncate max-w-[80%]">Video</h3>
+                <button class="video-modal-close" onclick="closeVideoModal()">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <div class="video-modal-iframe-wrapper">
+                <iframe id="videoIframe" src="" frameborder="0" allow="autoplay; fullscreen" allowfullscreen class="w-full h-full"></iframe>
+            </div>
+        </div>
+    </div>
+
     <!-- TOAST -->
     <div id="toastContainer" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[999] flex flex-col gap-3 pointer-events-none"></div>
 
 </div>
 
-<!-- AI BOT WIDGET START -->
+<!-- AI BOT WIDGET -->
 <div id="ai-bot-trigger" class="ai-bot-periodic-shake">
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="white"><path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12l4 4V4c0-1.1-.9-2-2-2zm-2 12H4V4h14v10zM6 7h8v2H6V7zm0 3h5v2H6v-2z"/></svg>
 </div>
@@ -797,7 +961,6 @@
         <div id="ai-bot-status" class="ai-bot-status-text">AI đang soạn câu trả lời...</div>
     </div>
 </div>
-<!-- AI BOT WIDGET END -->
 
 <script>
     let masterData = [];
@@ -810,39 +973,33 @@
     let isFileLoaded = false;
     let isRoleSelected = false;
 
-    /* AI BOT WIDGET CONFIG START */
-    let aiBotGeminiModel = "gemini-3.1-flash-lite-preview";
-    let aiBotGeminiApiKey = "";
-    let aiBotCompensationData = "";
-    let aiBotAnswerRule = `QUY TẮC TRẢ LỜI:
-1. Chỉ sử dụng thông tin có trong dữ liệu CSV và dữ liệu thu nhập/phúc lợi được cung cấp. Không tự bịa thêm.
-2. Nếu dữ liệu không đủ, trả lời ngắn: "Dữ liệu hiện tại chưa có đủ thông tin về nội dung này."
-3. Trả lời ngắn gọn, ưu tiên dạng gạch đầu dòng.
-4. Mỗi câu trả lời tối đa 150 từ.
-5. Nếu người dùng hỏi định hướng nghề nghiệp, gợi ý tối đa 2 lộ trình phù hợp nhất.
-6. Với mỗi lộ trình, chỉ nêu: Vị trí phù hợp, lý do phù hợp, kỹ năng cần chuẩn bị, bước tiếp theo.
-7. Nếu người dùng hỏi về mức thu nhập, lương, đãi ngộ hoặc phúc lợi, hãy sử dụng dữ liệu salary và benefit nếu có.
-8. Khi trả lời về lương hoặc thu nhập, luôn nói rõ đây chỉ là mức tham khảo. Thực tế phụ thuộc vào kinh nghiệm, năng lực, vị trí, cấp bậc, phạm vi công việc, dự án tham gia, hiệu quả công việc và chính sách lương thưởng từng thời kỳ của Công ty.
-9. Khi trả lời nhiều nhóm nội dung, hãy dùng cấu trúc:
-1. Tên mục chính
-Vị trí phù hợp: ...
-Lý do phù hợp: ...
-10. Ngôn ngữ: tiếng Việt, rõ ràng, chuyên nghiệp. Tuyệt đối không dùng markdown thô như **, ##, ### hay dấu * trước nội dung chi tiết.`;
-    /* AI BOT WIDGET CONFIG END */
+    // --- DỮ LIỆU VIDEO (DỰ PHÒNG & CHỜ TẢI) ---
+    let companyVideoData = [];
+    const companyVideoFallbackData = [
+        { title: 'Giới thiệu về PTSC POS', description: 'Tổng quan về lịch sử hình thành và tầm nhìn chiến lược của Công ty.', duration: '02:45', thumbnail: 'image/thumbnails/video1.jpg', driveId: '' },
+        { title: 'Lĩnh vực hoạt động', description: 'Khám phá các lĩnh vực cốt lõi và chuỗi cung ứng dịch vụ dầu khí.', duration: '03:12', thumbnail: 'image/thumbnails/video2.jpg', driveId: '' },
+        { title: 'Môi trường làm việc', description: 'Văn hóa PTSC POS - Nơi hội tụ những tài năng dầu khí hàng đầu.', duration: '02:30', thumbnail: 'image/thumbnails/video3.jpg', driveId: '' },
+        { title: 'Dự án tiêu biểu', description: 'Hành trình chinh phục các dự án EPCI trọng điểm trong và ngoài nước.', duration: '03:05', thumbnail: 'image/thumbnails/video4.jpg', driveId: '' },
+        { title: 'Giá trị cốt lõi', description: 'Chuyên nghiệp - Tin cậy - Phát triển: Kim chỉ nam cho mọi hoạt động.', duration: '02:15', thumbnail: 'image/thumbnails/video5.jpg', driveId: '' },
+        { title: 'Tầm nhìn & Sứ mệnh', description: 'Trở thành nhà thầu EPCI chuyên nghiệp hàng đầu khu vực.', duration: '02:40', thumbnail: 'image/thumbnails/video6.jpg', driveId: '' }
+    ];
 
-    const progressionColors = ['#10b981', '#0ea5e9', '#6366f1', '#8b5cf6', '#d946ef', '#f59e0b'];
-
-    const fixedBenefits = [
-        { icon: 'umbrella', text: 'Đóng BHXH mức cao' },
-        { icon: 'palmtree', text: 'Tham quan du lịch hàng năm' },
-        { icon: 'users', text: 'Teambuilding đa dạng tổ/nhóm' },
-        { icon: 'trophy', text: 'Thể thao, văn nghệ toàn TCT' },
-        { icon: 'heart', text: 'Chăm lo sức khỏe người thân' },
-        { icon: 'gift', text: 'Thưởng KPI, quà Lễ Tết' },
-        { icon: 'anchor', text: 'Phụ cấp Offshore, cơm trưa' },
-        { icon: 'shield-plus', text: 'Bảo hiểm PVI toàn diện' },
-        { icon: 'stethoscope', text: 'Khám sức khỏe quốc tế' },
-        { icon: 'graduation-cap', text: 'Đào tạo chuyên gia quốc tế' }
+    // --- COMPANY MINDMAP DATA (PREFIXED) ---
+    const companyMapData = [
+        { id: 'pm', side: 'right', colorGrad: 'linear-gradient(135deg, #3b82f6, #2563eb)', colorRaw: '#3b82f6', title: 'Quản lý dự án / Project Management', children: ['Giám đốc dự án / Project Director', 'Tổ trưởng Tổ quản lý dự án / Project Manager', 'Cố vấn dự án / Project Advisor', 'Kỹ sư dự án / Project Engineer', 'Điều phối dự án / Project Coordinator', 'Quản lý giám sát tiến độ dự án / Progress Supervisor - Planner', 'Quản lý điều phối giao diện dự án / Project Interface Manager', 'Nhóm chuyên gia / Specialist Group', 'Thư ký dự án / Project Secretary'] },
+        { id: 'ct', side: 'right', colorGrad: 'linear-gradient(135deg, #8b5cf6, #7c3aed)', colorRaw: '#8b5cf6', title: 'Hợp đồng - Thương mại / Contractual - Commercial', children: ['Chuyên viên pháp lý / Legal Officer', 'Chuyên viên hợp đồng / Contract Officer', 'Chuyên viên quản lý hợp đồng / Contract Management Officer', 'Chuyên viên hợp đồng & mua sắm / Contract & Procurement Officer', 'Cố vấn quản lý hợp đồng và chi phí / Contract & Cost Management Advisor', 'Chuyên viên dịch vụ / Subservice Officer'] },
+        { id: 'eg', side: 'right', colorGrad: 'linear-gradient(135deg, #ec4899, #db2777)', colorRaw: '#ec4899', title: 'Kỹ thuật / Engineering', children: ['Trưởng nhóm quản lý thiết kế / Engineering Design Manager', 'Chuyên viên đồ họa / Draftsman', 'Kỹ sư dự án / Project Engineer', 'Kỹ sư công nghệ và quy trình / Process Engineer', 'Kỹ sư đường ống / Piping Engineer', 'Kỹ sư kết cấu / Structure Engineer', 'Kỹ sư Đường ống ngầm / Subsea Pipeline Design Engineer', 'Kỹ sư cơ khí / Mechanical Engineer', 'Kỹ sư thiết kế hàng hải / Marine Design Engineer', 'Kỹ sư điện - tự động hóa - viễn thông / EIT Engineer', 'Kỹ sư nâng hạ / Lifting & Rigging Engineer', 'Kỹ sư sơn chống ăn mòn / Painting & Coating Engineer', 'Kỹ sư giàn giáo / Scaffolding Engineer'] },
+        { id: 'pc', side: 'right', colorGrad: 'linear-gradient(135deg, #ef4444, #ef4444)', colorRaw: '#ef4444', title: 'Mua sắm / Procurement', children: ['Chuyên viên mua sắm / Procurement Officer', 'Chuyên viên hợp đồng & mua sắm / Contract & Procurement Officer', 'Chuyên viên quản lý vật tư thiết bị / Material Controller', 'Nhân viên kho & quản lý vật tư / Storekeeper & Material Controller'] },
+        { id: 'fb', side: 'right', colorGrad: 'linear-gradient(135deg, #f97316, #ef4444)', colorRaw: '#f97316', title: 'Thi công chế tạo trên bờ / Onshore Fabrication', children: ['Trưởng nhóm quản lý thi công / Construction Manager', 'Trưởng nhóm giám sát thi công / Construction Supervisor Leader', 'Trưởng nhóm chế tạo và lắp đặt / Fabrication & Installation Leader', 'Trưởng nhóm giám sát cẩu kéo & nâng hạ / Construction Lifting Supervisor Leader', 'Giám sát kiểm soát chất lượng kết cấu & đường ống / Structure & Piping QC Supervisor', 'Kỹ sư công trường / Field Engineer', 'Đốc công hàn / Welding Foreman', 'Đốc công lắp ráp / Fitting Foreman', 'Đốc công cơ khí / Mechanical Foreman', 'Kỹ sư giàn giáo / Scaffolding Engineer'] },
+        { id: 'mr', side: 'right', colorGrad: 'linear-gradient(135deg, #facc15, #eab308)', colorRaw: '#eab308', title: 'Phương tiện hàng hải / Marine - Vessel', children: ['Trưởng nhóm quản lý hàng hải / Marine Management', 'Chuyên viên điều phối hàng hải / Marine Coordinator', 'PTSC Guardian / PTSC Guardian Vessel', 'Thuyền trưởng / Master', 'Sỹ quan máy / Engine Officer', 'Sỹ quan boong / Deck Officer', 'Lái cẩu / Crane Operator', 'Quản lý vật tư / Material Controller', 'Kỹ thuật viên thiết bị thợ lặn / Diving Equipment Technician'] },
+        { id: 'hr', side: 'right', colorGrad: 'linear-gradient(135deg, #22c55e, #16a34a)', colorRaw: '#22c55e', title: 'Nhân sự - Đào tạo / HR - Training', children: ['Trưởng nhóm nguồn nhân lực dự án / Human Resources Leader', 'Chuyên viên điều phối nguồn nhân lực / Human Resources Coordinator', 'Chuyên viên điều phối đào tạo nhân lực dự án / Project Manpower Training Coordinator', 'Chuyên viên đào tạo dự án / Project Training Officer', 'Chuyên viên hồ sơ nhân sự / HR Records Officer'] },
+        { id: 'huc', side: 'left', colorGrad: 'linear-gradient(135deg, #ef4444, #ef4444)', colorRaw: '#ef4444', title: 'Thi công ngoài khơi - Đấu nối - Chạy thử / Offshore Execution - HUC - Commissioning', children: ['Chuyên viên điều phối HUC / HUC Coordinator', 'Chuyên viên thi công đấu nối và chạy thử / Hook-up & Commissioning Engineer', 'Chuyên viên điều phối giấy phép làm việc / PTW Coordinator', 'Kiểm soát LOTO / LOTO Controller', 'Trưởng nhóm quản lý nhóm chạy thử / COM Manager', 'Kỹ sư chạy thử các / Commissioning Engineer', 'Kỹ sư ICAPS / ICAPS Engineer'] },
+        { id: 'lg', side: 'left', colorGrad: 'linear-gradient(135deg, #ec4899, #db2777)', colorRaw: '#ec4899', title: 'Hậu cần / Logistics', children: ['Chuyên viên hậu cần / Logistics Coordinator', 'Chuyên viên điều phối hậu cần / Logistics Coordinator', 'Chuyên viên quản lý vật tư, thiết bị & hậu cần / Material & Equipment Specialist'] },
+        { id: 'hse', side: 'left', colorGrad: 'linear-gradient(135deg, #8b5cf6, #7c3aed)', colorRaw: '#8b5cf6', title: 'An toàn - Sức khỏe - Môi trường / HSE', children: ['Trưởng nhóm quản lý ATSKMT / HSE Manager', 'Giám sát an toàn, sức khỏe, môi trường / HSE Supervisor', 'Giám sát an toàn / Safety Supervisor', 'Bác sĩ / Medic'] },
+        { id: 'qa', side: 'left', colorGrad: 'linear-gradient(135deg, #3b82f6, #2563eb)', colorRaw: '#3b82f6', title: 'Kiểm soát Chất lượng / QA-QC', children: ['Trưởng nhóm quản lý chất lượng / Quality Management', 'Trưởng nhóm đảm bảo chất lượng / QA Leader', 'Giám sát kiểm soát chất lượng / QC Supervisor', 'Kỹ sư kiểm soát & đảm bảo chất lượng / QA/QC Engineer'] },
+        { id: 'ri', side: 'left', colorGrad: 'linear-gradient(135deg, #0ea5e9, #0284c7)', colorRaw: '#0ea5e9', title: 'Quản trị rủi ro / Risk Management', children: ['Tổ Quản trị rủi ro / Risk Management Team'] },
+        { id: 'co', side: 'left', colorGrad: 'linear-gradient(135deg, #14b8a6, #0d9488)', colorRaw: '#14b8a6', title: 'Chi phí - Tài chính - Kế toán / Cost - Finance - Accounting', children: ['Chuyên viên kế toán, tài chính / Finance & Accounting Officer', 'Chuyên viên kiểm soát chi phí / Cost Controller', 'Cố vấn quản lý hợp đồng và chi phí / Contract & Cost Management Advisor', 'Chuyên viên kiểm soát dự toán dự án / Project Budget Control Officer', 'Chuyên viên kiểm soát thu chi dự án / Project Revenue & Expense Control Officer'] },
+        { id: 'ms', side: 'left', colorGrad: 'linear-gradient(135deg, #22c55e, #16a34a)', colorRaw: '#22c55e', title: 'Cung ứng nhân lực / Manpower Supply', children: ['Chuyên viên điều phối nguồn nhân lực / Manpower Coordinator', 'Chuyên viên nguồn nhân lực dự án / Project Human Resources Officer', 'Chuyên viên điều phối đào tạo nhân lực dự án / Project Manpower Training Coordinator', 'Chuyên viên dịch vụ / Subservice Officer'] }
     ];
 
     lucide.createIcons();
@@ -863,7 +1020,7 @@ Lý do phù hợp: ...
         if (!container) return;
         const toast = document.createElement('div');
         toast.className = 'bg-white/95 backdrop-blur-xl border-l-4 border-amber-500 text-slate-800 px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 animate-up pointer-events-auto';
-        toast.innerHTML = `<div class=\"bg-amber-100 p-2 rounded-full shrink-0\"><i data-lucide=\"alert-circle\" class=\"w-5 h-5 text-amber-600\"></i></div><span class=\"font-bold text-[15px]\">${message}</span>`;
+        toast.innerHTML = `<div class="bg-amber-100 p-2 rounded-full shrink-0"><i data-lucide="alert-circle" class="w-5 h-5 text-amber-600"></i></div><span class="font-bold text-[15px]">${message}</span>`;
         container.appendChild(toast);
         lucide.createIcons();
         setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translateY(20px)'; toast.style.transition = 'all 0.4s ease'; setTimeout(() => toast.remove(), 400); }, 3000);
@@ -888,7 +1045,6 @@ Lý do phù hợp: ...
         toggleThemeMenu(); 
     }
 
-    // --- LOGIC LƯƠNG & CẤP BẬC THĂNG TIẾN ---
     function getLevelVisuals(levelText) {
         const lvl = (levelText || "").toLowerCase();
         if (lvl.includes('entry')) return { icon: 'seedling', progress: 20, iconName: '🌱' };
@@ -902,7 +1058,7 @@ Lý do phù hợp: ...
     function getSalaryRange(levelText) {
         const lvl = (levelText || "").toLowerCase();
         const found = salaryBenefitData.find(d => (d.milestone_level || "").trim().toLowerCase() === lvl);
-        return found ? found.salary : "Thỏa thuận";                      
+        return found ? found.salary : "Thỏa thuận";                                     
     }
 
     function getRoleIcon(roleName) {
@@ -921,10 +1077,22 @@ Lý do phù hợp: ...
         return 'briefcase'; 
     }
 
-    // --- LOGIC GỐC (TẢI DỮ LIỆU SONG SONG) ---
-    function aiBotNormalizeAnswerRule(value) {
-        if (!value) return null;
-        return value.trim().replace(/""/g, '"');
+    // Helper map video rows từ Google Sheet sang format web
+    function mapVideoRows(rows) {
+        return rows
+            .filter(row => (row.title || '').trim())
+            .sort((a, b) => {
+                const ao = Number(a.sort_order || 999999);
+                const bo = Number(b.sort_order || 999999);
+                return ao - bo;
+            })
+            .map(row => ({
+                title: (row.title || '').trim(),
+                description: (row.description || '').trim(),
+                duration: (row.duration_text || '').trim() || '--:--',
+                thumbnail: (row.thumbnail_image_url || '').trim(),
+                driveId: (row.drive_id || '').trim()
+            }));
     }
 
     async function loadExcelDataAutomatically() {
@@ -940,22 +1108,17 @@ Lý do phù hợp: ...
             if (!configResponse.ok) throw new Error('Không tìm thấy file config.json');
             const config = await configResponse.json();
             
-            // Tải dữ liệu song song
+            // Tải roadmap và benefit (bắt buộc)
             const [roadmapRes, benefitRes] = await Promise.all([
                 fetch(config.sheetUrl),
                 fetch(config.sheetUrl2)
             ]);
 
             if (!roadmapRes.ok || !benefitRes.ok) throw new Error(`Lỗi kết nối dữ liệu.`);
-
-            const [csvText, benefitCsvText] = await Promise.all([
-                roadmapRes.text(),
-                benefitRes.text()
-            ]);
+            const [csvText, benefitCsvText] = await Promise.all([ roadmapRes.text(), benefitRes.text() ]);
 
             masterData = parseCSV(csvText);
             const benefitData = parseCSV(benefitCsvText);
-            
             salaryBenefitData = benefitData.filter(d => d.milestone_level && d.salary);
             benefitListData = benefitData.filter(d => d.benefit);
 
@@ -963,20 +1126,29 @@ Lý do phù hợp: ...
             if (aiConfigRow) {
                 if (aiConfigRow.model) aiBotGeminiModel = aiConfigRow.model.trim();
                 if (aiConfigRow.api_key) aiBotGeminiApiKey = aiConfigRow.api_key.trim();
-                if (aiConfigRow.answer_rule) {
-                    const normRule = aiBotNormalizeAnswerRule(aiConfigRow.answer_rule);
-                    if (normRule) aiBotAnswerRule = normRule;
-                }
+                if (aiConfigRow.answer_rule) aiBotAnswerRule = aiConfigRow.answer_rule.trim().replace(/""/g, '"');
             }
 
-            let compText = "";
-            benefitData.forEach(row => {
-                if (row.milestone_level || row.salary || row.benefit) {
-                    compText += `- Cấp bậc: ${row.milestone_level || '---'} | Lương tham khảo: ${row.salary || 'Thỏa thuận'} | Phúc lợi: ${row.benefit || 'Theo quy định'}\n`;
+            // Tải video (tùy chọn)
+            try {
+                if (config.sheetUrl3) {
+                    const videoRes = await fetch(config.sheetUrl3);
+                    if (videoRes.ok) {
+                        const videoCsvText = await videoRes.text();
+                        const videoRows = parseCSV(videoCsvText);
+                        companyVideoData = mapVideoRows(videoRows);
+                    } else {
+                        console.warn('Không tải được sheetUrl3, dùng dữ liệu video dự phòng.');
+                        companyVideoData = companyVideoFallbackData;
+                    }
+                } else {
+                    companyVideoData = companyVideoFallbackData;
                 }
-            });
-            aiBotCompensationData = compText.trim();
-            
+            } catch (vErr) {
+                console.warn('Lỗi fetch video sheet:', vErr);
+                companyVideoData = companyVideoFallbackData;
+            }
+
             const roles = [...new Set(masterData.map(d => d.function_title))].filter(Boolean);
             customRoleList.innerHTML = '';
             roles.sort().forEach(r => {
@@ -984,7 +1156,7 @@ Lý do phù hợp: ...
                 li.className = 'role-list-item group';
                 li.dataset.value = r;
                 const iconName = getRoleIcon(r);
-                li.innerHTML = `<i data-lucide=\"${iconName}\" class=\"w-4 h-4 text-primary-500/50 group-hover:text-primary-600 transition-colors shrink-0\"></i> <span>${r}</span>`;
+                li.innerHTML = `<i data-lucide="${iconName}" class="w-4 h-4 text-primary-500/50 group-hover:text-primary-600 transition-colors shrink-0"></i> <span>${r}</span>`;
                 li.onclick = (e) => { e.stopPropagation(); selectCustomRole(r, li); };
                 customRoleList.appendChild(li);
             });
@@ -993,6 +1165,9 @@ Lý do phù hợp: ...
             dropdownTrigger.classList.add('cursor-pointer');
             dropdownSelectedText.innerText = "-- Vui lòng Chọn Career Path --";
             lucide.createIcons();
+            
+            // Cập nhật giao diện video ngay sau khi tải xong
+            renderVideoGrid();
         } catch (error) { console.error(error); dropdownSelectedText.innerText = "Lỗi tải dữ liệu."; }
     }
 
@@ -1016,7 +1191,7 @@ Lý do phù hợp: ...
         }
         if (cell || row.length > 0) { row.push(cell.trim()); if (row.some(c => c !== '')) rows.push(row); }
         let headerIndex = 0;
-        for (let i = 0; i < rows.length; i++) { if (rows[i].includes('function_title') || rows[i].includes('milestone_level')) { headerIndex = i; break; } }
+        for (let i = 0; i < rows.length; i++) { if (rows[i].includes('function_title') || rows[i].includes('milestone_level') || rows[i].includes('drive_id')) { headerIndex = i; break; } }
         const headers = rows[headerIndex].map(h => h.trim().toLowerCase());
         const dataRows = rows.slice(headerIndex + 1);
         return dataRows.map(r => {
@@ -1079,19 +1254,40 @@ Lý do phù hợp: ...
     });
 
     function showPage(n) {
-        document.querySelectorAll('#app > div').forEach(div => div.classList.add('hidden'));
+        document.querySelectorAll('#app > div').forEach(div => {
+            const id = div.id;
+            if (id !== 'themeSelectorContainer' && id !== 'toastContainer' && id !== 'videoModal') {
+                 div.classList.add('hidden');
+            }
+        });
         if (animationLoopId) cancelAnimationFrame(animationLoopId);
+        
+        const resetBg = (img) => {
+            bgOverlay.style.backgroundImage = `linear-gradient(to bottom, rgba(248, 250, 252, 0.5), rgba(248, 250, 252, 0.5)), url('${img}')`;
+        };
+
         if (n === 1) {
             if (logo) logo.classList.remove('hidden'); themeSelectorContainer.classList.remove('hidden'); document.getElementById('page1').classList.remove('hidden');
             bgOverlay.style.backgroundImage = "linear-gradient(to bottom, rgba(248, 250, 252, 0.2), rgba(248, 250, 252, 0.2)), url('image/background/background_3.png')";
         } else if (n === 1.5) {
             if (logo) logo.classList.add('hidden'); themeSelectorContainer.classList.add('hidden'); document.getElementById('pageOverview').classList.remove('hidden');
-            bgOverlay.style.backgroundImage = "linear-gradient(to bottom, rgba(248, 250, 252, 0.5), rgba(248, 250, 252, 0.5)), url('image/background/background_4.png')";
+            resetBg('image/background/background_4.png');
             setTimeout(renderOverview, 100); initBackgroundParticles();
-        } else {
+        } else if (n === 2) {
             if (logo) logo.classList.add('hidden'); themeSelectorContainer.classList.add('hidden'); document.getElementById('page2').classList.remove('hidden');
-            bgOverlay.style.backgroundImage = "linear-gradient(to bottom, rgba(248, 250, 252, 0.5), rgba(248, 250, 252, 0.5)), url('image/background/background_2.png')";
+            resetBg('image/background/background_2.png');
             renderDashboard();
+        } else if (n === 'companyIntro') {
+            if (logo) logo.classList.add('hidden'); themeSelectorContainer.classList.add('hidden'); document.getElementById('pageCompanyIntro').classList.remove('hidden');
+            resetBg('image/background/background_mindmap.png');
+        } else if (n === 'companyVideos') {
+            if (logo) logo.classList.add('hidden'); themeSelectorContainer.classList.add('hidden'); document.getElementById('pageCompanyVideos').classList.remove('hidden');
+            resetBg('image/background/background_mindmap.png');
+            renderVideoGrid();
+        } else if (n === 'companyMindmap') {
+            if (logo) logo.classList.add('hidden'); themeSelectorContainer.classList.add('hidden'); document.getElementById('pageCompanyMindmap').classList.remove('hidden');
+            resetBg('image/background/background_mindmap.png');
+            setTimeout(() => { companyMapInitOnce(); companyMapDrawConnections(); }, 100);
         }
         lucide.createIcons();
     }
@@ -1132,10 +1328,10 @@ Lý do phù hợp: ...
             const nodeColor = isSummit ? '#f59e0b' : progressionColors[i % progressionColors.length];
             if (!isSummit) {
                 const m = data[i];
-                node.innerHTML = `<div class=\"node-card\" style=\"transform: scale(${masterScale}); border-bottom: 3px solid ${nodeColor};\"><div class=\"node-circle\" style=\"background-color: ${nodeColor};\">0${i+1}</div><div class=\"node-icon-wrapper\"><img src=\"${m.icon_image_path}\" class=\"w-full h-full object-contain\" onerror=\"this.src='https://cdn-icons-png.flaticon.com/512/1063/1063376.png'\"></div><div class=\"text-center px-1 pb-2\"><span class=\"text-[15px] font-black uppercase block mb-0.5\" style=\"color: ${nodeColor};\">${m.milestone_level}</span><h5 class=\"text-[20px] font-extrabold text-slate-900 line-clamp-3 leading-tight\">${m.role_title}</h5></div></div>`;
+                node.innerHTML = `<div class="node-card" style="transform: scale(${masterScale}); border-bottom: 3px solid ${nodeColor};"><div class="node-circle" style="background-color: ${nodeColor};">0${i+1}</div><div class="node-icon-wrapper"><img src="${m.icon_image_path}" class="w-full h-full object-contain" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1063/1063376.png'"></div><div class="text-center px-1 pb-2"><span class="text-[15px] font-black uppercase block mb-0.5" style="color: ${nodeColor};">${m.milestone_level}</span><h5 class="text-[20px] font-extrabold text-slate-900 line-clamp-3 leading-tight">${m.role_title}</h5></div></div>`;
             } else {
                 const summitData = data[total - 1];
-                node.innerHTML = `<div class=\"summit-halo\" style=\"transform: translate(-50%, -50%) scale(${masterScale})\"></div><div class=\"node-card summit-card shadow-xl !bg-amber-50\" style=\"transform: scale(${masterScale}); border: 2px solid ${nodeColor};\"><div class=\"summit-crown\" style=\"background-color: ${nodeColor};\"><i data-lucide=\"crown\" class=\"w-4 h-4 text-white\"></i></div><div class=\"node-icon-wrapper !bg-amber-50/30\"><img src=\"${summitData.icon_image_path || 'https://cdn-icons-png.flaticon.com/512/2618/2618245.png'}\" class=\"w-full h-full object-contain\"></div><div class=\"text-center px-1 pb-2\"><span class=\"text-[15px] font-black uppercase block mb-0.5\" style=\"color: ${nodeColor};\">Career Goal</span><h5 class=\"text-[20px] font-black uppercase text-slate-900 line-clamp-3 leading-tight\">${summitData.next_target_role || 'Executive'}</h5></div></div>`;
+                node.innerHTML = `<div class="summit-halo" style="transform: translate(-50%, -50%) scale(${masterScale})"></div><div class="node-card summit-card shadow-xl !bg-amber-50" style="transform: scale(${masterScale}); border: 2px solid ${nodeColor};"><div class="summit-crown" style="background-color: ${nodeColor};"><i data-lucide="crown" class="w-4 h-4 text-white"></i></div><div class="node-icon-wrapper !bg-amber-50/30"><img src="${summitData.icon_image_path || 'https://cdn-icons-png.flaticon.com/512/2618/2618245.png'}" class="w-full h-full object-contain"></div><div class="text-center px-1 pb-2"><span class="text-[15px] font-black uppercase block mb-0.5" style="color: ${nodeColor};">Career Goal</span><h5 class="text-[20px] font-black uppercase text-slate-900 line-clamp-3 leading-tight">${summitData.next_target_role || 'Executive'}</h5></div></div>`;
             }
             content.appendChild(node);
         }
@@ -1202,22 +1398,22 @@ Lý do phù hợp: ...
         document.getElementById('salaryLevelText').innerText = data.milestone_level;
         document.getElementById('salaryRangeDisplay').innerText = getSalaryRange(data.milestone_level);
         document.getElementById('salaryProgressBar').style.width = `${vsl.progress}%`;
-        document.getElementById('levelBadgeIcon').innerHTML = `<span class=\"text-3xl\">${vsl.iconName}</span>`;
-        document.getElementById('salaryLevelIconBg').innerHTML = `<i data-lucide=\"${vsl.icon}\" class=\"w-64 h-64 text-primary-500\"></i>`;
+        document.getElementById('levelBadgeIcon').innerHTML = `<span class="text-3xl">${vsl.iconName}</span>`;
+        document.getElementById('salaryLevelIconBg').innerHTML = `<i data-lucide="${vsl.icon}" class="w-64 h-64 text-primary-500"></i>`;
 
         const benList = document.getElementById('fixedBenefitsList');
         benList.innerHTML = '';
         benefitListData.forEach((b, index) => {
             const iconList = ['umbrella', 'palmtree', 'users', 'trophy', 'heart', 'gift', 'anchor', 'shield-plus', 'stethoscope', 'graduation-cap'];
             const icon = iconList[index % iconList.length];
-            benList.innerHTML += `<div class=\"benefit-item-card\"><i data-lucide=\"${icon}\" class=\"w-5 h-5 text-primary-600 shrink-0\"></i><span class=\"text-[14px] font-bold text-slate-700\">${b.benefit}</span></div>`;
+            benList.innerHTML += `<div class="benefit-item-card"><i data-lucide="${icon}" class="w-5 h-5 text-primary-600 shrink-0"></i><span class="text-[14px] font-bold text-slate-700">${b.benefit}</span></div>`;
         });
         
         const stepper = document.getElementById('detailStepper'); if(stepper) {
             stepper.innerHTML = '';
             currentRoleMilestones.forEach((m, i) => {
                 const div = document.createElement('div'); div.className = `dashboard-stepper-item ${i === currentIdx ? 'active' : (i < currentIdx ? 'completed' : '')}`;
-                div.innerHTML = `<div class=\"stepper-num\">${i+1}</div><div class=\"flex flex-col\"><span class=\"text-[15px] font-black uppercase text-slate-400\">${m.milestone_level}</span><span class=\"text-[15px] font-bold text-slate-800 leading-tight pr-2\">${m.role_title}</span></div>`;
+                div.innerHTML = `<div class="stepper-num">${i+1}</div><div class="flex flex-col"><span class="text-[15px] font-black uppercase text-slate-400">${m.milestone_level}</span><span class="text-[15px] font-bold text-slate-800 leading-tight pr-2">${m.role_title}</span></div>`;
                 div.onclick = () => { currentIdx = i; renderDashboard(); }; stepper.appendChild(div);
             });
         }
@@ -1229,13 +1425,13 @@ Lý do phù hợp: ...
         
         const kpiList = document.getElementById('kpiContainer'); kpiList.innerHTML = '';
         if(data.key_outputs_kpis) data.key_outputs_kpis.split(/[\n•·-]/).filter(s => s.trim().length > 5).forEach(kpi => {
-            kpiList.innerHTML += `<div class=\"bg-primary-50/50 p-4 rounded-2xl border border-primary-100 flex items-center gap-3\"><div class=\"w-2 h-2 rounded-full bg-primary-500\"></div><span class=\"text-[15px] font-bold text-slate-700\">${kpi.trim()}</span></div>`;
+            kpiList.innerHTML += `<div class="bg-primary-50/50 p-4 rounded-2xl border border-primary-100 flex items-center gap-3"><div class="w-2 h-2 rounded-full bg-primary-500"></div><span class="text-[15px] font-bold text-slate-700">${kpi.trim()}</span></div>`;
         });
 
         const compCon = document.getElementById('competenciesContainer'); compCon.innerHTML = '';
         if(data.competencies_to_develop) data.competencies_to_develop.split(/[\n•·-]/).filter(s => s.trim().length > 3).forEach((item, i) => {
             const lvl = [86, 75, 96, 65, 80][i % 5];
-            compCon.innerHTML += `<div class=\"skill-bar-container\"><div class=\"flex justify-between text-[15px] font-black uppercase text-slate-500\"><span>${item.trim()}</span><span>${lvl}%</span></div><div class=\"skill-bar-bg\"><div class=\"skill-bar-fill\" style=\"width: ${lvl}%\"></div></div></div>`;
+            compCon.innerHTML += `<div class="skill-bar-container"><div class="flex justify-between text-[15px] font-black uppercase text-slate-500"><span>${item.trim()}</span><span>${lvl}%</span></div><div class="skill-bar-bg"><div class="skill-bar-fill" style="width: ${lvl}%"></div></div></div>`;
         });
 
         const behCon = document.getElementById('behavioralContainer'); behCon.innerHTML = '';
@@ -1245,7 +1441,7 @@ Lý do phù hợp: ...
 
         const toolCon = document.getElementById('toolsContainer'); toolCon.innerHTML = '';
         if(data.technical_skills_tools) data.technical_skills_tools.split(/[\n•·-]/).filter(s => s.trim().length > 3).forEach(tool => {
-            toolCon.innerHTML += `<div class=\"tool-list-item flex items-center gap-2 mb-2\"><i data-lucide=\"chevron-right\" class=\"w-4 h-4 text-primary-500\"></i><span class=\"text-[15px] font-semibold\">${tool.trim()}</span></div>`;
+            toolCon.innerHTML += `<div class="tool-list-item flex items-center gap-2 mb-2"><i data-lucide="chevron-right" class="w-4 h-4 text-primary-500"></i><span class="text-[15px] font-semibold">${tool.trim()}</span></div>`;
         });
 
         renderBulletList('trainingList', data.suggested_training_development, 'graduation-cap', 'primary');
@@ -1257,7 +1453,7 @@ Lý do phù hợp: ...
         
         const certCon = document.getElementById('certList'); certCon.innerHTML = '';
         if(data.recommended_certifications) data.recommended_certifications.split(/[\n•·,]/).filter(s => s.trim().length > 2).forEach(c => {
-            certCon.innerHTML += `<div class=\"px-4 py-2 rounded-xl bg-amber-50 text-amber-700 border border-amber-100 font-bold text-[15px]\">${c.trim()}</div>`;
+            certCon.innerHTML += `<div class="px-4 py-2 rounded-xl bg-amber-50 text-amber-700 border border-amber-100 font-bold text-[15px]">${c.trim()}</div>`;
         });
 
         document.getElementById('pageCounter').innerText = `${String(currentIdx+1).padStart(2, '0')} / ${String(currentRoleMilestones.length).padStart(2, '0')}`;
@@ -1271,25 +1467,25 @@ Lý do phù hợp: ...
 
     function formatSidebarList(id, text) {
         const container = document.getElementById(id); if(!container) return; container.innerHTML = '';
-        if(!text) { container.innerHTML = '<span class=\"text-[15px] italic opacity-60\">N/A</span>'; return; }
+        if(!text) { container.innerHTML = '<span class="text-[15px] italic opacity-60">N/A</span>'; return; }
         text.split(/[\n•·-]/).filter(s => s.trim().length > 5).forEach(item => {
-            container.innerHTML += `<div class=\"info-item-list\"><div class=\"dot\"></div><span>${item.trim()}</span></div>`;
+            container.innerHTML += `<div class="info-item-list"><div class="dot"></div><span>${item.trim()}</span></div>`;
         });
     }
 
     function formatSidebarListDynamic(id, text) {
         const container = document.getElementById(id); if(!container) return; container.innerHTML = '';
-        if(!text) { container.innerHTML = '<div class=\"text-[15px] italic opacity-60\">N/A</div>'; return; }
+        if(!text) { container.innerHTML = '<div class="text-[15px] italic opacity-60">N/A</div>'; return; }
         text.split(/[\n•·-]/).filter(s => s.trim().length > 5).forEach(item => {
-            container.innerHTML += `<div class=\"dynamic-bullet\"><div class=\"white-dot\"></div><span class=\"dynamic-content-list\">${item.trim()}</span></div>`;
+            container.innerHTML += `<div class="dynamic-bullet"><div class="white-dot"></div><span class="dynamic-content-list">${item.trim()}</span></div>`;
         });
     }
 
     function renderBulletList(id, text, icon, color, isResp = false) {
         const el = document.getElementById(id); if (!el) return; el.innerHTML = '';
-        if(!text) return el.innerHTML = '<div class=\"text-slate-400 italic text-[15px]\">N/A</div>';
+        if(!text) return el.innerHTML = '<div class="text-slate-400 italic text-[15px]">N/A</div>';
         text.split(/[\n•·-]/).filter(s => s.trim().length > 3).forEach(item => {
-            el.innerHTML += `<div class=\"${isResp ? 'responsibility-card' : 'flex gap-4 items-start bg-white/60 p-4 rounded-2xl border border-slate-50 shadow-sm mb-3'}\"><i data-lucide=\"${icon}\" class=\"w-5 h-5 text-${color}-600 mt-0.5 shrink-0\"></i><span class=\"text-[15px] font-medium text-slate-700 leading-relaxed\">${item.trim()}</span></div>`;
+            el.innerHTML += `<div class="${isResp ? 'responsibility-card' : 'flex gap-4 items-start bg-white/60 p-4 rounded-2xl border border-slate-50 shadow-sm mb-3'}"><i data-lucide="${icon}" class="w-5 h-5 text-${color}-600 mt-0.5 shrink-0"></i><span class="text-[15px] font-medium text-slate-700 leading-relaxed">${item.trim()}</span></div>`;
         });
     }
 
@@ -1300,25 +1496,215 @@ Lý do phù hợp: ...
         if(event) event.target.classList.add('active'); lucide.createIcons();
     }
 
-    const obs = new ResizeObserver(() => { if(!document.getElementById('pageOverview').classList.contains('hidden')) renderOverview(); });
+    // --- LOGIC VIDEO ĐÃ CẬP NHẬT ĐỂ DÙNG DỮ LIỆU ĐỘNG ---
+    function renderVideoGrid() {
+        const grid = document.getElementById('videoGrid');
+        if (!grid) return;
+        
+        if (companyVideoData.length === 0) {
+            grid.innerHTML = `<div class="col-span-full text-center py-20 text-slate-400 font-bold text-lg">Chưa có video giới thiệu được cấu hình.</div>`;
+            return;
+        }
+
+        grid.innerHTML = '';
+        companyVideoData.forEach((v) => {
+            const card = document.createElement('div');
+            card.className = "company-video-card flex flex-col animate-up";
+            card.addEventListener('click', () => openVideoModal(v.driveId, v.title));
+            
+            card.innerHTML = `
+                <div class="company-video-thumbnail">
+                    <div class="company-video-overlay"></div>
+                    <img src="${v.thumbnail}" alt="${v.title}" onerror="this.src='https://placehold.co/600x400/0ea5e9/ffffff?text=${encodeURIComponent(v.title)}'">
+                    <div class="company-video-play-btn"><i data-lucide="play" class="fill-current ml-1"></i></div>
+                    <div class="absolute bottom-4 right-4 bg-slate-900/80 backdrop-blur text-white px-2.5 py-1 rounded-xl text-[12px] font-black z-10">${v.duration}</div>
+                </div>
+                <div class="p-6 space-y-2 bg-white/80 backdrop-blur">
+                    <h3 class="text-xl font-black text-slate-900 leading-tight line-clamp-1">${v.title}</h3>
+                    <p class="text-slate-500 font-bold text-[14px] leading-relaxed line-clamp-2">${v.description}</p>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+        lucide.createIcons();
+    }
+
+    function openVideoModal(driveId, title) {
+        if (!driveId) {
+            showToast('Video này chưa được cấu hình Google Drive ID.', 'warning');
+            return;
+        }
+        
+        const modal = document.getElementById('videoModal');
+        const modalContent = document.getElementById('videoModalContent');
+        const iframe = document.getElementById('videoIframe');
+        const titleEl = document.getElementById('modalVideoTitle');
+        
+        if (!modal || !modalContent || !iframe || !titleEl) return;
+
+        titleEl.innerText = title || 'Video';
+        iframe.src = `https://drive.google.com/file/d/${driveId}/preview`;
+        
+        modal.classList.remove('hidden');
+        
+        setTimeout(() => {
+            modal.classList.remove('opacity-0');
+            modal.classList.add('opacity-100');
+            modalContent.classList.remove('scale-95');
+            modalContent.classList.add('scale-100');
+        }, 10);
+    }
+
+    function closeVideoModal() {
+        const modal = document.getElementById('videoModal');
+        const modalContent = document.getElementById('videoModalContent');
+        const iframe = document.getElementById('videoIframe');
+        
+        if (!modal || !modalContent || !iframe) return;
+
+        modal.classList.remove('opacity-100');
+        modal.classList.add('opacity-0');
+        modalContent.classList.remove('scale-100');
+        modalContent.classList.add('scale-95');
+
+        setTimeout(() => {
+            modal.classList.add('hidden');
+            iframe.src = ''; 
+        }, 300);
+    }
+
+    // --- LOGIC COMPANY MINDMAP ENHANCED ---
+    let companyMapCreated = false;
+    function companyMapInitOnce() {
+        if (companyMapCreated) return;
+        const leftSide = document.getElementById('companyMapSideLeft');
+        const rightSide = document.getElementById('companyMapSideRight');
+        leftSide.innerHTML = ''; rightSide.innerHTML = '';
+
+        companyMapData.forEach((group) => {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'company-map-node-wrapper flex flex-col w-fit';
+
+            const node = document.createElement('div');
+            node.className = 'company-map-node-l1';
+            node.style.background = group.colorGrad;
+            node.dataset.rawColor = group.colorRaw;
+            node.title = group.title; 
+            
+            const toggleBtnHtml = `<div class="company-map-toggle-btn"><i data-lucide="plus" class="w-4 h-4" style="color: ${group.colorRaw}"></i></div>`;
+            const textHtml = `<span class="company-map-node-text">${group.title}</span>`;
+            
+            if (group.side === 'right') {
+                node.innerHTML = textHtml + toggleBtnHtml;
+            } else {
+                node.innerHTML = toggleBtnHtml + textHtml;
+            }
+
+            const childrenContainer = document.createElement('div');
+            childrenContainer.className = 'company-map-children-container';
+            const l2Box = document.createElement('div');
+            l2Box.className = 'company-map-l2-box';
+            l2Box.style.borderLeftColor = group.colorRaw;
+            
+            group.children.forEach(child => {
+                const item = document.createElement('div');
+                item.className = 'company-map-child-item';
+                item.textContent = child;
+                l2Box.appendChild(item);
+            });
+            childrenContainer.appendChild(l2Box);
+
+            node.onclick = () => {
+                node.classList.toggle('expanded');
+                setTimeout(companyMapDrawConnections, 50);
+                setTimeout(companyMapDrawConnections, 400);
+            };
+
+            wrapper.appendChild(node);
+            wrapper.appendChild(childrenContainer);
+            if (group.side === 'left') leftSide.appendChild(wrapper);
+            else rightSide.appendChild(wrapper);
+        });
+        lucide.createIcons();
+        companyMapCreated = true;
+    }
+
+    function companyMapDrawConnections() {
+        const svg = document.getElementById('companyMapConnectionLayer');
+        const mmRect = document.getElementById('companyMapWrapper').getBoundingClientRect();
+        const cRect = document.getElementById('companyMapCenterNode').getBoundingClientRect();
+        const cX = cRect.left + cRect.width / 2 - mmRect.left;
+        const cY = cRect.top + cRect.height / 2 - mmRect.top;
+
+        svg.innerHTML = '';
+        document.querySelectorAll('.company-map-node-l1').forEach((node) => {
+            const nRect = node.getBoundingClientRect();
+            const side = node.closest('.company-map-side').classList.contains('left') ? 'left' : 'right';
+            const nX = (side === 'right' ? nRect.left : nRect.right) - mmRect.left;
+            const nY = nRect.top + nRect.height / 2 - mmRect.top;
+            const cp1X = cX + (nX - cX) * 0.5;
+            const pathD = `M ${cX} ${cY} C ${cp1X} ${cY}, ${cp1X} ${nY}, ${nX} ${nY}`;
+            
+            const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            path.setAttribute("d", pathD);
+            path.setAttribute("class", "company-map-connection-path");
+            path.setAttribute("stroke", node.dataset.rawColor);
+            svg.appendChild(path);
+        });
+    }
+
+    function companyMapToggleAll(expand) {
+        document.querySelectorAll('.company-map-node-l1').forEach(node => {
+            if (expand) node.classList.add('expanded');
+            else node.classList.remove('expanded');
+        });
+        setTimeout(companyMapDrawConnections, 400);
+    }
+
+    // Search Mindmap logic
+    document.getElementById('companyMapSearchInput').addEventListener('input', (e) => {
+        const term = e.target.value.toLowerCase().trim();
+        const nodes = document.querySelectorAll('.company-map-node-l1');
+        nodes.forEach(node => {
+            const text = node.textContent.toLowerCase();
+            const l2items = node.nextElementSibling.querySelectorAll('.company-map-child-item');
+            let foundInL2 = false;
+            l2items.forEach(item => {
+                if (term !== '' && item.textContent.toLowerCase().includes(term)) {
+                    item.style.background = '#fef08a';
+                    foundInL2 = true;
+                } else {
+                    item.style.background = '#f8fafc';
+                }
+            });
+            if (term !== '' && (text.includes(term) || foundInL2)) {
+                node.classList.add('expanded');
+            }
+        });
+        companyMapDrawConnections();
+    });
+
+    // Event listener cho Modal Video ESC key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            const modal = document.getElementById('videoModal');
+            if (modal && !modal.classList.contains('hidden')) {
+                closeVideoModal();
+            }
+        }
+    });
+
+    const obs = new ResizeObserver(() => { 
+        if(!document.getElementById('pageOverview').classList.contains('hidden')) renderOverview(); 
+        if(!document.getElementById('pageCompanyMindmap').classList.contains('hidden')) companyMapDrawConnections();
+    });
     obs.observe(document.body);
     document.getElementById('btnGoToDetail').addEventListener('click', () => showPage(2));
-    showPage(1);
 
-    /* AI BOT WIDGET JS START */
+    /* AI BOT WIDGET JS */
     (function() {
-        const aiBotConfig = {
-            retryDelays: [3000, 5000, 7500, 10000, 15000]
-        };
-
-        const aiBotState = {
-            isDragging: false,
-            isPanelOpen: false,
-            isTyping: false,
-            // Vị trí mặc định luôn reset khi load trang
-            pos: { left: 30, bottom: 30 }
-        };
-
+        const aiBotConfig = { retryDelays: [3000, 5000, 7500, 10000, 15000] };
+        const aiBotState = { isDragging: false, isPanelOpen: false, isTyping: false, pos: { left: 30, bottom: 30 } };
         const trigger = document.getElementById('ai-bot-trigger');
         const panel = document.getElementById('ai-bot-panel');
         const closeBtn = document.getElementById('ai-bot-close');
@@ -1328,7 +1714,6 @@ Lý do phù hợp: ...
         const statusLabel = document.getElementById('ai-bot-status');
 
         function aiBotInitPos() {
-            // Xóa rác localStorage cũ
             localStorage.removeItem('ai-bot-widget-pos');
             trigger.style.left = aiBotState.pos.left + 'px';
             trigger.style.bottom = aiBotState.pos.bottom + 'px';
@@ -1343,24 +1728,15 @@ Lý do phù hợp: ...
             const panelWidth = Math.min(420, window.innerWidth - 32);
             const panelHeight = Math.min(620, window.innerHeight - 150);
             const margin = 12;
-
             const isLeftSide = rect.left < window.innerWidth / 2;
             const isTopHalf = rect.top < window.innerHeight / 2;
-
             let left, top;
             if (isLeftSide) { left = rect.left; } else { left = rect.right - panelWidth; }
             if (isTopHalf) { top = rect.bottom + 10; } else { top = rect.top - panelHeight - 10; }
-
             left = Math.max(margin, Math.min(left, window.innerWidth - panelWidth - margin));
             top = Math.max(margin, Math.min(top, window.innerHeight - panelHeight - margin));
-
-            panel.style.left = left + 'px';
-            panel.style.top = top + 'px';
-            panel.style.bottom = 'auto';
-            panel.style.right = 'auto';
-            
-            const originX = isLeftSide ? 'left' : 'right';
-            const originY = isTopHalf ? 'top' : 'bottom';
+            panel.style.left = left + 'px'; panel.style.top = top + 'px'; panel.style.bottom = 'auto'; panel.style.right = 'auto';
+            const originX = isLeftSide ? 'left' : 'right'; const originY = isTopHalf ? 'top' : 'bottom';
             panel.style.transformOrigin = `${originY} ${originX}`;
         }
 
@@ -1368,8 +1744,7 @@ Lý do phù hợp: ...
         function onDragStart(e) {
             const touch = e.type === 'touchstart' ? e.touches[0] : e;
             startX = touch.clientX; startY = touch.clientY;
-            initLeft = trigger.offsetLeft;
-            initBottom = parseInt(window.getComputedStyle(trigger).bottom);
+            initLeft = trigger.offsetLeft; initBottom = parseInt(window.getComputedStyle(trigger).bottom);
             aiBotState.isDragging = false;
             document.addEventListener(e.type === 'touchstart' ? 'touchmove' : 'mousemove', onDragging);
             document.addEventListener(e.type === 'touchstart' ? 'touchend' : 'mouseup', onDragEnd);
@@ -1382,321 +1757,135 @@ Lý do phù hợp: ...
                 let newLeft = initLeft + dx; let newBottom = initBottom - dy;
                 newLeft = Math.max(5, Math.min(window.innerWidth - 70, newLeft));
                 newBottom = Math.max(5, Math.min(window.innerHeight - 70, newBottom));
-                trigger.style.left = newLeft + 'px';
-                trigger.style.bottom = newBottom + 'px';
+                trigger.style.left = newLeft + 'px'; trigger.style.bottom = newBottom + 'px';
                 aiBotState.pos = { left: newLeft, bottom: newBottom };
                 if (aiBotState.isPanelOpen) aiBotPositionPanel();
             }
         }
         function onDragEnd() {
-            document.removeEventListener('mousemove', onDragging);
-            document.removeEventListener('mouseup', onDragEnd);
-            document.removeEventListener('touchmove', onDragging);
-            document.removeEventListener('touchend', onDragEnd);
-            if (!aiBotState.isDragging) {
-                aiBotTogglePanel();
-            }
+            document.removeEventListener('mousemove', onDragging); document.removeEventListener('mouseup', onDragEnd);
+            document.removeEventListener('touchmove', onDragging); document.removeEventListener('touchend', onDragEnd);
+            if (!aiBotState.isDragging) aiBotTogglePanel();
         }
-        trigger.addEventListener('mousedown', onDragStart);
-        trigger.addEventListener('touchstart', onDragStart, { passive: true });
+        trigger.addEventListener('mousedown', onDragStart); trigger.addEventListener('touchstart', onDragStart, { passive: true });
 
         function aiBotTogglePanel() {
             aiBotState.isPanelOpen = !aiBotState.isPanelOpen;
-            if (aiBotState.isPanelOpen) {
-                aiBotPositionPanel();
-                panel.classList.add('active');
-                trigger.classList.remove('ai-bot-periodic-shake');
-                setTimeout(() => input.focus(), 300);
-            } else {
-                panel.classList.remove('active');
-                trigger.classList.add('ai-bot-periodic-shake');
-            }
+            if (aiBotState.isPanelOpen) { aiBotPositionPanel(); panel.classList.add('active'); trigger.classList.remove('ai-bot-periodic-shake'); setTimeout(() => input.focus(), 300); } 
+            else { panel.classList.remove('active'); trigger.classList.add('ai-bot-periodic-shake'); }
         }
         closeBtn.onclick = () => aiBotTogglePanel();
 
-        // --- HỆ THỐNG XỬ LÝ TEXT & RENDER CẤU TRÚC CHỐNG LỖI HIỂN THỊ ---
         function aiBotNormalizeMarkdownText(text) {
             if (!text) return "";
-            return String(text)
-                .replace(/[\u{1F300}-\u{1F6FF}\u{1F900}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, "") // Xóa emoji
-                .replace(/\r\n/g, "\n")
-                .replace(/[ \t]+/g, " ")
-                .replace(/#{1,6}\s*/g, "") // Xóa ##, ###
-                .replace(/\*{2,}/g, "") // Xóa **, ***
-                .replace(/@/g, "")
-                .replace(/(\d+)\s*-\s*(\d+)/g, "$1 đến $2") // "15 - 20" -> "15 đến 20"
-                .replace(/\n\s*\n+/g, "\n")
-                .trim();
+            return String(text).replace(/[\u{1F300}-\u{1F6FF}\u{1F900}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, "").replace(/\r\n/g, "\n").replace(/[ \t]+/g, " ").replace(/#{1,6}\s*/g, "").replace(/\*{2,}/g, "").replace(/@/g, "").replace(/(\d+)\s*-\s*(\d+)/g, "$1 đến $2").replace(/\n\s*\n+/g, "\n").trim();
         }
-
-        function aiBotEscapeHtml(unsafe) {
-            return unsafe
-                 .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
-                 .replace(/"/g, "&quot;").replace(/'/g, "&#039;");
-        }
-
-        function aiBotRenderInlineMarkdown(text) {
-            // Chỉ render <strong> thủ công ở tầng format, không dùng replace regex đơn giản gây hiện dấu **
-            return text; 
-        }
-
+        function aiBotEscapeHtml(unsafe) { return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;"); }
         function aiBotIsSectionHeading(line) {
-            const raw = String(line || "").trim();
-            if (!raw) return false;
-            // Bullet thô không bao giờ là heading
-            if (/^[-*•·]\s+/.test(raw)) return false;
-
+            const raw = String(line || "").trim(); if (!raw) return false; if (/^[-*•·]\s+/.test(raw)) return false;
             const clean = raw.replace(/#{1,6}\s*/g, "").replace(/\*{1,}/g, "").replace(/[:：]\s*$/, "").trim();
-
-            // Nhận diện số thứ tự chính: 1. , 2. 
             if (/^\d+[\.\)]\s+.{3,}/.test(clean)) return true;
-            
-            // Nhận diện các từ khóa lộ trình
             if (/^(Lộ trình|Huong|Hướng|Option|Lựa chọn|Nhom|Nhóm|Mục)\s*\d+\s*[:\-]?\s+.+/i.test(clean)) return true;
-
-            const highLevelHeadings = [
-                "Thu nhập theo cấp bậc", "Mức thu nhập tham khảo", "Thu nhập tham khảo",
-                "Mức lương tham khảo", "Phúc lợi chung", "Chính sách đãi ngộ và phúc lợi",
-                "Đãi ngộ và phúc lợi", "Lưu ý", "Kỹ năng chuyên môn", "Kỹ năng hành vi",
-                "Công cụ chuyên môn", "Đào tạo gợi ý", "Chứng chỉ khuyến nghị"
-            ];
+            const highLevelHeadings = ["Thu nhập theo cấp bậc", "Mức thu nhập tham khảo", "Thu nhập tham khảo", "Mức lương tham khảo", "Phúc lợi chung", "Chính sách đãi ngộ và phúc lợi", "Đãi ngộ và phúc lợi", "Lưu ý", "Kỹ năng chuyên môn", "Kỹ năng hành vi", "Công cụ chuyên môn", "Đào tạo gợi ý", "Chứng chỉ khuyến nghị"];
             return highLevelHeadings.some(k => clean.toLowerCase() === k.toLowerCase());
         }
-
         function aiBotFormatListItem(text) {
-            // Làm sạch triệt để các ký tự markdown thừa trong bullet
-            let clean = String(text || "")
-                .replace(/#{1,6}\s*/g, "")
-                .replace(/\*{1,}/g, "")
-                .replace(/^[-•·]\s*/, "")
-                .replace(/@/g, "")
-                .trim();
-
+            let clean = String(text || "").replace(/#{1,6}\s*/g, "").replace(/\*{1,}/g, "").replace(/^[-•·]\s*/, "").replace(/@/g, "").trim();
             const escaped = aiBotEscapeHtml(clean);
-            // Chỉ in đậm phần nhãn trước dấu ":" và giữ màu đen (thông qua CSS)
             return escaped.replace(/^([^:：]{2,45}[:：])\s*(.+)$/u, '<strong>$1</strong> $2');
         }
-
         function aiBotParseStructuredResponse(text) {
-            const clean = aiBotNormalizeMarkdownText(text);
-            const lines = clean.split(/\n+/).map(line => line.trim()).filter(Boolean);
-            
-            let finalHtml = "";
-            let currentList = [];
-            
+            const clean = aiBotNormalizeMarkdownText(text); const lines = clean.split(/\n+/).map(line => line.trim()).filter(Boolean);
+            let finalHtml = ""; let currentList = [];
             const flushList = () => {
-                if (currentList.length > 0) {
-                    finalHtml += `<ul class="ai-bot-section-list">` + 
-                        currentList.map(li => `<li>${aiBotFormatListItem(li)}</li>`).join('') + 
-                        `</ul>`;
-                    currentList = [];
-                }
+                if (currentList.length > 0) { finalHtml += `<ul class="ai-bot-section-list">` + currentList.map(li => `<li>${aiBotFormatListItem(li)}</li>`).join('') + `</ul>`; currentList = []; }
             };
-
             const sectionPattern = /^(\d+)[.\)]\s+(.+)$|^(Option|Lựa chọn|Hướng|Nhóm|Mục)\s*(\d+)\s*[:\-]\s*(.+)$/i;
-
             lines.forEach((line, index) => {
                 const isHeading = aiBotIsSectionHeading(line);
-                
                 if (isHeading) {
-                    flushList();
-                    const sectionMatch = line.match(sectionPattern);
-                    let num = "";
-                    let title = line.replace(/[:：]$/, '').replace(/\*{1,}/g, '').replace(/#{1,6}\s*/, '').trim();
-
-                    if (sectionMatch) {
-                        num = sectionMatch[1] || sectionMatch[4];
-                        title = sectionMatch[2] || sectionMatch[5];
-                    }
-
-                    finalHtml += `<div class="ai-bot-section">
-                        <div class="ai-bot-section-title">
-                            ${num ? `<span class="ai-bot-section-number">${num}.</span>` : ""}
-                            <strong>${aiBotEscapeHtml(title)}</strong>
-                        </div>
-                    </div>`;
-                } else if (line.match(/^[-*•·]\s+/) || (index > 0 && line.includes(': '))) {
-                    currentList.push(line);
-                } else {
-                    flushList();
-                    const cssClass = (index === 0) ? 'ai-bot-intro' : 'ai-bot-followup';
-                    finalHtml += `<p class="${cssClass}">${aiBotEscapeHtml(line)}</p>`;
-                }
+                    flushList(); const sectionMatch = line.match(sectionPattern); let num = ""; let title = line.replace(/[:：]$/, '').replace(/\*{1,}/g, '').replace(/#{1,6}\s*/, '').trim();
+                    if (sectionMatch) { num = sectionMatch[1] || sectionMatch[4]; title = sectionMatch[2] || sectionMatch[5]; }
+                    finalHtml += `<div class="ai-bot-section"><div class="ai-bot-section-title">${num ? `<span class="ai-bot-section-number">${num}.</span>` : ""}<strong>${aiBotEscapeHtml(title)}</strong></div></div>`;
+                } else if (line.match(/^[-*•·]\s+/) || (index > 0 && line.includes(': '))) { currentList.push(line); } 
+                else { flushList(); const cssClass = (index === 0) ? 'ai-bot-intro' : 'ai-bot-followup'; finalHtml += `<p class="${cssClass}">${aiBotEscapeHtml(line)}</p>`; }
             });
-
-            flushList();
-            return finalHtml ? `<div class="ai-bot-markdown">${finalHtml}</div>` : `<p>${aiBotEscapeHtml(clean)}</p>`;
+            flushList(); return finalHtml ? `<div class="ai-bot-markdown">${finalHtml}</div>` : `<p>${aiBotEscapeHtml(clean)}</p>`;
         }
-
-        // --- OPTIMIZED DATA RETRIEVAL (RAG) ---
-        function aiBotNormalizeSearchText(value) {
-            if (!value) return "";
-            return value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^\w\s]/gi, '');
-        }
-
+        function aiBotNormalizeSearchText(value) { if (!value) return ""; return value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^\w\s]/gi, ''); }
         function aiBotGetQueryIntent(query) {
-            const q = query.toLowerCase();
-            if (/\b(lương|thu nhập|salary|phúc lợi|benefit|đãi ngộ)\b/.test(q)) return "compensation";
+            const q = query.toLowerCase(); if (/\b(lương|thu nhập|salary|phúc lợi|benefit|đãi ngộ)\b/.test(q)) return "compensation";
             if (/\b(pos|ptsc|công ty|dự án|tuyển dụng)\b/.test(q)) return "company";
             if (/\b(kỹ năng|skill|chứng chỉ|đào tạo|học|phần mềm)\b/.test(q)) return "skills";
-            if (/\b(lộ trình|thăng tiến|cấp bậc|senior|lead|expert|career)\b/.test(q)) return "career_path";
-            return "general";
+            if (/\b(lộ trình|thăng tiến|cấp bậc|senior|lead|expert|career)\b/.test(q)) return "career_path"; return "general";
         }
-
         function aiBotPickRelevantRows(query) {
-            const qNorm = aiBotNormalizeSearchText(query);
-            const tokens = qNorm.split(/\s+/).filter(t => t.length > 2 && !['toi','anh','chi','can','la','gi','nen'].includes(t));
-            
+            const qNorm = aiBotNormalizeSearchText(query); const tokens = qNorm.split(/\s+/).filter(t => t.length > 2 && !['toi','anh','chi','can','la','gi','nen'].includes(t));
             const scored = masterData.map(row => {
-                let score = 0;
-                const rowText = aiBotNormalizeSearchText(Object.values(row).join(' '));
+                let score = 0; const rowText = aiBotNormalizeSearchText(Object.values(row).join(' '));
                 tokens.forEach(t => { if (rowText.includes(t)) score += 1; });
                 if (tokens.some(t => aiBotNormalizeSearchText(row.role_title).includes(t))) score += 5;
                 if (tokens.some(t => aiBotNormalizeSearchText(row.function_title).includes(t))) score += 5;
                 if (selectedRoleValue && row.function_title === selectedRoleValue) score += 3;
                 return { row, score };
             });
-
             const filtered = scored.filter(s => s.score > 0).sort((a,b) => b.score - a.score);
-            if (filtered.length === 0) return masterData.slice(0, 8);
-            return filtered.slice(0, 12).map(s => s.row);
+            return filtered.length === 0 ? masterData.slice(0, 8) : filtered.slice(0, 12).map(s => s.row);
         }
+        function aiBotBuildCompactKnowledge(rows) { return rows.map((r, i) => `[Path ${i+1}] Lộ trình: ${r.function_title} | Cấp: ${r.milestone_level} | Vị trí: ${r.role_title} | Trách nhiệm: ${r.key_responsibilities.slice(0, 120)} | Kỹ năng: ${r.competencies_to_develop} | Tiêu chí thăng cấp: ${r.promotion_criteria}`).join('\n'); }
 
-        function aiBotBuildCompactKnowledge(rows) {
-            return rows.map((r, i) => `[Path ${i+1}] Lộ trình: ${r.function_title} | Cấp: ${r.milestone_level} | Vị trí: ${r.role_title} | Trách nhiệm: ${r.key_responsibilities.slice(0, 120)} | Kỹ năng: ${r.competencies_to_develop} | Tiêu chí thăng cấp: ${r.promotion_criteria}`).join('\n');
-        }
-
-        // --- TYPEWRITING ---
         async function aiBotTypewrite(element, fullText) {
-            aiBotState.isTyping = true;
-            input.disabled = true; sendBtn.disabled = true;
-            statusLabel.style.display = 'block';
-            
-            const normalizedText = aiBotNormalizeMarkdownText(fullText);
-            const lines = normalizedText.split(/\n/);
-            let partialContent = "";
-            
+            aiBotState.isTyping = true; input.disabled = true; sendBtn.disabled = true; statusLabel.style.display = 'block';
+            const normalizedText = aiBotNormalizeMarkdownText(fullText); const lines = normalizedText.split(/\n/); let partialContent = "";
             for (let i = 0; i < lines.length; i++) {
-                const line = lines[i];
-                const words = line.split(' ');
-                let currentLineTyped = "";
-                
+                const line = lines[i]; const words = line.split(' '); let currentLineTyped = "";
                 for (let j = 0; j < words.length; j += 2) {
-                    const chunk = words.slice(j, j + 2).join(' ') + " ";
-                    currentLineTyped += chunk;
-                    // Render HTML có cấu trúc ngay trong quá trình gõ (không chứa ký hiệu markdown thô)
+                    const chunk = words.slice(j, j + 2).join(' ') + " "; currentLineTyped += chunk;
                     element.innerHTML = aiBotParseStructuredResponse(partialContent + currentLineTyped);
-                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
-                    await new Promise(r => setTimeout(r, 12));
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight; await new Promise(r => setTimeout(r, 12));
                 }
                 partialContent += line + "\n";
             }
-
-            aiBotState.isTyping = false;
-            input.disabled = false; sendBtn.disabled = false;
-            statusLabel.style.display = 'none';
-            input.focus();
+            aiBotState.isTyping = false; input.disabled = false; sendBtn.disabled = false; statusLabel.style.display = 'none'; input.focus();
         }
 
         async function aiBotHandleSend(customText = null) {
-            if (!aiBotGeminiApiKey) {
-                const errDiv = document.createElement('div');
-                errDiv.className = 'ai-bot-bubble ai-bot-bubble-bot text-rose-500 font-bold';
-                errDiv.innerText = "Chưa có API key để kết nối AI.";
-                messagesContainer.appendChild(errDiv);
-                return;
-            }
-            const query = customText || input.value.trim();
-            if (!query || aiBotState.isTyping) return;
-
-            const uDiv = document.createElement('div');
-            uDiv.className = 'ai-bot-bubble ai-bot-bubble-user';
-            uDiv.innerText = query;
-            messagesContainer.appendChild(uDiv);
-            input.value = '';
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-
-            const bDiv = document.createElement('div');
-            bDiv.className = 'ai-bot-bubble ai-bot-bubble-bot';
-            bDiv.innerHTML = `<div class=\"ai-bot-thinking\"><div class=\"ai-bot-dot\"></div><div class=\"ai-bot-dot\"></div><div class=\"ai-bot-dot\"></div></div>`;
-            messagesContainer.appendChild(bDiv);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-
-            try {
-                const response = await aiBotFetchAI(query);
-                bDiv.innerHTML = ""; 
-                await aiBotTypewrite(bDiv, response);
-            } catch (err) {
-                bDiv.innerText = "Lỗi: " + err.message;
-                input.disabled = false; sendBtn.disabled = false;
-            }
+            if (!aiBotGeminiApiKey) { showToast("Chưa có API key để kết nối AI."); return; }
+            const query = customText || input.value.trim(); if (!query || aiBotState.isTyping) return;
+            const uDiv = document.createElement('div'); uDiv.className = 'ai-bot-bubble ai-bot-bubble-user'; uDiv.innerText = query;
+            messagesContainer.appendChild(uDiv); input.value = ''; messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            const bDiv = document.createElement('div'); bDiv.className = 'ai-bot-bubble ai-bot-bubble-bot'; bDiv.innerHTML = `<div class="ai-bot-thinking"><div class="ai-bot-dot"></div><div class="ai-bot-dot"></div><div class="ai-bot-dot"></div></div>`;
+            messagesContainer.appendChild(bDiv); messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            try { const response = await aiBotFetchAI(query); bDiv.innerHTML = ""; await aiBotTypewrite(bDiv, response); } 
+            catch (err) { bDiv.innerText = "Lỗi: " + err.message; input.disabled = false; sendBtn.disabled = false; }
         }
 
         async function aiBotFetchAI(prompt, retry = 0) {
-            const intent = aiBotGetQueryIntent(prompt);
-            const relevantRows = (intent === "compensation") ? [] : aiBotPickRelevantRows(prompt);
-            const kb = (intent === "compensation") 
-                ? "Dữ liệu Roadmap nén không cần thiết cho câu hỏi về thu nhập." 
-                : aiBotBuildCompactKnowledge(relevantRows);
-
-            const systemPrompt = `Bạn là trợ lý tư vấn lộ trình nghề nghiệp dựa trên dữ liệu Roadmap nội bộ.
-
-LOẠI CÂU HỎI: ${intent}
-
-DỮ LIỆU ROADMAP LIÊN QUAN:
-${kb}
-
-DỮ LIỆU THU NHẬP, ĐÃI NGỘ, PHÚC LỢI THAM KHẢO:
-${intent === "compensation" ? (aiBotCompensationData || "Không có dữ liệu thu nhập cụ thể.") : "Chỉ sử dụng khi được hỏi về đãi ngộ."}
-
-${aiBotAnswerRule}`;
-
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/${aiBotGeminiModel}:generateContent?key=${aiBotGeminiApiKey}`;
+            const intent = aiBotGetQueryIntent(prompt); const relevantRows = (intent === "compensation") ? [] : aiBotPickRelevantRows(prompt);
+            const kb = (intent === "compensation") ? "Dữ liệu nén không cần thiết cho thu nhập." : aiBotBuildCompactKnowledge(relevantRows);
+            const systemPrompt = `Bạn là trợ lý tư vấn lộ trình nghề nghiệp dựa trên dữ liệu nội bộ. Loại: ${intent}. Dữ liệu: ${kb}. Thu nhập: ${intent === "compensation" ? aiBotCompensationData : "N/A"}. ${aiBotAnswerRule}`;
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${aiBotGeminiApiKey}`;
             try {
-                const res = await fetch(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: prompt }] }],
-                        systemInstruction: { parts: [{ text: systemPrompt }] }
-                    })
-                });
+                const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], systemInstruction: { parts: [{ text: systemPrompt }] } }) });
                 const data = await res.json();
                 if (!res.ok) {
-                    const msg = data.error?.message || "";
-                    if (msg.includes("high demand") && retry < 3) {
-                        await new Promise(r => setTimeout(r, aiBotConfig.retryDelays[retry]));
-                        return aiBotFetchAI(prompt, retry + 1);
-                    }
+                    const msg = data.error?.message || ""; if (msg.includes("high demand") && retry < 3) { await new Promise(r => setTimeout(r, aiBotConfig.retryDelays[retry])); return aiBotFetchAI(prompt, retry + 1); }
                     throw new Error(msg || "Lỗi API");
                 }
                 return data.candidates?.[0]?.content?.parts?.[0]?.text || "Không có phản hồi.";
-            } catch (e) {
-                if (retry < 5 && e.message.includes("high demand")) {
-                    await new Promise(r => setTimeout(r, aiBotConfig.retryDelays[retry]));
-                    return aiBotFetchAI(prompt, retry + 1);
-                }
-                throw e;
-            }
+            } catch (e) { if (retry < 5 && e.message.includes("high demand")) { await new Promise(r => setTimeout(r, aiBotConfig.retryDelays[retry])); return aiBotFetchAI(prompt, retry + 1); } throw e; }
         }
 
-        sendBtn.onclick = () => aiBotHandleSend();
-        input.onkeypress = (e) => { if(e.key === 'Enter') aiBotHandleSend(); };
-        document.querySelectorAll('.ai-bot-suggest-btn').forEach(btn => {
-            btn.onclick = () => aiBotHandleSend(btn.dataset.query);
-        });
-
+        sendBtn.onclick = () => aiBotHandleSend(); input.onkeypress = (e) => { if(e.key === 'Enter') aiBotHandleSend(); };
+        document.querySelectorAll('.ai-bot-suggest-btn').forEach(btn => btn.onclick = () => aiBotHandleSend(btn.dataset.query));
         window.addEventListener('resize', () => {
-            const rect = trigger.getBoundingClientRect();
-            if (rect.right > window.innerWidth || rect.bottom > window.innerHeight) {
-                aiBotState.pos = { left: 30, bottom: 30 };
-                aiBotInitPos();
-            }
+            const rect = trigger.getBoundingClientRect(); if (rect.right > window.innerWidth || rect.bottom > window.innerHeight) { aiBotState.pos = { left: 30, bottom: 30 }; aiBotInitPos(); }
             if (aiBotState.isPanelOpen) aiBotPositionPanel();
         });
     })();
     /* AI BOT WIDGET JS END */
-</script>
 
+    showPage(1);
+</script>
 </body>
 </html>
