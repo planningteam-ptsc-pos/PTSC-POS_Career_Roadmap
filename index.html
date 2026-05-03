@@ -414,16 +414,42 @@
         /* AI BOT WIDGET END */
 
         /* --- PHẦN BỔ SUNG: COMPANY INTRO & VIDEO --- */
+        .company-intro-page {
+            position: relative; width: 100%; height: 100%; overflow-y: auto; overflow-x: hidden;
+        }
+        .company-intro-back-btn {
+            position: absolute; top: 24px; left: 24px; z-index: 50;
+            display: flex; align-items: center; gap: 2px; background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px);
+            padding: 10px 20px; border-radius: 9999px; border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;
+            transition: all 0.3s ease; cursor: pointer;
+        }
+        .company-intro-back-btn:hover { background: #fff; transform: translateX(-4px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); color: var(--sky-primary); }
+        .company-intro-logo {
+            position: absolute; top: 24px; right: 32px; z-index: 50; width: 180px; object-fit: contain; pointer-events: none;
+        }
+        @media (max-width: 640px) {
+            .company-intro-back-btn { top: 16px; left: 16px; padding: 8px 16px; font-size: 13px; }
+            .company-intro-logo { top: 16px; right: 16px; width: 130px; }
+        }
+
+        .company-intro-content {
+            width: 100%; max-width: 1400px; margin: 0 auto; padding-top: 100px; padding-bottom: 60px;
+            display: flex; flex-direction: column; align-items: center; gap: 40px;
+        }
+
         .company-intro-card {
             background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); border: 1.5px solid rgba(255,255,255,0.7);
-            border-radius: 40px; padding: 40px; text-align: center; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 20px;
+            border-radius: 48px; padding: 40px 50px; text-align: center; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 24px; min-height: 320px; justify-content: center;
         }
-        .company-intro-card:hover { transform: translateY(-12px); background: #fff; box-shadow: 0 30px 60px rgba(0,0,0,0.1); }
+        .company-intro-card:hover { transform: translateY(-12px); background: #fff; box-shadow: 0 35px 70px rgba(0,0,0,0.08); }
         .company-intro-icon-circle {
-            width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, var(--sky-primary) 0%, #6366f1 100%);
-            display: flex; align-items: center; justify-content: center; color: white; box-shadow: 0 10px 25px rgba(14, 165, 233, 0.3);
+            width: 90px; height: 90px; border-radius: 50%; background: linear-gradient(135deg, var(--sky-primary) 0%, #6366f1 100%);
+            display: flex; align-items: center; justify-content: center; color: white; box-shadow: 0 12px 30px rgba(14, 165, 233, 0.3);
+            transition: all 0.4s ease;
         }
+        .company-intro-card:hover .company-intro-icon-circle { transform: scale(1.1) rotate(5deg); }
         
         /* Video Page Enhanced */
         .company-video-card {
@@ -545,7 +571,7 @@
         </div>
     </div>
 
-    <!-- Logo -->
+    <!-- Logo chính (Page 1) -->
     <img id="mainLogo" src="image/background/logo.png" alt="O&G Logo" class="absolute top-6 right-6 md:top-8 md:right-8 w-[120px] md:w-[170px] z-[100] object-contain pointer-events-none">
 
     <!-- PAGE 1: SELECTION -->
@@ -598,38 +624,39 @@
     </div>
 
     <!-- PAGE: COMPANY INTRO -->
-    <div id="pageCompanyIntro" class="hidden h-full flex flex-col gap-10 animate-up overflow-y-auto custom-scrollbar px-4 py-10 items-center">
-        <div class="w-full flex items-center justify-between px-6 max-w-7xl">
-            <button onclick="showPage(1)" class="flex items-center gap-2 bg-white/80 backdrop-blur px-5 py-2.5 rounded-full text-slate-700 font-black text-[15px] uppercase tracking-widest border shadow-sm hover:bg-white transition-all">
-                <i data-lucide="home" class="w-4 h-4"></i> Trang chủ
-            </button>
-            <img src="image/background/logo.png" alt="Logo" class="w-[140px] md:w-[180px] object-contain">
-        </div>
+    <div id="pageCompanyIntro" class="hidden company-intro-page animate-up">
+        <!-- Home Button & Logo positioned absolutely -->
+        <button onclick="showPage(1)" class="company-intro-back-btn">
+            <i data-lucide="home" class="w-4 h-4 mr-1"></i> Trang chủ
+        </button>
+        <img src="image/background/logo.png" alt="PTSC Logo" class="company-intro-logo">
 
-        <div class="text-center space-y-4">
-            <div class="w-20 h-20 bg-primary-600 text-white rounded-full flex items-center justify-center mx-auto shadow-xl shadow-primary-500/30">
-                <i data-lucide="info" class="w-10 h-10"></i>
+        <div class="company-intro-content">
+            <div class="text-center space-y-4 px-6">
+                <div class="w-20 h-20 bg-primary-600 text-white rounded-full flex items-center justify-center mx-auto shadow-2xl shadow-primary-500/30 mb-2">
+                    <i data-lucide="info" class="w-10 h-10"></i>
+                </div>
+                <h2 class="text-4xl md:text-6xl font-black text-slate-900 uppercase tracking-tighter leading-tight">Tìm hiểu về <span class="text-primary-600">PTSC POS</span></h2>
+                <p class="text-slate-600 font-bold text-xl md:text-2xl max-w-3xl mx-auto">Khám phá thông tin tổng quan về Công ty và hệ thống chức danh nghề nghiệp</p>
             </div>
-            <h2 class="text-3xl md:text-5xl font-black text-slate-900 uppercase tracking-tighter">Tìm hiểu về <span class="text-primary-600">PTSC POS</span></h2>
-            <p class="text-slate-600 font-bold text-lg">Khám phá thông tin tổng quan về Công ty và hệ thống chức danh nghề nghiệp</p>
-        </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl w-full px-6">
-            <div class="company-intro-card group" onclick="showPage('companyVideos')">
-                <div class="company-intro-icon-circle"><i data-lucide="play-circle" class="w-10 h-10"></i></div>
-                <h3 class="text-2xl font-black text-slate-800">Tìm hiểu tổng quan về công ty</h3>
-                <p class="text-slate-500 font-medium leading-relaxed">Xem các video giới thiệu về lĩnh vực hoạt động, môi trường làm việc và hình ảnh Công ty.</p>
-                <button class="mt-4 bg-primary-600 text-white px-8 py-3 rounded-2xl font-black text-[14px] uppercase tracking-widest shadow-lg shadow-primary-500/20 flex items-center gap-3">
-                    Xem video giới thiệu <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                </button>
-            </div>
-            <div class="company-intro-card group" onclick="showPage('companyMindmap')">
-                <div class="company-intro-icon-circle"><i data-lucide="network" class="w-10 h-10"></i></div>
-                <h3 class="text-2xl font-black text-slate-800">Tìm hiểu về các chức danh</h3>
-                <p class="text-slate-500 font-medium leading-relaxed">Khám phá các nhóm chức năng, chức danh và vai trò nghề nghiệp tại PTSC POS.</p>
-                <button class="mt-4 bg-violet-600 text-white px-8 py-3 rounded-2xl font-black text-[14px] uppercase tracking-widest shadow-lg shadow-violet-500/20 flex items-center gap-3">
-                    Xem sơ đồ chức danh <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                </button>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 w-full max-w-7xl px-8">
+                <div class="company-intro-card group" onclick="showPage('companyVideos')">
+                    <div class="company-intro-icon-circle"><i data-lucide="play-circle" class="w-12 h-12"></i></div>
+                    <h3 class="text-3xl font-black text-slate-800">Tìm hiểu tổng quan về công ty</h3>
+                    <p class="text-slate-500 font-bold text-lg leading-relaxed max-w-md">Xem các video giới thiệu về lĩnh vực hoạt động, môi trường làm việc và hình ảnh thực tế của Công ty.</p>
+                    <button class="mt-4 bg-primary-600 text-white px-10 py-4 rounded-2xl font-black text-[15px] uppercase tracking-widest shadow-xl shadow-primary-500/20 flex items-center gap-3 transition-transform group-hover:scale-105">
+                        Xem video giới thiệu <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                    </button>
+                </div>
+                <div class="company-intro-card group" onclick="showPage('companyMindmap')">
+                    <div class="company-intro-icon-circle"><i data-lucide="network" class="w-12 h-12"></i></div>
+                    <h3 class="text-3xl font-black text-slate-800">Tìm hiểu về các chức danh</h3>
+                    <p class="text-slate-500 font-bold text-lg leading-relaxed max-w-md">Khám phá sơ đồ các nhóm chức năng, chức danh chuyên môn và lộ trình vai trò tại PTSC POS.</p>
+                    <button class="mt-4 bg-violet-600 text-white px-10 py-4 rounded-2xl font-black text-[15px] uppercase tracking-widest shadow-xl shadow-violet-500/20 flex items-center gap-3 transition-transform group-hover:scale-105">
+                        Xem sơ đồ chức danh <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -973,6 +1000,9 @@
     let isFileLoaded = false;
     let isRoleSelected = false;
 
+    // --- QUAN TRỌNG: Khôi phục progressionColors để sửa lỗi Page 1.5 ---
+    const progressionColors = ['#10b981', '#0ea5e9', '#6366f1', '#8b5cf6', '#d946ef', '#f59e0b'];
+
     // --- DỮ LIỆU VIDEO (DỰ PHÒNG & CHỜ TẢI) ---
     let companyVideoData = [];
     const companyVideoFallbackData = [
@@ -1077,7 +1107,6 @@
         return 'briefcase'; 
     }
 
-    // Helper map video rows từ Google Sheet sang format web
     function mapVideoRows(rows) {
         return rows
             .filter(row => (row.title || '').trim())
@@ -1108,7 +1137,6 @@
             if (!configResponse.ok) throw new Error('Không tìm thấy file config.json');
             const config = await configResponse.json();
             
-            // Tải roadmap và benefit (bắt buộc)
             const [roadmapRes, benefitRes] = await Promise.all([
                 fetch(config.sheetUrl),
                 fetch(config.sheetUrl2)
@@ -1129,7 +1157,6 @@
                 if (aiConfigRow.answer_rule) aiBotAnswerRule = aiConfigRow.answer_rule.trim().replace(/""/g, '"');
             }
 
-            // Tải video (tùy chọn)
             try {
                 if (config.sheetUrl3) {
                     const videoRes = await fetch(config.sheetUrl3);
@@ -1138,14 +1165,12 @@
                         const videoRows = parseCSV(videoCsvText);
                         companyVideoData = mapVideoRows(videoRows);
                     } else {
-                        console.warn('Không tải được sheetUrl3, dùng dữ liệu video dự phòng.');
                         companyVideoData = companyVideoFallbackData;
                     }
                 } else {
                     companyVideoData = companyVideoFallbackData;
                 }
             } catch (vErr) {
-                console.warn('Lỗi fetch video sheet:', vErr);
                 companyVideoData = companyVideoFallbackData;
             }
 
@@ -1166,7 +1191,6 @@
             dropdownSelectedText.innerText = "-- Vui lòng Chọn Career Path --";
             lucide.createIcons();
             
-            // Cập nhật giao diện video ngay sau khi tải xong
             renderVideoGrid();
         } catch (error) { console.error(error); dropdownSelectedText.innerText = "Lỗi tải dữ liệu."; }
     }
@@ -1272,7 +1296,11 @@
         } else if (n === 1.5) {
             if (logo) logo.classList.add('hidden'); themeSelectorContainer.classList.add('hidden'); document.getElementById('pageOverview').classList.remove('hidden');
             resetBg('image/background/background_4.png');
-            setTimeout(renderOverview, 100); initBackgroundParticles();
+            // Patch logic: Dùng setTimeout để đảm bảo layout hiển thị trước khi tính toán SVG
+            setTimeout(() => {
+                renderOverview(); 
+                initBackgroundParticles();
+            }, 150);
         } else if (n === 2) {
             if (logo) logo.classList.add('hidden'); themeSelectorContainer.classList.add('hidden'); document.getElementById('page2').classList.remove('hidden');
             resetBg('image/background/background_2.png');
@@ -1308,9 +1336,21 @@
         const content = document.getElementById('roadmapContent');
         const svgPath = document.getElementById('svgPath');
         if (!viewport || !content || !svgPath) return;
-        content.querySelectorAll('.path-node').forEach(n => n.remove());
+
+        // Patch: Kiểm tra dữ liệu và kích thước viewport
+        if (!currentRoleMilestones || currentRoleMilestones.length === 0) {
+            showToast('Chưa có dữ liệu lộ trình cho mục này.', 'warning');
+            return;
+        }
+
         const vW = viewport.clientWidth, vH = viewport.clientHeight;
-        if (vW < 100 || vH < 100) return;
+        if (vW < 100 || vH < 100) {
+            // Thử lại nếu viewport chưa lấy được kích thước
+            setTimeout(renderOverview, 100);
+            return;
+        }
+
+        content.querySelectorAll('.path-node').forEach(n => n.remove());
         const data = currentRoleMilestones, total = data.length, cardW = 180;
         let masterScale = 1.0;
         const reqH = (total + 1) * 125 + 160; 
@@ -1382,6 +1422,7 @@
         const summitData = data[total - 1]; if(document.getElementById('ovJobFamily')) document.getElementById('ovJobFamily').innerText = summitData.job_family || '---';
         formatSidebarList('ovDevOpp', summitData.development_opportunity); formatSidebarList('ovLongTerm', summitData.long_term_direction);
         setTimeout(() => content.querySelectorAll('.path-node').forEach(n => n.classList.add('show')), 50);
+        lucide.createIcons();
     }
 
     function renderDashboard() {
@@ -1496,7 +1537,7 @@
         if(event) event.target.classList.add('active'); lucide.createIcons();
     }
 
-    // --- LOGIC VIDEO ĐÃ CẬP NHẬT ĐỂ DÙNG DỮ LIỆU ĐỘNG ---
+    // --- LOGIC VIDEO ENHANCED & FIXED MODAL ---
     function renderVideoGrid() {
         const grid = document.getElementById('videoGrid');
         if (!grid) return;
@@ -1579,6 +1620,7 @@
         if (companyMapCreated) return;
         const leftSide = document.getElementById('companyMapSideLeft');
         const rightSide = document.getElementById('companyMapSideRight');
+        if(!leftSide || !rightSide) return;
         leftSide.innerHTML = ''; rightSide.innerHTML = '';
 
         companyMapData.forEach((group) => {
@@ -1631,8 +1673,12 @@
 
     function companyMapDrawConnections() {
         const svg = document.getElementById('companyMapConnectionLayer');
-        const mmRect = document.getElementById('companyMapWrapper').getBoundingClientRect();
-        const cRect = document.getElementById('companyMapCenterNode').getBoundingClientRect();
+        const wrapperDiv = document.getElementById('companyMapWrapper');
+        const centerNode = document.getElementById('companyMapCenterNode');
+        if (!svg || !wrapperDiv || !centerNode) return;
+
+        const mmRect = wrapperDiv.getBoundingClientRect();
+        const cRect = centerNode.getBoundingClientRect();
         const cX = cRect.left + cRect.width / 2 - mmRect.left;
         const cY = cRect.top + cRect.height / 2 - mmRect.top;
 
@@ -1695,7 +1741,11 @@
     });
 
     const obs = new ResizeObserver(() => { 
-        if(!document.getElementById('pageOverview').classList.contains('hidden')) renderOverview(); 
+        if(!document.getElementById('pageOverview').classList.contains('hidden')) {
+            // Không render lại liên tục nếu không cần thiết để tránh giật lag
+            if (animationLoopId) cancelAnimationFrame(animationLoopId);
+            renderOverview();
+        }
         if(!document.getElementById('pageCompanyMindmap').classList.contains('hidden')) companyMapDrawConnections();
     });
     obs.observe(document.body);
