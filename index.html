@@ -156,7 +156,10 @@
             margin: 0 auto; transform-origin: center center; overflow: visible;
         }
 
-        .node-card:hover { transform: scale(1.05) translateY(-5px) !important; box-shadow: 0 20px 40px rgba(0,0,0,0.08); }
+        .node-card:hover { 
+            transform: scale(calc(var(--node-scale) * 1.05)) translateY(-5px) !important; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08); 
+        }
 
         .node-card {
             --node-scale: 1;
@@ -174,12 +177,6 @@
             box-shadow: 0 0 50px rgba(245, 158, 11, 0.5) !important;
             transform: scale(calc(var(--node-scale) * 1.12)) !important;
             background: #fff !important;
-        }
-
-        .node-card.summit-victory {
-            border-color: var(--amber-peak) !important;
-            box-shadow: 0 0 50px rgba(245, 158, 11, 0.5) !important;
-            transform: scale(1.1) !important; background: #fff !important;
         }
 
         .node-icon-wrapper {
@@ -1952,8 +1949,14 @@
             const filtered = scored.filter(s => s.score > 0).sort((a,b) => b.score - a.score);
             return filtered.length === 0 ? masterData.slice(0, 8) : filtered.slice(0, 12).map(s => s.row);
         }
-        function aiBotBuildCompactKnowledge(rows) { return rows.map((r, i) => `[Path ${i+1}] Lộ trình: ${r.function_title} | Cấp: ${r.milestone_level} | Vị trí: ${r.role_title} | Trách nhiệm: ${r.key_responsibilities.slice(0, 120)} | Kỹ năng: ${r.competencies_to_develop} | Tiêu chí thăng cấp: ${r.promotion_criteria}`).join('\n'); }
-
+        
+        function aiBotBuildCompactKnowledge(rows) {
+            return rows.map((r, i) => {
+                const responsibilities = r.key_responsibilities || "";
+                return `[Path ${i + 1}] Lộ trình: ${r.function_title || "---"} | Cấp: ${r.milestone_level || "---"} | Vị trí: ${r.role_title || "---"} | Trách nhiệm: ${responsibilities.slice(0, 120)} | Kỹ năng: ${r.competencies_to_develop || "---"} | Tiêu chí thăng cấp: ${r.promotion_criteria || "---"}`;
+            }).join('\n');
+        }
+        
         async function aiBotTypewrite(element, fullText) {
             aiBotState.isTyping = true; input.disabled = true; sendBtn.disabled = true; statusLabel.style.display = 'block';
             const normalizedText = aiBotNormalizeMarkdownText(fullText); const lines = normalizedText.split(/\n/); let partialContent = "";
