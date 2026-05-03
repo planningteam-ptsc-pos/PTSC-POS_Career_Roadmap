@@ -158,10 +158,22 @@
 
         .node-card:hover { transform: scale(1.05) translateY(-5px) !important; box-shadow: 0 20px 40px rgba(0,0,0,0.08); }
 
+        .node-card {
+            --node-scale: 1;
+        }
+        
         .node-card.active-glow {
             border-color: var(--sky-primary) !important;
             box-shadow: 0 0 35px rgb(var(--color-primary-500) / 0.4) !important;
-            transform: scale(1.05) !important; background: #fff !important;
+            transform: scale(calc(var(--node-scale) * 1.08)) !important;
+            background: #fff !important;
+        }
+        
+        .node-card.summit-victory {
+            border-color: var(--amber-peak) !important;
+            box-shadow: 0 0 50px rgba(245, 158, 11, 0.5) !important;
+            transform: scale(calc(var(--node-scale) * 1.12)) !important;
+            background: #fff !important;
         }
 
         .node-card.summit-victory {
@@ -1000,6 +1012,21 @@
     let isFileLoaded = false;
     let isRoleSelected = false;
 
+    let aiBotGeminiModel = "gemini-3.1-flash-lite-preview";
+    let aiBotGeminiApiKey = "";
+    let aiBotCompensationData = "";
+    
+    let aiBotAnswerRule = `QUY TẮC TRẢ LỜI:
+    1. Chỉ sử dụng thông tin có trong dữ liệu CSV và dữ liệu thu nhập/phúc lợi được cung cấp. Không tự bịa thêm.
+    2. Nếu dữ liệu không đủ, trả lời ngắn: "Dữ liệu hiện tại chưa có đủ thông tin về nội dung này."
+    3. Trả lời ngắn gọn, ưu tiên dạng gạch đầu dòng.
+    4. Mỗi câu trả lời tối đa 150 từ.
+    5. Nếu người dùng hỏi định hướng nghề nghiệp, gợi ý tối đa 2 lộ trình phù hợp nhất.
+    6. Với mỗi lộ trình, chỉ nêu: Vị trí phù hợp, lý do phù hợp, kỹ năng cần chuẩn bị, bước tiếp theo.
+    7. Nếu người dùng hỏi về mức thu nhập, lương, đãi ngộ hoặc phúc lợi, hãy sử dụng dữ liệu salary và benefit nếu có.
+    8. Khi trả lời về lương hoặc thu nhập, luôn nói rõ đây chỉ là mức tham khảo. Thực tế phụ thuộc vào kinh nghiệm, năng lực, vị trí, cấp bậc, phạm vi công việc, dự án tham gia, hiệu quả công việc và chính sách lương thưởng từng thời kỳ của Công ty.
+    9. Ngôn ngữ: tiếng Việt, rõ ràng, chuyên nghiệp. Tuyệt đối không dùng markdown thô như **, ##, ### hay dấu * trước nội dung chi tiết.`;
+
     // --- QUAN TRỌNG: Khôi phục progressionColors để sửa lỗi Page 1.5 ---
     const progressionColors = ['#10b981', '#0ea5e9', '#6366f1', '#8b5cf6', '#d946ef', '#f59e0b'];
 
@@ -1156,7 +1183,13 @@
                 if (aiConfigRow.api_key) aiBotGeminiApiKey = aiConfigRow.api_key.trim();
                 if (aiConfigRow.answer_rule) aiBotAnswerRule = aiConfigRow.answer_rule.trim().replace(/""/g, '"');
             }
-
+            let compText = "";
+            benefitData.forEach(row => {
+                if (row.milestone_level || row.salary || row.benefit) {
+                    compText += `- Cấp bậc: ${row.milestone_level || '---'} | Lương tham khảo: ${row.salary || 'Thỏa thuận'} | Phúc lợi: ${row.benefit || 'Theo quy định'}\n`;
+                }
+            });
+            aiBotCompensationData = compText.trim();
             try {
                 if (config.sheetUrl3) {
                     const videoRes = await fetch(config.sheetUrl3);
@@ -1368,10 +1401,10 @@
             const nodeColor = isSummit ? '#f59e0b' : progressionColors[i % progressionColors.length];
             if (!isSummit) {
                 const m = data[i];
-                node.innerHTML = `<div class="node-card" style="transform: scale(${masterScale}); border-bottom: 3px solid ${nodeColor};"><div class="node-circle" style="background-color: ${nodeColor};">0${i+1}</div><div class="node-icon-wrapper"><img src="${m.icon_image_path}" class="w-full h-full object-contain" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1063/1063376.png'"></div><div class="text-center px-1 pb-2"><span class="text-[15px] font-black uppercase block mb-0.5" style="color: ${nodeColor};">${m.milestone_level}</span><h5 class="text-[20px] font-extrabold text-slate-900 line-clamp-3 leading-tight">${m.role_title}</h5></div></div>`;
+                node.innerHTML = `<div class="node-card" style="--node-scale:${masterScale}; transform: scale(var(--node-scale)); border-bottom: 3px solid ${nodeColor};"><div class="node-circle" style="background-color: ${nodeColor};">0${i+1}</div><div class="node-icon-wrapper"><img src="${m.icon_image_path}" class="w-full h-full object-contain" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1063/1063376.png'"></div><div class="text-center px-1 pb-2"><span class="text-[15px] font-black uppercase block mb-0.5" style="color: ${nodeColor};">${m.milestone_level}</span><h5 class="text-[20px] font-extrabold text-slate-900 line-clamp-3 leading-tight">${m.role_title}</h5></div></div>`;
             } else {
                 const summitData = data[total - 1];
-                node.innerHTML = `<div class="summit-halo" style="transform: translate(-50%, -50%) scale(${masterScale})"></div><div class="node-card summit-card shadow-xl !bg-amber-50" style="transform: scale(${masterScale}); border: 2px solid ${nodeColor};"><div class="summit-crown" style="background-color: ${nodeColor};"><i data-lucide="crown" class="w-4 h-4 text-white"></i></div><div class="node-icon-wrapper !bg-amber-50/30"><img src="${summitData.icon_image_path || 'https://cdn-icons-png.flaticon.com/512/2618/2618245.png'}" class="w-full h-full object-contain"></div><div class="text-center px-1 pb-2"><span class="text-[15px] font-black uppercase block mb-0.5" style="color: ${nodeColor};">Career Goal</span><h5 class="text-[20px] font-black uppercase text-slate-900 line-clamp-3 leading-tight">${summitData.next_target_role || 'Executive'}</h5></div></div>`;
+                node.innerHTML = `<div class="summit-halo" style="transform: translate(-50%, -50%) scale(${masterScale})"></div><div class="node-card summit-card shadow-xl !bg-amber-50" style="--node-scale:${masterScale}; transform: scale(var(--node-scale)); border: 2px solid ${nodeColor};"><div class="summit-crown" style="background-color: ${nodeColor};"><i data-lucide="crown" class="w-4 h-4 text-white"></i></div><div class="node-icon-wrapper !bg-amber-50/30"><img src="${summitData.icon_image_path || 'https://cdn-icons-png.flaticon.com/512/2618/2618245.png'}" class="w-full h-full object-contain"></div><div class="text-center px-1 pb-2"><span class="text-[15px] font-black uppercase block mb-0.5" style="color: ${nodeColor};">Career Goal</span><h5 class="text-[20px] font-black uppercase text-slate-900 line-clamp-3 leading-tight">${summitData.next_target_role || 'Executive'}</h5></div></div>`;
             }
             content.appendChild(node);
         }
@@ -1458,7 +1491,14 @@
                 div.onclick = () => { currentIdx = i; renderDashboard(); }; stepper.appendChild(div);
             });
         }
-        if(document.getElementById('progressLine')) document.getElementById('progressLine').style.height = `${(currentIdx / (currentRoleMilestones.length - 1)) * 100}%`;
+
+        const progressPercent = currentRoleMilestones.length > 1
+        ? (currentIdx / (currentRoleMilestones.length - 1)) * 100
+        : 0;
+        
+        if (document.getElementById('progressLine')) {
+            document.getElementById('progressLine').style.height = `${progressPercent}%`;
+        }
         
         formatSidebarListDynamic('sidebarDevOpp', data.development_opportunity);
         formatSidebarListDynamic('sidebarLongTerm', data.long_term_direction);
@@ -1740,15 +1780,45 @@
         }
     });
 
-    const obs = new ResizeObserver(() => { 
-        if(!document.getElementById('pageOverview').classList.contains('hidden')) {
-            // Không render lại liên tục nếu không cần thiết để tránh giật lag
+    let overviewResizeTimer = null;
+    let lastOverviewSize = { width: 0, height: 0 };
+    
+    function scheduleOverviewResizeRender() {
+        const pageOverview = document.getElementById('pageOverview');
+        const viewport = document.getElementById('roadmapViewport');
+    
+        if (!pageOverview || pageOverview.classList.contains('hidden') || !viewport) return;
+    
+        const width = viewport.clientWidth;
+        const height = viewport.clientHeight;
+    
+        const sizeChanged =
+            Math.abs(width - lastOverviewSize.width) > 8 ||
+            Math.abs(height - lastOverviewSize.height) > 8;
+    
+        if (!sizeChanged) return;
+    
+        clearTimeout(overviewResizeTimer);
+        overviewResizeTimer = setTimeout(() => {
+            lastOverviewSize = { width, height };
+    
             if (animationLoopId) cancelAnimationFrame(animationLoopId);
             renderOverview();
+        }, 250);
+    }
+    
+    const obs = new ResizeObserver(() => {
+        const pageCompanyMindmap = document.getElementById('pageCompanyMindmap');
+    
+        if (pageCompanyMindmap && !pageCompanyMindmap.classList.contains('hidden')) {
+            requestAnimationFrame(companyMapDrawConnections);
         }
-        if(!document.getElementById('pageCompanyMindmap').classList.contains('hidden')) companyMapDrawConnections();
     });
+    
     obs.observe(document.body);
+    
+    window.addEventListener('resize', scheduleOverviewResizeRender);
+    
     document.getElementById('btnGoToDetail').addEventListener('click', () => showPage(2));
 
     /* AI BOT WIDGET JS */
@@ -1913,8 +1983,15 @@
         async function aiBotFetchAI(prompt, retry = 0) {
             const intent = aiBotGetQueryIntent(prompt); const relevantRows = (intent === "compensation") ? [] : aiBotPickRelevantRows(prompt);
             const kb = (intent === "compensation") ? "Dữ liệu nén không cần thiết cho thu nhập." : aiBotBuildCompactKnowledge(relevantRows);
-            const systemPrompt = `Bạn là trợ lý tư vấn lộ trình nghề nghiệp dựa trên dữ liệu nội bộ. Loại: ${intent}. Dữ liệu: ${kb}. Thu nhập: ${intent === "compensation" ? aiBotCompensationData : "N/A"}. ${aiBotAnswerRule}`;
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${aiBotGeminiApiKey}`;
+            const systemPrompt = `Bạn là trợ lý tư vấn lộ trình nghề nghiệp dựa trên dữ liệu Roadmap nội bộ.
+            LOẠI CÂU HỎI:
+            ${intent}
+            DỮ LIỆU ROADMAP LIÊN QUAN:
+            ${kb}
+            DỮ LIỆU THU NHẬP, ĐÃI NGỘ, PHÚC LỢI THAM KHẢO:
+            ${intent === "compensation" ? (aiBotCompensationData || "Không có dữ liệu thu nhập cụ thể.") : "Chỉ sử dụng khi được hỏi về đãi ngộ."}
+            ${aiBotAnswerRule}`;
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/${aiBotGeminiModel}:generateContent?key=${aiBotGeminiApiKey}`;
             try {
                 const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], systemInstruction: { parts: [{ text: systemPrompt }] } }) });
                 const data = await res.json();
