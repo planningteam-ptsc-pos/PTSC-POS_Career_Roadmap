@@ -759,6 +759,697 @@
             .company-map-side.right { order: 3; }
             #companyMapConnectionLayer { display: none; }
         }
+
+    /* =========================================================
+   MOBILE RESPONSIVE PATCH
+   Áp dụng cho điện thoại / màn hình nhỏ
+    ========================================================= */
+    
+    @media (max-width: 768px) {
+        html,
+        body {
+            width: 100%;
+            height: var(--app-height, 100dvh);
+            overflow: hidden;
+        }
+    
+        #app {
+            padding: 14px;
+            padding-bottom: 90px;
+            height: var(--app-height, 100dvh);
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
+    
+        /* Giảm kích thước logo và theme để không đè nội dung */
+        #themeSelectorContainer {
+            top: 14px !important;
+            left: 14px !important;
+            z-index: 300 !important;
+        }
+    
+        #themeTriggerBtn {
+            padding: 9px 14px !important;
+            font-size: 11px !important;
+        }
+    
+        #mainLogo {
+            top: 18px !important;
+            right: 14px !important;
+            width: 105px !important;
+            z-index: 120 !important;
+        }
+    
+        /* Tất cả page chính trên mobile phải cho phép scroll */
+        #page1,
+        #pageOverview,
+        #page2,
+        #pageCompanyIntro,
+        #pageCompanyVideos,
+        #pageCompanyMindmap {
+            min-height: auto !important;
+            height: auto !important;
+            overflow-y: visible !important;
+            overflow-x: hidden !important;
+        }
+    
+        /* =========================
+           PAGE 1 - HOME
+        ========================= */
+    
+        #page1 {
+            justify-content: flex-start !important;
+            gap: 22px !important;
+            padding-top: 76px !important;
+            padding-bottom: 120px !important;
+        }
+    
+        #page1 .text-center.space-y-6 {
+            width: 100%;
+        }
+    
+        #page1 .inline-flex {
+            max-width: calc(100vw - 32px);
+            padding: 8px 14px !important;
+            font-size: 10px !important;
+            letter-spacing: 0.08em !important;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    
+        #page1 h1 {
+            font-size: clamp(34px, 11vw, 48px) !important;
+            line-height: 1.05 !important;
+            white-space: normal !important;
+        }
+    
+        #page1 h1 + p {
+            font-size: 15px !important;
+            line-height: 1.45 !important;
+        }
+    
+        #page1 .bg-white\/40 {
+            border-radius: 34px !important;
+            padding: 30px 18px !important;
+            width: 100% !important;
+        }
+    
+        #page1 .glass-panel {
+            width: 100% !important;
+            max-width: 100% !important;
+            padding: 28px 20px !important;
+            border-radius: 34px !important;
+        }
+    
+        #page1 label {
+            font-size: 12px !important;
+            text-align: center;
+            margin-left: 0 !important;
+        }
+    
+        #dropdownTrigger {
+            border-radius: 24px !important;
+            padding: 16px 20px !important;
+            font-size: 17px !important;
+        }
+    
+        #btnStart {
+            padding: 17px 18px !important;
+            border-radius: 24px !important;
+            font-size: 13px !important;
+            letter-spacing: 0.08em !important;
+        }
+    
+        #btnStart + button {
+            padding: 15px 14px !important;
+            border-radius: 24px !important;
+            font-size: 12px !important;
+            letter-spacing: 0.08em !important;
+        }
+    
+        #dropdownMenu {
+            max-height: 65vh;
+        }
+    
+        #customRoleList {
+            max-height: 45vh !important;
+        }
+    
+        /* =========================
+           COMPANY INTRO
+        ========================= */
+    
+        .company-intro-page {
+            padding-bottom: 110px;
+        }
+    
+        .company-intro-back-btn {
+            top: 14px !important;
+            left: 14px !important;
+            padding: 9px 14px !important;
+            font-size: 12px !important;
+            z-index: 80 !important;
+        }
+    
+        .company-intro-logo {
+            top: 16px !important;
+            right: 14px !important;
+            width: 105px !important;
+            z-index: 70 !important;
+        }
+    
+        .company-intro-content {
+            padding-top: 110px !important;
+            padding-bottom: 120px !important;
+            gap: 26px !important;
+        }
+    
+        .company-intro-content h2 {
+            font-size: clamp(34px, 12vw, 48px) !important;
+            line-height: 1.05 !important;
+        }
+    
+        .company-intro-content p {
+            font-size: 16px !important;
+            line-height: 1.45 !important;
+        }
+    
+        .company-intro-content .grid {
+            width: 100% !important;
+            padding-left: 14px !important;
+            padding-right: 14px !important;
+            gap: 22px !important;
+        }
+    
+        .company-intro-card {
+            min-height: auto !important;
+            padding: 32px 22px !important;
+            border-radius: 36px !important;
+            gap: 18px !important;
+        }
+    
+        .company-intro-icon-circle {
+            width: 72px !important;
+            height: 72px !important;
+        }
+    
+        .company-intro-icon-circle svg {
+            width: 36px !important;
+            height: 36px !important;
+        }
+    
+        .company-intro-card h3 {
+            font-size: 30px !important;
+            line-height: 1.12 !important;
+        }
+    
+        .company-intro-card p {
+            font-size: 17px !important;
+            line-height: 1.55 !important;
+        }
+    
+        .company-intro-card button {
+            width: 100% !important;
+            justify-content: center !important;
+            padding: 16px 20px !important;
+            font-size: 13px !important;
+            border-radius: 22px !important;
+            white-space: normal !important;
+        }
+    
+        /* =========================
+           COMPANY VIDEOS / MEDIA
+        ========================= */
+    
+        #pageCompanyVideos {
+            gap: 18px !important;
+            padding-bottom: 110px !important;
+        }
+    
+        #pageCompanyVideos > div:first-child {
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: flex-start !important;
+            gap: 12px !important;
+            padding-left: 8px !important;
+            padding-right: 8px !important;
+        }
+    
+        #pageCompanyVideos > div:first-child button {
+            align-self: flex-start;
+            padding: 9px 14px !important;
+            font-size: 12px !important;
+        }
+    
+        #pageCompanyVideos h2 {
+            font-size: 26px !important;
+            line-height: 1.1 !important;
+            text-align: center !important;
+        }
+    
+        #pageCompanyVideos p {
+            font-size: 13px !important;
+            line-height: 1.4 !important;
+            text-align: center !important;
+        }
+    
+        #videoGrid {
+            padding-left: 6px !important;
+            padding-right: 6px !important;
+            padding-bottom: 120px !important;
+            overflow-y: visible !important;
+        }
+    
+        .company-media-grid {
+            grid-template-columns: 1fr !important;
+            gap: 22px !important;
+        }
+    
+        .company-video-card {
+            border-radius: 28px !important;
+            min-width: 0 !important;
+        }
+    
+        .company-video-thumbnail {
+            aspect-ratio: 16 / 9 !important;
+        }
+    
+        .company-video-card .p-6 {
+            padding: 20px !important;
+        }
+    
+        .company-video-card h3 {
+            font-size: 20px !important;
+            line-height: 1.25 !important;
+        }
+    
+        .company-video-card p {
+            font-size: 14px !important;
+            line-height: 1.45 !important;
+            text-align: left !important;
+        }
+    
+        .company-video-play-btn {
+            width: 50px !important;
+            height: 50px !important;
+        }
+    
+        .video-desc-floating-popup {
+            width: calc(100vw - 28px) !important;
+            left: 14px !important;
+            right: 14px !important;
+            max-height: 55vh !important;
+            border-radius: 22px !important;
+        }
+    
+        .video-desc-floating-text {
+            max-height: 42vh !important;
+        }
+    
+        /* =========================
+           COMPANY MINDMAP
+        ========================= */
+    
+        #pageCompanyMindmap {
+            padding-bottom: 110px !important;
+        }
+    
+        #pageCompanyMindmap > div:first-child {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            justify-content: flex-start !important;
+            gap: 12px !important;
+            padding: 0 6px 12px 6px !important;
+        }
+    
+        #pageCompanyMindmap > div:first-child > button {
+            align-self: center !important;
+            padding: 9px 18px !important;
+            font-size: 12px !important;
+        }
+    
+        #pageCompanyMindmap .flex.items-center.gap-3 {
+            width: 100% !important;
+            display: grid !important;
+            grid-template-columns: 1fr 88px 88px !important;
+            gap: 8px !important;
+        }
+    
+        #companyMapSearchInput {
+            min-width: 0 !important;
+            width: 100% !important;
+            padding: 10px 14px !important;
+            font-size: 13px !important;
+        }
+    
+        #pageCompanyMindmap .flex.items-center.gap-3 button {
+            padding: 10px 8px !important;
+            font-size: 11px !important;
+        }
+    
+        .company-map-viewport {
+            height: auto !important;
+            min-height: 70vh !important;
+            border-radius: 30px !important;
+            padding-bottom: 100px !important;
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
+        }
+    
+        .company-map-wrapper {
+            min-width: 0 !important;
+            min-height: auto !important;
+            width: 100% !important;
+            padding: 26px 12px 90px 12px !important;
+            flex-direction: column !important;
+            gap: 26px !important;
+            align-items: stretch !important;
+            justify-content: flex-start !important;
+        }
+    
+        .company-map-center {
+            order: 1 !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            padding: 20px 24px !important;
+            font-size: 17px !important;
+            line-height: 1.3 !important;
+            border-radius: 36px !important;
+        }
+    
+        .company-map-side {
+            width: 100% !important;
+            flex: 0 0 auto !important;
+            gap: 18px !important;
+            padding: 0 !important;
+            align-items: stretch !important;
+        }
+    
+        .company-map-side.left {
+            order: 2 !important;
+        }
+    
+        .company-map-side.right {
+            order: 3 !important;
+        }
+    
+        .company-map-node-l1 {
+            width: 100% !important;
+            height: auto !important;
+            min-height: 70px !important;
+            padding: 12px 16px !important;
+            border-radius: 28px !important;
+            font-size: 14px !important;
+            line-height: 1.3 !important;
+        }
+    
+        .company-map-node-text {
+            -webkit-line-clamp: 3 !important;
+            max-height: 3.9em !important;
+        }
+    
+        .company-map-l2-box {
+            max-height: none !important;
+            border-radius: 18px !important;
+        }
+    
+        .company-map-child-item {
+            font-size: 13px !important;
+            line-height: 1.35 !important;
+        }
+    
+        #companyMapConnectionLayer {
+            display: none !important;
+        }
+    
+        /* =========================
+           PAGE 1.5 - ROADMAP OVERVIEW
+        ========================= */
+    
+        #pageOverview {
+            gap: 16px !important;
+            padding-bottom: 110px !important;
+        }
+    
+        #pageOverview > div:first-child {
+            flex-wrap: wrap !important;
+            gap: 12px !important;
+            padding-left: 2px !important;
+            padding-right: 2px !important;
+        }
+    
+        #pageOverview > div:first-child > .text-center {
+            order: 3 !important;
+            width: 100% !important;
+        }
+    
+        #pageOverview > div:first-child h2 {
+            font-size: 30px !important;
+            line-height: 1.05 !important;
+        }
+    
+        #pageOverview > div:first-child .text-\[15px\] {
+            font-size: 11px !important;
+            letter-spacing: 0.25em !important;
+        }
+    
+        #btnGoToDetail {
+            padding: 10px 16px !important;
+            border-radius: 18px !important;
+            font-size: 12px !important;
+        }
+    
+        #pageOverview > .flex-1.grid {
+            display: flex !important;
+            flex-direction: column !important;
+            min-height: auto !important;
+            overflow: visible !important;
+            gap: 18px !important;
+        }
+    
+        #roadmapViewport {
+            height: 62vh !important;
+            min-height: 520px !important;
+            border-radius: 30px !important;
+        }
+    
+        .node-card {
+            width: 148px !important;
+            padding: 8px !important;
+            border-radius: 20px !important;
+        }
+    
+        .node-icon-wrapper {
+            height: 88px !important;
+            border-radius: 16px !important;
+        }
+    
+        .node-card h5 {
+            font-size: 14px !important;
+            line-height: 1.2 !important;
+        }
+    
+        .node-card span {
+            font-size: 11px !important;
+        }
+    
+        .node-circle {
+            width: 28px !important;
+            height: 28px !important;
+            font-size: 12px !important;
+        }
+    
+        .sidebar-container {
+            gap: 16px !important;
+            padding-bottom: 90px !important;
+        }
+    
+        .job-family-badge,
+        .glass-card-info {
+            border-radius: 26px !important;
+            padding: 20px !important;
+        }
+    
+        .glass-card-info h4 {
+            font-size: 13px !important;
+        }
+    
+        .info-item-list {
+            font-size: 13px !important;
+            line-height: 1.5 !important;
+        }
+    
+        /* =========================
+           PAGE 2 - DASHBOARD
+        ========================= */
+    
+        #page2 {
+            gap: 14px !important;
+            padding-bottom: 110px !important;
+            overflow-y: visible !important;
+        }
+    
+        #page2 > div:first-child {
+            flex-wrap: wrap !important;
+            align-items: flex-start !important;
+            gap: 12px !important;
+        }
+    
+        #page2 > div:first-child h2 {
+            font-size: 22px !important;
+            line-height: 1.15 !important;
+            text-align: right !important;
+        }
+    
+        #page2 > .flex-1.grid {
+            display: flex !important;
+            flex-direction: column !important;
+            overflow: visible !important;
+            gap: 16px !important;
+            padding-bottom: 90px !important;
+        }
+    
+        #page2 .glass-panel {
+            border-radius: 28px !important;
+        }
+    
+        #page2 .col-span-12 {
+            width: 100% !important;
+        }
+    
+        .detail-stepper-container {
+            overflow-x: auto !important;
+            padding-bottom: 10px !important;
+        }
+    
+        #detailStepper {
+            min-width: max-content !important;
+        }
+    
+        .dashboard-stepper-item {
+            min-width: 185px !important;
+            padding: 8px 10px 8px 48px !important;
+        }
+    
+        .sidebar-dynamic-card {
+            min-width: 280px !important;
+            border-radius: 24px !important;
+        }
+    
+        #page2 .w-32.h-32 {
+            width: 88px !important;
+            height: 88px !important;
+            border-radius: 22px !important;
+        }
+    
+        #page2 .p-8 {
+            padding: 22px !important;
+        }
+    
+        #page2 .p-10 {
+            padding: 22px !important;
+        }
+    
+        #page2 .flex.items-center.gap-10 {
+            gap: 18px !important;
+            align-items: flex-start !important;
+        }
+    
+        #roleTitleLabel {
+            font-size: 30px !important;
+            line-height: 1.1 !important;
+        }
+    
+        #rolePurposeLabel {
+            font-size: 14px !important;
+            line-height: 1.5 !important;
+        }
+    
+        #page2 .tab-btn {
+            padding: 12px 16px !important;
+            font-size: 12px !important;
+            white-space: nowrap !important;
+        }
+    
+        #detailView {
+            max-height: none !important;
+            overflow-y: visible !important;
+        }
+    
+        #salaryRangeDisplay {
+            font-size: 42px !important;
+        }
+    
+        .responsibility-card {
+            padding: 15px !important;
+            border-radius: 18px !important;
+        }
+    
+        .skill-chip {
+            font-size: 12px !important;
+            padding: 7px 12px !important;
+        }
+    
+        /* =========================
+           AI BOT
+        ========================= */
+    
+        #ai-bot-trigger {
+            width: 56px !important;
+            height: 56px !important;
+            left: 18px !important;
+            bottom: 18px !important;
+        }
+    
+        #ai-bot-trigger svg {
+            width: 28px !important;
+            height: 28px !important;
+        }
+    
+        #ai-bot-panel {
+            width: calc(100vw - 24px) !important;
+            height: min(70dvh, 560px) !important;
+            max-height: calc(100dvh - 140px) !important;
+            left: 12px !important;
+            right: 12px !important;
+            top: auto !important;
+            bottom: 84px !important;
+            border-radius: 26px !important;
+        }
+    }
+    
+    @media (max-width: 420px) {
+        #page1 h1 {
+            font-size: 36px !important;
+        }
+    
+        #page1 .glass-panel {
+            padding: 24px 16px !important;
+        }
+    
+        .company-intro-card h3 {
+            font-size: 28px !important;
+        }
+    
+        .company-intro-card p {
+            font-size: 16px !important;
+        }
+    
+        #pageCompanyVideos h2 {
+            font-size: 24px !important;
+        }
+    
+        #roleTitleLabel {
+            font-size: 28px !important;
+        }
+    
+        #pageCompanyMindmap .flex.items-center.gap-3 {
+            grid-template-columns: 1fr 76px 76px !important;
+        }
+    }
+    
     </style>
 </head>
 <body class="flex flex-col">
@@ -856,7 +1547,7 @@
                 <div class="company-intro-card group" onclick="showPage('companyVideos')">
                     <div class="company-intro-icon-circle"><i data-lucide="play-circle" class="w-12 h-12"></i></div>
                     <h3 class="text-3xl font-black text-slate-800">Tìm hiểu tổng quan về công ty</h3>
-                    <p class="text-slate-500 font-bold text-lg leading-relaxed max-w-md">Xem các video giới thiệu về lĩnh vực hoạt động, môi trường làm việc và hình ảnh thực tế của Công ty.</p>
+                    <p class="text-slate-500 font-bold text-lg leading-relaxed max-w-md">Xem video, brochure, hồ sơ năng lực và tài liệu giới thiệu về PTSC POS.</p>
                     <button class="mt-4 bg-primary-600 text-white px-10 py-4 rounded-2xl font-black text-[15px] uppercase tracking-widest shadow-xl shadow-primary-500/20 flex items-center gap-3 transition-transform group-hover:scale-105">
                         Xem nội dung giới thiệu <i data-lucide="arrow-right" class="w-5 h-5"></i>
                     </button>
@@ -983,7 +1674,7 @@
     </div>
 
     <!-- PAGE 2: DASHBOARD -->
-    <div id="page2" class="hidden h-full flex flex-col gap-4 animate-up overflow-hidden">
+    <div id="page2" class="hidden h-full flex flex-col gap-4 animate-up overflow-y-auto overflow-x-hidden">
         <div class="flex items-center justify-between shrink-0 px-2">
             <button onclick="showPage(1.5)" class="group flex items-center gap-2 bg-white/70 hover:bg-white backdrop-blur-md border border-slate-200/60 shadow-sm hover:shadow-md px-5 py-2.5 rounded-full text-slate-700 hover:text-primary-600 font-black text-[15px] uppercase tracking-widest transition-all">
                 <i data-lucide="arrow-left" class="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-300"></i> Lộ trình
@@ -1713,14 +2404,21 @@
         if (n === 1) {
             if (logo) logo.classList.remove('hidden'); themeSelectorContainer.classList.remove('hidden'); document.getElementById('page1').classList.remove('hidden');
             bgOverlay.style.backgroundImage = "linear-gradient(to bottom, rgba(248, 250, 252, 0.2), rgba(248, 250, 252, 0.2)), url('image/background/background_3.png')";
+        
         } else if (n === 1.5) {
-            if (logo) logo.classList.add('hidden'); themeSelectorContainer.classList.add('hidden'); document.getElementById('pageOverview').classList.remove('hidden');
+            if (logo) logo.classList.add('hidden');
+            themeSelectorContainer.classList.add('hidden');
+            document.getElementById('pageOverview').classList.remove('hidden');
             resetBg('image/background/background_4.png');
-            // Patch logic: Dùng setTimeout để đảm bảo layout hiển thị trước khi tính toán SVG
+        
+            setMobileAppHeight();
+        
             setTimeout(() => {
-                renderOverview(); 
+                renderOverview();
                 initBackgroundParticles();
-            }, 150);
+            }, window.innerWidth <= 768 ? 300 : 150);
+        }
+            
         } else if (n === 2) {
             if (logo) logo.classList.add('hidden'); themeSelectorContainer.classList.add('hidden'); document.getElementById('page2').classList.remove('hidden');
             resetBg('image/background/background_2.png');
@@ -2604,6 +3302,22 @@
         });
     })();
     /* AI BOT WIDGET JS END */
+
+    function setMobileAppHeight() {
+    const height = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+    document.documentElement.style.setProperty('--app-height', `${height}px`);
+    }
+    
+    setMobileAppHeight();
+    
+    window.addEventListener('resize', setMobileAppHeight);
+    window.addEventListener('orientationchange', () => {
+        setTimeout(setMobileAppHeight, 250);
+    });
+    
+    if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', setMobileAppHeight);
+    }
 
     showPage(1);
 </script>
