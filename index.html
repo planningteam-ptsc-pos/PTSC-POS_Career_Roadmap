@@ -1625,6 +1625,56 @@
     .node-card h5 { font-size: 6.9px !important; }
 }
 
+
+/* =========================================================
+   MOBILE FIT PATCH V5 - stepper spacing and page 1 breathing room
+   Layout-only overrides; no JS/data/function changes.
+   ========================================================= */
+@media (max-width: 768px) {
+    /* Page 1: tăng nhẹ khoảng thở giữa thẻ Career Pathway và khung chọn lộ trình */
+    #page1 {
+        gap: clamp(12px, 2.4dvh, 20px) !important;
+    }
+    #page1 .text-center.space-y-6 {
+        gap: 10px !important;
+    }
+    #page1 .bg-white\/40 {
+        padding: 18px 14px !important;
+    }
+    #page1 > .glass-panel {
+        margin-top: 2px !important;
+    }
+
+    /* Page detail: tạo khoảng cách giữa số stepper và nội dung chữ, tránh che chữ */
+    .dashboard-stepper-item {
+        padding-top: 34px !important;
+        padding-bottom: 9px !important;
+    }
+    .dashboard-stepper-item .flex {
+        margin-top: 2px !important;
+    }
+    .stepper-num {
+        top: 7px !important;
+    }
+    .dashboard-stepper-item span:first-child,
+    .dashboard-stepper-item span:last-child {
+        padding-left: 2px !important;
+        padding-right: 2px !important;
+    }
+}
+
+@media (max-width: 420px) {
+    #page1 {
+        gap: 12px !important;
+    }
+    #page1 .bg-white\/40 {
+        padding: 17px 13px !important;
+    }
+    .dashboard-stepper-item {
+        padding-top: 33px !important;
+    }
+}
+
 </style>
 </head>
 <body class="flex flex-col">
