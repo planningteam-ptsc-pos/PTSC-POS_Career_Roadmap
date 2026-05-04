@@ -474,6 +474,41 @@
             overflow: hidden;
             background: #0f172a;
         }
+        .company-media-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+            gap: 40px;
+            align-content: start;
+        }
+        
+        /* Card tự giãn theo ô grid */
+        .company-media-grid .company-video-card {
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* Màn hình rất rộng: card không bị quá to */
+        @media (min-width: 1800px) {
+            .company-media-grid {
+                grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
+            }
+        }
+        
+        /* Tablet */
+        @media (max-width: 1024px) {
+            .company-media-grid {
+                grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+                gap: 28px;
+            }
+        }
+        
+        /* Mobile */
+        @media (max-width: 640px) {
+            .company-media-grid {
+                grid-template-columns: 1fr;
+                gap: 22px;
+            }
+        }
         
         /* Nền phụ: phủ kín toàn khung bằng chính ảnh thumbnail, có blur */
         .company-video-thumbnail::before {
@@ -851,7 +886,7 @@
             <div class="w-[100px] hidden md:block"></div>
         </div>
 
-        <div id="videoGrid" class="flex-1 overflow-y-auto px-8 pb-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 custom-scrollbar">
+        <div id="videoGrid" class="flex-1 overflow-y-auto px-8 pb-12 company-media-grid custom-scrollbar">
             <!-- Video Cards injected via JS -->
             <div class="col-span-full text-center py-20 text-slate-400 font-bold text-lg animate-pulse">Đang tải danh sách video...</div>
         </div>
