@@ -663,7 +663,702 @@
             .company-map-side.right { order: 3; }
             #companyMapConnectionLayer { display: none; }
         }
-    </style>
+    
+
+/* =========================================================
+   MOBILE RESPONSIVE PATCH - layout only, no JS/data changes
+   Mục tiêu: tránh tràn ngang, cho phép scroll dọc, giảm padding/font/card
+   ========================================================= */
+@media (max-width: 768px) {
+    html, body {
+        width: 100%;
+        min-height: 100%;
+        height: auto;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    body {
+        min-height: 100dvh;
+    }
+
+    .bg-fixed-overlay {
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background-position: center center !important;
+    }
+
+    #app {
+        position: relative !important;
+        inset: auto !important;
+        width: 100%;
+        min-height: 100dvh;
+        height: auto;
+        padding: 14px !important;
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+    }
+
+    #themeSelectorContainer {
+        top: 14px !important;
+        left: 14px !important;
+        z-index: 300 !important;
+    }
+
+    #themeTriggerBtn {
+        padding: 9px 14px !important;
+        font-size: 12px !important;
+        letter-spacing: 0.08em !important;
+    }
+
+    #themeMenu {
+        width: 190px !important;
+        max-width: calc(100vw - 28px) !important;
+    }
+
+    #mainLogo {
+        top: 16px !important;
+        right: 12px !important;
+        width: 122px !important;
+        opacity: 0.95;
+    }
+
+    .glass-panel,
+    .glass-card-info,
+    .job-family-badge,
+    .sidebar-dynamic-card {
+        border-radius: 28px !important;
+    }
+
+    /* PAGE 1 */
+    #page1 {
+        min-height: 100dvh;
+        height: auto;
+        justify-content: flex-start !important;
+        padding-top: 92px;
+        padding-bottom: 120px;
+        gap: 22px !important;
+        overflow: visible !important;
+    }
+
+    #page1 .text-center.space-y-6 {
+        width: 100%;
+        padding-top: 0;
+    }
+
+    #page1 .inline-flex {
+        max-width: calc(100vw - 32px);
+        font-size: 11px !important;
+        padding: 8px 14px !important;
+        letter-spacing: 0.08em !important;
+        white-space: normal !important;
+        line-height: 1.25 !important;
+    }
+
+    #page1 .bg-white\/40 {
+        width: 100% !important;
+        max-width: calc(100vw - 28px) !important;
+        padding: 28px 18px !important;
+        border-radius: 34px !important;
+    }
+
+    #page1 h1 {
+        font-size: clamp(34px, 10vw, 48px) !important;
+        line-height: 1.05 !important;
+        white-space: normal !important;
+        text-align: center !important;
+    }
+
+    #page1 p {
+        font-size: 15px !important;
+        line-height: 1.55 !important;
+    }
+
+    #page1 > .glass-panel {
+        width: 100% !important;
+        max-width: calc(100vw - 28px) !important;
+        padding: 28px 22px !important;
+        border-radius: 36px !important;
+        margin-bottom: 28px;
+    }
+
+    #dropdownTrigger {
+        padding: 16px 18px !important;
+        border-radius: 24px !important;
+        font-size: 18px !important;
+    }
+
+    #dropdownMenu {
+        max-height: 62dvh;
+    }
+
+    #customRoleList {
+        max-height: 45dvh !important;
+    }
+
+    #btnStart,
+    #page1 button[onclick="showPage('companyIntro')"] {
+        border-radius: 24px !important;
+        padding-top: 18px !important;
+        padding-bottom: 18px !important;
+        font-size: 13px !important;
+        letter-spacing: 0.12em !important;
+    }
+
+    /* PAGE 1.5 ROADMAP */
+    #pageOverview {
+        height: auto !important;
+        min-height: 100dvh;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        gap: 18px !important;
+        padding-bottom: 110px;
+    }
+
+    #pageOverview > .flex.items-center.justify-between {
+        display: grid !important;
+        grid-template-columns: 112px 1fr 88px;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 0 4px 0 !important;
+    }
+
+    #pageOverview > .flex.items-center.justify-between > .text-center {
+        min-width: 0;
+    }
+
+    #pageOverview .text-\[15px\].font-black.text-primary-600 {
+        font-size: 10px !important;
+        letter-spacing: 0.22em !important;
+        line-height: 1.35 !important;
+    }
+
+    #ovTitle {
+        font-size: clamp(26px, 8vw, 36px) !important;
+        line-height: 0.95 !important;
+    }
+
+    #pageOverview button,
+    #btnGoToDetail {
+        padding: 10px 12px !important;
+        border-radius: 24px !important;
+        font-size: 11px !important;
+        letter-spacing: 0.08em !important;
+        white-space: normal !important;
+    }
+
+    #pageOverview .grid {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 18px !important;
+        min-height: unset !important;
+        overflow: visible !important;
+    }
+
+    #pageOverview .lg\:col-span-9,
+    #pageOverview .lg\:col-span-3 {
+        width: 100% !important;
+        height: auto !important;
+        overflow: visible !important;
+    }
+
+    .roadmap-viewport {
+        height: 62dvh !important;
+        min-height: 520px !important;
+        border-radius: 30px !important;
+        overflow: hidden !important;
+    }
+
+    .node-card {
+        width: 150px !important;
+        padding: 8px !important;
+        border-radius: 20px !important;
+    }
+
+    .node-icon-wrapper {
+        height: 90px !important;
+        border-radius: 16px !important;
+    }
+
+    .node-card h5 {
+        font-size: 15px !important;
+        line-height: 1.15 !important;
+    }
+
+    .node-card span {
+        font-size: 11px !important;
+    }
+
+    .sidebar-container {
+        gap: 14px !important;
+        padding-bottom: 20px !important;
+    }
+
+    .glass-card-info,
+    .job-family-badge {
+        padding: 18px !important;
+    }
+
+    /* PAGE 2 DASHBOARD */
+    #page2 {
+        height: auto !important;
+        min-height: 100dvh;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        padding-bottom: 110px;
+    }
+
+    #page2 > .flex.items-center.justify-between {
+        align-items: flex-start !important;
+        gap: 12px;
+        padding: 8px 0 !important;
+    }
+
+    #page2 > .flex.items-center.justify-between button {
+        padding: 10px 12px !important;
+        border-radius: 22px !important;
+        font-size: 11px !important;
+    }
+
+    #detailFuncTitle {
+        font-size: clamp(26px, 8vw, 38px) !important;
+        line-height: 1.02 !important;
+        max-width: 210px;
+    }
+
+    #detailJobFamily {
+        font-size: 10px !important;
+        line-height: 1.3 !important;
+        max-width: 220px;
+        white-space: normal;
+        text-align: right;
+    }
+
+    #page2 > .grid,
+    #page2 .grid-cols-12 {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 18px !important;
+        height: auto !important;
+        overflow: visible !important;
+        padding-bottom: 0 !important;
+    }
+
+    #page2 .col-span-12,
+    #page2 .lg\:col-span-3,
+    #page2 .lg\:col-span-9 {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    #page2 .glass-panel.p-6 {
+        padding: 16px !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        border-radius: 28px !important;
+    }
+
+    .detail-stepper-container {
+        min-width: max-content;
+        padding: 4px 0 !important;
+    }
+
+    .detail-stepper-container::before,
+    .progress-line {
+        display: none !important;
+    }
+
+    .dashboard-stepper-item {
+        min-width: 190px;
+        padding: 14px 14px 14px 48px !important;
+        margin-bottom: 0 !important;
+    }
+
+    .sidebar-dynamic-card {
+        min-width: 280px;
+        margin-top: 0 !important;
+        padding: 18px !important;
+    }
+
+    #page2 .col-span-12.lg\:col-span-9.flex.flex-col.glass-panel {
+        border-radius: 30px !important;
+        overflow: visible !important;
+    }
+
+    #page2 .p-8.bg-white\/40 {
+        padding: 20px !important;
+    }
+
+    #page2 .p-8.bg-white\/40 .flex.items-center.gap-10 {
+        gap: 18px !important;
+        align-items: center !important;
+    }
+
+    #page2 .w-32.h-32 {
+        width: 110px !important;
+        height: 110px !important;
+        border-radius: 24px !important;
+    }
+
+    #roleTitleLabel {
+        font-size: clamp(34px, 11vw, 50px) !important;
+        line-height: 1.02 !important;
+    }
+
+    #rolePurposeLabel {
+        font-size: 18px !important;
+        line-height: 1.55 !important;
+        max-height: none !important;
+    }
+
+    #page2 .flex.gap-4.px-10 {
+        padding-left: 14px !important;
+        padding-right: 14px !important;
+        gap: 8px !important;
+        overflow-x: auto !important;
+    }
+
+    .tab-btn {
+        padding: 14px 12px !important;
+        font-size: 11px !important;
+        white-space: nowrap !important;
+        flex: 0 0 auto;
+    }
+
+    #detailView {
+        padding: 20px !important;
+        overflow: visible !important;
+    }
+
+    #detailView .grid,
+    #tab-benefits .grid,
+    #tab-works .grid,
+    #tab-skills .grid,
+    #tab-next .grid {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 22px !important;
+    }
+
+    .responsibility-card,
+    .benefit-item-card,
+    #kpiContainer > div,
+    #trainingList > div,
+    #readinessList > div,
+    #promotionList > div {
+        padding: 16px !important;
+        border-radius: 18px !important;
+    }
+
+    #salaryRangeDisplay {
+        font-size: clamp(36px, 11vw, 50px) !important;
+        line-height: 1.05 !important;
+    }
+
+    #page2 .p-6.border-t {
+        padding: 16px !important;
+        position: sticky;
+        bottom: 0;
+        z-index: 20;
+        border-radius: 0 0 28px 28px;
+    }
+
+    /* COMPANY INTRO */
+    .company-intro-page {
+        min-height: 100dvh;
+        height: auto !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        padding-bottom: 110px;
+    }
+
+    .company-intro-back-btn {
+        top: 14px !important;
+        left: 14px !important;
+        padding: 10px 14px !important;
+        font-size: 12px !important;
+        z-index: 80 !important;
+    }
+
+    .company-intro-logo {
+        top: 14px !important;
+        right: 14px !important;
+        width: 120px !important;
+    }
+
+    .company-intro-content {
+        padding-top: 92px !important;
+        padding-bottom: 36px !important;
+        gap: 22px !important;
+    }
+
+    .company-intro-content h2 {
+        font-size: clamp(34px, 10vw, 48px) !important;
+        line-height: 1.02 !important;
+    }
+
+    .company-intro-content p {
+        font-size: 17px !important;
+        line-height: 1.45 !important;
+    }
+
+    .company-intro-content .grid {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 20px !important;
+        width: 100% !important;
+        padding: 0 10px !important;
+    }
+
+    .company-intro-card {
+        width: 100% !important;
+        min-height: auto !important;
+        padding: 28px 22px !important;
+        border-radius: 34px !important;
+        gap: 18px !important;
+    }
+
+    .company-intro-icon-circle {
+        width: 74px !important;
+        height: 74px !important;
+    }
+
+    .company-intro-card h3 {
+        font-size: 30px !important;
+        line-height: 1.1 !important;
+    }
+
+    .company-intro-card button {
+        width: 100%;
+        justify-content: center;
+        padding: 16px 20px !important;
+        font-size: 13px !important;
+        line-height: 1.35 !important;
+        white-space: normal !important;
+    }
+
+    /* COMPANY VIDEOS */
+    #pageCompanyVideos {
+        height: auto !important;
+        min-height: 100dvh;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        gap: 18px !important;
+        padding-bottom: 110px;
+    }
+
+    #pageCompanyVideos > .flex.items-center.justify-between {
+        display: grid !important;
+        grid-template-columns: 112px 1fr;
+        gap: 10px;
+        align-items: start !important;
+        padding: 8px 0 0 0 !important;
+    }
+
+    #pageCompanyVideos > .flex.items-center.justify-between button {
+        padding: 10px 12px !important;
+        border-radius: 22px !important;
+        font-size: 11px !important;
+    }
+
+    #pageCompanyVideos > .flex.items-center.justify-between .text-center {
+        text-align: right !important;
+    }
+
+    #pageCompanyVideos h2 {
+        font-size: clamp(28px, 8vw, 38px) !important;
+        line-height: 1.05 !important;
+    }
+
+    #pageCompanyVideos p {
+        font-size: 15px !important;
+        line-height: 1.45 !important;
+    }
+
+    #videoGrid {
+        flex: unset !important;
+        overflow: visible !important;
+        padding: 0 8px 30px 8px !important;
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: 18px !important;
+    }
+
+    .company-video-card {
+        min-height: auto !important;
+        height: auto !important;
+        border-radius: 28px !important;
+        box-shadow: 0 18px 35px rgba(15, 23, 42, 0.08);
+    }
+
+    .company-video-thumbnail {
+        min-height: 190px;
+        border-radius: 28px 28px 0 0;
+    }
+
+    .company-video-card .p-6 {
+        padding: 18px !important;
+    }
+
+    .company-video-card h3 {
+        font-size: 20px !important;
+        line-height: 1.25 !important;
+        display: block !important;
+        -webkit-line-clamp: unset !important;
+        overflow: visible !important;
+    }
+
+    .company-video-card p {
+        font-size: 14px !important;
+        display: block !important;
+        -webkit-line-clamp: 3 !important;
+    }
+
+    /* COMPANY MINDMAP */
+    #pageCompanyMindmap {
+        height: auto !important;
+        min-height: 100dvh;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        padding-bottom: 110px;
+    }
+
+    #pageCompanyMindmap > .flex {
+        gap: 12px !important;
+        padding: 8px 0 14px 0 !important;
+    }
+
+    #pageCompanyMindmap button,
+    #companyMapSearchInput {
+        font-size: 12px !important;
+        border-radius: 22px !important;
+        padding: 10px 12px !important;
+    }
+
+    #companyMapSearchInput {
+        min-width: 0 !important;
+        width: min(100%, 320px) !important;
+    }
+
+    #pageCompanyMindmap .flex.items-center.gap-3 {
+        width: 100%;
+        display: grid !important;
+        grid-template-columns: 1fr auto auto;
+        gap: 8px !important;
+    }
+
+    .company-map-viewport {
+        height: auto !important;
+        min-height: 70dvh;
+        overflow-x: hidden !important;
+        overflow-y: visible !important;
+        border-radius: 32px !important;
+        padding: 22px 12px 36px 12px !important;
+    }
+
+    .company-map-wrapper {
+        min-width: 0 !important;
+        min-height: 0 !important;
+        width: 100% !important;
+        padding: 18px 0 !important;
+        gap: 26px !important;
+    }
+
+    .company-map-side {
+        width: 100% !important;
+        flex: 0 0 auto !important;
+        gap: 18px !important;
+        padding: 0 !important;
+    }
+
+    .company-map-node-wrapper {
+        width: 100% !important;
+    }
+
+    .company-map-node-l1 {
+        width: 100% !important;
+        min-height: 68px !important;
+        height: auto !important;
+        padding: 14px 18px !important;
+        border-radius: 32px !important;
+        font-size: 15px !important;
+    }
+
+    .company-map-center {
+        width: 92% !important;
+        max-width: 340px !important;
+        padding: 20px 22px !important;
+        border-radius: 42px !important;
+        font-size: 18px !important;
+        line-height: 1.3 !important;
+    }
+
+    .company-map-l2-box {
+        max-height: none !important;
+    }
+
+    .video-desc-floating-popup {
+        width: calc(100vw - 28px) !important;
+        max-height: 55dvh !important;
+        left: 14px !important;
+        right: 14px !important;
+    }
+
+    /* AI BOT */
+    #ai-bot-trigger {
+        width: 58px !important;
+        height: 58px !important;
+        left: 18px !important;
+        bottom: 22px !important;
+    }
+
+    #ai-bot-panel {
+        width: calc(100vw - 24px) !important;
+        height: min(72dvh, 560px) !important;
+        max-height: 72dvh !important;
+        border-radius: 26px !important;
+    }
+}
+
+@media (max-width: 420px) {
+    #page1 {
+        padding-top: 86px;
+    }
+
+    #mainLogo {
+        width: 108px !important;
+    }
+
+    #page1 .bg-white\/40,
+    #page1 > .glass-panel {
+        max-width: calc(100vw - 22px) !important;
+    }
+
+    .roadmap-viewport {
+        min-height: 500px !important;
+    }
+
+    #page2 .p-8.bg-white\/40 .flex.items-center.gap-10 {
+        flex-direction: column !important;
+        text-align: center;
+    }
+
+    #rolePurposeLabel {
+        text-align: center;
+    }
+
+    .company-intro-card h3 {
+        font-size: 28px !important;
+    }
+
+    .company-video-thumbnail {
+        min-height: 170px;
+    }
+}
+
+</style>
 </head>
 <body class="flex flex-col">
 <div class="bg-fixed-overlay" id="bgOverlay"></div>
