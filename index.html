@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Oil & Gas Career Pro Navigator | Professional Edition</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <!-- Cấu hình Tailwind lấy màu động từ CSS Variables -->
     <script>
         tailwind.config = {
@@ -24,12 +23,9 @@
             }
         }
     </script>
-    
     <script src="https://unpkg.com/lucide@latest"></script>
-    
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
-        
         /* --- HỆ THỐNG THEME ĐA SẮC ĐỘNG --- */
         :root {
             --color-primary-50: 240 249 255;
@@ -41,7 +37,6 @@
             --amber-peak: #f59e0b;
             --oil-slate: #0f172a;
         }
-
         [data-theme="emerald"] {
             --color-primary-50: 236 253 245;
             --color-primary-100: 209 250 229;
@@ -50,7 +45,6 @@
             --color-primary-600: 5 150 105;
             --sky-primary: #10b981;
         }
-
         [data-theme="violet"] {
             --color-primary-50: 245 243 255;
             --color-primary-100: 237 233 254;
@@ -59,7 +53,6 @@
             --color-primary-600: 124 58 237;
             --sky-primary: #8b5cf6;
         }
-
         [data-theme="rose"] {
             --color-primary-50: 255 241 242;
             --color-primary-100: 255 228 230;
@@ -68,7 +61,6 @@
             --color-primary-600: 225 29 72;
             --sky-primary: #f43f5e;
         }
-
         [data-theme="amber"] {
             --color-primary-50: 255 251 235;
             --color-primary-100: 254 243 199;
@@ -77,18 +69,15 @@
             --color-primary-600: 217 119 6;
             --sky-primary: #f59e0b;
         }
-
         html, body {
             margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden;
         }
-
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: #f8fafc;
             color: var(--oil-slate);
             transition: all 0.5s ease;
         }
-
         .bg-fixed-overlay {
             position: fixed; top: 0vh; bottom: 0vh; left: -2vw; right: -2vw;
             background-size: cover !important;
@@ -96,24 +85,20 @@
             background-repeat: no-repeat !important;
             z-index: -1; transition: background-image 1s ease-in-out; pointer-events: none;
         }
-
         .glass-panel {
             background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(24px);
             border: 1px solid rgba(255, 255, 255, 0.6); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
         }
-
         /* --- ROADMAP VIEWPORT --- */
         .roadmap-viewport {
-            position: relative; width: 100%; height: 100%; overflow: hidden; 
+            position: relative; width: 100%; height: 100%; overflow: hidden;
             border-radius: 40px; background: radial-gradient(circle at top right, #ffffff 0%, #f0f4f8 100%);
             border: 2px solid #fff; box-shadow: inset 0 0 50px rgba(255,255,255,0.8);
         }
-
         .bg-grid-pattern {
             background-image: radial-gradient(#cbd5e1 1.5px, transparent 1.5px);
             background-size: 24px 24px; position: absolute; inset: 0; opacity: 0.4; z-index: 0; pointer-events: none;
         }
-
         .waves-container {
             position: absolute; bottom: 0; left: 0; width: 100%; height: 200px;
             z-index: 0; pointer-events: none;
@@ -127,7 +112,6 @@
         }
         .wave2 { bottom: 6px; animation: waveFlow 28s infinite linear reverse; opacity: 0.08; }
         @keyframes waveFlow { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-
         .ambient-particle {
             position: absolute; border-radius: 50%;
             pointer-events: none; opacity: 0; filter: blur(1.5px); z-index: 1;
@@ -139,68 +123,55 @@
             90% { opacity: 0.3; }
             100% { transform: translateY(-100vh) translateX(60px) scale(1.2); opacity: 0; }
         }
-
         .roadmap-content { position: relative; width: 100%; height: 100%; z-index: 2; }
-
         .path-node {
             position: absolute; transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
             opacity: 0; transform: scale(0.8); z-index: 100;
         }
         .path-node.show { opacity: 1; transform: scale(1); }
-
         .node-card {
             background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px);
-            padding: 10px; border-radius: 24px; width: 180px; 
+            padding: 10px; border-radius: 24px; width: 180px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.04); border: 1px solid rgba(255,255,255,0.6);
             position: relative; cursor: pointer; transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             margin: 0 auto; transform-origin: center center; overflow: visible;
         }
-
-        .node-card:hover { 
-            transform: scale(calc(var(--node-scale) * 1.05)) translateY(-5px) !important; 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08); 
+        .node-card:hover {
+            transform: scale(calc(var(--node-scale) * 1.05)) translateY(-5px) !important;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
         }
-
         .node-card {
             --node-scale: 1;
         }
-        
         .node-card.active-glow {
             border-color: var(--sky-primary) !important;
             box-shadow: 0 0 50px rgb(var(--color-primary-500) / 0.55) !important;
             transform: scale(calc(var(--node-scale) * 1.13)) !important;
             background: #fff !important;
         }
-        
         .node-card.summit-victory {
             border-color: var(--amber-peak) !important;
             box-shadow: 0 0 65px rgba(245, 158, 11, 0.65) !important;
             transform: scale(calc(var(--node-scale) * 1.18)) !important;
             background: #fff !important;
         }
-
         .node-icon-wrapper {
             background: white; border-radius: 18px; padding: 4px; box-shadow: 0 8px 20px rgba(0,0,0,0.03);
             border: 2px solid #f8fafc; display: flex; align-items: center; justify-content: center;
             position: relative; width: 100%; height: 115px; margin-bottom: 8px; overflow: hidden;
         }
-
         .node-circle {
             width: 32px; height: 32px; border-radius: 50%; color: white;
             display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 15px;
             position: absolute; top: -12px; right: -12px; border: 3px solid #fff; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); z-index: 120;
         }
-
         .summit-crown {
             position: absolute; top: -15px; right: -15px; width: 38px; height: 38px; background: var(--amber-peak);
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
             border: 3px solid #fff; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4); color: white; z-index: 120;
         }
-
         #journeyLine { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
-        
         .path-glow { stroke: url(#lineGradient); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 0 8px rgb(var(--color-primary-500) / 0.5)); transition: stroke 0.5s ease; }
-
         .summit-halo {
             position: absolute; width: 300px; height: 300px; background: radial-gradient(circle, rgba(245, 158, 11, 0.2) 0%, transparent 70%);
             border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: -1; animation: pulseRotate 6s linear infinite;
@@ -210,7 +181,6 @@
             50% { transform: translate(-50%, -50%) scale(1.1) rotate(180deg); opacity: 0.5; }
             100% { transform: translate(-50%, -50%) scale(1) rotate(360deg); opacity: 0.3; }
         }
-
         /* --- SIDEBAR PAGE 1.5 --- */
         .sidebar-container { display: flex; flex-direction: column; gap: 1.5rem; padding: 10px 0; min-height: min-content; }
         .glass-card-info {
@@ -218,22 +188,18 @@
             border-radius: 28px; padding: 20px; box-shadow: 0 15px 30px rgba(0, 0, 0, 0.02); transition: all 0.3s ease; flex-shrink: 0;
         }
         .glass-card-info:hover { transform: translateX(-6px); background: #fff; box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05); }
-        
         .info-item-list { display: flex; gap: 15px; margin-bottom: 14px; font-size: 15px; font-weight: 600; line-height: 1.7; color: #475569; align-items: flex-start; }
         .info-item-list:last-child { margin-bottom: 0; }
         .dot { margin-top: 7px; width: 6px; height: 6px; border-radius: 50%; background: var(--sky-primary); flex-shrink: 0; transition: background 0.5s ease; }
-        
         .job-family-badge {
             background: linear-gradient(135deg, var(--sky-primary) 0%, #6366f1 100%);
             color: white; padding: 22px; border-radius: 24px; box-shadow: 0 10px 30px rgba(99, 102, 241, 0.25);
             position: relative; overflow: hidden; flex-shrink: 0; transition: background 0.5s ease;
         }
-
         /* --- PAGE 2 DASHBOARD STEPPER --- */
         .detail-stepper-container { position: relative; padding: 5px 0 10px 0; }
         .detail-stepper-container::before { content: ''; position: absolute; left: 31px; top: 25px; bottom: 25px; width: 2px; background: #e2e8f0; z-index: 1; }
         .progress-line { position: absolute; left: 31px; top: 25px; width: 2px; background: var(--sky-primary); z-index: 2; transition: all 0.6s ease; }
-
         .dashboard-stepper-item {
             position: relative; padding: 8px 10px 8px 50px; border-radius: 16px; cursor: pointer; transition: all 0.3s ease;
             display: flex; align-items: center; gap: 10px; margin-bottom: 4px; z-index: 10;
@@ -245,7 +211,6 @@
         }
         .completed .stepper-num { background: var(--sky-primary); color: white; border-color: var(--sky-primary); }
         .active .stepper-num { background: white; color: var(--sky-primary); border-color: var(--sky-primary); box-shadow: 0 0 10px rgb(var(--color-primary-500) / 0.3); }
-
         .sidebar-dynamic-card {
             background: linear-gradient(135deg, var(--sky-primary) 0%, #6366f1 100%);
             border-radius: 28px; padding: 22px; color: white; margin-top: 10px; box-shadow: 0 10px 25px rgba(99, 102, 241, 0.2); transition: background 0.5s ease;
@@ -254,7 +219,6 @@
         .dynamic-content-list { font-size: 15px; font-weight: 600; line-height: 1.8; font-style: italic; opacity: 0.95; }
         .dynamic-bullet { display: flex; gap: 12px; margin-bottom: 10px; align-items: flex-start; }
         .white-dot { margin-top: 7px; width: 5px; height: 5px; border-radius: 50%; background: white; flex-shrink: 0; }
-
         .responsibility-card {
             background: white; padding: 18px 22px; border-radius: 18px; margin-bottom: 14px;
             display: flex; align-items: center; gap: 18px; box-shadow: 0 3px 10px rgba(0,0,0,0.02); border: 1.5px solid #f1f5f9;
@@ -263,30 +227,25 @@
         .skill-bar-bg { height: 10px; background: #f1f5f9; border-radius: 20px; overflow: hidden; margin-top: 8px; }
         .skill-bar-fill { height: 100%; background: #f59e0b; border-radius: 20px; transition: width 1s ease; }
         .skill-chip { padding: 8px 18px; border-radius: 12px; background: #ecfdf5; color: #059669; border: 1.5px solid #d1fae5; font-weight: 700; font-size: 15px; text-transform: uppercase; }
-
         .tab-btn { position: relative; padding: 14px 28px; font-weight: 800; font-size: 15px; color: #94a3b8; text-transform: uppercase; transition: 0.3s; }
         .tab-btn.active { color: var(--sky-primary); }
         .tab-btn.active::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: var(--sky-primary); border-radius: 10px; transition: background 0.5s ease; }
-
         .btn-premium-nav {
             background: #0f172a; color: white; padding: 12px 36px; border-radius: 14px;
             font-weight: 800; font-size: 15px; text-transform: uppercase; letter-spacing: 0.1em; box-shadow: 0 8px 20px rgba(15, 23, 42, 0.2); transition: all 0.4s;
         }
         .btn-premium-nav:hover { background: var(--sky-primary); transform: translateY(-2px); }
-
         .btn-premium-action {
             background: var(--sky-primary); color: white; padding: 14px 28px; border-radius: 20px;
             font-weight: 800; font-size: 15px; text-transform: uppercase; letter-spacing: 0.1em;
             display: flex; align-items: center; gap: 12px; transition: all 0.4s; box-shadow: 0 10px 25px rgb(var(--color-primary-500) / 0.4); border: 1.5px solid rgba(255,255,255,0.2); position: relative; z-index: 200; cursor: pointer;
         }
         .btn-premium-action:hover { background: var(--oil-slate); transform: translateY(-2px); box-shadow: 0 10px 25px rgba(15, 23, 42, 0.3); }
-
         .animate-up { animation: fadeInUp 0.7s ease-out forwards; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        
         /* --- CUSTOM DROPDOWN --- */
         .role-list-item {
             padding: 12px 16px; border-radius: 16px; margin-bottom: 4px;
@@ -295,31 +254,27 @@
         .role-list-item:hover { background: rgb(var(--color-primary-50)); color: var(--sky-primary); transform: translateX(6px); }
         .role-list-item.selected { background: linear-gradient(135deg, var(--sky-primary) 0%, #6366f1 100%); color: white; box-shadow: 0 4px 15px rgb(var(--color-primary-500) / 0.3); }
         .role-list-item.selected i { color: white !important; }
-
         /* --- STAIRCASE ANIMATIONS --- */
         @keyframes drawStairEdge {
             from { stroke-dashoffset: var(--stair-len); }
             to { stroke-dashoffset: 0; }
         }
-
         /* --- STYLE CHO TAB ĐÃI NGỘ NÂNG CẤP --- */
         .benefit-item-card {
             background: white; border: 1.5px solid #f1f5f9; padding: 18px; border-radius: 20px;
             display: flex; align-items: center; gap: 16px; transition: all 0.3s ease;
         }
         .benefit-item-card:hover { transform: translateY(-3px); border-color: var(--sky-primary); box-shadow: 0 8px 20px rgba(0,0,0,0.03); }
-
         @keyframes levelPulse {
             0% { transform: scale(1); opacity: 0.8; }
             50% { transform: scale(1.1); opacity: 1; }
             100% { transform: scale(1); opacity: 0.8; }
         }
         .level-pulse-icon { animation: levelPulse 2.5s infinite ease-in-out; }
-
         /* AI BOT WIDGET START */
         #ai-bot-trigger {
             position: fixed; z-index: 1000;
-            width: 65px; height: 65px; cursor: pointer; 
+            width: 65px; height: 65px; cursor: pointer;
             background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
             box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35);
@@ -328,7 +283,6 @@
         }
         #ai-bot-trigger:hover { transform: scale(1.1); }
         #ai-bot-trigger svg { width: 32px; height: 32px; fill: white; pointer-events: none; }
-
         #ai-bot-trigger::before {
             content: ''; position: absolute; inset: 0; border-radius: 50%;
             background: #38bdf8; z-index: -1; opacity: 0.4;
@@ -338,7 +292,6 @@
             0% { transform: scale(1); opacity: 0.4; }
             100% { transform: scale(1.8); opacity: 0; }
         }
-
         .ai-bot-periodic-shake { animation: ai-bot-shake-anim 6s infinite; }
         @keyframes ai-bot-shake-anim {
             0%, 90%, 100% { transform: rotate(0); }
@@ -347,7 +300,6 @@
             96% { transform: rotate(-8deg); }
             98% { transform: rotate(8deg); }
         }
-
         #ai-bot-panel {
             position: fixed; z-index: 1001;
             width: 420px; max-width: calc(100vw - 32px); height: 620px; max-height: calc(100vh - 150px);
@@ -358,17 +310,14 @@
             border: 1px solid rgba(0,0,0,0.05);
         }
         #ai-bot-panel.active { opacity: 1; transform: scale(1) translateY(0); pointer-events: auto; }
-
         .ai-bot-header {
             background: linear-gradient(135deg, #38bdf8 0%, #2563eb 55%, #60a5fa 100%);
             padding: 16px 24px; color: white; display: flex; align-items: center; justify-content: space-between;
         }
         .ai-bot-messages { flex: 1; overflow-y: auto; padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; background: #f8fafc; }
-        
         .ai-bot-bubble { max-width: 88%; padding: 10px 14px; border-radius: 18px; font-size: 14px; word-wrap: break-word; position: relative; }
         .ai-bot-bubble-user { align-self: flex-end; background: #2563eb; color: white; border-bottom-right-radius: 4px; font-weight: 600; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1); }
         .ai-bot-bubble-bot { align-self: flex-start; background: white; color: #1e293b; border-bottom-left-radius: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.02); border: 1px solid #f1f5f9; }
-
         .ai-bot-markdown { line-height: 1.35; color: #1e293b; font-size: 14px; }
         .ai-bot-intro, .ai-bot-followup { margin: 0 0 0.35rem 0; padding: 0; line-height: 1.35; color: #1e293b; }
         .ai-bot-section { margin: 0.45rem 0 0 0; padding: 0; }
@@ -382,7 +331,6 @@
         .ai-bot-section-list li strong { font-weight: 700; color: #1e293b; }
         .ai-bot-markdown strong { color: inherit; }
         .ai-bot-markdown br { display: none; }
-
         .ai-bot-input-area { padding: 14px; background: white; border-top: 1px solid #f1f5f9; }
         .ai-bot-input-container { display: flex; gap: 8px; align-items: center; }
         #ai-bot-input {
@@ -391,37 +339,31 @@
         }
         #ai-bot-input:focus { border-color: #38bdf8; }
         #ai-bot-input:disabled { background: #f8fafc; color: #94a3b8; }
-
-        #ai-bot-send { 
-            background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%); 
-            color: white; width: 42px; height: 42px; border-radius: 12px; 
-            display: flex; align-items: center; justify-content: center; 
-            transition: 0.2s; border: none; cursor: pointer; 
+        #ai-bot-send {
+            background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
+            color: white; width: 42px; height: 42px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            transition: 0.2s; border: none; cursor: pointer;
         }
         #ai-bot-send:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15); }
         #ai-bot-send:disabled { opacity: 0.5; cursor: not-allowed; }
         #ai-bot-send svg { width: 20px; height: 20px; fill: white; }
-
         .ai-bot-suggestions { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 16px 12px 16px; background: #f8fafc; }
         .ai-bot-suggest-btn {
             background: white; border: 1.5px solid #e2e8f0; padding: 6px 10px; border-radius: 10px;
             font-size: 10.5px; font-weight: 800; color: #64748b; cursor: pointer; transition: 0.2s;
         }
         .ai-bot-suggest-btn:hover { border-color: #38bdf8; color: #2563eb; background: #f0f9ff; }
-
         .ai-bot-status-text { font-size: 10px; color: #94a3b8; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 8px; display: none; text-align: center; }
-
         .ai-bot-thinking { display: flex; gap: 4px; padding: 4px 0; }
         .ai-bot-dot { width: 6px; height: 6px; background: #94a3b8; border-radius: 50%; animation: ai-bot-bounce 1.4s infinite ease-in-out; }
         .ai-bot-dot:nth-child(2) { animation-delay: 0.2s; }
         .ai-bot-dot:nth-child(3) { animation-delay: 0.4s; }
         @keyframes ai-bot-bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
-
         @media (max-width: 640px) {
             #ai-bot-panel { width: calc(100vw - 24px); height: 500px; }
         }
         /* AI BOT WIDGET END */
-
         /* --- PHẦN BỔ SUNG: COMPANY INTRO & VIDEO --- */
         .company-intro-page {
             position: relative; width: 100%; height: 100%; overflow-y: auto; overflow-x: hidden;
@@ -441,12 +383,10 @@
             .company-intro-back-btn { top: 16px; left: 16px; padding: 8px 16px; font-size: 13px; }
             .company-intro-logo { top: 16px; right: 16px; width: 130px; }
         }
-
         .company-intro-content {
             width: 100%; max-width: 1400px; margin: 0 auto; padding-top: 100px; padding-bottom: 60px;
             display: flex; flex-direction: column; align-items: center; gap: 40px;
         }
-
         .company-intro-card {
             background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); border: 1.5px solid rgba(255,255,255,0.7);
             border-radius: 48px; padding: 40px 50px; text-align: center; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -459,14 +399,12 @@
             transition: all 0.4s ease;
         }
         .company-intro-card:hover .company-intro-icon-circle { transform: scale(1.1) rotate(5deg); }
-        
         /* Video Page Enhanced */
         .company-video-card {
             background: rgba(255, 255, 255, 0.95); border: 1px solid #f1f5f9; border-radius: 32px; overflow: hidden;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer;
         }
         .company-video-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); border-color: var(--sky-primary); }
-        
         .company-video-thumbnail {
             position: relative;
             width: 100%;
@@ -480,20 +418,17 @@
             gap: 40px;
             align-content: start;
         }
-        
         /* Card tự giãn theo ô grid */
         .company-media-grid .company-video-card {
             width: 100%;
             height: 100%;
         }
-        
         /* Màn hình rất rộng: card không bị quá to */
         @media (min-width: 1800px) {
             .company-media-grid {
                 grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
             }
         }
-        
         /* Tablet */
         @media (max-width: 1024px) {
             .company-media-grid {
@@ -501,7 +436,6 @@
                 gap: 28px;
             }
         }
-        
         /* Mobile */
         @media (max-width: 640px) {
             .company-media-grid {
@@ -509,7 +443,6 @@
                 gap: 22px;
             }
         }
-        
         /* Nền phụ: phủ kín toàn khung bằng chính ảnh thumbnail, có blur */
         .company-video-thumbnail::before {
             content: "";
@@ -524,7 +457,6 @@
             opacity: 0.55;
             z-index: 0;
         }
-        
         /* Lớp phủ nhẹ để nền không lấn ảnh chính */
         .company-video-thumbnail::after {
             content: "";
@@ -534,7 +466,6 @@
             z-index: 1;
             pointer-events: none;
         }
-        
         /* Ảnh chính: hiển thị đủ, không bị crop */
         .company-video-thumbnail img {
             position: relative;
@@ -545,25 +476,21 @@
             object-position: center;
             transition: filter 0.4s ease;
         }
-        
         /* Không zoom ảnh để tránh bị che chữ/logo */
         .company-video-card:hover .company-video-thumbnail img {
             transform: none;
             filter: brightness(1.05);
         }
-        
         .company-video-overlay {
             position: absolute; inset: 0; background: rgba(0,0,0,0); transition: background 0.4s; z-index: 5;
         }
         .company-video-card:hover .company-video-overlay { background: rgba(0,0,0,0.2); }
-        
         .company-video-play-btn {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
             width: 54px; height: 54px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center;
             box-shadow: 0 8px 20px rgba(0,0,0,0.2); transition: all 0.4s; z-index: 10; color: var(--oil-slate);
         }
         .company-video-card:hover .company-video-play-btn { transform: translate(-50%, -50%) scale(1.15); background: var(--sky-primary); color: white; }
-
         /* Floating popup mô tả video - nằm ngoài card */
         .video-desc-floating-popup {
             position: fixed;
@@ -571,32 +498,25 @@
             width: min(520px, calc(100vw - 40px));
             max-height: min(420px, calc(100vh - 80px));
             overflow: hidden;
-        
             background: rgba(15, 23, 42, 0.88);
             backdrop-filter: blur(18px);
             -webkit-backdrop-filter: blur(18px);
-        
             border: 1px solid rgba(255, 255, 255, 0.18);
             border-radius: 24px;
             box-shadow: 0 24px 60px rgba(15, 23, 42, 0.34);
-        
             padding: 18px 20px;
             color: white;
-        
             opacity: 0;
             transform: translateY(10px) scale(0.98);
             pointer-events: none;
             transition: opacity 0.22s ease, transform 0.22s ease;
         }
-        
         .video-desc-floating-popup.show {
             opacity: 1;
             transform: translateY(0) scale(1);
-        
             /* Quan trọng: cho phép rê chuột vào popup và scroll */
             pointer-events: auto;
         }
-        
         .video-desc-floating-title {
             font-size: 13px;
             font-weight: 900;
@@ -608,28 +528,22 @@
             padding-bottom: 10px;
             border-bottom: 1px solid rgba(255,255,255,0.16);
         }
-        
         .video-desc-floating-text {
             font-size: 14px;
             font-weight: 600;
             line-height: 1.65;
             color: rgba(255,255,255,0.92);
-        
             max-height: 320px;
             overflow-y: auto;
             padding-right: 8px;
-        
             /* Giữ xuống dòng từ Excel / Google Sheet */
             white-space: pre-line;
-        
             /* Khi scroll trong popup thì không kéo page phía sau */
             overscroll-behavior: contain;
         }
-        
         .video-desc-floating-text::-webkit-scrollbar {
             width: 4px;
         }
-        
         .video-desc-floating-text::-webkit-scrollbar-thumb {
             background: rgba(255,255,255,0.42);
             border-radius: 999px;
@@ -651,21 +565,17 @@
             gap: 28px;
             z-index: 10;
         }
-
         .company-map-side.left {
             align-items: stretch;
             padding-right: 120px;
         }
-        
         .company-map-side.right {
             align-items: stretch;
             padding-left: 120px;
         }
-        
         .company-map-node-wrapper {
             width: 100%;
         }
-        
         .company-map-node-l1 {
             width: 100%;
             height: 72px;
@@ -685,7 +595,6 @@
             gap: 15px;
         }
         .company-map-node-l1:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
-        
         /* Giới hạn 2 dòng cho node text */
         .company-map-node-text {
             display: -webkit-box;
@@ -697,7 +606,6 @@
             max-height: 2.6em;
             flex: 1;
         }
-        
         /* Cấu trúc nút dấu cộng mới */
         .company-map-toggle-btn {
             width: 28px; height: 28px; background: rgba(255, 255, 255, 0.9); border-radius: 50%;
@@ -706,7 +614,6 @@
         }
         .company-map-node-l1:hover .company-map-toggle-btn { transform: scale(1.1); box-shadow: 0 0 12px rgba(255,255,255,0.8); }
         .company-map-node-l1.expanded .company-map-toggle-btn { transform: rotate(45deg); background: white; }
-        
         .company-map-children-container {
             max-height: 0;
             overflow: hidden;
@@ -720,11 +627,10 @@
         .company-map-child-item { padding: 9px 16px; font-size: 14px; background: #f8fafc; border-radius: 12px; font-weight: 600; color: #1e293b; transition: 0.2s; border: 1px solid transparent; }
         .company-map-child-item:hover { transform: translateX(6px); background: #f1f5f9; border-color: #e2e8f0; }
         .company-map-connection-path { fill: none; stroke-width: 2.8; stroke-linecap: round; opacity: 0.4; pointer-events: none; transition: d 0.4s; }
-        
         /* Modal Video Logic Mẫu */
         .video-modal-overlay {
             position: fixed; inset: 0; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px); z-index: 2000;
-            display: flex; align-items: center; justify-content: center; padding: 20px; 
+            display: flex; align-items: center; justify-content: center; padding: 20px;
         }
         .video-modal-container {
             width: 100%;
@@ -735,7 +641,6 @@
             gap: 15px;
             position: relative;
         }
-        
         .video-modal-iframe-wrapper {
             width: 100%;
             height: min(78vh, 780px);
@@ -748,7 +653,6 @@
         .video-modal-header { display: flex; justify-content: space-between; align-items: center; padding: 0 10px; color: white; }
         .video-modal-close { background: rgba(255,255,255,0.1); color: white; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.3s; cursor: pointer; }
         .video-modal-close:hover { background: #f43f5e; transform: rotate(90deg); }
-        
         /* Media Queries adjustments */
         @media (max-width: 1024px) {
             .company-map-wrapper { flex-direction: column; gap: 80px; min-width: auto; }
@@ -762,11 +666,8 @@
     </style>
 </head>
 <body class="flex flex-col">
-
 <div class="bg-fixed-overlay" id="bgOverlay"></div>
-
 <div id="app" class="absolute inset-0 flex flex-col p-4 md:p-6 lg:p-8 overflow-hidden">
-    
     <!-- Theme Selector -->
     <div id="themeSelectorContainer" class="absolute top-6 left-6 md:top-8 md:left-8 z-[200]">
         <div class="relative group">
@@ -782,17 +683,14 @@
             </div>
         </div>
     </div>
-
     <!-- Logo chính (Page 1) -->
     <img id="mainLogo" src="image/background/logo.png" alt="O&G Logo" class="absolute top-6 right-6 md:top-8 md:right-8 w-[120px] md:w-[170px] z-[100] object-contain pointer-events-none">
-
     <!-- PAGE 1: SELECTION -->
     <div id="page1" class="flex-1 flex flex-col items-center justify-center space-y-10 overflow-y-auto no-scrollbar">
         <div class="text-center space-y-6 animate-up">
             <div class="inline-flex items-center gap-2 bg-white/50 backdrop-blur px-6 py-2.5 rounded-full text-[15px] font-black uppercase tracking-widest border border-white shadow-sm">
                 <i data-lucide="shield-check" class="w-4 h-4 text-primary-600"></i> O&G Standards Verified
             </div>
-            
             <div class="bg-white/40 backdrop-blur-md border border-white shadow-2xl rounded-[3rem] p-6 md:p-12 max-w-4xl mx-auto">
                 <h1 class="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-black text-slate-900 tracking-tighter mb-4 whitespace-nowrap">
                     CAREER <span class="text-primary-600">PATHWAY</span>
@@ -800,7 +698,6 @@
                 <p class="text-slate-700 font-medium text-[15px] md:text-lg max-w-xl mx-auto text-center">Định hướng nghề nghiệp và phát triển chuyên môn dầu khí</p>
             </div>
         </div>
-
         <div class="glass-panel p-10 rounded-[48px] w-full max-w-md space-y-6 border-white shadow-2xl">
             <div class="space-y-6">
                 <div class="relative" id="customDropdownContainer">
@@ -814,7 +711,7 @@
                         <div class="p-3 border-b border-slate-100 bg-slate-50/80">
                             <div class="relative">
                                 <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
-                                <input type="text" id="roleSearchInput" placeholder="Tìm kiếm nhanh lộ trình..." 
+                                <input type="text" id="roleSearchInput" placeholder="Tìm kiếm nhanh lộ trình..."
                                        class="w-full bg-white border border-slate-200 text-[15px] font-bold text-slate-700 rounded-2xl pl-10 pr-4 py-3 outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all placeholder:font-medium placeholder:text-slate-400">
                             </div>
                         </div>
@@ -822,19 +719,16 @@
                     </div>
                 </div>
             </div>
-            
             <div class="space-y-3">
                 <button id="btnStart" class="w-full bg-primary-600 text-white font-black py-5 rounded-3xl shadow-xl shadow-primary-600/20 flex items-center justify-center gap-3 uppercase tracking-widest text-[15px] transition-all group opacity-60 cursor-not-allowed">
                     Bắt đầu tìm hiểu <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
                 </button>
-                
                 <button onclick="showPage('companyIntro')" class="w-full bg-white/60 hover:bg-white text-primary-600 border-2 border-primary-100 font-black py-4 rounded-3xl flex items-center justify-center gap-3 uppercase tracking-widest text-[14px] transition-all group backdrop-blur-sm">
                     <i data-lucide="building-2" class="w-5 h-5"></i> Tìm hiểu về công ty
                 </button>
             </div>
         </div>
     </div>
-
     <!-- PAGE: COMPANY INTRO -->
     <div id="pageCompanyIntro" class="hidden company-intro-page animate-up">
         <!-- Home Button & Logo positioned absolutely -->
@@ -842,7 +736,6 @@
             <i data-lucide="home" class="w-4 h-4 mr-1"></i> Trang chủ
         </button>
         <img src="image/background/logo.png" alt="PTSC Logo" class="company-intro-logo">
-
         <div class="company-intro-content">
             <div class="text-center space-y-4 px-6">
                 <div class="w-20 h-20 bg-primary-600 text-white rounded-full flex items-center justify-center mx-auto shadow-2xl shadow-primary-500/30 mb-2">
@@ -851,7 +744,6 @@
                 <h2 class="text-4xl md:text-6xl font-black text-slate-900 uppercase tracking-tighter leading-tight">Tìm hiểu về <span class="text-primary-600">PTSC POS</span></h2>
                 <p class="text-slate-600 font-bold text-xl md:text-2xl max-w-3xl mx-auto">Khám phá thông tin tổng quan về Công ty và hệ thống chức danh nghề nghiệp</p>
             </div>
-
             <div class="grid grid-cols-1 md:grid-cols-2 gap-10 w-full max-w-7xl px-8">
                 <div class="company-intro-card group" onclick="showPage('companyVideos')">
                     <div class="company-intro-icon-circle"><i data-lucide="play-circle" class="w-12 h-12"></i></div>
@@ -872,7 +764,6 @@
             </div>
         </div>
     </div>
-
     <!-- PAGE: COMPANY VIDEOS -->
     <div id="pageCompanyVideos" class="hidden h-full flex flex-col gap-6 animate-up overflow-hidden">
         <div class="flex items-center justify-between px-6 shrink-0">
@@ -885,32 +776,27 @@
             </div>
             <div class="w-[100px] hidden md:block"></div>
         </div>
-
         <div id="videoGrid" class="flex-1 overflow-y-auto px-8 pb-12 company-media-grid custom-scrollbar">
             <!-- Video Cards injected via JS -->
             <div class="col-span-full text-center py-20 text-slate-400 font-bold text-lg animate-pulse">Đang tải danh sách video...</div>
         </div>
     </div>
-
     <!-- PAGE: COMPANY MINDMAP -->
     <div id="pageCompanyMindmap" class="hidden h-full flex flex-col animate-up overflow-hidden">
         <div class="flex flex-col md:flex-row items-center justify-between px-6 py-4 shrink-0 gap-4">
             <button onclick="showPage('companyIntro')" class="flex items-center gap-2 bg-white/80 backdrop-blur px-5 py-2.5 rounded-full text-slate-700 font-black text-[15px] uppercase tracking-widest border shadow-sm hover:bg-white transition-all">
                 <i data-lucide="arrow-left" class="w-4 h-4"></i> Quay lại
             </button>
-            
             <div class="flex items-center gap-3">
                 <input type="text" id="companyMapSearchInput" class="bg-white/90 border border-slate-200 px-6 py-2.5 rounded-full text-[14px] font-bold outline-none focus:ring-4 focus:ring-primary-500/10 min-w-[250px]" placeholder="Tìm nhanh chức danh...">
                 <button onclick="companyMapToggleAll(true)" class="bg-slate-100 hover:bg-white text-slate-700 px-4 py-2.5 rounded-full font-black text-[12px] uppercase tracking-widest transition-all">Mở hết</button>
                 <button onclick="companyMapToggleAll(false)" class="bg-slate-100 hover:bg-white text-slate-700 px-4 py-2.5 rounded-full font-black text-[12px] uppercase tracking-widest transition-all">Thu gọn</button>
             </div>
-            
             <div class="text-right hidden md:block">
                 <h2 class="text-xl font-black text-slate-900 uppercase">Sơ đồ chức danh</h2>
                 <span class="text-[12px] font-bold text-primary-600 uppercase tracking-widest">PTSC POS ORGANIZATION</span>
             </div>
         </div>
-
         <div class="company-map-viewport custom-scrollbar" id="companyMapViewport">
             <div class="company-map-wrapper" id="companyMapWrapper">
                 <svg id="companyMapConnectionLayer" class="absolute top-0 left-0 w-full h-full pointer-events-none" style="z-index: 1;"></svg>
@@ -920,7 +806,6 @@
             </div>
         </div>
     </div>
-
     <!-- PAGE 1.5: JOURNEY OVERVIEW -->
     <div id="pageOverview" class="hidden h-full flex flex-col gap-6 animate-up overflow-hidden">
         <div class="flex items-center justify-between shrink-0 px-2">
@@ -933,7 +818,6 @@
             </div>
             <button id="btnGoToDetail" class="btn-premium-action">Chi tiết <i data-lucide="zap" class="w-4 h-4 text-white"></i></button>
         </div>
-
         <div class="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 min-h-0 overflow-hidden">
             <div class="lg:col-span-9 relative flex flex-col order-1 h-full overflow-hidden">
                 <div class="roadmap-viewport" id="roadmapViewport">
@@ -954,7 +838,6 @@
                     </div>
                 </div>
             </div>
-
             <!-- Sidebar -->
             <div class="lg:col-span-3 order-2 custom-scrollbar overflow-y-auto lg:h-full pb-6">
                 <div class="sidebar-container lg:h-full">
@@ -981,7 +864,6 @@
             </div>
         </div>
     </div>
-
     <!-- PAGE 2: DASHBOARD -->
     <div id="page2" class="hidden h-full flex flex-col gap-4 animate-up overflow-hidden">
         <div class="flex items-center justify-between shrink-0 px-2">
@@ -993,7 +875,6 @@
                 <span id="detailJobFamily" class="bg-primary-600 text-white text-[15px] font-bold px-3 py-1 rounded-full uppercase tracking-widest mt-1">---</span>
             </div>
         </div>
-
         <div class="flex-1 grid grid-cols-12 gap-6 overflow-hidden pb-4">
             <div class="col-span-12 lg:col-span-3 glass-panel p-6 rounded-[32px] overflow-y-auto no-scrollbar flex lg:flex-col gap-2">
                 <h3 class="hidden lg:block text-[15px] font-black text-slate-400 uppercase tracking-widest mb-2 text-center">Lộ trình thăng tiến</h3>
@@ -1012,7 +893,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="col-span-12 lg:col-span-9 flex flex-col glass-panel rounded-[32px] overflow-hidden">
                 <div class="p-8 bg-white/40 border-b border-slate-100">
                     <div class="flex items-center gap-10">
@@ -1029,7 +909,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="flex gap-4 px-10 border-b border-slate-100 bg-white/20 shrink-0 overflow-x-auto no-scrollbar">
                     <button class="tab-btn active" onclick="switchTab('tab-works')">CÔNG VIỆC & KPI</button>
                     <button class="tab-btn" onclick="switchTab('tab-skills')">NĂNG LỰC & KỸ NĂNG</button>
@@ -1037,7 +916,6 @@
                     <button class="tab-btn" onclick="switchTab('tab-next')">TIÊU CHÍ THĂNG CẤP</button>
                     <button class="tab-btn" onclick="switchTab('tab-benefits')">ĐÃI NGỘ & PHÚC LỢI</button>
                 </div>
-
                 <div id="detailView" class="flex-1 overflow-y-auto p-10 custom-scrollbar">
                     <div id="tab-works" class="tab-content animate-up">
                         <div class="grid grid-cols-1 lg:grid-cols-5 gap-12">
@@ -1052,7 +930,6 @@
                         </div>
                         <div class="mt-12 p-6 rounded-3xl bg-primary-50 border border-primary-100"><span class="text-[15px] font-black text-primary-600 uppercase mb-2 block">Tóm tắt</span><p id="typicalScopeText" class="text-[15px] font-medium text-slate-700 italic leading-relaxed">---</p></div>
                     </div>
-
                     <div id="tab-skills" class="tab-content hidden animate-up">
                         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
                             <div class="lg:col-span-7">
@@ -1067,7 +944,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div id="tab-learning" class="tab-content hidden animate-up space-y-12">
                         <div>
                             <h4 class="text-slate-900 font-black uppercase tracking-widest text-[15px] mb-6 flex items-center gap-2"><i data-lucide="graduation-cap" class="w-5 h-5 text-primary-600"></i> Đào tạo gợi ý</h4>
@@ -1078,7 +954,6 @@
                             <div id="certList" class="flex flex-wrap gap-2"></div>
                         </div>
                     </div>
-
                     <div id="tab-next" class="tab-content hidden animate-up space-y-12">
                          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
                              <div>
@@ -1092,7 +967,6 @@
                          </div>
                          <div class="p-6 rounded-3xl bg-primary-50 border border-primary-100"><span class="text-[15px] font-black text-primary-600 uppercase mb-1 block">Vị trí mục tiêu tiếp theo</span><p id="nextTargetRole" class="text-lg font-black text-slate-900 uppercase">---</p></div>
                     </div>
-
                     <!-- TAB 5: ĐÃI NGỘ & PHÚC LỢI NÂNG CẤP -->
                     <div id="tab-benefits" class="tab-content hidden animate-up">
                         <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
@@ -1123,7 +997,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="p-6 border-t border-slate-100 bg-white/40 flex items-center justify-between">
                     <button id="prevBtn" class="text-[15px] font-black uppercase text-slate-400 hover:text-primary-600 transition-all flex items-center gap-2"><i data-lucide="chevron-left" class="w-5 h-5"></i> Trước</button>
                     <div id="pageCounter" class="text-[15px] font-black text-slate-300">01 / 05</div>
@@ -1132,7 +1005,6 @@
             </div>
         </div>
     </div>
-
     <!-- VIDEO MODAL ENHANCED Logic Patch -->
     <div id="videoModal" class="video-modal-overlay hidden opacity-0 transition-opacity duration-300" onclick="closeVideoModal()">
         <div id="videoModalContent" class="video-modal-container scale-95 transition-transform duration-300" onclick="event.stopPropagation()">
@@ -1147,22 +1019,17 @@
             </div>
         </div>
     </div>
-    
     <div id="videoDescFloatingPopup" class="video-desc-floating-popup hidden">
     <div id="videoDescFloatingTitle" class="video-desc-floating-title"></div>
     <div id="videoDescFloatingText" class="video-desc-floating-text"></div>
     </div>
-    
     <!-- TOAST -->
     <div id="toastContainer" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[999] flex flex-col gap-3 pointer-events-none"></div>
-
 </div>
-
 <!-- AI BOT WIDGET -->
 <div id="ai-bot-trigger" class="ai-bot-periodic-shake">
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="white"><path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12l4 4V4c0-1.1-.9-2-2-2zm-2 12H4V4h14v10zM6 7h8v2H6V7zm0 3h5v2H6v-2z"/></svg>
 </div>
-
 <div id="ai-bot-panel">
     <div class="ai-bot-header">
         <div class="flex items-center gap-3">
@@ -1181,20 +1048,17 @@
             <svg viewBox="0 0 24 24" style="width:20px; height:20px; fill:white;"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
         </button>
     </div>
-
     <div id="ai-bot-messages" class="ai-bot-messages custom-scrollbar">
         <div class="ai-bot-bubble ai-bot-bubble-bot">
             <div class="ai-bot-markdown">Xin chào! Tôi là trợ lý định hướng nghề nghiệp Dầu khí của Công ty cổ phần Vận hành và Xây lắp PTSC. Tôi có thể giúp gì cho bạn hôm nay?</div>
         </div>
     </div>
-
     <div class="ai-bot-suggestions">
         <button class="ai-bot-suggest-btn" data-query="Ngành Điện - Tự động hóa nên chọn vị trí nào?">Điện - Tự động hóa?</button>
         <button class="ai-bot-suggest-btn" data-query="Planning Engineer cần kỹ năng gì?">Planning Engineer?</button>
         <button class="ai-bot-suggest-btn" data-query="Mức thu nhập trung bình cho các cấp bậc và đãi ngộ, phúc lợi?">Thu nhập?</button>
         <button class="ai-bot-suggest-btn" data-query="Tôi chưa biết mình thích ngành gì, hãy định hướng cho tôi.">Định hướng nghề nghiệp?</button>
     </div>
-
     <div class="ai-bot-input-area">
         <div class="ai-bot-input-container">
             <input type="text" id="ai-bot-input" placeholder="Đặt câu hỏi cho trợ lý AI..." autocomplete="off">
@@ -1205,22 +1069,19 @@
         <div id="ai-bot-status" class="ai-bot-status-text">AI đang soạn câu trả lời...</div>
     </div>
 </div>
-
 <script>
     let masterData = [];
-    let salaryBenefitData = []; 
+    let salaryBenefitData = [];
     let benefitListData = [];
     let currentRoleMilestones = [];
     let currentIdx = 0;
     let animationLoopId = null;
-    let selectedRoleValue = ""; 
+    let selectedRoleValue = "";
     let isFileLoaded = false;
     let isRoleSelected = false;
-
     let aiBotGeminiModel = "gemini-3.1-flash-lite-preview";
     let aiBotGeminiApiKey = "";
     let aiBotCompensationData = "";
-    
     let aiBotAnswerRule = `QUY TẮC TRẢ LỜI:
     1. Chỉ sử dụng thông tin có trong dữ liệu CSV và dữ liệu thu nhập/phúc lợi được cung cấp. Không tự bịa thêm.
     2. Nếu dữ liệu không đủ, trả lời ngắn: "Dữ liệu hiện tại chưa có đủ thông tin về nội dung này."
@@ -1231,10 +1092,8 @@
     7. Nếu người dùng hỏi về mức thu nhập, lương, đãi ngộ hoặc phúc lợi, hãy sử dụng dữ liệu salary và benefit nếu có.
     8. Khi trả lời về lương hoặc thu nhập, luôn nói rõ đây chỉ là mức tham khảo. Thực tế phụ thuộc vào kinh nghiệm, năng lực, vị trí, cấp bậc, phạm vi công việc, dự án tham gia, hiệu quả công việc và chính sách lương thưởng từng thời kỳ của Công ty.
     9. Ngôn ngữ: tiếng Việt, rõ ràng, chuyên nghiệp. Tuyệt đối không dùng markdown thô như **, ##, ### hay dấu * trước nội dung chi tiết.`;
-
     // --- QUAN TRỌNG: Khôi phục progressionColors để sửa lỗi Page 1.5 ---
     const progressionColors = ['#10b981', '#0ea5e9', '#6366f1', '#8b5cf6', '#d946ef', '#f59e0b'];
-
     // --- DỮ LIỆU VIDEO (DỰ PHÒNG & CHỜ TẢI) ---
     let companyVideoData = [];
     const companyVideoFallbackData = [
@@ -1287,7 +1146,6 @@
             thumbnail: 'image/thumbnails/pptx1.png'
         }
     ];
-
     // --- COMPANY MINDMAP DATA (PREFIXED) ---
     let companyMapData = [];
     const companyMapFallbackData = [
@@ -1307,9 +1165,7 @@
         { id: 'ms', side: 'left', colorGrad: 'linear-gradient(135deg, #22c55e, #16a34a)', colorRaw: '#22c55e', title: 'Cung ứng nhân lực / Manpower Supply', children: ['Chuyên viên điều phối nguồn nhân lực / Manpower Coordinator', 'Chuyên viên nguồn nhân lực dự án / Project Human Resources Officer', 'Chuyên viên điều phối đào tạo nhân lực dự án / Project Manpower Training Coordinator', 'Chuyên viên dịch vụ / Subservice Officer'] }
     ];
     companyMapData = companyMapFallbackData;
-
     lucide.createIcons();
-
     const btnStart = document.getElementById('btnStart');
     const bgOverlay = document.getElementById('bgOverlay');
     const themeSelectorContainer = document.getElementById('themeSelectorContainer');
@@ -1320,7 +1176,6 @@
     const dropdownSelectedText = document.getElementById('dropdownSelectedText');
     const customRoleList = document.getElementById('customRoleList');
     const roleSearchInput = document.getElementById('roleSearchInput');
-
     function showToast(message, type = 'warning') {
         const container = document.getElementById('toastContainer');
         if (!container) return;
@@ -1331,7 +1186,6 @@
         lucide.createIcons();
         setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translateY(20px)'; toast.style.transition = 'all 0.4s ease'; setTimeout(() => toast.remove(), 400); }, 3000);
     }
-
     function toggleThemeMenu(e) {
         if(e) e.stopPropagation();
         const menu = document.getElementById('themeMenu');
@@ -1344,13 +1198,11 @@
             menu.classList.add('opacity-100', 'scale-y-100', 'pointer-events-auto');
         }
     }
-
     function setTheme(themeName) {
         if(themeName === 'default') document.documentElement.removeAttribute('data-theme');
         else document.documentElement.setAttribute('data-theme', themeName);
-        toggleThemeMenu(); 
+        toggleThemeMenu();
     }
-
     function getLevelVisuals(levelText) {
         const lvl = (levelText || "").toLowerCase();
         if (lvl.includes('entry')) return { icon: 'seedling', progress: 20, iconName: '🌱' };
@@ -1360,13 +1212,11 @@
         if (lvl.includes('manager') || lvl.includes('management') || lvl.includes('director')) return { icon: 'crown', progress: 100, iconName: '👑' };
         return { icon: 'briefcase', progress: 50, iconName: '💼' };
     }
-
     function getSalaryRange(levelText) {
         const lvl = (levelText || "").toLowerCase();
         const found = salaryBenefitData.find(d => (d.milestone_level || "").trim().toLowerCase() === lvl);
-        return found ? found.salary : "Thỏa thuận";                                     
+        return found ? found.salary : "Thỏa thuận";
     }
-
     function getRoleIcon(roleName) {
         const name = roleName.toLowerCase();
         if (name.includes('hvac') || name.includes('mechanical') || name.includes('piping') || name.includes('equipment')) return 'wrench';
@@ -1380,9 +1230,8 @@
         if (name.includes('paint') || name.includes('blast') || name.includes('coat')) return 'paint-roller';
         if (name.includes('commissioning') || name.includes('start')) return 'power';
         if (name.includes('flange') || name.includes('weld') || name.includes('joint')) return 'link-2';
-        return 'briefcase'; 
+        return 'briefcase';
     }
-
     function mapVideoRows(rows) {
         return rows
             .filter(row => {
@@ -1396,7 +1245,6 @@
             })
             .map(row => {
                 const contentType = (row.content_type || 'video').trim().toLowerCase();
-    
                 return {
                     contentType,
                     title: (row.title || '').trim(),
@@ -1407,18 +1255,14 @@
                 };
             });
     }
-
     function mapMindmapRows(rows) {
         const groupMap = new Map();
-    
         rows
             .filter(row => (row.id || '').trim() && (row.title || '').trim())
             .forEach((row, index) => {
                 const id = (row.id || '').trim();
-    
                 if (!groupMap.has(id)) {
                     const sideValue = String(row.side || 'right').trim().toLowerCase();
-    
                     groupMap.set(id, {
                         id,
                         side: sideValue === 'left' ? 'left' : 'right',
@@ -1429,11 +1273,9 @@
                         children: []
                     });
                 }
-    
                 const group = groupMap.get(id);
                 const childTitle = (row.child_title || '').trim();
                 const childOrder = Number(row.child_order || 999999);
-    
                 if (childTitle) {
                     group.children.push({
                         order: Number.isFinite(childOrder) ? childOrder : 999999,
@@ -1441,7 +1283,6 @@
                     });
                 }
             });
-    
         return Array.from(groupMap.values())
             .sort((a, b) => a.order - b.order)
             .map(group => ({
@@ -1455,7 +1296,6 @@
                     .map(child => child.title)
             }));
     }
-    
     function getMediaBadgeText(contentType) {
         if (contentType === 'pdf') return 'PDF';
         if (contentType === 'ppt' || contentType === 'pptx') return 'PPTX';
@@ -1470,7 +1310,6 @@
         if (contentType === 'image') return 'image';
         return 'play';
     }
-    
     function getMediaActionText(contentType) {
         if (contentType === 'pdf') return 'Xem PDF';
         if (contentType === 'ppt' || contentType === 'pptx') return 'Xem slide';
@@ -1478,7 +1317,6 @@
         if (contentType === 'image') return 'Xem ảnh';
         return 'Xem video';
     }
-
     async function loadExcelDataAutomatically() {
         try {
             const protocol = window.location.protocol;
@@ -1491,20 +1329,16 @@
             const configResponse = await fetch('./config.json');
             if (!configResponse.ok) throw new Error('Không tìm thấy file config.json');
             const config = await configResponse.json();
-            
             const [roadmapRes, benefitRes] = await Promise.all([
                 fetch(config.sheetUrl),
                 fetch(config.sheetUrl2)
             ]);
-
             if (!roadmapRes.ok || !benefitRes.ok) throw new Error(`Lỗi kết nối dữ liệu.`);
             const [csvText, benefitCsvText] = await Promise.all([ roadmapRes.text(), benefitRes.text() ]);
-
             masterData = parseCSV(csvText);
             const benefitData = parseCSV(benefitCsvText);
             salaryBenefitData = benefitData.filter(d => d.milestone_level && d.salary);
             benefitListData = benefitData.filter(d => d.benefit);
-
             const aiConfigRow = benefitData.find(row => row.model || row.api_key || row.answer_rule);
             if (aiConfigRow) {
                 if (aiConfigRow.model) aiBotGeminiModel = aiConfigRow.model.trim();
@@ -1534,16 +1368,13 @@
             } catch (vErr) {
                 companyVideoData = companyVideoFallbackData;
             }
-
             try {
                 if (config.sheetUrl4) {
                     const mindmapRes = await fetch(config.sheetUrl4);
-            
                     if (mindmapRes.ok) {
                         const mindmapCsvText = await mindmapRes.text();
                         const mindmapRows = parseCSV(mindmapCsvText);
                         const mappedMindmapData = mapMindmapRows(mindmapRows);
-            
                         companyMapData = mappedMindmapData.length > 0
                             ? mappedMindmapData
                             : companyMapFallbackData;
@@ -1553,18 +1384,13 @@
                 } else {
                     companyMapData = companyMapFallbackData;
                 }
-            
                 companyMapCreated = false;
-
                 const pageCompanyMindmap = document.getElementById('pageCompanyMindmap');
-
                 if (pageCompanyMindmap && !pageCompanyMindmap.classList.contains('hidden')) {
                     const leftSide = document.getElementById('companyMapSideLeft');
                     const rightSide = document.getElementById('companyMapSideRight');
-                
                     if (leftSide) leftSide.innerHTML = '';
                     if (rightSide) rightSide.innerHTML = '';
-                
                     companyMapInitOnce();
                     setTimeout(companyMapDrawConnections, 100);
                 }
@@ -1573,7 +1399,6 @@
                 companyMapData = companyMapFallbackData;
                 companyMapCreated = false;
             }
-            
             const roles = [...new Set(masterData.map(d => d.function_title))].filter(Boolean);
             customRoleList.innerHTML = '';
             roles.sort().forEach(r => {
@@ -1590,11 +1415,9 @@
             dropdownTrigger.classList.add('cursor-pointer');
             dropdownSelectedText.innerText = "-- Vui lòng Chọn Career Path --";
             lucide.createIcons();
-            
             renderVideoGrid();
         } catch (error) { console.error(error); dropdownSelectedText.innerText = "Lỗi tải dữ liệu."; }
     }
-
     function parseCSV(csvText) {
         const rows = [];
         let row = [];
@@ -1615,10 +1438,8 @@
         }
         if (cell || row.length > 0) { row.push(cell.trim()); if (row.some(c => c !== '')) rows.push(row); }
         let headerIndex = 0;
-        
         for (let i = 0; i < rows.length; i++) {
             const normalizedHeader = rows[i].map(c => String(c || '').trim().toLowerCase());
-        
             if (
                 normalizedHeader.includes('function_title') ||
                 normalizedHeader.includes('milestone_level') ||
@@ -1637,16 +1458,14 @@
             const obj = {}; headers.forEach((h, idx) => { obj[h] = (r[idx] || ''); }); return obj;
         });
     }
-
     document.addEventListener('DOMContentLoaded', () => {
     loadExcelDataAutomatically();
     initVideoDescPopupEvents();
     });
-
     function selectCustomRole(roleName, liElement) {
         selectedRoleValue = roleName;
         dropdownSelectedText.innerText = roleName;
-        dropdownSelectedText.classList.replace('text-slate-400', 'text-slate-900'); 
+        dropdownSelectedText.classList.replace('text-slate-400', 'text-slate-900');
         isRoleSelected = true;
         btnStart.classList.remove('opacity-60', 'cursor-not-allowed');
         btnStart.classList.add('cursor-pointer', 'hover:bg-slate-950');
@@ -1654,13 +1473,11 @@
         if (liElement) liElement.classList.add('selected');
         closeDropdown();
     }
-
     dropdownTrigger.addEventListener('click', (e) => {
         e.stopPropagation();
         if (!isFileLoaded) return;
         if (dropdownMenu.classList.contains('opacity-100')) closeDropdown(); else openDropdown();
     });
-
     function openDropdown() {
         dropdownMenu.classList.remove('opacity-0', 'scale-y-95', 'pointer-events-none');
         dropdownMenu.classList.add('opacity-100', 'scale-y-100', 'pointer-events-auto');
@@ -1668,13 +1485,11 @@
         roleSearchInput.value = ''; filterRoles('');
         roleSearchInput.focus();
     }
-
     function closeDropdown() {
         dropdownMenu.classList.remove('opacity-100', 'scale-y-100', 'pointer-events-auto');
         dropdownMenu.classList.add('opacity-0', 'scale-y-95', 'pointer-events-none');
         dropdownIcon.classList.remove('rotate-180');
     }
-
     roleSearchInput.addEventListener('input', (e) => filterRoles(e.target.value));
     function filterRoles(term) {
         const lowerTerm = term.toLowerCase();
@@ -1682,22 +1497,18 @@
             li.style.display = li.dataset.value.toLowerCase().includes(lowerTerm) ? 'flex' : 'none';
         });
     }
-
     document.addEventListener('click', (e) => {
         if (dropdownTrigger && dropdownMenu && !dropdownTrigger.contains(e.target) && !dropdownMenu.contains(e.target)) closeDropdown();
         const tMenu = document.getElementById('themeMenu'); const tBtn = document.getElementById('themeTriggerBtn');
         if (tMenu && tBtn && !tMenu.contains(e.target) && !tBtn.contains(e.target)) { tMenu.classList.remove('opacity-100', 'scale-y-100', 'pointer-events-auto'); tMenu.classList.add('opacity-0', 'scale-y-95', 'pointer-events-none'); }
     });
-
     btnStart.addEventListener('click', () => {
         if (!isRoleSelected) { showToast('Vui lòng chọn một Lộ trình!'); return; }
         currentRoleMilestones = masterData.filter(d => d.function_title === selectedRoleValue).sort((a,b) => (Number(a.milestone_order) || 0) - (Number(b.milestone_order) || 0));
         if(currentRoleMilestones.length > 0) { currentIdx = 0; showPage(1.5); }
     });
-
     function showPage(n) {
         forceHideVideoDescPopup();
-        
         document.querySelectorAll('#app > div').forEach(div => {
             const id = div.id;
             if (id !== 'themeSelectorContainer' && id !== 'toastContainer' && id !== 'videoModal') {
@@ -1705,11 +1516,9 @@
             }
         });
         if (animationLoopId) cancelAnimationFrame(animationLoopId);
-        
         const resetBg = (img) => {
             bgOverlay.style.backgroundImage = `linear-gradient(to bottom, rgba(248, 250, 252, 0.5), rgba(248, 250, 252, 0.5)), url('${img}')`;
         };
-
         if (n === 1) {
             if (logo) logo.classList.remove('hidden'); themeSelectorContainer.classList.remove('hidden'); document.getElementById('page1').classList.remove('hidden');
             bgOverlay.style.backgroundImage = "linear-gradient(to bottom, rgba(248, 250, 252, 0.2), rgba(248, 250, 252, 0.2)), url('image/background/background_3.png')";
@@ -1718,7 +1527,7 @@
             resetBg('image/background/background_4.png');
             // Patch logic: Dùng setTimeout để đảm bảo layout hiển thị trước khi tính toán SVG
             setTimeout(() => {
-                renderOverview(); 
+                renderOverview();
                 initBackgroundParticles();
             }, 150);
         } else if (n === 2) {
@@ -1739,7 +1548,6 @@
         }
         lucide.createIcons();
     }
-
     function initBackgroundParticles() {
         const container = document.getElementById('particleContainer'); if(!container) return; container.innerHTML = '';
         const colors = ['#0ea5e9', '#10b981', '#8b5cf6', '#f59e0b', '#d946ef'];
@@ -1750,30 +1558,26 @@
             container.appendChild(p);
         }
     }
-
     function renderOverview() {
         const viewport = document.getElementById('roadmapViewport');
         const content = document.getElementById('roadmapContent');
         const svgPath = document.getElementById('svgPath');
         if (!viewport || !content || !svgPath) return;
-
         // Patch: Kiểm tra dữ liệu và kích thước viewport
         if (!currentRoleMilestones || currentRoleMilestones.length === 0) {
             showToast('Chưa có dữ liệu lộ trình cho mục này.', 'warning');
             return;
         }
-
         const vW = viewport.clientWidth, vH = viewport.clientHeight;
         if (vW < 100 || vH < 100) {
             // Thử lại nếu viewport chưa lấy được kích thước
             setTimeout(renderOverview, 100);
             return;
         }
-
         content.querySelectorAll('.path-node').forEach(n => n.remove());
         const data = currentRoleMilestones, total = data.length, cardW = 180;
         let masterScale = 1.0;
-        const reqH = (total + 1) * 125 + 160; 
+        const reqH = (total + 1) * 125 + 160;
         if (vH < reqH) masterScale = Math.max(vH / reqH, 0.62);
         const marginX = 10, marginY = 60, startX = marginX + 15, startY = vH - marginY - 140, endX = vW - marginX - cardW - 15, endY = marginY + 25, yOffset = 70;
         const anchors = [];
@@ -1795,7 +1599,6 @@
             }
             content.appendChild(node);
         }
-
         setTimeout(() => {
             const sEdge = document.getElementById('stairEdge'), sPoly = document.getElementById('stairPolygon');
             if(sEdge && sPoly) {
@@ -1818,7 +1621,6 @@
                 sPoly.classList.remove('opacity-0');
             }
         }, 150);
-
         let dStr = `M ${anchors[0].x} ${anchors[0].y}`;
         for (let i = 1; i < anchors.length; i++) {
             const p1 = anchors[i-1], p2 = anchors[i], midX = (p1.x + p2.x) / 2, cy = Math.min(p1.y, p2.y) - (150 * masterScale);
@@ -1844,7 +1646,6 @@
         setTimeout(() => content.querySelectorAll('.path-node').forEach(n => n.classList.add('show')), 50);
         lucide.createIcons();
     }
-
     function renderDashboard() {
         const data = currentRoleMilestones[currentIdx]; if(!data) return;
         document.getElementById('detailFuncTitle').innerText = data.function_title;
@@ -1854,14 +1655,12 @@
         document.getElementById('rolePurposeLabel').innerText = data.role_purpose || '---';
         document.getElementById('msIcon').src = data.icon_image_path || 'https://cdn-icons-png.flaticon.com/512/1063/1063376.png';
         document.getElementById('msOrderBadge').innerText = currentIdx + 1;
-
         const vsl = getLevelVisuals(data.milestone_level);
         document.getElementById('salaryLevelText').innerText = data.milestone_level;
         document.getElementById('salaryRangeDisplay').innerText = getSalaryRange(data.milestone_level);
         document.getElementById('salaryProgressBar').style.width = `${vsl.progress}%`;
         document.getElementById('levelBadgeIcon').innerHTML = `<span class="text-3xl">${vsl.iconName}</span>`;
         document.getElementById('salaryLevelIconBg').innerHTML = `<i data-lucide="${vsl.icon}" class="w-64 h-64 text-primary-500"></i>`;
-
         const benList = document.getElementById('fixedBenefitsList');
         benList.innerHTML = '';
         benefitListData.forEach((b, index) => {
@@ -1869,7 +1668,6 @@
             const icon = iconList[index % iconList.length];
             benList.innerHTML += `<div class="benefit-item-card"><i data-lucide="${icon}" class="w-5 h-5 text-primary-600 shrink-0"></i><span class="text-[14px] font-bold text-slate-700">${b.benefit}</span></div>`;
         });
-        
         const stepper = document.getElementById('detailStepper'); if(stepper) {
             stepper.innerHTML = '';
             currentRoleMilestones.forEach((m, i) => {
@@ -1878,61 +1676,48 @@
                 div.onclick = () => { currentIdx = i; renderDashboard(); }; stepper.appendChild(div);
             });
         }
-
         const progressPercent = currentRoleMilestones.length > 1
         ? (currentIdx / (currentRoleMilestones.length - 1)) * 100
         : 0;
-        
         if (document.getElementById('progressLine')) {
             document.getElementById('progressLine').style.height = `${progressPercent}%`;
         }
-        
         formatSidebarListDynamic('sidebarDevOpp', data.development_opportunity);
         formatSidebarListDynamic('sidebarLongTerm', data.long_term_direction);
         renderBulletList('responsibilitiesList', data.key_responsibilities, 'check-circle-2', 'primary', true);
-        
         const kpiList = document.getElementById('kpiContainer'); kpiList.innerHTML = '';
         if(data.key_outputs_kpis) data.key_outputs_kpis.split(/[\n•·-]/).filter(s => s.trim().length > 5).forEach(kpi => {
             kpiList.innerHTML += `<div class="bg-primary-50/50 p-4 rounded-2xl border border-primary-100 flex items-center gap-3"><div class="w-2 h-2 rounded-full bg-primary-500"></div><span class="text-[15px] font-bold text-slate-700">${kpi.trim()}</span></div>`;
         });
-
         const compCon = document.getElementById('competenciesContainer'); compCon.innerHTML = '';
         if(data.competencies_to_develop) data.competencies_to_develop.split(/[\n•·-]/).filter(s => s.trim().length > 3).forEach((item, i) => {
             const lvl = [86, 75, 96, 65, 80][i % 5];
             compCon.innerHTML += `<div class="skill-bar-container"><div class="flex justify-between text-[15px] font-black uppercase text-slate-500"><span>${item.trim()}</span><span>${lvl}%</span></div><div class="skill-bar-bg"><div class="skill-bar-fill" style="width: ${lvl}%"></div></div></div>`;
         });
-
         const behCon = document.getElementById('behavioralContainer'); behCon.innerHTML = '';
         if(data.behavioral_leadership_skills) data.behavioral_leadership_skills.split(/[\n•·,]/).filter(s => s.trim().length > 3).forEach(skill => {
             const chip = document.createElement('div'); chip.className = "skill-chip"; chip.innerText = skill.trim(); behCon.appendChild(chip);
         });
-
         const toolCon = document.getElementById('toolsContainer'); toolCon.innerHTML = '';
         if(data.technical_skills_tools) data.technical_skills_tools.split(/[\n•·-]/).filter(s => s.trim().length > 3).forEach(tool => {
             toolCon.innerHTML += `<div class="tool-list-item flex items-center gap-2 mb-2"><i data-lucide="chevron-right" class="w-4 h-4 text-primary-500"></i><span class="text-[15px] font-semibold">${tool.trim()}</span></div>`;
         });
-
         renderBulletList('trainingList', data.suggested_training_development, 'graduation-cap', 'primary');
         renderBulletList('readinessList', data.readiness_indicators, 'check-circle-2', 'emerald');
         renderBulletList('promotionList', data.promotion_criteria, 'trending-up', 'indigo');
-        
         document.getElementById('nextTargetRole').innerText = data.next_target_role || '---';
         document.getElementById('typicalScopeText').innerText = data.typical_scope || '---';
-        
         const certCon = document.getElementById('certList'); certCon.innerHTML = '';
         if(data.recommended_certifications) data.recommended_certifications.split(/[\n•·,]/).filter(s => s.trim().length > 2).forEach(c => {
             certCon.innerHTML += `<div class="px-4 py-2 rounded-xl bg-amber-50 text-amber-700 border border-amber-100 font-bold text-[15px]">${c.trim()}</div>`;
         });
-
         document.getElementById('pageCounter').innerText = `${String(currentIdx+1).padStart(2, '0')} / ${String(currentRoleMilestones.length).padStart(2, '0')}`;
         document.getElementById('prevBtn').onclick = () => { if(currentIdx > 0) { currentIdx--; renderDashboard(); } };
         const bNext = document.getElementById('nextBtn');
         bNext.innerText = currentIdx === currentRoleMilestones.length - 1 ? 'KẾT THÚC' : 'Tiếp theo';
         bNext.onclick = () => { if(currentIdx < currentRoleMilestones.length - 1) { currentIdx++; renderDashboard(); } else showPage(1); };
-        
         lucide.createIcons();
     }
-
     function formatSidebarList(id, text) {
         const container = document.getElementById(id); if(!container) return; container.innerHTML = '';
         if(!text) { container.innerHTML = '<span class="text-[15px] italic opacity-60">N/A</span>'; return; }
@@ -1940,7 +1725,6 @@
             container.innerHTML += `<div class="info-item-list"><div class="dot"></div><span>${item.trim()}</span></div>`;
         });
     }
-
     function formatSidebarListDynamic(id, text) {
         const container = document.getElementById(id); if(!container) return; container.innerHTML = '';
         if(!text) { container.innerHTML = '<div class="text-[15px] italic opacity-60">N/A</div>'; return; }
@@ -1948,7 +1732,6 @@
             container.innerHTML += `<div class="dynamic-bullet"><div class="white-dot"></div><span class="dynamic-content-list">${item.trim()}</span></div>`;
         });
     }
-
     function renderBulletList(id, text, icon, color, isResp = false) {
         const el = document.getElementById(id); if (!el) return; el.innerHTML = '';
         if(!text) return el.innerHTML = '<div class="text-slate-400 italic text-[15px]">N/A</div>';
@@ -1956,42 +1739,33 @@
             el.innerHTML += `<div class="${isResp ? 'responsibility-card' : 'flex gap-4 items-start bg-white/60 p-4 rounded-2xl border border-slate-50 shadow-sm mb-3'}"><i data-lucide="${icon}" class="w-5 h-5 text-${color}-600 mt-0.5 shrink-0"></i><span class="text-[15px] font-medium text-slate-700 leading-relaxed">${item.trim()}</span></div>`;
         });
     }
-
     function switchTab(id) {
         document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
         const target = document.getElementById(id); if(target) target.classList.remove('hidden');
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         if(event) event.target.classList.add('active'); lucide.createIcons();
     }
-
     // --- LOGIC VIDEO ENHANCED & FIXED MODAL ---
     function renderVideoGrid() {
         forceHideVideoDescPopup();
-        
         const grid = document.getElementById('videoGrid');
         if (!grid) return;
-        
         if (companyVideoData.length === 0) {
             grid.innerHTML = `<div class="col-span-full text-center py-20 text-slate-400 font-bold text-lg">Chưa có nội dung giới thiệu được cấu hình.</div>`;
             return;
         }
-
         grid.innerHTML = '';
         companyVideoData.forEach((v) => {
             const contentType = String(v.contentType || 'video').trim().toLowerCase();
-        
             const card = document.createElement('div');
             card.className = "company-video-card flex flex-col animate-up";
             card.addEventListener('click', () => openMediaModal(v.driveId, v.title, contentType));
-            
             card.addEventListener('mouseenter', () => {
                 showVideoDescPopup(card, v.title, v.description);
             });
-            
             card.addEventListener('mousemove', () => {
                 positionVideoDescPopup(card);
             });
-            
             card.addEventListener('mouseleave', () => {
                 scheduleHideVideoDescPopup();
             });
@@ -2005,16 +1779,16 @@
                 <div class="company-video-thumbnail" style="--thumb-bg: url('${safeThumbnail}')">
                     <div class="company-video-overlay"></div>
                     <img src="${safeThumbnail}" alt="${safeTitle}" onerror="this.src='https://placehold.co/600x400/0ea5e9/ffffff?text=${encodeURIComponent(v.title || 'Media')}'">
-            
+
                     <div class="company-video-play-btn" title="${actionText}">
                         <i data-lucide="${mediaIcon}" class="w-6 h-6 ${contentType === 'video' ? 'fill-current ml-1' : ''}"></i>
                     </div>
-            
+
                     <div class="absolute bottom-4 right-4 bg-slate-900/80 backdrop-blur text-white px-2.5 py-1 rounded-xl text-[12px] font-black z-10">
                         ${safeDuration}
                     </div>
                 </div>
-            
+
                 <div class="p-6 space-y-2 bg-white/80 backdrop-blur">
                     <div class="flex items-center gap-2">
                         <span class="text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded-lg bg-primary-50 text-primary-600 border border-primary-100">
@@ -2027,20 +1801,17 @@
                     </p>
                 </div>
             `;
-
             grid.appendChild(card);
         });
         lucide.createIcons();
     }
     let activeVideoDescCard = null;
     let videoDescHideTimer = null;
-    
     function normalizeVideoDescription(text) {
         return String(text || 'Chưa có mô tả.')
             .replace(/\\n/g, '\n')
             .trim();
     }
-    
     function escapeHtmlText(text) {
         return String(text || '')
             .replace(/&/g, '&amp;')
@@ -2049,58 +1820,44 @@
             .replace(/"/g, '&quot;')
             .replace(/'/g, '&#039;');
     }
-    
     function showVideoDescPopup(cardEl, title, description) {
         const popup = document.getElementById('videoDescFloatingPopup');
         const titleEl = document.getElementById('videoDescFloatingTitle');
         const textEl = document.getElementById('videoDescFloatingText');
-    
         if (!popup || !titleEl || !textEl || !cardEl) return;
-    
         clearTimeout(videoDescHideTimer);
         activeVideoDescCard = cardEl;
-    
         titleEl.innerHTML = escapeHtmlText(title || 'Thông tin video');
         textEl.innerHTML = escapeHtmlText(normalizeVideoDescription(description));
         textEl.scrollTop = 0;
-    
         popup.classList.remove('hidden');
-    
         requestAnimationFrame(() => {
             positionVideoDescPopup(cardEl);
             popup.classList.add('show');
         });
     }
-    
     function positionVideoDescPopup(cardEl) {
         const popup = document.getElementById('videoDescFloatingPopup');
         if (!popup || !cardEl || popup.classList.contains('hidden')) return;
-    
         const rect = cardEl.getBoundingClientRect();
         const gap = 10;
         const margin = 20;
-    
         const popupWidth = popup.offsetWidth || 520;
         const popupHeight = popup.offsetHeight || 320;
-    
         const viewportW = window.innerWidth;
         const viewportH = window.innerHeight;
-    
         const spaceTop = rect.top;
         const spaceBottom = viewportH - rect.bottom;
         const spaceRight = viewportW - rect.right;
         const spaceLeft = rect.left;
-    
         let left;
         let top;
-    
         /*
           Ưu tiên:
           1. Hiện phía dưới card, căn giữa theo chiều ngang card
           2. Nếu dưới không đủ chỗ, hiện phía trên card, cũng căn giữa
           3. Nếu trên/dưới đều không đủ, hiện bên phải hoặc bên trái và căn giữa theo chiều cao card
         */
-    
         if (spaceBottom >= popupHeight + gap + margin) {
             left = rect.left + rect.width / 2 - popupWidth / 2;
             top = rect.bottom + gap;
@@ -2117,32 +1874,24 @@
             left = rect.left + rect.width / 2 - popupWidth / 2;
             top = Math.max(margin, Math.min(rect.bottom + gap, viewportH - popupHeight - margin));
         }
-    
         // Giữ popup không tràn màn hình
         left = Math.max(margin, Math.min(left, viewportW - popupWidth - margin));
         top = Math.max(margin, Math.min(top, viewportH - popupHeight - margin));
-    
         popup.style.left = `${left}px`;
         popup.style.top = `${top}px`;
     }
-    
     function scheduleHideVideoDescPopup() {
         clearTimeout(videoDescHideTimer);
-    
         videoDescHideTimer = setTimeout(() => {
             hideVideoDescPopup();
         }, 350);
     }
-    
     function hideVideoDescPopup() {
         const popup = document.getElementById('videoDescFloatingPopup');
         if (!popup) return;
-    
         clearTimeout(videoDescHideTimer);
         activeVideoDescCard = null;
-    
         popup.classList.remove('show');
-    
         setTimeout(() => {
             if (!popup.classList.contains('show')) {
                 popup.classList.add('hidden');
@@ -2152,65 +1901,48 @@
     function forceHideVideoDescPopup() {
         const popup = document.getElementById('videoDescFloatingPopup');
         if (!popup) return;
-    
         clearTimeout(videoDescHideTimer);
         activeVideoDescCard = null;
-    
         popup.classList.remove('show');
         popup.classList.add('hidden');
     }
-
     function initVideoDescPopupEvents() {
         const popup = document.getElementById('videoDescFloatingPopup');
         if (!popup) return;
-    
         popup.addEventListener('mouseenter', () => {
             clearTimeout(videoDescHideTimer);
         });
-    
         popup.addEventListener('mouseleave', () => {
             scheduleHideVideoDescPopup();
         });
-    
         popup.addEventListener('mousemove', () => {
             if (activeVideoDescCard) {
                 positionVideoDescPopup(activeVideoDescCard);
             }
         });
-    
         popup.addEventListener('wheel', (e) => {
             const textEl = document.getElementById('videoDescFloatingText');
             if (!textEl) return;
-    
             textEl.scrollTop += e.deltaY;
-    
             e.preventDefault();
             e.stopPropagation();
         }, { passive: false });
     }
-    
     function openMediaModal(driveId, title, contentType = 'video') {
         forceHideVideoDescPopup();
-    
         if (!driveId) {
             showToast('Nội dung này chưa được cấu hình Google Drive ID.', 'warning');
             return;
         }
-    
         const modal = document.getElementById('videoModal');
         const modalContent = document.getElementById('videoModalContent');
         const iframe = document.getElementById('videoIframe');
         const titleEl = document.getElementById('modalVideoTitle');
-    
         if (!modal || !modalContent || !iframe || !titleEl) return;
-    
         const typeLabel = String(contentType || 'video').toUpperCase();
         titleEl.innerText = `[${typeLabel}] ${title || 'Tài liệu'}`;
-    
         iframe.src = `https://drive.google.com/file/d/${driveId}/preview`;
-    
         modal.classList.remove('hidden');
-    
         setTimeout(() => {
             modal.classList.remove('opacity-0');
             modal.classList.add('opacity-100');
@@ -2218,25 +1950,20 @@
             modalContent.classList.add('scale-100');
         }, 10);
     }
-
     function closeVideoModal() {
         const modal = document.getElementById('videoModal');
         const modalContent = document.getElementById('videoModalContent');
         const iframe = document.getElementById('videoIframe');
-        
         if (!modal || !modalContent || !iframe) return;
-
         modal.classList.remove('opacity-100');
         modal.classList.add('opacity-0');
         modalContent.classList.remove('scale-100');
         modalContent.classList.add('scale-95');
-
         setTimeout(() => {
             modal.classList.add('hidden');
-            iframe.src = ''; 
+            iframe.src = '';
         }, 300);
     }
-
     // --- LOGIC COMPANY MINDMAP ENHANCED ---
     let companyMapCreated = false;
     function companyMapInitOnce() {
@@ -2245,36 +1972,29 @@
         const rightSide = document.getElementById('companyMapSideRight');
         if(!leftSide || !rightSide) return;
         leftSide.innerHTML = ''; rightSide.innerHTML = '';
-        
         const mindmapDataToRender = companyMapData.length > 0
             ? companyMapData
             : companyMapFallbackData;
-        
         mindmapDataToRender.forEach((group) => {
             const wrapper = document.createElement('div');
             wrapper.className = 'company-map-node-wrapper flex flex-col';
-
             const node = document.createElement('div');
             node.className = 'company-map-node-l1';
             node.style.background = group.colorGrad;
             node.dataset.rawColor = group.colorRaw;
-            node.title = group.title; 
-            
+            node.title = group.title;
             const toggleBtnHtml = `<div class="company-map-toggle-btn"><i data-lucide="plus" class="w-4 h-4" style="color: ${group.colorRaw}"></i></div>`;
             const textHtml = `<span class="company-map-node-text">${group.title}</span>`;
-            
             if (group.side === 'right') {
                 node.innerHTML = textHtml + toggleBtnHtml;
             } else {
                 node.innerHTML = toggleBtnHtml + textHtml;
             }
-
             const childrenContainer = document.createElement('div');
             childrenContainer.className = 'company-map-children-container';
             const l2Box = document.createElement('div');
             l2Box.className = 'company-map-l2-box';
             l2Box.style.borderLeftColor = group.colorRaw;
-            
             group.children.forEach(child => {
                 const item = document.createElement('div');
                 item.className = 'company-map-child-item';
@@ -2282,13 +2002,11 @@
                 l2Box.appendChild(item);
             });
             childrenContainer.appendChild(l2Box);
-
             node.onclick = () => {
                 node.classList.toggle('expanded');
                 setTimeout(companyMapDrawConnections, 50);
                 setTimeout(companyMapDrawConnections, 400);
             };
-
             wrapper.appendChild(node);
             wrapper.appendChild(childrenContainer);
             if (group.side === 'left') leftSide.appendChild(wrapper);
@@ -2297,18 +2015,15 @@
         lucide.createIcons();
         companyMapCreated = true;
     }
-
     function companyMapDrawConnections() {
         const svg = document.getElementById('companyMapConnectionLayer');
         const wrapperDiv = document.getElementById('companyMapWrapper');
         const centerNode = document.getElementById('companyMapCenterNode');
         if (!svg || !wrapperDiv || !centerNode) return;
-
         const mmRect = wrapperDiv.getBoundingClientRect();
         const cRect = centerNode.getBoundingClientRect();
         const cX = cRect.left + cRect.width / 2 - mmRect.left;
         const cY = cRect.top + cRect.height / 2 - mmRect.top;
-
         svg.innerHTML = '';
         document.querySelectorAll('.company-map-node-l1').forEach((node) => {
             const nRect = node.getBoundingClientRect();
@@ -2317,7 +2032,6 @@
             const nY = nRect.top + nRect.height / 2 - mmRect.top;
             const cp1X = cX + (nX - cX) * 0.5;
             const pathD = `M ${cX} ${cY} C ${cp1X} ${cY}, ${cp1X} ${nY}, ${nX} ${nY}`;
-            
             const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
             path.setAttribute("d", pathD);
             path.setAttribute("class", "company-map-connection-path");
@@ -2325,7 +2039,6 @@
             svg.appendChild(path);
         });
     }
-
     function companyMapToggleAll(expand) {
         document.querySelectorAll('.company-map-node-l1').forEach(node => {
             if (expand) node.classList.add('expanded');
@@ -2333,7 +2046,6 @@
         });
         setTimeout(companyMapDrawConnections, 400);
     }
-
     // Search Mindmap logic
     document.getElementById('companyMapSearchInput').addEventListener('input', (e) => {
         const term = e.target.value.toLowerCase().trim();
@@ -2356,7 +2068,6 @@
         });
         companyMapDrawConnections();
     });
-
     // Event listener cho Modal Video ESC key
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
@@ -2366,48 +2077,34 @@
             }
         }
     });
-
     let overviewResizeTimer = null;
     let lastOverviewSize = { width: 0, height: 0 };
-    
     function scheduleOverviewResizeRender() {
         const pageOverview = document.getElementById('pageOverview');
         const viewport = document.getElementById('roadmapViewport');
-    
         if (!pageOverview || pageOverview.classList.contains('hidden') || !viewport) return;
-    
         const width = viewport.clientWidth;
         const height = viewport.clientHeight;
-    
         const sizeChanged =
             Math.abs(width - lastOverviewSize.width) > 8 ||
             Math.abs(height - lastOverviewSize.height) > 8;
-    
         if (!sizeChanged) return;
-    
         clearTimeout(overviewResizeTimer);
         overviewResizeTimer = setTimeout(() => {
             lastOverviewSize = { width, height };
-    
             if (animationLoopId) cancelAnimationFrame(animationLoopId);
             renderOverview();
         }, 250);
     }
-    
     const obs = new ResizeObserver(() => {
         const pageCompanyMindmap = document.getElementById('pageCompanyMindmap');
-    
         if (pageCompanyMindmap && !pageCompanyMindmap.classList.contains('hidden')) {
             requestAnimationFrame(companyMapDrawConnections);
         }
     });
-    
     obs.observe(document.body);
-    
     window.addEventListener('resize', scheduleOverviewResizeRender);
-    
     document.getElementById('btnGoToDetail').addEventListener('click', () => showPage(2));
-
     /* AI BOT WIDGET JS */
     (function() {
         const aiBotConfig = { retryDelays: [3000, 5000, 7500, 10000, 15000] };
@@ -2419,16 +2116,14 @@
         const sendBtn = document.getElementById('ai-bot-send');
         const messagesContainer = document.getElementById('ai-bot-messages');
         const statusLabel = document.getElementById('ai-bot-status');
-
         function aiBotInitPos() {
             localStorage.removeItem('ai-bot-widget-pos');
             trigger.style.left = aiBotState.pos.left + 'px';
             trigger.style.bottom = aiBotState.pos.bottom + 'px';
-            trigger.style.top = 'auto'; 
+            trigger.style.top = 'auto';
             if (aiBotState.isPanelOpen) aiBotPositionPanel();
         }
         aiBotInitPos();
-
         function aiBotPositionPanel() {
             if (!aiBotState.isPanelOpen) return;
             const rect = trigger.getBoundingClientRect();
@@ -2446,7 +2141,6 @@
             const originX = isLeftSide ? 'left' : 'right'; const originY = isTopHalf ? 'top' : 'bottom';
             panel.style.transformOrigin = `${originY} ${originX}`;
         }
-
         let startX, startY, initLeft, initBottom;
         function onDragStart(e) {
             const touch = e.type === 'touchstart' ? e.touches[0] : e;
@@ -2475,14 +2169,12 @@
             if (!aiBotState.isDragging) aiBotTogglePanel();
         }
         trigger.addEventListener('mousedown', onDragStart); trigger.addEventListener('touchstart', onDragStart, { passive: true });
-
         function aiBotTogglePanel() {
             aiBotState.isPanelOpen = !aiBotState.isPanelOpen;
-            if (aiBotState.isPanelOpen) { aiBotPositionPanel(); panel.classList.add('active'); trigger.classList.remove('ai-bot-periodic-shake'); setTimeout(() => input.focus(), 300); } 
+            if (aiBotState.isPanelOpen) { aiBotPositionPanel(); panel.classList.add('active'); trigger.classList.remove('ai-bot-periodic-shake'); setTimeout(() => input.focus(), 300); }
             else { panel.classList.remove('active'); trigger.classList.add('ai-bot-periodic-shake'); }
         }
         closeBtn.onclick = () => aiBotTogglePanel();
-
         function aiBotNormalizeMarkdownText(text) {
             if (!text) return "";
             return String(text).replace(/[\u{1F300}-\u{1F6FF}\u{1F900}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, "").replace(/\r\n/g, "\n").replace(/[ \t]+/g, " ").replace(/#{1,6}\s*/g, "").replace(/\*{2,}/g, "").replace(/@/g, "").replace(/(\d+)\s*-\s*(\d+)/g, "$1 đến $2").replace(/\n\s*\n+/g, "\n").trim();
@@ -2514,7 +2206,7 @@
                     flushList(); const sectionMatch = line.match(sectionPattern); let num = ""; let title = line.replace(/[:：]$/, '').replace(/\*{1,}/g, '').replace(/#{1,6}\s*/, '').trim();
                     if (sectionMatch) { num = sectionMatch[1] || sectionMatch[4]; title = sectionMatch[2] || sectionMatch[5]; }
                     finalHtml += `<div class="ai-bot-section"><div class="ai-bot-section-title">${num ? `<span class="ai-bot-section-number">${num}.</span>` : ""}<strong>${aiBotEscapeHtml(title)}</strong></div></div>`;
-                } else if (line.match(/^[-*•·]\s+/) || (index > 0 && line.includes(': '))) { currentList.push(line); } 
+                } else if (line.match(/^[-*•·]\s+/) || (index > 0 && line.includes(': '))) { currentList.push(line); }
                 else { flushList(); const cssClass = (index === 0) ? 'ai-bot-intro' : 'ai-bot-followup'; finalHtml += `<p class="${cssClass}">${aiBotEscapeHtml(line)}</p>`; }
             });
             flushList(); return finalHtml ? `<div class="ai-bot-markdown">${finalHtml}</div>` : `<p>${aiBotEscapeHtml(clean)}</p>`;
@@ -2539,14 +2231,12 @@
             const filtered = scored.filter(s => s.score > 0).sort((a,b) => b.score - a.score);
             return filtered.length === 0 ? masterData.slice(0, 8) : filtered.slice(0, 12).map(s => s.row);
         }
-        
         function aiBotBuildCompactKnowledge(rows) {
             return rows.map((r, i) => {
                 const responsibilities = r.key_responsibilities || "";
                 return `[Path ${i + 1}] Lộ trình: ${r.function_title || "---"} | Cấp: ${r.milestone_level || "---"} | Vị trí: ${r.role_title || "---"} | Trách nhiệm: ${responsibilities.slice(0, 120)} | Kỹ năng: ${r.competencies_to_develop || "---"} | Tiêu chí thăng cấp: ${r.promotion_criteria || "---"}`;
             }).join('\n');
         }
-        
         async function aiBotTypewrite(element, fullText) {
             aiBotState.isTyping = true; input.disabled = true; sendBtn.disabled = true; statusLabel.style.display = 'block';
             const normalizedText = aiBotNormalizeMarkdownText(fullText); const lines = normalizedText.split(/\n/); let partialContent = "";
@@ -2561,7 +2251,6 @@
             }
             aiBotState.isTyping = false; input.disabled = false; sendBtn.disabled = false; statusLabel.style.display = 'none'; input.focus();
         }
-
         async function aiBotHandleSend(customText = null) {
             if (!aiBotGeminiApiKey) { showToast("Chưa có API key để kết nối AI."); return; }
             const query = customText || input.value.trim(); if (!query || aiBotState.isTyping) return;
@@ -2569,10 +2258,9 @@
             messagesContainer.appendChild(uDiv); input.value = ''; messagesContainer.scrollTop = messagesContainer.scrollHeight;
             const bDiv = document.createElement('div'); bDiv.className = 'ai-bot-bubble ai-bot-bubble-bot'; bDiv.innerHTML = `<div class="ai-bot-thinking"><div class="ai-bot-dot"></div><div class="ai-bot-dot"></div><div class="ai-bot-dot"></div></div>`;
             messagesContainer.appendChild(bDiv); messagesContainer.scrollTop = messagesContainer.scrollHeight;
-            try { const response = await aiBotFetchAI(query); bDiv.innerHTML = ""; await aiBotTypewrite(bDiv, response); } 
+            try { const response = await aiBotFetchAI(query); bDiv.innerHTML = ""; await aiBotTypewrite(bDiv, response); }
             catch (err) { bDiv.innerText = "Lỗi: " + err.message; input.disabled = false; sendBtn.disabled = false; }
         }
-
         async function aiBotFetchAI(prompt, retry = 0) {
             const intent = aiBotGetQueryIntent(prompt); const relevantRows = (intent === "compensation") ? [] : aiBotPickRelevantRows(prompt);
             const kb = (intent === "compensation") ? "Dữ liệu nén không cần thiết cho thu nhập." : aiBotBuildCompactKnowledge(relevantRows);
@@ -2595,7 +2283,6 @@
                 return data.candidates?.[0]?.content?.parts?.[0]?.text || "Không có phản hồi.";
             } catch (e) { if (retry < 5 && e.message.includes("high demand")) { await new Promise(r => setTimeout(r, aiBotConfig.retryDelays[retry])); return aiBotFetchAI(prompt, retry + 1); } throw e; }
         }
-
         sendBtn.onclick = () => aiBotHandleSend(); input.onkeypress = (e) => { if(e.key === 'Enter') aiBotHandleSend(); };
         document.querySelectorAll('.ai-bot-suggest-btn').forEach(btn => btn.onclick = () => aiBotHandleSend(btn.dataset.query));
         window.addEventListener('resize', () => {
@@ -2604,7 +2291,6 @@
         });
     })();
     /* AI BOT WIDGET JS END */
-
     showPage(1);
 </script>
 </body>
