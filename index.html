@@ -665,12 +665,12 @@
         }
     
 
-/* Desktop QR truy cập mobile - chỉ hiển thị trên laptop/desktop */
+/* Desktop QR truy cập mobile - cố định góc phải dưới, chỉ hiển thị trên laptop/desktop */
 .desktop-mobile-qr {
-    position: absolute;
-    top: 126px;
-    right: 44px;
-    z-index: 95;
+    position: fixed;
+    right: 32px;
+    bottom: 32px;
+    z-index: 1200;
     width: 255px;
     display: flex;
     flex-direction: column;
@@ -678,12 +678,14 @@
     gap: 10px;
     padding: 14px;
     border-radius: 28px;
-    background: rgba(255, 255, 255, 0.72);
+    background: rgba(255, 255, 255, 0.82);
     backdrop-filter: blur(18px);
-    border: 1px solid rgba(255, 255, 255, 0.7);
-    box-shadow: 0 16px 36px rgba(15, 23, 42, 0.08);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    box-shadow: 0 18px 42px rgba(15, 23, 42, 0.14);
     pointer-events: none;
 }
+.desktop-mobile-qr.hidden { display: none !important; }
 .desktop-mobile-qr-title {
     font-size: 13px;
     line-height: 1.25;
@@ -2633,10 +2635,12 @@
         forceHideVideoDescPopup();
         document.querySelectorAll('#app > div').forEach(div => {
             const id = div.id;
-            if (id !== 'themeSelectorContainer' && id !== 'toastContainer' && id !== 'videoModal') {
+            if (id !== 'themeSelectorContainer' && id !== 'toastContainer' && id !== 'videoModal' && id !== 'desktopMobileQr') {
                  div.classList.add('hidden');
             }
         });
+        const desktopMobileQr = document.getElementById('desktopMobileQr');
+        if (desktopMobileQr) desktopMobileQr.classList.toggle('hidden', n !== 1);
         if (animationLoopId) cancelAnimationFrame(animationLoopId);
         const resetBg = (img) => {
             bgOverlay.style.backgroundImage = `linear-gradient(to bottom, rgba(248, 250, 252, 0.5), rgba(248, 250, 252, 0.5)), url('${img}')`;
