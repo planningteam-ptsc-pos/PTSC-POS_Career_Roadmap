@@ -597,11 +597,11 @@
         .video-desc-floating-popup {
             position: fixed;
             z-index: 1800;
-            width: min(460px, calc(100vw - 40px));
-            max-height: min(360px, calc(100vh - 80px));
+            width: min(520px, calc(100vw - 40px));
+            max-height: min(420px, calc(100vh - 80px));
             overflow: hidden;
         
-            background: rgba(15, 23, 42, 0.86);
+            background: rgba(15, 23, 42, 0.88);
             backdrop-filter: blur(18px);
             -webkit-backdrop-filter: blur(18px);
         
@@ -621,6 +621,9 @@
         .video-desc-floating-popup.show {
             opacity: 1;
             transform: translateY(0) scale(1);
+        
+            /* Quan trọng: cho phép rê chuột vào popup và scroll */
+            pointer-events: auto;
         }
         
         .video-desc-floating-title {
@@ -641,12 +644,15 @@
             line-height: 1.65;
             color: rgba(255,255,255,0.92);
         
-            max-height: 260px;
+            max-height: 320px;
             overflow-y: auto;
-            padding-right: 6px;
+            padding-right: 8px;
         
-            /* Quan trọng: giữ xuống dòng từ Excel / Google Sheet */
+            /* Giữ xuống dòng từ Excel / Google Sheet */
             white-space: pre-line;
+        
+            /* Khi scroll trong popup thì không kéo page phía sau */
+            overscroll-behavior: contain;
         }
         
         .video-desc-floating-text::-webkit-scrollbar {
@@ -654,7 +660,7 @@
         }
         
         .video-desc-floating-text::-webkit-scrollbar-thumb {
-            background: rgba(255,255,255,0.35);
+            background: rgba(255,255,255,0.42);
             border-radius: 999px;
         }
         /* --- PHẦN BỔ SUNG: COMPANY MINDMAP (PREFIXED) --- */
@@ -1467,7 +1473,10 @@
         });
     }
 
-    document.addEventListener('DOMContentLoaded', loadExcelDataAutomatically);
+    document.addEventListener('DOMContentLoaded', () => {
+    loadExcelDataAutomatically();
+    initVideoDescPopupEvents();
+    });
 
     function selectCustomRole(roleName, liElement) {
         selectedRoleValue = roleName;
@@ -1813,7 +1822,7 @@
             });
             
             card.addEventListener('mouseleave', () => {
-                hideVideoDescPopup();
+                scheduleHideVideoDescPopup();
             });
             
             card.innerHTML = `
@@ -1842,12 +1851,15 @@
         });
         lucide.createIcons();
     }
+    let activeVideoDescCard = null;
+    let videoDescHideTimer = null;
+    
     function normalizeVideoDescription(text) {
-    return String(text || 'Chưa có mô tả.')
-        .replace(/\\n/g, '\n')
-        .trim();
+        return String(text || 'Chưa có mô tả.')
+            .replace(/\\n/g, '\n')
+            .trim();
     }
-
+    
     function escapeHtmlText(text) {
         return String(text || '')
             .replace(/&/g, '&amp;')
@@ -1864,8 +1876,12 @@
     
         if (!popup || !titleEl || !textEl || !cardEl) return;
     
+        clearTimeout(videoDescHideTimer);
+        activeVideoDescCard = cardEl;
+    
         titleEl.innerHTML = escapeHtmlText(title || 'Thông tin video');
         textEl.innerHTML = escapeHtmlText(normalizeVideoDescription(description));
+        textEl.scrollTop = 0;
     
         popup.classList.remove('hidden');
     
@@ -1883,45 +1899,97 @@
         const gap = 14;
         const margin = 20;
     
-        const popupWidth = popup.offsetWidth || 460;
-        const popupHeight = popup.offsetHeight || 260;
+        const popupWidth = popup.offsetWidth || 520;
+        const popupHeight = popup.offsetHeight || 320;
     
-        let left = rect.left;
-        let top = rect.top - popupHeight - gap;
+        const viewportW = window.innerWidth;
+        const viewportH = window.innerHeight;
     
-        // Nếu phía trên không đủ chỗ thì hiện bên dưới card
-        if (top < margin) {
+        const spaceTop = rect.top;
+        const spaceBottom = viewportH - rect.bottom;
+        const spaceRight = viewportW - rect.right;
+        const spaceLeft = rect.left;
+    
+        let left;
+        let top;
+    
+        /*
+          Ưu tiên:
+          1. Hiện phía dưới card, căn giữa theo chiều ngang card
+          2. Nếu dưới không đủ chỗ, hiện phía trên card, cũng căn giữa
+          3. Nếu trên/dưới đều không đủ, hiện bên phải hoặc bên trái và căn giữa theo chiều cao card
+        */
+    
+        if (spaceBottom >= popupHeight + gap + margin) {
+            left = rect.left + rect.width / 2 - popupWidth / 2;
             top = rect.bottom + gap;
+        } else if (spaceTop >= popupHeight + gap + margin) {
+            left = rect.left + rect.width / 2 - popupWidth / 2;
+            top = rect.top - popupHeight - gap;
+        } else if (spaceRight >= popupWidth + gap + margin) {
+            left = rect.right + gap;
+            top = rect.top + rect.height / 2 - popupHeight / 2;
+        } else if (spaceLeft >= popupWidth + gap + margin) {
+            left = rect.left - popupWidth - gap;
+            top = rect.top + rect.height / 2 - popupHeight / 2;
+        } else {
+            left = rect.left + rect.width / 2 - popupWidth / 2;
+            top = Math.max(margin, Math.min(rect.bottom + gap, viewportH - popupHeight - margin));
         }
     
-        // Không để popup tràn phải màn hình
-        if (left + popupWidth > window.innerWidth - margin) {
-            left = window.innerWidth - popupWidth - margin;
-        }
-    
-        // Không để popup tràn trái
-        if (left < margin) {
-            left = margin;
-        }
-    
-        // Không để popup tràn đáy
-        if (top + popupHeight > window.innerHeight - margin) {
-            top = window.innerHeight - popupHeight - margin;
-        }
+        // Giữ popup không tràn màn hình
+        left = Math.max(margin, Math.min(left, viewportW - popupWidth - margin));
+        top = Math.max(margin, Math.min(top, viewportH - popupHeight - margin));
     
         popup.style.left = `${left}px`;
         popup.style.top = `${top}px`;
+    }
+    
+    function scheduleHideVideoDescPopup() {
+        clearTimeout(videoDescHideTimer);
+    
+        videoDescHideTimer = setTimeout(() => {
+            hideVideoDescPopup();
+        }, 180);
     }
     
     function hideVideoDescPopup() {
         const popup = document.getElementById('videoDescFloatingPopup');
         if (!popup) return;
     
+        clearTimeout(videoDescHideTimer);
+        activeVideoDescCard = null;
+    
         popup.classList.remove('show');
     
         setTimeout(() => {
-            popup.classList.add('hidden');
+            if (!popup.classList.contains('show')) {
+                popup.classList.add('hidden');
+            }
         }, 220);
+    }
+
+    function initVideoDescPopupEvents() {
+    const popup = document.getElementById('videoDescFloatingPopup');
+    if (!popup) return;
+
+    popup.addEventListener('mouseenter', () => {
+        clearTimeout(videoDescHideTimer);
+    });
+
+    popup.addEventListener('mouseleave', () => {
+        scheduleHideVideoDescPopup();
+    });
+
+    popup.addEventListener('mousemove', () => {
+        if (activeVideoDescCard) {
+            positionVideoDescPopup(activeVideoDescCard);
+        }
+    });
+
+    popup.addEventListener('wheel', (e) => {
+        e.stopPropagation();
+    }, { passive: true });
     }
     
     function openVideoModal(driveId, title) {
