@@ -1358,6 +1358,94 @@
     }
 }
 
+
+
+/* =========================================================
+   MOBILE FIT PATCH V2 - hiển thị đủ nội dung chính trên điện thoại
+   Chỉ điều chỉnh layout/scale; không đổi dữ liệu, selector, function name.
+   ========================================================= */
+@media (max-width: 768px) {
+    html, body { height: 100%; overflow: hidden !important; }
+    #app { height: 100dvh !important; min-height: 100dvh !important; overflow: hidden !important; padding: 10px 12px !important; }
+
+    /* 1) PAGE BẮT ĐẦU: nén khoảng cách, scale vừa màn hình */
+    #page1 {
+        height: 100% !important;
+        min-height: 0 !important;
+        justify-content: flex-start !important;
+        gap: clamp(10px, 2.1dvh, 16px) !important;
+        padding-top: clamp(70px, 9.5dvh, 88px) !important;
+        padding-bottom: 72px !important;
+        overflow: hidden !important;
+    }
+    #page1 .text-center.space-y-6 { display: flex; flex-direction: column; gap: clamp(10px, 1.8dvh, 14px) !important; }
+    #page1 .inline-flex { transform: scale(0.9); transform-origin: center; margin: 0 auto !important; }
+    #page1 .bg-white\/40 {
+        padding: clamp(18px, 3.2dvh, 28px) 16px !important;
+        border-radius: 30px !important;
+        max-width: calc(100vw - 36px) !important;
+    }
+    #page1 h1 { font-size: clamp(34px, 9.5vw, 46px) !important; line-height: 1.02 !important; margin-bottom: 10px !important; }
+    #page1 p { font-size: clamp(13px, 3.45vw, 15px) !important; line-height: 1.35 !important; }
+    #page1 > .glass-panel {
+        padding: clamp(18px, 3.1dvh, 24px) 18px !important;
+        border-radius: 32px !important;
+        max-width: calc(100vw - 36px) !important;
+        margin: 0 !important;
+    }
+    #page1 > .glass-panel, #page1 > .glass-panel .space-y-6, #page1 > .glass-panel .space-y-3 { gap: clamp(10px, 1.8dvh, 14px) !important; }
+    #page1 label { font-size: 12px !important; margin-bottom: 8px !important; }
+    #dropdownTrigger { padding: clamp(12px, 2.4dvh, 15px) 16px !important; font-size: 17px !important; border-radius: 22px !important; }
+    #btnStart, #page1 button[onclick="showPage('companyIntro')"] { padding-top: clamp(13px, 2.5dvh, 17px) !important; padding-bottom: clamp(13px, 2.5dvh, 17px) !important; min-height: 0 !important; }
+
+    /* 2) ROADMAP: card nhỏ hơn, vừa bậc thang, không chồng nhau */
+    #pageOverview { height: 100% !important; min-height: 0 !important; overflow: hidden !important; padding-bottom: 72px !important; gap: 10px !important; }
+    #pageOverview > .flex.items-center.justify-between { grid-template-columns: 106px 1fr 82px !important; padding-top: 4px !important; }
+    #ovTitle { font-size: clamp(26px, 7.5vw, 34px) !important; }
+    .roadmap-viewport { height: calc(100dvh - 188px) !important; min-height: 0 !important; border-radius: 28px !important; }
+    .node-card { width: 104px !important; padding: 5px !important; border-radius: 14px !important; }
+    .node-icon-wrapper { height: 54px !important; border-radius: 12px !important; margin-bottom: 4px !important; }
+    .node-circle { width: 22px !important; height: 22px !important; top: -8px !important; right: -8px !important; font-size: 10px !important; border-width: 2px !important; }
+    .summit-crown { width: 24px !important; height: 24px !important; top: -8px !important; right: -8px !important; border-width: 2px !important; }
+    .node-card span { font-size: 8.5px !important; line-height: 1.05 !important; }
+    .node-card h5 { font-size: 10.5px !important; line-height: 1.05 !important; }
+    .summit-halo { width: 150px !important; height: 150px !important; }
+    #pageOverview .lg\:col-span-3 { display: none !important; }
+
+    /* 3) PAGE CHI TIẾT: hiển thị đủ 5 level, không cần kéo ngang */
+    #page2 { height: 100% !important; min-height: 0 !important; overflow-y: auto !important; padding-bottom: 72px !important; }
+    #page2 .glass-panel.p-6 { overflow: hidden !important; padding: 10px !important; }
+    .detail-stepper-container { width: 100% !important; min-width: 0 !important; }
+    #detailStepper { display: grid !important; grid-template-columns: repeat(5, minmax(0, 1fr)) !important; gap: 5px !important; width: 100% !important; }
+    .dashboard-stepper-item { min-width: 0 !important; width: 100% !important; padding: 26px 4px 8px 4px !important; border-radius: 14px !important; justify-content: center !important; text-align: center !important; gap: 0 !important; }
+    .dashboard-stepper-item .flex { align-items: center !important; width: 100% !important; min-width: 0 !important; }
+    .stepper-num { left: 50% !important; top: 5px !important; transform: translateX(-50%) !important; width: 24px !important; height: 24px !important; font-size: 12px !important; border-width: 2px !important; }
+    .dashboard-stepper-item span:first-child { font-size: 8.5px !important; line-height: 1 !important; white-space: normal !important; overflow-wrap: anywhere !important; padding: 0 !important; }
+    .dashboard-stepper-item span:last-child { font-size: 9.5px !important; line-height: 1.05 !important; display: -webkit-box !important; -webkit-line-clamp: 3 !important; -webkit-box-orient: vertical !important; overflow: hidden !important; padding: 0 !important; }
+    .sidebar-dynamic-card { display: none !important; }
+    #page2 .p-8.bg-white\/40 { padding: 16px !important; }
+    #page2 .w-32.h-32 { width: 92px !important; height: 92px !important; }
+    #roleTitleLabel { font-size: clamp(30px, 9vw, 42px) !important; }
+    #rolePurposeLabel { font-size: clamp(14px, 4.2vw, 17px) !important; line-height: 1.35 !important; }
+}
+
+@media (max-width: 420px) {
+    #page1 { padding-top: 72px !important; gap: 10px !important; }
+    #mainLogo { width: 112px !important; }
+    #themeTriggerBtn { transform: scale(0.92); transform-origin: top left; }
+    #page1 .bg-white\/40 { padding: 18px 14px !important; }
+    #page1 h1 { font-size: clamp(32px, 10vw, 42px) !important; }
+    #page1 > .glass-panel { padding: 18px 16px !important; }
+    .roadmap-viewport { height: calc(100dvh - 176px) !important; }
+    .node-card { width: 98px !important; }
+    .node-icon-wrapper { height: 48px !important; }
+    .node-card h5 { font-size: 10px !important; }
+    #detailStepper { gap: 4px !important; }
+    .dashboard-stepper-item { padding-left: 2px !important; padding-right: 2px !important; }
+    .dashboard-stepper-item span:first-child { font-size: 7.8px !important; }
+    .dashboard-stepper-item span:last-child { font-size: 8.8px !important; }
+}
+
 </style>
 </head>
 <body class="flex flex-col">
@@ -2270,11 +2358,19 @@
             return;
         }
         content.querySelectorAll('.path-node').forEach(n => n.remove());
-        const data = currentRoleMilestones, total = data.length, cardW = 180;
-        let masterScale = 1.0;
-        const reqH = (total + 1) * 125 + 160;
-        if (vH < reqH) masterScale = Math.max(vH / reqH, 0.62);
-        const marginX = 10, marginY = 60, startX = marginX + 15, startY = vH - marginY - 140, endX = vW - marginX - cardW - 15, endY = marginY + 25, yOffset = 70;
+        const data = currentRoleMilestones, total = data.length;
+        const isMobileRoadmap = window.innerWidth <= 768;
+        const cardW = isMobileRoadmap ? 104 : 180;
+        let masterScale = isMobileRoadmap ? 0.72 : 1.0;
+        const reqH = (total + 1) * (isMobileRoadmap ? 78 : 125) + (isMobileRoadmap ? 90 : 160);
+        if (vH < reqH) masterScale = Math.max(vH / reqH, isMobileRoadmap ? 0.46 : 0.62);
+        const marginX = isMobileRoadmap ? 8 : 10;
+        const marginY = isMobileRoadmap ? 34 : 60;
+        const startX = marginX + (isMobileRoadmap ? 8 : 15);
+        const startY = vH - marginY - (isMobileRoadmap ? 96 : 140);
+        const endX = vW - marginX - cardW - (isMobileRoadmap ? 8 : 15);
+        const endY = marginY + (isMobileRoadmap ? 18 : 25);
+        const yOffset = isMobileRoadmap ? 32 : 70;
         const anchors = [];
         for (let i = 0; i <= total; i++) {
             const isSummit = (i === total), ratio = i / total;
