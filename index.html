@@ -665,6 +665,46 @@
         }
     
 
+/* Desktop QR truy cập mobile - chỉ hiển thị trên laptop/desktop */
+.desktop-mobile-qr {
+    position: absolute;
+    top: 126px;
+    right: 44px;
+    z-index: 95;
+    width: 255px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 14px;
+    border-radius: 28px;
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    box-shadow: 0 16px 36px rgba(15, 23, 42, 0.08);
+    pointer-events: none;
+}
+.desktop-mobile-qr-title {
+    font-size: 13px;
+    line-height: 1.25;
+    font-weight: 900;
+    color: #0f172a;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    text-align: center;
+}
+.desktop-mobile-qr img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 18px;
+    background: white;
+}
+@media (max-width: 1024px) {
+    .desktop-mobile-qr { display: none !important; }
+}
+
+
 /* =========================================================
    MOBILE RESPONSIVE PATCH - layout only, no JS/data changes
    Mục tiêu: tránh tràn ngang, cho phép scroll dọc, giảm padding/font/card
@@ -1675,6 +1715,71 @@
     }
 }
 
+
+
+/* =========================================================
+   MOBILE FIT PATCH V6 - QR desktop + fixed-height media cards
+   Layout-only overrides; no JS/data/function changes.
+   ========================================================= */
+@media (max-width: 768px) {
+    #desktopMobileQr {
+        display: none !important;
+    }
+
+    /* Company media mobile: cố định chiều cao thẻ và clamp mô tả */
+    #pageCompanyVideos {
+        padding-bottom: 120px !important;
+    }
+
+    .company-video-card {
+        height: 420px !important;
+        min-height: 420px !important;
+        max-height: 420px !important;
+        overflow: hidden !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    .company-video-thumbnail {
+        height: 190px !important;
+        min-height: 190px !important;
+        max-height: 190px !important;
+        flex: 0 0 190px !important;
+    }
+
+    .company-video-card .p-6 {
+        flex: 1 1 auto !important;
+        min-height: 0 !important;
+        overflow: hidden !important;
+        display: flex !important;
+        flex-direction: column !important;
+        padding: 16px 18px !important;
+    }
+
+    .company-video-card h3 {
+        font-size: 20px !important;
+        line-height: 1.22 !important;
+        display: -webkit-box !important;
+        -webkit-line-clamp: 2 !important;
+        -webkit-box-orient: vertical !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        min-height: 48px !important;
+        max-height: 50px !important;
+    }
+
+    .company-video-card p {
+        font-size: 14px !important;
+        line-height: 1.45 !important;
+        display: -webkit-box !important;
+        -webkit-line-clamp: 4 !important;
+        -webkit-box-orient: vertical !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        max-height: 82px !important;
+    }
+}
+
 </style>
 </head>
 <body class="flex flex-col">
@@ -1697,6 +1802,11 @@
     </div>
     <!-- Logo chính (Page 1) -->
     <img id="mainLogo" src="image/background/logo.png" alt="O&G Logo" class="absolute top-6 right-6 md:top-8 md:right-8 w-[120px] md:w-[170px] z-[100] object-contain pointer-events-none">
+    <!-- Desktop QR truy cập mobile -->
+    <div id="desktopMobileQr" class="desktop-mobile-qr">
+        <div class="desktop-mobile-qr-title">Truy cập bằng mobile</div>
+        <img src="image/background/qr_code_pos.png" alt="QR truy cập bằng mobile">
+    </div>
     <!-- PAGE 1: SELECTION -->
     <div id="page1" class="flex-1 flex flex-col items-center justify-center space-y-10 overflow-y-auto no-scrollbar">
         <div class="text-center space-y-6 animate-up">
