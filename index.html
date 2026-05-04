@@ -1764,25 +1764,28 @@
             card.addEventListener('mouseleave', () => {
                 scheduleHideVideoDescPopup();
             });
-            
+            const safeTitle = escapeHtmlText(v.title || '');
+            const safeDescription = escapeHtmlText(v.description || 'Chưa có mô tả.');
+            const safeThumbnail = escapeHtmlText(v.thumbnail || '');
+            const safeDuration = escapeHtmlText(v.duration || '--:--');
             card.innerHTML = `
-                <div class="company-video-thumbnail" style="--thumb-bg: url('${v.thumbnail}')">
+                <div class="company-video-thumbnail" style="--thumb-bg: url('${safeThumbnail}')">
                     <div class="company-video-overlay"></div>
-                    <img src="${v.thumbnail}" alt="${v.title}" onerror="this.src='https://placehold.co/600x400/0ea5e9/ffffff?text=${encodeURIComponent(v.title)}'">
+                    <img src="${safeThumbnail}" alt="${safeTitle}" onerror="this.src='https://placehold.co/600x400/0ea5e9/ffffff?text=${encodeURIComponent(v.title || 'Video')}'">
             
                     <div class="company-video-play-btn">
                         <i data-lucide="play" class="fill-current ml-1"></i>
                     </div>
             
                     <div class="absolute bottom-4 right-4 bg-slate-900/80 backdrop-blur text-white px-2.5 py-1 rounded-xl text-[12px] font-black z-10">
-                        ${v.duration}
+                        ${safeDuration}
                     </div>
                 </div>
             
                 <div class="p-6 space-y-2 bg-white/80 backdrop-blur">
-                    <h3 class="text-xl font-black text-slate-900 leading-tight line-clamp-1">${escapeHtmlText(v.title)}</h3>
+                    <h3 class="text-xl font-black text-slate-900 leading-tight line-clamp-1">${safeTitle}</h3>
                     <p class="text-slate-500 font-bold text-[14px] leading-relaxed line-clamp-2">
-                        ${escapeHtmlText(v.description || 'Chưa có mô tả.')}
+                        ${safeDescription}
                     </p>
                 </div>
             `;
@@ -1947,16 +1950,6 @@
             e.stopPropagation();
         }, { passive: false });
     }
-
-    popup.addEventListener('wheel', (e) => {
-        const textEl = document.getElementById('videoDescFloatingText');
-        if (!textEl) return;
-    
-        textEl.scrollTop += e.deltaY;
-    
-        e.preventDefault();
-        e.stopPropagation();
-    }, { passive: false });
     
     function openVideoModal(driveId, title) {
         forceHideVideoDescPopup();
