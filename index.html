@@ -1519,6 +1519,112 @@
     .node-card h5 { font-size: 7.8px !important; }
 }
 
+/* =========================================================
+   MOBILE FIT PATCH V4 - roadmap viewport not shrink, smaller cards only,
+   fixed detail footer. Layout-only CSS overrides plus JS mobile sizing below.
+   ========================================================= */
+@media (max-width: 768px) {
+    /* Roadmap: keep the roadmap canvas large; only shrink the cards */
+    #pageOverview {
+        height: 100% !important;
+        overflow-y: auto !important;
+        padding-bottom: 86px !important;
+    }
+    #pageOverview .grid {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 12px !important;
+        min-height: 0 !important;
+        overflow: visible !important;
+    }
+    #pageOverview .lg\:col-span-9 {
+        flex: 0 0 auto !important;
+        height: auto !important;
+        min-height: 0 !important;
+        overflow: visible !important;
+    }
+    .roadmap-viewport {
+        width: 100% !important;
+        height: clamp(500px, 64dvh, 590px) !important;
+        min-height: 500px !important;
+        border-radius: 26px !important;
+        overflow: hidden !important;
+    }
+    .node-card {
+        width: 72px !important;
+        padding: 3px !important;
+        border-radius: 11px !important;
+    }
+    .node-icon-wrapper {
+        height: 28px !important;
+        border-radius: 8px !important;
+        margin-bottom: 2px !important;
+    }
+    .node-circle {
+        width: 17px !important;
+        height: 17px !important;
+        top: -6px !important;
+        right: -6px !important;
+        font-size: 7.5px !important;
+        border-width: 2px !important;
+    }
+    .summit-crown {
+        width: 18px !important;
+        height: 18px !important;
+        top: -6px !important;
+        right: -6px !important;
+        border-width: 2px !important;
+    }
+    .node-card span {
+        font-size: 6.6px !important;
+        line-height: 1 !important;
+        margin-bottom: 1px !important;
+    }
+    .node-card h5 {
+        font-size: 7.2px !important;
+        line-height: 1.02 !important;
+        -webkit-line-clamp: 3 !important;
+    }
+    .summit-halo {
+        width: 86px !important;
+        height: 86px !important;
+    }
+
+    /* Detail page: footer must stay fixed in the viewport while content scrolls */
+    #page2 {
+        height: 100% !important;
+        overflow-y: auto !important;
+        padding-bottom: 102px !important;
+    }
+    #detailView {
+        padding-bottom: 112px !important;
+    }
+    #page2 .border-t.border-slate-100.bg-white\/40.flex.items-center.justify-between {
+        position: fixed !important;
+        left: 12px !important;
+        right: 12px !important;
+        bottom: max(10px, env(safe-area-inset-bottom)) !important;
+        z-index: 1200 !important;
+        padding: 10px 12px !important;
+        border-radius: 22px !important;
+        border: 1px solid rgba(226, 232, 240, 0.9) !important;
+        background: rgba(255, 255, 255, 0.92) !important;
+        backdrop-filter: blur(18px) !important;
+        -webkit-backdrop-filter: blur(18px) !important;
+        box-shadow: 0 -8px 28px rgba(15, 23, 42, 0.12) !important;
+    }
+}
+
+@media (max-width: 420px) {
+    .roadmap-viewport {
+        height: clamp(490px, 63dvh, 570px) !important;
+        min-height: 490px !important;
+    }
+    .node-card { width: 68px !important; }
+    .node-icon-wrapper { height: 25px !important; }
+    .node-card h5 { font-size: 6.9px !important; }
+}
+
 </style>
 </head>
 <body class="flex flex-col">
@@ -2433,22 +2539,22 @@
         content.querySelectorAll('.path-node').forEach(n => n.remove());
         const data = currentRoleMilestones, total = data.length;
         const isMobileRoadmap = window.innerWidth <= 768;
-        const cardW = isMobileRoadmap ? 84 : 180;
-        let masterScale = isMobileRoadmap ? 0.58 : 1.0;
-        const reqH = (total + 1) * (isMobileRoadmap ? 58 : 125) + (isMobileRoadmap ? 70 : 160);
-        if (vH < reqH) masterScale = Math.max(vH / reqH, isMobileRoadmap ? 0.36 : 0.62);
-        const marginX = isMobileRoadmap ? 8 : 10;
-        const marginY = isMobileRoadmap ? 20 : 60;
-        const startX = marginX + (isMobileRoadmap ? 8 : 15);
-        const startY = vH - marginY - (isMobileRoadmap ? 70 : 140);
-        const endX = vW - marginX - cardW - (isMobileRoadmap ? 8 : 15);
-        const endY = marginY + (isMobileRoadmap ? 10 : 25);
-        const yOffset = isMobileRoadmap ? 12 : 70;
+        const cardW = isMobileRoadmap ? (window.innerWidth <= 420 ? 68 : 72) : 180;
+        let masterScale = 1.0;
+        const reqH = (total + 1) * (isMobileRoadmap ? 74 : 125) + (isMobileRoadmap ? 52 : 160);
+        if (vH < reqH) masterScale = Math.max(vH / reqH, isMobileRoadmap ? 0.84 : 0.62);
+        const marginX = isMobileRoadmap ? 10 : 10;
+        const marginY = isMobileRoadmap ? 24 : 60;
+        const startX = marginX + (isMobileRoadmap ? 6 : 15);
+        const startY = vH - marginY - (isMobileRoadmap ? 86 : 140);
+        const endX = vW - marginX - cardW - (isMobileRoadmap ? 6 : 15);
+        const endY = marginY + (isMobileRoadmap ? 20 : 25);
+        const yOffset = isMobileRoadmap ? 0 : 70;
         const anchors = [];
         for (let i = 0; i <= total; i++) {
             const isSummit = (i === total), ratio = i / total;
             const x = startX + ratio * (endX - startX), y = startY + ratio * (endY - startY) - yOffset;
-            anchors.push({ x: x + (cardW / 2), y: y + (isSummit ? 100 : 80) * masterScale, isSummit, index: i < total ? i : total - 1 });
+            anchors.push({ x: x + (cardW / 2), y: y + (isMobileRoadmap ? (isSummit ? 48 : 42) : (isSummit ? 100 : 80)) * masterScale, isSummit, index: i < total ? i : total - 1 });
             const node = document.createElement('div');
             node.className = `path-node`; node.id = isSummit ? `node-summit` : `node-${i}`;
             node.style.left = `${x}px`; node.style.top = `${y}px`; node.style.width = `${cardW}px`;
@@ -2466,7 +2572,7 @@
         setTimeout(() => {
             const sEdge = document.getElementById('stairEdge'), sPoly = document.getElementById('stairPolygon');
             if(sEdge && sPoly) {
-                const gap = 25 * masterScale;
+                const gap = (isMobileRoadmap ? 10 : 25) * masterScale;
                 const getCardBottomY = (idx) => {
                     const ratio = idx / total, nodeY = startY + ratio * (endY - startY) - yOffset, nodeEl = document.getElementById(idx === total ? 'node-summit' : `node-${idx}`);
                     let cardH = 180; if (nodeEl) { const cardEl = nodeEl.querySelector('.node-card'); if (cardEl) cardH = cardEl.offsetHeight; }
