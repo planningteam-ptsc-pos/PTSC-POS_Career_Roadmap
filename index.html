@@ -1520,6 +1520,19 @@
                 }
             
                 companyMapCreated = false;
+
+                const pageCompanyMindmap = document.getElementById('pageCompanyMindmap');
+
+                if (pageCompanyMindmap && !pageCompanyMindmap.classList.contains('hidden')) {
+                    const leftSide = document.getElementById('companyMapSideLeft');
+                    const rightSide = document.getElementById('companyMapSideRight');
+                
+                    if (leftSide) leftSide.innerHTML = '';
+                    if (rightSide) rightSide.innerHTML = '';
+                
+                    companyMapInitOnce();
+                    setTimeout(companyMapDrawConnections, 100);
+                }
             } catch (mapErr) {
                 console.warn('Không tải được dữ liệu mindmap từ sheetUrl4:', mapErr);
                 companyMapData = companyMapFallbackData;
