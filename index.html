@@ -1446,6 +1446,79 @@
     .dashboard-stepper-item span:last-child { font-size: 8.8px !important; }
 }
 
+
+
+/* =========================================================
+   MOBILE FIT PATCH V3 - requested refinements
+   1 badge logo safe, 2 dropup 4 items, 3 roadmap info visible,
+   4 smaller roadmap cards, 5 fixed detail footer while scrolling.
+   ========================================================= */
+@media (max-width: 768px) {
+    /* Page 1: push standard badge below the PTSC logo and keep all controls visible */
+    #page1 { padding-top: clamp(96px, 13dvh, 118px) !important; gap: 8px !important; }
+    #page1 .text-center.space-y-6 { gap: 8px !important; }
+    #page1 .inline-flex { margin-top: 8px !important; transform: scale(0.82) !important; }
+    #page1 .bg-white\/40 { padding: 14px 12px !important; border-radius: 26px !important; }
+    #page1 h1 { font-size: clamp(30px, 8.8vw, 40px) !important; margin-bottom: 6px !important; }
+    #page1 p { font-size: clamp(12px, 3.2vw, 14px) !important; line-height: 1.28 !important; }
+    #page1 > .glass-panel { padding: 14px 14px !important; border-radius: 28px !important; }
+    #btnStart, #page1 button[onclick="showPage('companyIntro')"] { padding-top: 12px !important; padding-bottom: 12px !important; font-size: 12px !important; border-radius: 22px !important; }
+
+    /* Dropdown: only around 4 items visible on mobile */
+    #dropdownMenu { max-height: 292px !important; overflow: hidden !important; }
+    #customRoleList { max-height: 188px !important; overflow-y: auto !important; }
+    .role-list-item { padding: 9px 14px !important; min-height: 42px !important; font-size: 14px !important; margin-bottom: 2px !important; }
+
+    /* Roadmap: show info cards again in compact form */
+    #pageOverview { overflow-y: auto !important; padding-bottom: 78px !important; }
+    #pageOverview .grid { display: flex !important; flex-direction: column !important; gap: 10px !important; min-height: 0 !important; overflow: visible !important; }
+    #pageOverview .lg\:col-span-9 { height: auto !important; min-height: 0 !important; overflow: visible !important; }
+    #pageOverview .lg\:col-span-3 { display: block !important; height: auto !important; overflow: visible !important; padding-bottom: 0 !important; }
+    .roadmap-viewport { height: clamp(470px, 61dvh, 560px) !important; border-radius: 24px !important; }
+    #pageOverview .sidebar-container { display: grid !important; grid-template-columns: 1fr !important; gap: 8px !important; padding: 0 2px 10px !important; min-height: 0 !important; }
+    #pageOverview .job-family-badge,
+    #pageOverview .glass-card-info { padding: 10px 12px !important; border-radius: 18px !important; }
+    #pageOverview .job-family-badge span { font-size: 9px !important; margin-bottom: 2px !important; }
+    #pageOverview .job-family-badge h3 { font-size: 12px !important; line-height: 1.2 !important; }
+    #pageOverview .glass-card-info .flex.items-center.gap-3.mb-5 { margin-bottom: 6px !important; gap: 8px !important; }
+    #pageOverview .glass-card-info h4 { font-size: 10px !important; }
+    #pageOverview .info-item-list { font-size: 11px !important; line-height: 1.35 !important; gap: 8px !important; margin-bottom: 4px !important; }
+    #pageOverview .dot { width: 4px !important; height: 4px !important; margin-top: 5px !important; }
+
+    /* Roadmap cards: smaller to prevent overlap */
+    .node-card { width: 82px !important; padding: 4px !important; border-radius: 12px !important; }
+    .node-icon-wrapper { height: 34px !important; border-radius: 9px !important; margin-bottom: 3px !important; }
+    .node-circle { width: 18px !important; height: 18px !important; top: -6px !important; right: -6px !important; font-size: 8px !important; }
+    .summit-crown { width: 20px !important; height: 20px !important; top: -6px !important; right: -6px !important; }
+    .node-card span { font-size: 7px !important; line-height: 1 !important; margin-bottom: 1px !important; }
+    .node-card h5 { font-size: 8.2px !important; line-height: 1.02 !important; -webkit-line-clamp: 3 !important; }
+    .summit-halo { width: 100px !important; height: 100px !important; }
+
+    /* Page detail: keep prev/counter/next bar fixed at bottom of the detail panel while scrolling */
+    #page2 .border-t.border-slate-100.bg-white\/40.flex.items-center.justify-between {
+        position: sticky !important;
+        bottom: 0 !important;
+        z-index: 80 !important;
+        padding: 10px 12px !important;
+        border-radius: 0 0 24px 24px !important;
+        backdrop-filter: blur(18px) !important;
+        -webkit-backdrop-filter: blur(18px) !important;
+        box-shadow: 0 -10px 24px rgba(15, 23, 42, 0.08) !important;
+    }
+    #prevBtn { font-size: 11px !important; }
+    #pageCounter { font-size: 11px !important; }
+    #nextBtn { padding: 10px 14px !important; font-size: 11px !important; border-radius: 12px !important; }
+}
+
+@media (max-width: 420px) {
+    #page1 { padding-top: 102px !important; }
+    #mainLogo { width: 104px !important; }
+    .roadmap-viewport { height: clamp(450px, 59dvh, 540px) !important; }
+    .node-card { width: 78px !important; }
+    .node-icon-wrapper { height: 31px !important; }
+    .node-card h5 { font-size: 7.8px !important; }
+}
+
 </style>
 </head>
 <body class="flex flex-col">
@@ -2360,17 +2433,17 @@
         content.querySelectorAll('.path-node').forEach(n => n.remove());
         const data = currentRoleMilestones, total = data.length;
         const isMobileRoadmap = window.innerWidth <= 768;
-        const cardW = isMobileRoadmap ? 104 : 180;
-        let masterScale = isMobileRoadmap ? 0.72 : 1.0;
-        const reqH = (total + 1) * (isMobileRoadmap ? 78 : 125) + (isMobileRoadmap ? 90 : 160);
-        if (vH < reqH) masterScale = Math.max(vH / reqH, isMobileRoadmap ? 0.46 : 0.62);
+        const cardW = isMobileRoadmap ? 84 : 180;
+        let masterScale = isMobileRoadmap ? 0.58 : 1.0;
+        const reqH = (total + 1) * (isMobileRoadmap ? 58 : 125) + (isMobileRoadmap ? 70 : 160);
+        if (vH < reqH) masterScale = Math.max(vH / reqH, isMobileRoadmap ? 0.36 : 0.62);
         const marginX = isMobileRoadmap ? 8 : 10;
-        const marginY = isMobileRoadmap ? 34 : 60;
+        const marginY = isMobileRoadmap ? 20 : 60;
         const startX = marginX + (isMobileRoadmap ? 8 : 15);
-        const startY = vH - marginY - (isMobileRoadmap ? 96 : 140);
+        const startY = vH - marginY - (isMobileRoadmap ? 70 : 140);
         const endX = vW - marginX - cardW - (isMobileRoadmap ? 8 : 15);
-        const endY = marginY + (isMobileRoadmap ? 18 : 25);
-        const yOffset = isMobileRoadmap ? 32 : 70;
+        const endY = marginY + (isMobileRoadmap ? 10 : 25);
+        const yOffset = isMobileRoadmap ? 12 : 70;
         const anchors = [];
         for (let i = 0; i <= total; i++) {
             const isSummit = (i === total), ratio = i / total;
