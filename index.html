@@ -423,8 +423,42 @@
         /* AI BOT WIDGET END */
 
         /* --- PHẦN BỔ SUNG: COMPANY INTRO & VIDEO --- */
-        .company-intro-page {
-            position: relative; width: 100%; height: 100%; overflow-y: auto; overflow-x: hidden;
+        .company-intro-page,
+        .company-bg-page {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+            isolation: isolate;
+        }
+        
+        /* Background riêng cho cụm Tìm hiểu công ty */
+        .company-intro-page::before,
+        .company-bg-page::before {
+            content: "";
+            position: absolute;
+            inset: -24px;
+            background-image:
+                linear-gradient(to bottom, rgba(248, 250, 252, 0.48), rgba(248, 250, 252, 0.62)),
+                url("image/background/background_mindmap.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: blur(2px);
+            transform: scale(1.03);
+            z-index: -2;
+            pointer-events: none;
+        }
+        
+        .company-intro-page::after,
+        .company-bg-page::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.12);
+            z-index: -1;
+            pointer-events: none;
         }
         .company-intro-back-btn {
             position: absolute; top: 24px; left: 24px; z-index: 50;
@@ -839,7 +873,7 @@
     </div>
 
     <!-- PAGE: COMPANY VIDEOS -->
-    <div id="pageCompanyVideos" class="hidden h-full flex flex-col gap-6 animate-up overflow-hidden">
+    <div id="pageCompanyVideos" class="hidden company-bg-page h-full flex flex-col gap-6 animate-up overflow-hidden">
         <div class="flex items-center justify-between px-6 shrink-0">
             <button onclick="showPage('companyIntro')" class="flex items-center gap-2 bg-white/80 backdrop-blur px-5 py-2.5 rounded-full text-slate-700 font-black text-[15px] uppercase tracking-widest border shadow-sm hover:bg-white transition-all">
                 <i data-lucide="arrow-left" class="w-4 h-4"></i> Quay lại
@@ -858,7 +892,7 @@
     </div>
 
     <!-- PAGE: COMPANY MINDMAP -->
-    <div id="pageCompanyMindmap" class="hidden h-full flex flex-col animate-up overflow-hidden">
+    <div id="pageCompanyMindmap" class="hidden company-bg-page h-full flex flex-col animate-up overflow-hidden">
         <div class="flex flex-col md:flex-row items-center justify-between px-6 py-4 shrink-0 gap-4">
             <button onclick="showPage('companyIntro')" class="flex items-center gap-2 bg-white/80 backdrop-blur px-5 py-2.5 rounded-full text-slate-700 font-black text-[15px] uppercase tracking-widest border shadow-sm hover:bg-white transition-all">
                 <i data-lucide="arrow-left" class="w-4 h-4"></i> Quay lại
@@ -1203,12 +1237,54 @@
     // --- DỮ LIỆU VIDEO (DỰ PHÒNG & CHỜ TẢI) ---
     let companyVideoData = [];
     const companyVideoFallbackData = [
-        { title: 'Giới thiệu về PTSC POS', description: 'Tổng quan về lịch sử hình thành và tầm nhìn chiến lược của Công ty.', duration: '02:45', thumbnail: 'image/thumbnails/video1.jpg', driveId: '' },
-        { title: 'Lĩnh vực hoạt động', description: 'Khám phá các lĩnh vực cốt lõi và chuỗi cung ứng dịch vụ dầu khí.', duration: '03:12', thumbnail: 'image/thumbnails/video2.jpg', driveId: '' },
-        { title: 'Môi trường làm việc', description: 'Văn hóa PTSC POS - Nơi hội tụ những tài năng dầu khí hàng đầu.', duration: '02:30', thumbnail: 'image/thumbnails/video3.jpg', driveId: '' },
-        { title: 'Dự án tiêu biểu', description: 'Hành trình chinh phục các dự án EPCI trọng điểm trong và ngoài nước.', duration: '03:05', thumbnail: 'image/thumbnails/video4.jpg', driveId: '' },
-        { title: 'Giá trị cốt lõi', description: 'Chuyên nghiệp - Tin cậy - Phát triển: Kim chỉ nam cho mọi hoạt động.', duration: '02:15', thumbnail: 'image/thumbnails/video5.jpg', driveId: '' },
-        { title: 'Tầm nhìn & Sứ mệnh', description: 'Trở thành nhà thầu EPCI chuyên nghiệp hàng đầu khu vực.', duration: '02:40', thumbnail: 'image/thumbnails/video6.jpg', driveId: '' }
+        {
+            contentType: 'video',
+            title: 'Hành Trình Kiến Tạo Giá Trị Bền Vững',
+            description: 'Nhìn lại hành trình phát triển của PTSC POS trong giai đoạn 2024 - 2025, với các dấu ấn về chiến lược, năng suất, thị trường, đầu tư, văn hóa và trách nhiệm xã hội.',
+            duration: '06:14',
+            driveId: '1H_cA-u7GoYq2Fu1J7G6GDBdrasn2xXyw',
+            thumbnail: 'image/thumbnails/video1.png'
+        },
+        {
+            contentType: 'video',
+            title: 'Tổng quan về PTSC POS',
+            description: 'Giới thiệu tổng quan về PTSC Offshore Services, năng lực cốt lõi, tài sản chiến lược, kinh nghiệm quốc tế và cam kết chất lượng trong lĩnh vực năng lượng.',
+            duration: '09:03',
+            driveId: '1J8-JYoj-a8gbDnIL9ES55ZcWqBlR1P8k',
+            thumbnail: 'image/thumbnails/video2.png'
+        },
+        {
+            contentType: 'video',
+            title: 'Xây Dựng Văn Hóa Doanh Nghiệp',
+            description: 'Giới thiệu môi trường làm việc, văn hóa gắn kết, chính sách phát triển con người và các hoạt động nội bộ nổi bật tại PTSC POS.',
+            duration: '11:47',
+            driveId: '1c50W3-FIjoe6fQBqaoEQeU_gkwE3vk1L',
+            thumbnail: 'image/thumbnails/video3.png'
+        },
+        {
+            contentType: 'pdf',
+            title: 'Brochure PTSC POS',
+            description: 'Tài liệu giới thiệu công ty.',
+            duration: 'PDF',
+            driveId: '14gjTscjQPIlWpiAP4tPLmuxgGdY7qhz1',
+            thumbnail: 'image/thumbnails/pdf1.png'
+        },
+        {
+            contentType: 'pdf',
+            title: 'POS Company Profile',
+            description: 'Tài liệu hồ sơ năng lực công ty.',
+            duration: 'PDF',
+            driveId: '15l_wlZnqh0QNkrUoK8eUoE4XyI-1TdH8',
+            thumbnail: 'image/thumbnails/pdf2.png'
+        },
+        {
+            contentType: 'pptx',
+            title: 'PTSC POS Company Profile - HUC & Brownfield 2025',
+            description: 'Slide giới thiệu tổng quan về PTSC POS.',
+            duration: 'PPTX',
+            driveId: '1Od-YsmONRxljmLDwSwa80JZ6vcI7gNDg',
+            thumbnail: 'image/thumbnails/pptx1.png'
+        }
     ];
 
     // --- COMPANY MINDMAP DATA (PREFIXED) ---
@@ -1797,9 +1873,11 @@
 
         grid.innerHTML = '';
         companyVideoData.forEach((v) => {
+            const contentType = String(v.contentType || 'video').trim().toLowerCase();
+        
             const card = document.createElement('div');
             card.className = "company-video-card flex flex-col animate-up";
-            card.addEventListener('click', () => openMediaModal(v.driveId, v.title, v.contentType));
+            card.addEventListener('click', () => openMediaModal(v.driveId, v.title, contentType));
             
             card.addEventListener('mouseenter', () => {
                 showVideoDescPopup(card, v.title, v.description);
@@ -1815,16 +1893,16 @@
             const safeTitle = escapeHtmlText(v.title || '');
             const safeDescription = escapeHtmlText(v.description || 'Chưa có mô tả.');
             const safeThumbnail = escapeHtmlText(v.thumbnail || '');
-            const safeDuration = escapeHtmlText(v.duration || getMediaBadgeText(v.contentType));
-            const mediaIcon = getMediaIcon(v.contentType);
-            const actionText = getMediaActionText(v.contentType);
+            const safeDuration = escapeHtmlText(v.duration || getMediaBadgeText(contentType));
+            const mediaIcon = getMediaIcon(contentType);
+            const actionText = getMediaActionText(contentType);
             card.innerHTML = `
                 <div class="company-video-thumbnail" style="--thumb-bg: url('${safeThumbnail}')">
                     <div class="company-video-overlay"></div>
                     <img src="${safeThumbnail}" alt="${safeTitle}" onerror="this.src='https://placehold.co/600x400/0ea5e9/ffffff?text=${encodeURIComponent(v.title || 'Media')}'">
             
                     <div class="company-video-play-btn" title="${actionText}">
-                        <i data-lucide="${mediaIcon}" class="w-6 h-6 ${v.contentType === 'video' ? 'fill-current ml-1' : ''}"></i>
+                        <i data-lucide="${mediaIcon}" class="w-6 h-6 ${contentType === 'video' ? 'fill-current ml-1' : ''}"></i>
                     </div>
             
                     <div class="absolute bottom-4 right-4 bg-slate-900/80 backdrop-blur text-white px-2.5 py-1 rounded-xl text-[12px] font-black z-10">
@@ -1835,7 +1913,7 @@
                 <div class="p-6 space-y-2 bg-white/80 backdrop-blur">
                     <div class="flex items-center gap-2">
                         <span class="text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded-lg bg-primary-50 text-primary-600 border border-primary-100">
-                            ${escapeHtmlText((v.contentType || 'video').toUpperCase())}
+                            ${escapeHtmlText(contentType.toUpperCase())}
                         </span>
                     </div>
                     <h3 class="text-xl font-black text-slate-900 leading-tight line-clamp-1">${safeTitle}</h3>
