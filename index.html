@@ -1085,7 +1085,7 @@
     <div id="videoModal" class="video-modal-overlay hidden opacity-0 transition-opacity duration-300" onclick="closeVideoModal()">
         <div id="videoModalContent" class="video-modal-container scale-95 transition-transform duration-300" onclick="event.stopPropagation()">
             <div class="video-modal-header">
-                <h3 id="modalVideoTitle" class="text-xl md:text-2xl font-black uppercase tracking-tighter truncate max-w-[80%]">Video</h3>
+                <h3 id="modalVideoTitle" class="text-xl md:text-2xl font-black uppercase tracking-tighter truncate max-w-[80%]">Nội dung</h3>
                 <button class="video-modal-close" onclick="closeVideoModal()">
                     <i data-lucide="x" class="w-6 h-6"></i>
                 </button>
@@ -1289,19 +1289,50 @@
 
     function mapVideoRows(rows) {
         return rows
-            .filter(row => (row.title || '').trim())
+            .filter(row => {
+                const isActive = String(row.is_active || 'TRUE').trim().toUpperCase();
+                return (row.title || '').trim() && isActive !== 'FALSE';
+            })
             .sort((a, b) => {
                 const ao = Number(a.sort_order || 999999);
                 const bo = Number(b.sort_order || 999999);
                 return ao - bo;
             })
-            .map(row => ({
-                title: (row.title || '').trim(),
-                description: (row.description || '').trim(),
-                duration: (row.duration_text || '').trim() || '--:--',
-                thumbnail: (row.thumbnail_image_url || '').trim(),
-                driveId: (row.drive_id || '').trim()
-            }));
+            .map(row => {
+                const contentType = (row.content_type || 'video').trim().toLowerCase();
+    
+                return {
+                    contentType,
+                    title: (row.title || '').trim(),
+                    description: (row.description || '').trim(),
+                    duration: (row.duration_text || '').trim() || getMediaBadgeText(contentType),
+                    thumbnail: (row.thumbnail_image_url || '').trim(),
+                    driveId: (row.drive_id || '').trim()
+                };
+            });
+    }
+    
+    function getMediaBadgeText(contentType) {
+        if (contentType === 'pdf') return 'PDF';
+        if (contentType === 'ppt' || contentType === 'pptx') return 'PPTX';
+        if (contentType === 'doc' || contentType === 'docx') return 'DOC';
+        if (contentType === 'image') return 'IMAGE';
+        return '--:--';
+    }
+    function getMediaIcon(contentType) {
+        if (contentType === 'pdf') return 'file-text';
+        if (contentType === 'ppt' || contentType === 'pptx') return 'presentation';
+        if (contentType === 'doc' || contentType === 'docx') return 'file-type-2';
+        if (contentType === 'image') return 'image';
+        return 'play';
+    }
+    
+    function getMediaActionText(contentType) {
+        if (contentType === 'pdf') return 'Xem PDF';
+        if (contentType === 'ppt' || contentType === 'pptx') return 'Xem slide';
+        if (contentType === 'doc' || contentType === 'docx') return 'Xem tài liệu';
+        if (contentType === 'image') return 'Xem ảnh';
+        return 'Xem video';
     }
 
     async function loadExcelDataAutomatically() {
@@ -1751,7 +1782,7 @@
         companyVideoData.forEach((v) => {
             const card = document.createElement('div');
             card.className = "company-video-card flex flex-col animate-up";
-            card.addEventListener('click', () => openVideoModal(v.driveId, v.title));
+            card.addEventListener('click', () => openMediaModal(v.driveId, v.title, v.contentType));
             
             card.addEventListener('mouseenter', () => {
                 showVideoDescPopup(card, v.title, v.description);
@@ -1767,14 +1798,16 @@
             const safeTitle = escapeHtmlText(v.title || '');
             const safeDescription = escapeHtmlText(v.description || 'Chưa có mô tả.');
             const safeThumbnail = escapeHtmlText(v.thumbnail || '');
-            const safeDuration = escapeHtmlText(v.duration || '--:--');
+            const safeDuration = escapeHtmlText(v.duration || getMediaBadgeText(v.contentType));
+            const mediaIcon = getMediaIcon(v.contentType);
+            const actionText = getMediaActionText(v.contentType);
             card.innerHTML = `
                 <div class="company-video-thumbnail" style="--thumb-bg: url('${safeThumbnail}')">
                     <div class="company-video-overlay"></div>
-                    <img src="${safeThumbnail}" alt="${safeTitle}" onerror="this.src='https://placehold.co/600x400/0ea5e9/ffffff?text=${encodeURIComponent(v.title || 'Video')}'">
+                    <img src="${safeThumbnail}" alt="${safeTitle}" onerror="this.src='https://placehold.co/600x400/0ea5e9/ffffff?text=${encodeURIComponent(v.title || 'Media')}'">
             
-                    <div class="company-video-play-btn">
-                        <i data-lucide="play" class="fill-current ml-1"></i>
+                    <div class="company-video-play-btn" title="${actionText}">
+                        <i data-lucide="${mediaIcon}" class="w-6 h-6 ${v.contentType === 'video' ? 'fill-current ml-1' : ''}"></i>
                     </div>
             
                     <div class="absolute bottom-4 right-4 bg-slate-900/80 backdrop-blur text-white px-2.5 py-1 rounded-xl text-[12px] font-black z-10">
@@ -1783,6 +1816,11 @@
                 </div>
             
                 <div class="p-6 space-y-2 bg-white/80 backdrop-blur">
+                    <div class="flex items-center gap-2">
+                        <span class="text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded-lg bg-primary-50 text-primary-600 border border-primary-100">
+                            ${escapeHtmlText((v.contentType || 'video').toUpperCase())}
+                        </span>
+                    </div>
                     <h3 class="text-xl font-black text-slate-900 leading-tight line-clamp-1">${safeTitle}</h3>
                     <p class="text-slate-500 font-bold text-[14px] leading-relaxed line-clamp-2">
                         ${safeDescription}
@@ -1951,26 +1989,28 @@
         }, { passive: false });
     }
     
-    function openVideoModal(driveId, title) {
+    function openMediaModal(driveId, title, contentType = 'video') {
         forceHideVideoDescPopup();
-        
+    
         if (!driveId) {
-            showToast('Video này chưa được cấu hình Google Drive ID.', 'warning');
+            showToast('Nội dung này chưa được cấu hình Google Drive ID.', 'warning');
             return;
         }
-        
+    
         const modal = document.getElementById('videoModal');
         const modalContent = document.getElementById('videoModalContent');
         const iframe = document.getElementById('videoIframe');
         const titleEl = document.getElementById('modalVideoTitle');
-        
+    
         if (!modal || !modalContent || !iframe || !titleEl) return;
-
-        titleEl.innerText = title || 'Video';
+    
+        const typeLabel = String(contentType || 'video').toUpperCase();
+        titleEl.innerText = `[${typeLabel}] ${title || 'Tài liệu'}`;
+    
         iframe.src = `https://drive.google.com/file/d/${driveId}/preview`;
-        
+    
         modal.classList.remove('hidden');
-        
+    
         setTimeout(() => {
             modal.classList.remove('opacity-0');
             modal.classList.add('opacity-100');
