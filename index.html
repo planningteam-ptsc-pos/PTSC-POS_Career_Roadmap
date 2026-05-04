@@ -529,6 +529,69 @@
         }
         .company-video-card:hover .company-video-play-btn { transform: translate(-50%, -50%) scale(1.15); background: var(--sky-primary); color: white; }
 
+        /* Popup mô tả đầy đủ khi hover thumbnail */
+        .company-video-desc-popup {
+            position: absolute;
+            inset: 14px;
+            z-index: 12;
+            background: rgba(15, 23, 42, 0.72);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 20px;
+            padding: 14px 16px;
+            color: white;
+        
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(8px);
+            transition: all 0.28s ease;
+        
+            pointer-events: none;
+        }
+        
+        .company-video-desc-title {
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: rgba(255, 255, 255, 0.78);
+        }
+        
+        .company-video-desc-text {
+            font-size: 13px;
+            font-weight: 600;
+            line-height: 1.6;
+            color: white;
+            overflow-y: auto;
+            padding-right: 4px;
+            flex: 1;
+        }
+        
+        .company-video-desc-text::-webkit-scrollbar {
+            width: 4px;
+        }
+        
+        .company-video-desc-text::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.35);
+            border-radius: 999px;
+        }
+        
+        /* Hover vào thumbnail thì hiện popup */
+        .company-video-thumbnail:hover .company-video-desc-popup {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        /* Làm nền tối hơn chút khi hover để popup nổi rõ */
+        .company-video-card:hover .company-video-overlay {
+            background: rgba(0,0,0,0.28);
+        }
         /* --- PHẦN BỔ SUNG: COMPANY MINDMAP (PREFIXED) --- */
         .company-map-viewport {
             width: 100%; height: 100%; overflow-x: auto; overflow-y: auto; border-radius: 40px; position: relative;
@@ -1675,14 +1738,29 @@
                 <div class="company-video-thumbnail" style="--thumb-bg: url('${v.thumbnail}')">
                     <div class="company-video-overlay"></div>
                     <img src="${v.thumbnail}" alt="${v.title}" onerror="this.src='https://placehold.co/600x400/0ea5e9/ffffff?text=${encodeURIComponent(v.title)}'">
-                    <div class="company-video-play-btn"><i data-lucide="play" class="fill-current ml-1"></i></div>
-                    <div class="absolute bottom-4 right-4 bg-slate-900/80 backdrop-blur text-white px-2.5 py-1 rounded-xl text-[12px] font-black z-10">${v.duration}</div>
+                    
+                    <div class="company-video-desc-popup">
+                        <div class="company-video-desc-title">${v.title}</div>
+                        <div class="company-video-desc-text">${v.description || 'Chưa có mô tả.'}</div>
+                    </div>
+            
+                    <div class="company-video-play-btn">
+                        <i data-lucide="play" class="fill-current ml-1"></i>
+                    </div>
+            
+                    <div class="absolute bottom-4 right-4 bg-slate-900/80 backdrop-blur text-white px-2.5 py-1 rounded-xl text-[12px] font-black z-10">
+                        ${v.duration}
+                    </div>
                 </div>
+            
                 <div class="p-6 space-y-2 bg-white/80 backdrop-blur">
                     <h3 class="text-xl font-black text-slate-900 leading-tight line-clamp-1">${v.title}</h3>
-                    <p class="text-slate-500 font-bold text-[14px] leading-relaxed line-clamp-2">${v.description}</p>
+                    <p class="text-slate-500 font-bold text-[14px] leading-relaxed line-clamp-2">
+                        ${v.description || 'Chưa có mô tả.'}
+                    </p>
                 </div>
             `;
+
             grid.appendChild(card);
         });
         lucide.createIcons();
