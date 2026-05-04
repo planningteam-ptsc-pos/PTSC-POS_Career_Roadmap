@@ -592,6 +592,71 @@
         .company-video-card:hover .company-video-overlay {
             background: rgba(0,0,0,0.28);
         }
+
+        /* Floating popup mô tả video - nằm ngoài card */
+        .video-desc-floating-popup {
+            position: fixed;
+            z-index: 1800;
+            width: min(460px, calc(100vw - 40px));
+            max-height: min(360px, calc(100vh - 80px));
+            overflow: hidden;
+        
+            background: rgba(15, 23, 42, 0.86);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+        
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 24px;
+            box-shadow: 0 24px 60px rgba(15, 23, 42, 0.34);
+        
+            padding: 18px 20px;
+            color: white;
+        
+            opacity: 0;
+            transform: translateY(10px) scale(0.98);
+            pointer-events: none;
+            transition: opacity 0.22s ease, transform 0.22s ease;
+        }
+        
+        .video-desc-floating-popup.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        
+        .video-desc-floating-title {
+            font-size: 13px;
+            font-weight: 900;
+            line-height: 1.35;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #ffffff;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.16);
+        }
+        
+        .video-desc-floating-text {
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1.65;
+            color: rgba(255,255,255,0.92);
+        
+            max-height: 260px;
+            overflow-y: auto;
+            padding-right: 6px;
+        
+            /* Quan trọng: giữ xuống dòng từ Excel / Google Sheet */
+            white-space: pre-line;
+        }
+        
+        .video-desc-floating-text::-webkit-scrollbar {
+            width: 4px;
+        }
+        
+        .video-desc-floating-text::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.35);
+            border-radius: 999px;
+        }
         /* --- PHẦN BỔ SUNG: COMPANY MINDMAP (PREFIXED) --- */
         .company-map-viewport {
             width: 100%; height: 100%; overflow-x: auto; overflow-y: auto; border-radius: 40px; position: relative;
@@ -1088,7 +1153,12 @@
             </div>
         </div>
     </div>
-
+    
+    <div id="videoDescFloatingPopup" class="video-desc-floating-popup hidden">
+    <div id="videoDescFloatingTitle" class="video-desc-floating-title"></div>
+    <div id="videoDescFloatingText" class="video-desc-floating-text"></div>
+    </div>
+    
     <!-- TOAST -->
     <div id="toastContainer" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[999] flex flex-col gap-3 pointer-events-none"></div>
 
@@ -1734,15 +1804,22 @@
             card.className = "company-video-card flex flex-col animate-up";
             card.addEventListener('click', () => openVideoModal(v.driveId, v.title));
             
+            card.addEventListener('mouseenter', () => {
+                showVideoDescPopup(card, v.title, v.description);
+            });
+            
+            card.addEventListener('mousemove', () => {
+                positionVideoDescPopup(card);
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                hideVideoDescPopup();
+            });
+            
             card.innerHTML = `
                 <div class="company-video-thumbnail" style="--thumb-bg: url('${v.thumbnail}')">
                     <div class="company-video-overlay"></div>
                     <img src="${v.thumbnail}" alt="${v.title}" onerror="this.src='https://placehold.co/600x400/0ea5e9/ffffff?text=${encodeURIComponent(v.title)}'">
-                    
-                    <div class="company-video-desc-popup">
-                        <div class="company-video-desc-title">${v.title}</div>
-                        <div class="company-video-desc-text">${v.description || 'Chưa có mô tả.'}</div>
-                    </div>
             
                     <div class="company-video-play-btn">
                         <i data-lucide="play" class="fill-current ml-1"></i>
@@ -1765,7 +1842,88 @@
         });
         lucide.createIcons();
     }
+    function normalizeVideoDescription(text) {
+    return String(text || 'Chưa có mô tả.')
+        .replace(/\\n/g, '\n')
+        .trim();
+    }
 
+    function escapeHtmlText(text) {
+        return String(text || '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
+    
+    function showVideoDescPopup(cardEl, title, description) {
+        const popup = document.getElementById('videoDescFloatingPopup');
+        const titleEl = document.getElementById('videoDescFloatingTitle');
+        const textEl = document.getElementById('videoDescFloatingText');
+    
+        if (!popup || !titleEl || !textEl || !cardEl) return;
+    
+        titleEl.innerHTML = escapeHtmlText(title || 'Thông tin video');
+        textEl.innerHTML = escapeHtmlText(normalizeVideoDescription(description));
+    
+        popup.classList.remove('hidden');
+    
+        requestAnimationFrame(() => {
+            positionVideoDescPopup(cardEl);
+            popup.classList.add('show');
+        });
+    }
+    
+    function positionVideoDescPopup(cardEl) {
+        const popup = document.getElementById('videoDescFloatingPopup');
+        if (!popup || !cardEl || popup.classList.contains('hidden')) return;
+    
+        const rect = cardEl.getBoundingClientRect();
+        const gap = 14;
+        const margin = 20;
+    
+        const popupWidth = popup.offsetWidth || 460;
+        const popupHeight = popup.offsetHeight || 260;
+    
+        let left = rect.left;
+        let top = rect.top - popupHeight - gap;
+    
+        // Nếu phía trên không đủ chỗ thì hiện bên dưới card
+        if (top < margin) {
+            top = rect.bottom + gap;
+        }
+    
+        // Không để popup tràn phải màn hình
+        if (left + popupWidth > window.innerWidth - margin) {
+            left = window.innerWidth - popupWidth - margin;
+        }
+    
+        // Không để popup tràn trái
+        if (left < margin) {
+            left = margin;
+        }
+    
+        // Không để popup tràn đáy
+        if (top + popupHeight > window.innerHeight - margin) {
+            top = window.innerHeight - popupHeight - margin;
+        }
+    
+        popup.style.left = `${left}px`;
+        popup.style.top = `${top}px`;
+    }
+    
+    function hideVideoDescPopup() {
+        const popup = document.getElementById('videoDescFloatingPopup');
+        if (!popup) return;
+    
+        popup.classList.remove('show');
+    
+        setTimeout(() => {
+            popup.classList.add('hidden');
+        }, 220);
+    }
+    
     function openVideoModal(driveId, title) {
         if (!driveId) {
             showToast('Video này chưa được cấu hình Google Drive ID.', 'warning');
