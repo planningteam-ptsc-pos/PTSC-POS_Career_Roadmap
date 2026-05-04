@@ -1254,7 +1254,8 @@
     ];
 
     // --- COMPANY MINDMAP DATA (PREFIXED) ---
-    const companyMapData = [
+    let companyMapData = [];
+    const companyMapFallbackData = [
         { id: 'pm', side: 'right', colorGrad: 'linear-gradient(135deg, #3b82f6, #2563eb)', colorRaw: '#3b82f6', title: 'Quản lý dự án / Project Management', children: ['Giám đốc dự án / Project Director', 'Tổ trưởng Tổ quản lý dự án / Project Manager', 'Cố vấn dự án / Project Advisor', 'Kỹ sư dự án / Project Engineer', 'Điều phối dự án / Project Coordinator', 'Quản lý giám sát tiến độ dự án / Progress Supervisor - Planner', 'Quản lý điều phối giao diện dự án / Project Interface Manager', 'Nhóm chuyên gia / Specialist Group', 'Thư ký dự án / Project Secretary'] },
         { id: 'ct', side: 'right', colorGrad: 'linear-gradient(135deg, #8b5cf6, #7c3aed)', colorRaw: '#8b5cf6', title: 'Hợp đồng - Thương mại / Contractual - Commercial', children: ['Chuyên viên pháp lý / Legal Officer', 'Chuyên viên hợp đồng / Contract Officer', 'Chuyên viên quản lý hợp đồng / Contract Management Officer', 'Chuyên viên hợp đồng & mua sắm / Contract & Procurement Officer', 'Cố vấn quản lý hợp đồng và chi phí / Contract & Cost Management Advisor', 'Chuyên viên dịch vụ / Subservice Officer'] },
         { id: 'eg', side: 'right', colorGrad: 'linear-gradient(135deg, #ec4899, #db2777)', colorRaw: '#ec4899', title: 'Kỹ thuật / Engineering', children: ['Trưởng nhóm quản lý thiết kế / Engineering Design Manager', 'Chuyên viên đồ họa / Draftsman', 'Kỹ sư dự án / Project Engineer', 'Kỹ sư công nghệ và quy trình / Process Engineer', 'Kỹ sư đường ống / Piping Engineer', 'Kỹ sư kết cấu / Structure Engineer', 'Kỹ sư Đường ống ngầm / Subsea Pipeline Design Engineer', 'Kỹ sư cơ khí / Mechanical Engineer', 'Kỹ sư thiết kế hàng hải / Marine Design Engineer', 'Kỹ sư điện - tự động hóa - viễn thông / EIT Engineer', 'Kỹ sư nâng hạ / Lifting & Rigging Engineer', 'Kỹ sư sơn chống ăn mòn / Painting & Coating Engineer', 'Kỹ sư giàn giáo / Scaffolding Engineer'] },
@@ -1270,6 +1271,7 @@
         { id: 'co', side: 'left', colorGrad: 'linear-gradient(135deg, #14b8a6, #0d9488)', colorRaw: '#14b8a6', title: 'Chi phí - Tài chính - Kế toán / Cost - Finance - Accounting', children: ['Chuyên viên kế toán, tài chính / Finance & Accounting Officer', 'Chuyên viên kiểm soát chi phí / Cost Controller', 'Cố vấn quản lý hợp đồng và chi phí / Contract & Cost Management Advisor', 'Chuyên viên kiểm soát dự toán dự án / Project Budget Control Officer', 'Chuyên viên kiểm soát thu chi dự án / Project Revenue & Expense Control Officer'] },
         { id: 'ms', side: 'left', colorGrad: 'linear-gradient(135deg, #22c55e, #16a34a)', colorRaw: '#22c55e', title: 'Cung ứng nhân lực / Manpower Supply', children: ['Chuyên viên điều phối nguồn nhân lực / Manpower Coordinator', 'Chuyên viên nguồn nhân lực dự án / Project Human Resources Officer', 'Chuyên viên điều phối đào tạo nhân lực dự án / Project Manpower Training Coordinator', 'Chuyên viên dịch vụ / Subservice Officer'] }
     ];
+    companyMapData = companyMapFallbackData;
 
     lucide.createIcons();
 
@@ -1370,6 +1372,54 @@
                 };
             });
     }
+
+    function mapMindmapRows(rows) {
+        const groupMap = new Map();
+    
+        rows
+            .filter(row => (row.id || '').trim() && (row.title || '').trim())
+            .forEach((row, index) => {
+                const id = (row.id || '').trim();
+    
+                if (!groupMap.has(id)) {
+                    const sideValue = String(row.side || 'right').trim().toLowerCase();
+    
+                    groupMap.set(id, {
+                        id,
+                        side: sideValue === 'left' ? 'left' : 'right',
+                        colorGrad: (row.colorgrad || 'linear-gradient(135deg, #3b82f6, #2563eb)').trim(),
+                        colorRaw: (row.colorraw || '#3b82f6').trim(),
+                        title: (row.title || '').trim(),
+                        order: index,
+                        children: []
+                    });
+                }
+    
+                const group = groupMap.get(id);
+                const childTitle = (row.child_title || '').trim();
+                const childOrder = Number(row.child_order || 999999);
+    
+                if (childTitle) {
+                    group.children.push({
+                        order: Number.isFinite(childOrder) ? childOrder : 999999,
+                        title: childTitle
+                    });
+                }
+            });
+    
+        return Array.from(groupMap.values())
+            .sort((a, b) => a.order - b.order)
+            .map(group => ({
+                id: group.id,
+                side: group.side,
+                colorGrad: group.colorGrad,
+                colorRaw: group.colorRaw,
+                title: group.title,
+                children: group.children
+                    .sort((a, b) => a.order - b.order)
+                    .map(child => child.title)
+            }));
+    }
     
     function getMediaBadgeText(contentType) {
         if (contentType === 'pdf') return 'PDF';
@@ -1450,6 +1500,32 @@
                 companyVideoData = companyVideoFallbackData;
             }
 
+            try {
+                if (config.sheetUrl4) {
+                    const mindmapRes = await fetch(config.sheetUrl4);
+            
+                    if (mindmapRes.ok) {
+                        const mindmapCsvText = await mindmapRes.text();
+                        const mindmapRows = parseCSV(mindmapCsvText);
+                        const mappedMindmapData = mapMindmapRows(mindmapRows);
+            
+                        companyMapData = mappedMindmapData.length > 0
+                            ? mappedMindmapData
+                            : companyMapFallbackData;
+                    } else {
+                        companyMapData = companyMapFallbackData;
+                    }
+                } else {
+                    companyMapData = companyMapFallbackData;
+                }
+            
+                companyMapCreated = false;
+            } catch (mapErr) {
+                console.warn('Không tải được dữ liệu mindmap từ sheetUrl4:', mapErr);
+                companyMapData = companyMapFallbackData;
+                companyMapCreated = false;
+            }
+            
             const roles = [...new Set(masterData.map(d => d.function_title))].filter(Boolean);
             customRoleList.innerHTML = '';
             roles.sort().forEach(r => {
@@ -1491,7 +1567,22 @@
         }
         if (cell || row.length > 0) { row.push(cell.trim()); if (row.some(c => c !== '')) rows.push(row); }
         let headerIndex = 0;
-        for (let i = 0; i < rows.length; i++) { if (rows[i].includes('function_title') || rows[i].includes('milestone_level') || rows[i].includes('drive_id')) { headerIndex = i; break; } }
+        
+        for (let i = 0; i < rows.length; i++) {
+            const normalizedHeader = rows[i].map(c => String(c || '').trim().toLowerCase());
+        
+            if (
+                normalizedHeader.includes('function_title') ||
+                normalizedHeader.includes('milestone_level') ||
+                normalizedHeader.includes('drive_id') ||
+                normalizedHeader.includes('child_title') ||
+                normalizedHeader.includes('colorgrad') ||
+                normalizedHeader.includes('colorraw')
+            ) {
+                headerIndex = i;
+                break;
+            }
+        }
         const headers = rows[headerIndex].map(h => h.trim().toLowerCase());
         const dataRows = rows.slice(headerIndex + 1);
         return dataRows.map(r => {
@@ -2106,8 +2197,12 @@
         const rightSide = document.getElementById('companyMapSideRight');
         if(!leftSide || !rightSide) return;
         leftSide.innerHTML = ''; rightSide.innerHTML = '';
-
-        companyMapData.forEach((group) => {
+        
+        const mindmapDataToRender = companyMapData.length > 0
+            ? companyMapData
+            : companyMapFallbackData;
+        
+        mindmapDataToRender.forEach((group) => {
             const wrapper = document.createElement('div');
             wrapper.className = 'company-map-node-wrapper flex flex-col';
 
