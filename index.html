@@ -2341,21 +2341,97 @@
         const found = salaryBenefitData.find(d => (d.milestone_level || "").trim().toLowerCase() === lvl);
         return found ? found.salary : "Thỏa thuận";
     }
-    function getRoleIcon(roleName) {
-        const name = roleName.toLowerCase();
-        if (name.includes('hvac') || name.includes('mechanical') || name.includes('piping') || name.includes('equipment')) return 'wrench';
-        if (name.includes('electrical') || name.includes('eit') || name.includes('instrument')) return 'zap';
-        if (name.includes('hse') || name.includes('safety') || name.includes('fire') || name.includes('guard')) return 'shield-alert';
-        if (name.includes('plan') || name.includes('schedule')) return 'calendar-clock';
-        if (name.includes('qa') || name.includes('qc') || name.includes('quality') || name.includes('inspect')) return 'check-circle';
-        if (name.includes('manager') || name.includes('lead') || name.includes('coordinator') || name.includes('director')) return 'users';
-        if (name.includes('material') || name.includes('logistic')) return 'package';
-        if (name.includes('lift') || name.includes('scaffold') || name.includes('rigging') || name.includes('crane')) return 'construction';
-        if (name.includes('paint') || name.includes('blast') || name.includes('coat')) return 'paint-roller';
-        if (name.includes('commissioning') || name.includes('start')) return 'power';
-        if (name.includes('flange') || name.includes('weld') || name.includes('joint')) return 'link-2';
-        return 'briefcase';
-    }
+function getRoleIcon(roleName) {
+    if (!roleName) return 'briefcase';
+    const name = roleName.toLowerCase();
+
+    // === Direct trade workers (specific keywords first) ===
+    if (name.includes('weld'))                                            return 'flame';
+    if (name.includes('fitter'))                                          return 'hammer';
+    if (name.includes('scaffold'))                                        return 'frame';
+    if (name.includes('paint') || name.includes('blast') || name.includes('coat')) return 'paint-bucket';
+    if (name.includes('rigger') || name.includes('rigging') || /\brat\b/.test(name)) return 'link-2';
+    if (name.includes('crane'))                                           return 'arrow-up-from-line';
+    if (name.includes('lift'))                                            return 'arrow-up-from-line';
+
+    // === HUC / Construction supervisors (before generic discipline match) ===
+    if (name.includes('huc piping') || name.includes('huc pipe'))         return 'wrench';
+    if (name.includes('huc mechanical') || name.includes('huc mech'))     return 'settings-2';
+    if (name.includes('huc e&i') || name.includes('huc ei'))              return 'plug-zap';
+    if (name.includes('huc') || name.includes('brownfield'))              return 'hard-hat';
+    if (name.includes('field') && name.includes('eng'))                   return 'clipboard-list';
+    if (name.includes('construction supervisor'))                         return 'users';
+
+    // === Commissioning (specific then general) ===
+    if (name.includes('icaps'))                                           return 'database';
+    if (name.includes('telecom') && name.includes('comm'))                return 'signal';
+    if (name.includes('subsea') && (name.includes('pre-com') || name.includes('de-com'))) return 'waves';
+    if (name.includes('i&a') && name.includes('comm'))                    return 'monitor-check';
+    if (name.includes('commissioning') || name.includes('chạy thử'))      return 'power';
+
+    // === Process / Process Safety ===
+    if (name.includes('process safety'))                                  return 'shield-alert';
+    if (name.includes('process'))                                         return 'flask-conical';
+
+    // === Marine specific (BEFORE generic 'marine' catch) ===
+    if (name.includes('marine construction'))                             return 'ship-wheel';
+    if (name.includes('marine deck') || name.includes('thuyền'))          return 'ship';
+    if (name.includes('marine engine') || name.includes('máy trưởng'))    return 'settings-2';
+    if (name.includes('marine electrical') || name.includes('điện trưởng')) return 'plug-zap';
+    if (name.includes('marine equipment') || name.includes('equipment surveyor')) return 'search-check';
+    if (name.includes('marine coord'))                                    return 'compass';
+    if (name.includes('marine'))                                          return 'ship';
+    if (name.includes('diving') || name.includes('thợ lặn'))              return 'life-buoy';
+    if (name.includes('t&i'))                                             return 'anchor';
+
+    // === Subsea / Engineering disciplines ===
+    if (name.includes('subsea') || name.includes('ngầm'))                 return 'waves';
+    if (name.includes('hvac'))                                            return 'wind';
+    if (name.includes('structur') || name.includes('kết cấu'))            return 'building-2';
+    if (name.includes('telecom') || name.includes('viễn thông'))          return 'radio-tower';
+    if (name.includes('instrument') || name.includes('automation') ||
+        name.includes('i&a') || name.includes('tự động'))                 return 'cpu';
+    if (name.includes('piping') || name.includes('đường ống'))            return 'git-fork';
+
+    // === Safety / Quality / Medical ===
+    if (name.includes('hse') || name.includes('safety'))                  return 'shield-alert';
+    if (name.includes('fire'))                                            return 'fire-extinguisher';
+    if (name.includes('medic') || name.includes('y tế'))                  return 'heart-pulse';
+    if (name.includes('qa') || name.includes('qc') || name.includes('quality') || name.includes('inspect')) return 'badge-check';
+    if (name.includes('ptw') || name.includes('permit'))                  return 'clipboard-check';
+    if (name.includes('risk') || name.includes('rủi ro'))                 return 'alert-triangle';
+
+    // === Generic discipline (Design fallback) ===
+    if (name.includes('mechanical') || name.includes('cơ khí'))           return 'cog';
+    if (name.includes('electrical') || name.includes('eit') || name.includes('điện')) return 'zap';
+
+    // === Commercial / Business support ===
+    if (name.includes('contract') || name.includes('hợp đồng'))           return 'file-signature';
+    if (name.includes('legal') || name.includes('pháp'))                  return 'scale';
+    if (name.includes('subservice') || name.includes('nhà thầu phụ'))     return 'handshake';
+    if (name.includes('procurement') || name.includes('mua sắm'))         return 'shopping-cart';
+    if (name.includes('logistic') || name.includes('hậu cần'))            return 'truck';
+    if (name.includes('material'))                                        return 'package';
+    if (name.includes('cost'))                                            return 'calculator';
+    if (name.includes('finance') || name.includes('accounting') || name.includes('tài chính')) return 'landmark';
+    if (name.includes('hr ') || name.includes('human resource') || name.includes('nhân sự')) return 'users-round';
+    if (name.includes('training') || name.includes('đào tạo'))            return 'graduation-cap';
+
+    // === PMO / Coordination ===
+    if (name.includes('plan') || name.includes('schedule'))               return 'calendar-clock';
+    if (name.includes('document') || name.includes('tài liệu'))           return 'folder-open';
+    if (name.includes('secretary') || name.includes('thư ký'))            return 'clipboard-list';
+    if (name.includes('coordinator'))                                     return 'network';
+
+    // === Equipment / Surveyor ===
+    if (name.includes('surveyor') || name.includes('survey'))             return 'search-check';
+    if (name.includes('equipment'))                                       return 'wrench';
+
+    // === Generic management fallback ===
+    if (name.includes('manager') || name.includes('lead') || name.includes('director')) return 'users';
+
+    return 'briefcase';
+}
     function mapVideoRows(rows) {
         return rows
             .filter(row => {
