@@ -644,8 +644,10 @@
         }
         .company-map-node-l1.expanded + .company-map-children-container { max-height: 800px; opacity: 1; }
         .company-map-l2-box { background: white; border-radius: 20px; padding: 12px; display: flex; flex-direction: column; gap: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-left: 6px solid; overflow-y: auto; max-height: 350px; }
-        .company-map-child-item { padding: 9px 16px; font-size: 14px; background: #f8fafc; border-radius: 12px; font-weight: 600; color: #1e293b; transition: 0.2s; border: 1px solid transparent; }
-        .company-map-child-item:hover { transform: translateX(6px); background: #f1f5f9; border-color: #e2e8f0; }
+        .company-map-child-item { padding: 9px 16px; font-size: 14px; background: #f8fafc; border-radius: 12px; font-weight: 600; color: #1e293b; transition: 0.2s; border: 1px solid transparent; cursor: pointer; position: relative; }
+        .company-map-child-item:hover { transform: translateX(6px); background: #f1f5f9; border-color: #e2e8f0; box-shadow: 0 4px 10px rgba(0,0,0,0.06); }
+        .company-map-child-item::after { content: '→'; position: absolute; right: 14px; top: 50%; transform: translateY(-50%); opacity: 0; transition: opacity 0.2s, transform 0.2s; color: #2563eb; font-weight: 800; }
+        .company-map-child-item:hover::after { opacity: 1; transform: translateY(-50%) translateX(4px); }
         .company-map-connection-path { fill: none; stroke-width: 2.8; stroke-linecap: round; opacity: 0.4; pointer-events: none; transition: d 0.4s; }
         /* Modal Video Logic Mẫu */
         .video-modal-overlay {
@@ -2183,6 +2185,19 @@
     <!-- TOAST -->
     <div id="toastContainer" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[999] flex flex-col gap-3 pointer-events-none"></div>
 </div>
+<!-- MINDMAP CLICK POPUP -->
+<div id="mindmapClickPopup" class="fixed inset-0 z-[2500] hidden items-center justify-center p-6" style="background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(8px);">
+    <div class="bg-white rounded-3xl shadow-2xl max-w-md w-full p-8 text-center" onclick="event.stopPropagation()">
+        <div class="w-16 h-16 mx-auto mb-5 rounded-2xl bg-amber-50 border-2 border-amber-200 flex items-center justify-center">
+            <i data-lucide="hammer" class="w-8 h-8 text-amber-600"></i>
+        </div>
+        <h3 class="text-[20px] font-black text-slate-900 mb-2 tracking-tight">Đang cập nhật dữ liệu</h3>
+        <p class="text-slate-500 text-[14px] mb-1">Lộ trình cho vị trí</p>
+        <p id="mindmapClickPopupRole" class="text-primary-600 font-black text-[16px] mb-5 leading-tight">---</p>
+        <p class="text-slate-600 text-[14px] mb-6 leading-relaxed">Hệ thống đang trong quá trình hoàn thiện và bổ sung dữ liệu chi tiết cho vị trí này. Vui lòng quay lại sau!</p>
+        <button onclick="closeMindmapPopup()" class="bg-primary-600 hover:bg-primary-700 text-white font-black uppercase tracking-widest text-[12px] px-10 py-3 rounded-2xl transition-all shadow-lg shadow-primary-600/20">Đã hiểu</button>
+    </div>
+</div>
 <!-- AI BOT WIDGET -->
 <div id="ai-bot-trigger" class="ai-bot-periodic-shake">
     <div class="ai-bot-icon-circle">
@@ -2246,7 +2261,7 @@
     let selectedRoleValue = "";
     let isFileLoaded = false;
     let isRoleSelected = false;
-    let aiBotGeminiModel = "gemini-3.1-flash-lite-preview";
+    let aiBotGeminiModel = "gemini-2.5-flash-lite";
     let aiBotGeminiApiKey = "";
     let aiBotCompensationData = "";
     let aiBotAnswerRule = `QUY TẮC TRẢ LỜI:
@@ -3218,6 +3233,111 @@ function getRoleIcon(roleName) {
         }, 300);
     }
     // --- LOGIC COMPANY MINDMAP ENHANCED ---
+    // Match a clicked mindmap item (e.g. "Kỹ sư đường ống / Piping Engineer") to a function_title in masterData
+    function findFunctionForMindmapItem(clickedText) {
+        if (!masterData || masterData.length === 0) return null;
+        const candidates = [clickedText.trim()];
+        if (clickedText.includes(' / ')) {
+            const parts = clickedText.split(' / ');
+            candidates.push(parts[0].trim());
+            candidates.push(parts[parts.length - 1].trim());
+        }
+        const allFunctionTitles = [...new Set(masterData.map(d => d.function_title).filter(Boolean))];
+        // Strategy 1: exact match on function_title (case-insensitive)
+        for (const cand of candidates) {
+            const m = allFunctionTitles.find(ft => ft.toLowerCase() === cand.toLowerCase());
+            if (m) return m;
+        }
+        // Strategy 2: exact match on role_title (case-insensitive)
+        for (const cand of candidates) {
+            const candLower = cand.toLowerCase();
+            const m = masterData.find(d => d.role_title && d.role_title.toLowerCase() === candLower);
+            if (m) return m.function_title;
+        }
+        // Strategy 3: distinctive token overlap scoring (with fuzzy prefix match)
+        const stopwords = new Set(['the','of','and','in','for','to','&','/','kỹ','sư','chuyên','viên','nhân','trưởng','nhóm','engineer','officer','specialist','supervisor','coordinator','asst','assistant','senior','lead','manager','team','group','và','quản','lý','dự','án','cấp','trợ']);
+        const tokenize = (s) => s.toLowerCase().replace(/[\/\-\(\)&,\.]+/g, ' ').split(/\s+/).filter(Boolean);
+        const distinct = (s) => tokenize(s).filter(w => !stopwords.has(w) && w.length >= 3);
+        // Fuzzy match: same word OR share ≥4-char prefix (catches structure/structural, welding/welder, lifting/lift)
+        const fuzzyEq = (a, b) => {
+            if (a === b) return true;
+            const minLen = Math.min(a.length, b.length);
+            if (minLen < 4) return false;
+            let i = 0;
+            while (i < minLen && a[i] === b[i]) i++;
+            return i >= 4;
+        };
+        let bestFt = null, bestScore = 0;
+        for (const ft of allFunctionTitles) {
+            const ftTokens = distinct(ft);
+            if (ftTokens.length === 0) continue;
+            for (const cand of candidates) {
+                const candTokens = distinct(cand);
+                if (candTokens.length === 0) continue;
+                let overlap = 0;
+                for (const t of candTokens) {
+                    if (ftTokens.some(ft_t => fuzzyEq(t, ft_t))) overlap++;
+                }
+                const score = overlap / Math.max(candTokens.length, ftTokens.length);
+                if (overlap >= 1 && score > bestScore) { bestScore = score; bestFt = ft; }
+            }
+        }
+        return bestScore >= 0.4 ? bestFt : null;
+    }
+    function openMindmapPopup(roleName) {
+        const popup = document.getElementById('mindmapClickPopup');
+        document.getElementById('mindmapClickPopupRole').textContent = roleName || '---';
+        popup.classList.remove('hidden');
+        popup.classList.add('flex');
+        lucide.createIcons();
+    }
+    function closeMindmapPopup() {
+        const popup = document.getElementById('mindmapClickPopup');
+        popup.classList.add('hidden');
+        popup.classList.remove('flex');
+    }
+    // Close popup when clicking the backdrop
+    document.addEventListener('DOMContentLoaded', () => {
+        const popup = document.getElementById('mindmapClickPopup');
+        if (popup) popup.addEventListener('click', (e) => { if (e.target === popup) closeMindmapPopup(); });
+    });
+    function handleMindmapChildClick(clickedText) {
+        if (!masterData || masterData.length === 0) {
+            showToast('Đang tải dữ liệu, vui lòng thử lại sau!');
+            return;
+        }
+        const matchedFunctionTitle = findFunctionForMindmapItem(clickedText);
+        if (!matchedFunctionTitle) {
+            openMindmapPopup(clickedText);
+            return;
+        }
+        // Found - prepare navigation to page 1.5
+        selectedRoleValue = matchedFunctionTitle;
+        isRoleSelected = true;
+        // Sync the page1 dropdown UI in case user navigates back
+        const dropdownText = document.getElementById('dropdownSelectedText');
+        if (dropdownText) {
+            dropdownText.innerText = matchedFunctionTitle;
+            dropdownText.classList.replace('text-slate-400', 'text-slate-900');
+        }
+        const li = document.querySelector(`.role-list-item[data-value="${matchedFunctionTitle}"]`);
+        if (li) {
+            document.querySelectorAll('.role-list-item').forEach(el => el.classList.remove('selected'));
+            li.classList.add('selected');
+        }
+        const startBtn = document.getElementById('btnStart');
+        if (startBtn) {
+            startBtn.classList.remove('opacity-60', 'cursor-not-allowed');
+            startBtn.classList.add('cursor-pointer', 'hover:bg-slate-950');
+        }
+        currentRoleMilestones = masterData.filter(d => d.function_title === matchedFunctionTitle).sort((a,b) => (Number(a.milestone_order) || 0) - (Number(b.milestone_order) || 0));
+        if (currentRoleMilestones.length > 0) {
+            currentIdx = 0;
+            showPage(1.5);
+        } else {
+            openMindmapPopup(clickedText);
+        }
+    }
     let companyMapCreated = false;
     function companyMapInitOnce() {
         if (companyMapCreated) return;
@@ -3252,6 +3372,8 @@ function getRoleIcon(roleName) {
                 const item = document.createElement('div');
                 item.className = 'company-map-child-item';
                 item.textContent = child;
+                item.title = 'Xem lộ trình nghề nghiệp';
+                item.onclick = (e) => { e.stopPropagation(); handleMindmapChildClick(child); };
                 l2Box.appendChild(item);
             });
             childrenContainer.appendChild(l2Box);
