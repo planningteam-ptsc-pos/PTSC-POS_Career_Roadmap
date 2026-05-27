@@ -274,19 +274,39 @@
         /* AI BOT WIDGET START */
         #ai-bot-trigger {
             position: fixed; z-index: 1000;
-            width: 65px; height: 65px; cursor: pointer;
-            background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35);
+            cursor: pointer;
+            display: flex; flex-direction: column; align-items: center; gap: 6px;
             transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             touch-action: none; user-select: none;
         }
-        #ai-bot-trigger:hover { transform: scale(1.1); }
-        #ai-bot-trigger svg { width: 32px; height: 32px; fill: white; pointer-events: none; }
-        #ai-bot-trigger::before {
+        #ai-bot-trigger:hover { transform: scale(1.08); }
+        .ai-bot-icon-circle {
+            position: relative;
+            width: 65px; height: 65px;
+            background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35);
+            pointer-events: none;
+        }
+        .ai-bot-icon-circle svg { width: 36px; height: 36px; pointer-events: none; }
+        .ai-bot-icon-circle::before {
             content: ''; position: absolute; inset: 0; border-radius: 50%;
             background: #38bdf8; z-index: -1; opacity: 0.4;
             animation: ai-bot-pulse-ring 3s infinite ease-out;
+        }
+        .ai-bot-label {
+            background: rgba(15, 23, 42, 0.88);
+            color: white;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 3px 10px;
+            border-radius: 999px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            pointer-events: none;
+            white-space: nowrap;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.18);
         }
         @keyframes ai-bot-pulse-ring {
             0% { transform: scale(1); opacity: 0.4; }
@@ -1350,10 +1370,20 @@
 
     /* AI BOT */
     #ai-bot-trigger {
-        width: 58px !important;
-        height: 58px !important;
         left: 18px !important;
         bottom: 22px !important;
+    }
+    #ai-bot-trigger .ai-bot-icon-circle {
+        width: 58px !important;
+        height: 58px !important;
+    }
+    #ai-bot-trigger .ai-bot-icon-circle svg {
+        width: 32px !important;
+        height: 32px !important;
+    }
+    #ai-bot-trigger .ai-bot-label {
+        font-size: 9px !important;
+        padding: 2px 8px !important;
     }
 
     #ai-bot-panel {
@@ -2044,8 +2074,11 @@
                     <div id="tab-works" class="tab-content animate-up">
                         <div class="grid grid-cols-1 lg:grid-cols-5 gap-12">
                             <div class="lg:col-span-3">
-                                <h4 class="text-slate-900 font-black uppercase tracking-widest text-[15px] mb-6 flex items-center gap-2"><i data-lucide="clipboard-list" class="w-5 h-5 text-primary-600"></i> Phạm vi công việc</h4>
-                                <div id="responsibilitiesList" class="space-y-3"></div>
+                                <div class="relative p-6 lg:p-8 rounded-3xl bg-gradient-to-br from-primary-50 via-white to-blue-50/40 border-2 border-primary-200/70 shadow-sm">
+                                    <div class="absolute -top-3 left-6 px-3 py-1 bg-primary-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-md">Trọng tâm vị trí</div>
+                                    <h4 class="text-slate-900 font-black uppercase tracking-widest text-[15px] mb-6 flex items-center gap-2"><i data-lucide="clipboard-list" class="w-5 h-5 text-primary-600"></i> Phạm vi công việc</h4>
+                                    <div id="responsibilitiesList" class="space-y-3"></div>
+                                </div>
                             </div>
                             <div class="lg:col-span-2">
                                 <h4 class="text-slate-900 font-black uppercase tracking-widest text-[15px] mb-6 flex items-center gap-2"><i data-lucide="target" class="w-5 h-5 text-primary-600"></i> KPI chính</h4>
@@ -2152,7 +2185,17 @@
 </div>
 <!-- AI BOT WIDGET -->
 <div id="ai-bot-trigger" class="ai-bot-periodic-shake">
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="white"><path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12l4 4V4c0-1.1-.9-2-2-2zm-2 12H4V4h14v10zM6 7h8v2H6V7zm0 3h5v2H6v-2z"/></svg>
+    <div class="ai-bot-icon-circle">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 8V4H8"/>
+            <rect width="16" height="12" x="4" y="8" rx="2"/>
+            <path d="M2 14h2"/>
+            <path d="M20 14h2"/>
+            <path d="M15 13v2"/>
+            <path d="M9 13v2"/>
+        </svg>
+    </div>
+    <div class="ai-bot-label">AI Chatbot</div>
 </div>
 <div id="ai-bot-panel">
     <div class="ai-bot-header">
