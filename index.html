@@ -257,11 +257,12 @@
         /* --- ROLE GROUP (collapsible) --- */
         .role-group-wrapper { list-style: none; margin-bottom: 6px; border-radius: 16px; background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%); border: 1px solid #e2e8f0; overflow: hidden; transition: box-shadow 0.2s; }
         .role-group-wrapper:hover { box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06); }
-        .role-group-header { padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: background 0.2s; user-select: none; }
+        .role-group-header { padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: background 0.2s; user-select: none; gap: 10px; }
         .role-group-header:hover { background: rgba(255,255,255,0.7); }
-        .role-group-header-left { display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1; }
-        .role-group-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-        .role-group-label { font-size: 13px; font-weight: 800; color: #1e293b; text-transform: uppercase; letter-spacing: 0.04em; line-height: 1.2; }
+        .role-group-header-left { display: flex; align-items: center; gap: 12px; min-width: 0; flex: 1; }
+        .role-group-header-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .role-group-header-icon svg { width: 20px; height: 20px; }
+        .role-group-label { font-size: 13px; font-weight: 800; color: #1e293b; text-transform: uppercase; letter-spacing: 0.03em; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; }
         .role-group-header-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
         .role-group-count { font-size: 11px; font-weight: 800; color: #475569; background: #fff; border: 1px solid #e2e8f0; padding: 2px 8px; border-radius: 999px; min-width: 24px; text-align: center; }
         .role-group-chevron { transition: transform 0.25s ease; }
@@ -2681,7 +2682,7 @@ function getRoleIcon(roleName) {
             // QA-QC (must check BEFORE Engineering & HSE since "Quality" specific)
             { match: /qa\/qc|quality/i, idKeywords: ['kiểm soát chất lượng', 'qa-qc', 'qa/qc', 'quality'] },
             // HSE (Process Safety stays in Engineering, Medic & HSE in HSE)
-            { match: /^hse$|medic|^hse\b|safety watch|fire guard|construction\s*\/\s*operations - fire safety/i, idKeywords: ['an toàn', 'sức khỏe', 'môi trường', 'hse'] },
+            { match: /^hse(\s|$|\/|\|)|medic|safety watch|fire guard|construction\s*\/\s*operations - fire safety/i, idKeywords: ['an toàn', 'sức khỏe', 'môi trường', 'hse'] },
             // Risk Management
             { match: /^risk\b/i, idKeywords: ['rủi ro', 'risk management'] },
             // Cost - Finance - Accounting
@@ -2696,10 +2697,10 @@ function getRoleIcon(roleName) {
             { match: /legal|contract officer|subservice|commercial - /i, idKeywords: ['hợp đồng', 'thương mại', 'contractual', 'commercial'] },
             // Marine - Vessel (officers, vessels, diving, marine coordination)
             { match: /marine deck|marine engine|marine electrical|marine coordinator|diving equipment|marine equipment|marine vessels|marine operations/i, idKeywords: ['phương tiện hàng hải', 'marine - vessel', 'marine vessel'] },
-            // HUC / Offshore Execution / Commissioning (including all *_comm engineers + HUC supervisors + PTW + T&I)
-            { match: /commissioning|huc |hook-up|brownfield|icaps|pre-com|de-com|ptw |construction - huc|offshore installation|t&i project/i, idKeywords: ['ngoài khơi', 'huc', 'offshore execution', 'commissioning'] },
-            // Onshore Fabrication: HUC Piping/Structure + general construction supv + field engineer + direct workers (welder/fitter/etc) + scaffolding/lifting/painting CONSTRUCTION SUPV
-            { match: /welder|fitter|mechanical trade worker|electrical trade worker|scaffolder|painter|rigger|crane operator|scaffolding construction supervisor|lifting construction supervisor|blasting & painting construction supervisor|construction supervisor|field\/construction engineer|direct worker|construction - general|construction - field/i, idKeywords: ['chế tạo trên bờ', 'onshore fabrication', 'onshore'] },
+            // HUC / Offshore Execution / Commissioning (including all *_comm engineers + HUC supervisors + PTW + T&I + 3 specialty Construction Supervisors)
+            { match: /commissioning|huc |hook-up|brownfield|icaps|pre-com|de-com|ptw |construction - huc|offshore installation|t&i project|scaffolding construction supervisor|lifting construction supervisor|blasting & painting construction supervisor/i, idKeywords: ['ngoài khơi', 'huc', 'offshore execution', 'commissioning'] },
+            // Onshore Fabrication: general construction supv + field engineer + direct workers (welder/fitter/etc)
+            { match: /welder|fitter|mechanical trade worker|electrical trade worker|scaffolder|painter|rigger|crane operator|construction supervisor|field\/construction engineer|direct worker|construction - general|construction - field/i, idKeywords: ['chế tạo trên bờ', 'onshore fabrication', 'onshore'] },
             // Engineering Design (all "Design Engineer" + Process)
             { match: /design engineer|process engineer|process safety/i, idKeywords: ['kỹ thuật', 'engineering'] },
             // Project Management
@@ -2749,8 +2750,9 @@ function getRoleIcon(roleName) {
         header.className = 'role-group-header';
         header.innerHTML = `
             <div class="role-group-header-left">
-                <span class="role-group-dot" style="background: ${colorRaw}"></span>
-                <i data-lucide="${iconName}" class="w-4 h-4" style="color: ${colorRaw}"></i>
+                <div class="role-group-header-icon" style="background: ${colorRaw}20; color: ${colorRaw}">
+                    <i data-lucide="${iconName}" style="color: ${colorRaw}"></i>
+                </div>
                 <span class="role-group-label">${groupTitle}</span>
             </div>
             <div class="role-group-header-right">
