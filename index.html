@@ -2677,42 +2677,49 @@ function getRoleIcon(roleName) {
         const row = masterData.find(d => d.function_title === funcTitle);
         const jf = ((row && row.job_family) || '').toLowerCase();
         const both = ft + ' || ' + jf;
-        // Per-group rules. First match wins. Ordered by specificity.
+        // Per-group rules. First match wins. Each rule lists:
+        //   - regex pattern matching function_title/job_family
+        //   - groupIds: candidate mindmap group IDs (matched in order, in case sheet IDs vary)
+        //   - titleKeywords: fallback keywords to search inside group title text
         const rules = [
-            // QA-QC (must check BEFORE Engineering & HSE since "Quality" specific)
-            { match: /qa\/qc|quality/i, idKeywords: ['kiểm soát chất lượng', 'qa-qc', 'qa/qc', 'quality'] },
-            // HSE (Process Safety stays in Engineering, Medic & HSE in HSE)
-            { match: /^hse(\s|$|\/|\|)|medic|safety watch|fire guard|construction\s*\/\s*operations - fire safety/i, idKeywords: ['an toàn', 'sức khỏe', 'môi trường', 'hse'] },
-            // Risk Management
-            { match: /^risk\b/i, idKeywords: ['rủi ro', 'risk management'] },
-            // Cost - Finance - Accounting
-            { match: /cost controller|finance|accounting|^pmo - cost/i, idKeywords: ['chi phí', 'tài chính', 'kế toán', 'cost - finance', 'finance - accounting'] },
-            // HR - Training
-            { match: /^hr |hr coordinator|training coordinator|learning|human resources/i, idKeywords: ['nhân sự', 'đào tạo', 'hr - training'] },
-            // Logistics
-            { match: /logistic|supply chain|warehouse|material controller/i, idKeywords: ['hậu cần', 'logistics'] },
-            // Procurement
-            { match: /procurement/i, idKeywords: ['mua sắm', 'procurement'] },
-            // Contractual - Commercial (Legal, Contract, Subservice)
-            { match: /legal|contract officer|subservice|commercial - /i, idKeywords: ['hợp đồng', 'thương mại', 'contractual', 'commercial'] },
-            // Marine - Vessel (officers, vessels, diving, marine coordination)
-            { match: /marine deck|marine engine|marine electrical|marine coordinator|diving equipment|marine equipment|marine vessels|marine operations/i, idKeywords: ['phương tiện hàng hải', 'marine - vessel', 'marine vessel'] },
-            // HUC / Offshore Execution / Commissioning (including all *_comm engineers + HUC supervisors + PTW + T&I + 3 specialty Construction Supervisors)
-            { match: /commissioning|huc |hook-up|brownfield|icaps|pre-com|de-com|ptw |construction - huc|offshore installation|t&i project|scaffolding construction supervisor|lifting construction supervisor|blasting & painting construction supervisor/i, idKeywords: ['ngoài khơi', 'huc', 'offshore execution', 'commissioning'] },
-            // Onshore Fabrication: general construction supv + field engineer + direct workers (welder/fitter/etc)
-            { match: /welder|fitter|mechanical trade worker|electrical trade worker|scaffolder|painter|rigger|crane operator|construction supervisor|field\/construction engineer|direct worker|construction - general|construction - field/i, idKeywords: ['chế tạo trên bờ', 'onshore fabrication', 'onshore'] },
-            // Engineering Design (all "Design Engineer" + Process)
-            { match: /design engineer|process engineer|process safety/i, idKeywords: ['kỹ thuật', 'engineering'] },
-            // Project Management
-            { match: /^planner$|project coordinator|project secretary|document controller|^pmo - |project management|project planning|project control/i, idKeywords: ['quản lý dự án', 'project management'] },
+            { match: /qa\/qc|quality/i,
+              groupIds: ['qa', 'qaqc'], titleKeywords: ['kiểm soát chất lượng', 'qa-qc', 'qa/qc', 'quality'] },
+            { match: /^hse(\s|$|\/|\|)|medic|safety watch|fire guard|construction\s*\/\s*operations - fire safety/i,
+              groupIds: ['hse'], titleKeywords: ['an toàn', 'sức khỏe', 'môi trường', 'hse'] },
+            { match: /^risk\b/i,
+              groupIds: ['ri', 'risk'], titleKeywords: ['rủi ro', 'risk management'] },
+            { match: /cost controller|finance|accounting|^pmo - cost/i,
+              groupIds: ['co', 'cost'], titleKeywords: ['chi phí', 'tài chính', 'kế toán', 'cost - finance', 'finance - accounting'] },
+            { match: /^hr |hr coordinator|training coordinator|learning|human resources/i,
+              groupIds: ['hr'], titleKeywords: ['nhân sự', 'đào tạo', 'hr - training'] },
+            { match: /logistic|supply chain|warehouse|material controller/i,
+              groupIds: ['lg', 'logistics'], titleKeywords: ['hậu cần', 'logistics'] },
+            { match: /procurement/i,
+              groupIds: ['pc', 'procurement'], titleKeywords: ['mua sắm', 'procurement'] },
+            { match: /legal|contract officer|subservice|commercial - /i,
+              groupIds: ['ct', 'commercial'], titleKeywords: ['hợp đồng', 'thương mại', 'contractual', 'commercial'] },
+            { match: /marine deck|marine engine|marine electrical|marine coordinator|diving equipment|marine equipment|marine vessels|marine operations/i,
+              groupIds: ['mr', 'marine'], titleKeywords: ['phương tiện hàng hải', 'marine - vessel', 'marine vessel'] },
+            { match: /commissioning|huc |hook-up|brownfield|icaps|pre-com|de-com|ptw |construction - huc|offshore installation|t&i project|scaffolding construction supervisor|lifting construction supervisor|blasting & painting construction supervisor/i,
+              groupIds: ['huc'], titleKeywords: ['ngoài khơi', 'huc', 'offshore execution', 'commissioning', 'đấu nối', 'chạy thử'] },
+            { match: /welder|fitter|mechanical trade worker|electrical trade worker|scaffolder|painter|rigger|crane operator|construction supervisor|field\/construction engineer|direct worker|construction - general|construction - field/i,
+              groupIds: ['fb', 'onshore'], titleKeywords: ['chế tạo trên bờ', 'onshore fabrication', 'onshore'] },
+            { match: /design engineer|process engineer|process safety/i,
+              groupIds: ['eg', 'engineering'], titleKeywords: ['kỹ thuật', 'engineering'] },
+            { match: /^planner$|project coordinator|project secretary|document controller|^pmo - |project management|project planning|project control/i,
+              groupIds: ['pm', 'project'], titleKeywords: ['quản lý dự án', 'project management'] },
         ];
-        // Try rules in order
         for (const rule of rules) {
             if (rule.match.test(both)) {
-                // Find the actual group from sourceGroups whose title matches one of idKeywords
+                // Strategy A: exact group ID match (case-insensitive)
+                for (const wantId of rule.groupIds) {
+                    const found = sourceGroups.find(g => (g.id || '').toLowerCase() === wantId.toLowerCase());
+                    if (found) return found.id;
+                }
+                // Strategy B: title keyword match
                 for (const grp of sourceGroups) {
                     const titleLower = (grp.title || '').toLowerCase();
-                    if (rule.idKeywords.some(kw => titleLower.includes(kw.toLowerCase()))) {
+                    if (rule.titleKeywords.some(kw => titleLower.includes(kw.toLowerCase()))) {
                         return grp.id;
                     }
                 }
