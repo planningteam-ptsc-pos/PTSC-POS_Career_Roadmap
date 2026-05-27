@@ -254,6 +254,21 @@
         .role-list-item:hover { background: rgb(var(--color-primary-50)); color: var(--sky-primary); transform: translateX(6px); }
         .role-list-item.selected { background: linear-gradient(135deg, var(--sky-primary) 0%, #6366f1 100%); color: white; box-shadow: 0 4px 15px rgb(var(--color-primary-500) / 0.3); }
         .role-list-item.selected i { color: white !important; }
+        /* --- ROLE GROUP (collapsible) --- */
+        .role-group-wrapper { list-style: none; margin-bottom: 6px; border-radius: 16px; background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%); border: 1px solid #e2e8f0; overflow: hidden; transition: box-shadow 0.2s; }
+        .role-group-wrapper:hover { box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06); }
+        .role-group-header { padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: background 0.2s; user-select: none; }
+        .role-group-header:hover { background: rgba(255,255,255,0.7); }
+        .role-group-header-left { display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1; }
+        .role-group-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+        .role-group-label { font-size: 13px; font-weight: 800; color: #1e293b; text-transform: uppercase; letter-spacing: 0.04em; line-height: 1.2; }
+        .role-group-header-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+        .role-group-count { font-size: 11px; font-weight: 800; color: #475569; background: #fff; border: 1px solid #e2e8f0; padding: 2px 8px; border-radius: 999px; min-width: 24px; text-align: center; }
+        .role-group-chevron { transition: transform 0.25s ease; }
+        .role-group-wrapper.expanded .role-group-chevron { transform: rotate(180deg); }
+        .role-group-children { list-style: none; padding: 0 8px 0 8px; margin: 0; max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.25s ease; background: #ffffff; }
+        .role-group-wrapper.expanded .role-group-children { max-height: 800px; padding: 6px 8px 8px 8px; border-top: 1px solid #e2e8f0; }
+        .role-group-children .role-list-item { padding: 9px 12px; font-size: 14px; margin-bottom: 2px; }
         /* --- STAIRCASE ANIMATIONS --- */
         @keyframes drawStairEdge {
             from { stroke-dashoffset: var(--stair-len); }
@@ -1879,8 +1894,8 @@
                 <button id="btnStart" class="w-full bg-primary-600 text-white font-black py-5 rounded-3xl shadow-xl shadow-primary-600/20 flex items-center justify-center gap-3 uppercase tracking-widest text-[15px] transition-all group opacity-60 cursor-not-allowed">
                     Bắt đầu tìm hiểu <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
                 </button>
-                <button onclick="showPage('companyIntro')" class="w-full bg-white/60 hover:bg-white text-primary-600 border-2 border-primary-100 font-black py-4 rounded-3xl flex items-center justify-center gap-3 uppercase tracking-widest text-[14px] transition-all group backdrop-blur-sm">
-                    <i data-lucide="building-2" class="w-5 h-5"></i> Tìm hiểu về công ty
+                <button id="btnCompanyIntro" onclick="if(!this.disabled) showPage('companyIntro')" disabled class="w-full bg-white/60 text-primary-600 border-2 border-primary-100 font-black py-4 rounded-3xl flex items-center justify-center gap-3 uppercase tracking-widest text-[14px] transition-all group backdrop-blur-sm opacity-60 cursor-not-allowed">
+                    <i data-lucide="building-2" class="w-5 h-5"></i> <span>Đang tải dữ liệu...</span>
                 </button>
             </div>
         </div>
@@ -2196,6 +2211,34 @@
         <p id="mindmapClickPopupRole" class="text-primary-600 font-black text-[16px] mb-5 leading-tight">---</p>
         <p class="text-slate-600 text-[14px] mb-6 leading-relaxed">Hệ thống đang trong quá trình hoàn thiện và bổ sung dữ liệu chi tiết cho vị trí này. Vui lòng quay lại sau!</p>
         <button onclick="closeMindmapPopup()" class="bg-primary-600 hover:bg-primary-700 text-white font-black uppercase tracking-widest text-[12px] px-10 py-3 rounded-2xl transition-all shadow-lg shadow-primary-600/20">Đã hiểu</button>
+    </div>
+</div>
+<!-- DATA LOADING PROGRESS MODAL -->
+<div id="loadingProgressModal" class="fixed inset-0 z-[2600] flex items-center justify-center p-6" style="background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(10px);">
+    <div class="bg-white rounded-3xl shadow-2xl max-w-md w-full p-8">
+        <div class="flex flex-col items-center text-center">
+            <div class="relative w-20 h-20 mb-6">
+                <svg class="w-20 h-20 transform -rotate-90" viewBox="0 0 80 80">
+                    <circle cx="40" cy="40" r="34" stroke="#e2e8f0" stroke-width="6" fill="none"/>
+                    <circle id="loadingProgressCircle" cx="40" cy="40" r="34" stroke="url(#loadingGradient)" stroke-width="6" fill="none" stroke-linecap="round" stroke-dasharray="213.6" stroke-dashoffset="213.6" style="transition: stroke-dashoffset 0.4s ease;"/>
+                    <defs>
+                        <linearGradient id="loadingGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#38bdf8"/>
+                            <stop offset="100%" stop-color="#2563eb"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <span id="loadingProgressPercent" class="font-black text-[18px] text-primary-600">0%</span>
+                </div>
+            </div>
+            <h3 class="text-[18px] font-black text-slate-900 mb-1 tracking-tight">Đang tải dữ liệu</h3>
+            <p id="loadingProgressStep" class="text-slate-500 text-[13px] mb-5 min-h-[18px]">Khởi tạo...</p>
+            <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                <div id="loadingProgressBar" class="h-full bg-gradient-to-r from-sky-400 to-primary-600 rounded-full" style="width: 0%; transition: width 0.4s ease;"></div>
+            </div>
+            <p class="text-slate-400 text-[11px] mt-4 italic">Vui lòng chờ trong giây lát, hệ thống đang lấy dữ liệu mới nhất từ Google Sheet</p>
+        </div>
     </div>
 </div>
 <!-- AI BOT WIDGET -->
@@ -2575,23 +2618,186 @@ function getRoleIcon(roleName) {
         if (contentType === 'image') return 'Xem ảnh';
         return 'Xem video';
     }
+    // === LOADING PROGRESS HELPERS ===
+    function setLoadingProgress(percent, stepText) {
+        const circle = document.getElementById('loadingProgressCircle');
+        const percentEl = document.getElementById('loadingProgressPercent');
+        const stepEl = document.getElementById('loadingProgressStep');
+        const bar = document.getElementById('loadingProgressBar');
+        if (!circle || !percentEl || !stepEl || !bar) return;
+        const clamped = Math.max(0, Math.min(100, percent));
+        const dashArrayTotal = 213.6;
+        const offset = dashArrayTotal * (1 - clamped / 100);
+        circle.style.strokeDashoffset = offset;
+        percentEl.textContent = Math.round(clamped) + '%';
+        bar.style.width = clamped + '%';
+        if (stepText) stepEl.textContent = stepText;
+    }
+    function hideLoadingProgress() {
+        const modal = document.getElementById('loadingProgressModal');
+        if (!modal) return;
+        modal.style.transition = 'opacity 0.45s ease';
+        modal.style.opacity = '0';
+        setTimeout(() => { modal.style.display = 'none'; }, 500);
+    }
+    function enableCompanyIntroButton() {
+        const btn = document.getElementById('btnCompanyIntro');
+        if (!btn) return;
+        btn.disabled = false;
+        btn.classList.remove('opacity-60', 'cursor-not-allowed');
+        btn.classList.add('hover:bg-white', 'cursor-pointer');
+        const span = btn.querySelector('span');
+        if (span) span.textContent = 'Tìm hiểu về công ty';
+    }
+    // === ROLE GROUPING based on the 14 mindmap title groups ===
+    function getGroupIconFromTitle(title) {
+        const t = (title || '').toLowerCase();
+        if (t.includes('quản lý dự án') || t.includes('project management')) return 'kanban';
+        if (t.includes('hợp đồng') || t.includes('thương mại') || t.includes('commercial') || t.includes('contract')) return 'file-signature';
+        if (t.includes('kỹ thuật') || t.includes('engineering')) return 'cpu';
+        if (t.includes('mua sắm') || t.includes('procurement')) return 'shopping-cart';
+        if (t.includes('thi công chế tạo') || t.includes('onshore') || t.includes('fabrication')) return 'factory';
+        if (t.includes('hàng hải') || t.includes('marine') || t.includes('vessel')) return 'ship';
+        if (t.includes('nhân sự') || t.includes('đào tạo') || t.includes('hr') || t.includes('training')) return 'graduation-cap';
+        if (t.includes('huc') || t.includes('offshore') || t.includes('commissioning') || t.includes('chạy thử') || t.includes('đấu nối')) return 'hard-hat';
+        if (t.includes('hậu cần') || t.includes('logistic')) return 'truck';
+        if (t.includes('hse') || t.includes('an toàn') || t.includes('sức khỏe') || t.includes('safety')) return 'shield-check';
+        if (t.includes('qa') || t.includes('qc') || t.includes('chất lượng') || t.includes('quality')) return 'badge-check';
+        if (t.includes('rủi ro') || t.includes('risk')) return 'alert-triangle';
+        if (t.includes('chi phí') || t.includes('tài chính') || t.includes('kế toán') || t.includes('cost') || t.includes('finance') || t.includes('accounting')) return 'landmark';
+        if (t.includes('cung ứng') || t.includes('manpower') || t.includes('supply')) return 'users-round';
+        return 'folder';
+    }
+    // Decide which mindmap group a function_title belongs to.
+    // Returns the mindmap group ID, or null if no match.
+    // Rules use function_title text + masterData job_family as evidence.
+    function classifyFunctionToMindmapGroup(funcTitle, sourceGroups) {
+        const ft = (funcTitle || '').toLowerCase();
+        const row = masterData.find(d => d.function_title === funcTitle);
+        const jf = ((row && row.job_family) || '').toLowerCase();
+        const both = ft + ' || ' + jf;
+        // Per-group rules. First match wins. Ordered by specificity.
+        const rules = [
+            // QA-QC (must check BEFORE Engineering & HSE since "Quality" specific)
+            { match: /qa\/qc|quality/i, idKeywords: ['kiểm soát chất lượng', 'qa-qc', 'qa/qc', 'quality'] },
+            // HSE (Process Safety stays in Engineering, Medic & HSE in HSE)
+            { match: /^hse$|medic|^hse\b|safety watch|fire guard|construction\s*\/\s*operations - fire safety/i, idKeywords: ['an toàn', 'sức khỏe', 'môi trường', 'hse'] },
+            // Risk Management
+            { match: /^risk\b/i, idKeywords: ['rủi ro', 'risk management'] },
+            // Cost - Finance - Accounting
+            { match: /cost controller|finance|accounting|^pmo - cost/i, idKeywords: ['chi phí', 'tài chính', 'kế toán', 'cost - finance', 'finance - accounting'] },
+            // HR - Training
+            { match: /^hr |hr coordinator|training coordinator|learning|human resources/i, idKeywords: ['nhân sự', 'đào tạo', 'hr - training'] },
+            // Logistics
+            { match: /logistic|supply chain|warehouse|material controller/i, idKeywords: ['hậu cần', 'logistics'] },
+            // Procurement
+            { match: /procurement/i, idKeywords: ['mua sắm', 'procurement'] },
+            // Contractual - Commercial (Legal, Contract, Subservice)
+            { match: /legal|contract officer|subservice|commercial - /i, idKeywords: ['hợp đồng', 'thương mại', 'contractual', 'commercial'] },
+            // Marine - Vessel (officers, vessels, diving, marine coordination)
+            { match: /marine deck|marine engine|marine electrical|marine coordinator|diving equipment|marine equipment|marine vessels|marine operations/i, idKeywords: ['phương tiện hàng hải', 'marine - vessel', 'marine vessel'] },
+            // HUC / Offshore Execution / Commissioning (including all *_comm engineers + HUC supervisors + PTW + T&I)
+            { match: /commissioning|huc |hook-up|brownfield|icaps|pre-com|de-com|ptw |construction - huc|offshore installation|t&i project/i, idKeywords: ['ngoài khơi', 'huc', 'offshore execution', 'commissioning'] },
+            // Onshore Fabrication: HUC Piping/Structure + general construction supv + field engineer + direct workers (welder/fitter/etc) + scaffolding/lifting/painting CONSTRUCTION SUPV
+            { match: /welder|fitter|mechanical trade worker|electrical trade worker|scaffolder|painter|rigger|crane operator|scaffolding construction supervisor|lifting construction supervisor|blasting & painting construction supervisor|construction supervisor|field\/construction engineer|direct worker|construction - general|construction - field/i, idKeywords: ['chế tạo trên bờ', 'onshore fabrication', 'onshore'] },
+            // Engineering Design (all "Design Engineer" + Process)
+            { match: /design engineer|process engineer|process safety/i, idKeywords: ['kỹ thuật', 'engineering'] },
+            // Project Management
+            { match: /^planner$|project coordinator|project secretary|document controller|^pmo - |project management|project planning|project control/i, idKeywords: ['quản lý dự án', 'project management'] },
+        ];
+        // Try rules in order
+        for (const rule of rules) {
+            if (rule.match.test(both)) {
+                // Find the actual group from sourceGroups whose title matches one of idKeywords
+                for (const grp of sourceGroups) {
+                    const titleLower = (grp.title || '').toLowerCase();
+                    if (rule.idKeywords.some(kw => titleLower.includes(kw.toLowerCase()))) {
+                        return grp.id;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+    function renderGroupedRoleList(roles) {
+        customRoleList.innerHTML = '';
+        const sourceGroups = (companyMapData && companyMapData.length > 0) ? companyMapData : companyMapFallbackData;
+        const buckets = sourceGroups.map(grp => ({ groupId: grp.id, groupTitle: grp.title, colorRaw: grp.colorRaw, items: [] }));
+        const orphans = [];
+        roles.forEach(funcTitle => {
+            const groupId = classifyFunctionToMindmapGroup(funcTitle, sourceGroups);
+            if (groupId) {
+                const bucket = buckets.find(b => b.groupId === groupId);
+                if (bucket) { bucket.items.push(funcTitle); return; }
+            }
+            orphans.push(funcTitle);
+        });
+        // Render buckets that have items, in mindmap order
+        buckets.forEach(b => {
+            if (b.items.length === 0) return;
+            renderRoleGroup(b.groupTitle, b.colorRaw, getGroupIconFromTitle(b.groupTitle), b.items);
+        });
+        // Orphans → "Khác / Other"
+        if (orphans.length > 0) {
+            renderRoleGroup('Khác / Other', '#475569', 'folder', orphans);
+        }
+    }
+    function renderRoleGroup(groupTitle, colorRaw, iconName, items) {
+        const wrapper = document.createElement('li');
+        wrapper.className = 'role-group-wrapper';
+        const header = document.createElement('div');
+        header.className = 'role-group-header';
+        header.innerHTML = `
+            <div class="role-group-header-left">
+                <span class="role-group-dot" style="background: ${colorRaw}"></span>
+                <i data-lucide="${iconName}" class="w-4 h-4" style="color: ${colorRaw}"></i>
+                <span class="role-group-label">${groupTitle}</span>
+            </div>
+            <div class="role-group-header-right">
+                <span class="role-group-count">${items.length}</span>
+                <i data-lucide="chevron-down" class="role-group-chevron w-4 h-4 text-slate-400"></i>
+            </div>`;
+        const childContainer = document.createElement('ul');
+        childContainer.className = 'role-group-children';
+        items.sort().forEach(r => {
+            const li = document.createElement('li');
+            li.className = 'role-list-item group';
+            li.dataset.value = r;
+            const roleIconName = getRoleIcon(r);
+            li.innerHTML = `<i data-lucide="${roleIconName}" class="w-4 h-4 text-primary-500/50 group-hover:text-primary-600 transition-colors shrink-0"></i> <span>${r}</span>`;
+            li.onclick = (e) => { e.stopPropagation(); selectCustomRole(r, li); };
+            childContainer.appendChild(li);
+        });
+        header.onclick = (e) => {
+            e.stopPropagation();
+            wrapper.classList.toggle('expanded');
+        };
+        wrapper.appendChild(header);
+        wrapper.appendChild(childContainer);
+        customRoleList.appendChild(wrapper);
+    }
     async function loadExcelDataAutomatically() {
         try {
+            setLoadingProgress(5, 'Kiểm tra môi trường...');
             const protocol = window.location.protocol;
             if (protocol === 'blob:' || protocol === 'data:' || protocol === 'file:') {
                 dropdownSelectedText.innerText = "Cần chạy trên Web Server (HTTP/HTTPS)";
                 dropdownTrigger.classList.remove('animate-pulse');
                 showToast('Tính năng tải tự động không chạy trong Preview.');
+                hideLoadingProgress();
                 return;
             }
+            setLoadingProgress(12, 'Đang tải file cấu hình...');
             const configResponse = await fetch('./config.json');
             if (!configResponse.ok) throw new Error('Không tìm thấy file config.json');
             const config = await configResponse.json();
+            setLoadingProgress(25, 'Đang tải dữ liệu lộ trình & phúc lợi...');
             const [roadmapRes, benefitRes] = await Promise.all([
                 fetch(config.sheetUrl),
                 fetch(config.sheetUrl2)
             ]);
             if (!roadmapRes.ok || !benefitRes.ok) throw new Error(`Lỗi kết nối dữ liệu.`);
+            setLoadingProgress(45, 'Đang xử lý dữ liệu lộ trình...');
             const [csvText, benefitCsvText] = await Promise.all([ roadmapRes.text(), benefitRes.text() ]);
             masterData = parseCSV(csvText);
             const benefitData = parseCSV(benefitCsvText);
@@ -2610,6 +2816,7 @@ function getRoleIcon(roleName) {
                 }
             });
             aiBotCompensationData = compText.trim();
+            setLoadingProgress(65, 'Đang tải thư viện video...');
             try {
                 if (config.sheetUrl3) {
                     const videoRes = await fetch(config.sheetUrl3);
@@ -2626,6 +2833,7 @@ function getRoleIcon(roleName) {
             } catch (vErr) {
                 companyVideoData = companyVideoFallbackData;
             }
+            setLoadingProgress(80, 'Đang tải sơ đồ chức danh...');
             try {
                 if (config.sheetUrl4) {
                     const mindmapRes = await fetch(config.sheetUrl4);
@@ -2657,24 +2865,25 @@ function getRoleIcon(roleName) {
                 companyMapData = companyMapFallbackData;
                 companyMapCreated = false;
             }
+            setLoadingProgress(92, 'Đang dựng danh sách lộ trình...');
             const roles = [...new Set(masterData.map(d => d.function_title))].filter(Boolean);
-            customRoleList.innerHTML = '';
-            roles.sort().forEach(r => {
-                const li = document.createElement('li');
-                li.className = 'role-list-item group';
-                li.dataset.value = r;
-                const iconName = getRoleIcon(r);
-                li.innerHTML = `<i data-lucide="${iconName}" class="w-4 h-4 text-primary-500/50 group-hover:text-primary-600 transition-colors shrink-0"></i> <span>${r}</span>`;
-                li.onclick = (e) => { e.stopPropagation(); selectCustomRole(r, li); };
-                customRoleList.appendChild(li);
-            });
+            renderGroupedRoleList(roles);
             isFileLoaded = true;
             dropdownTrigger.classList.remove('opacity-60', 'cursor-not-allowed', 'animate-pulse');
             dropdownTrigger.classList.add('cursor-pointer');
             dropdownSelectedText.innerText = "-- Vui lòng Chọn Career Path --";
+            enableCompanyIntroButton();
             lucide.createIcons();
             renderVideoGrid();
-        } catch (error) { console.error(error); dropdownSelectedText.innerText = "Lỗi tải dữ liệu."; }
+            setLoadingProgress(100, 'Hoàn tất!');
+            setTimeout(hideLoadingProgress, 450);
+        } catch (error) {
+            console.error(error);
+            dropdownSelectedText.innerText = "Lỗi tải dữ liệu.";
+            const stepEl = document.getElementById('loadingProgressStep');
+            if (stepEl) { stepEl.textContent = 'Có lỗi: ' + (error.message || 'Không tải được dữ liệu'); stepEl.style.color = '#dc2626'; }
+            setTimeout(hideLoadingProgress, 2400);
+        }
     }
     function parseCSV(csvText) {
         const rows = [];
@@ -2750,9 +2959,24 @@ function getRoleIcon(roleName) {
     }
     roleSearchInput.addEventListener('input', (e) => filterRoles(e.target.value));
     function filterRoles(term) {
-        const lowerTerm = term.toLowerCase();
-        document.querySelectorAll('.role-list-item').forEach(li => {
-            li.style.display = li.dataset.value.toLowerCase().includes(lowerTerm) ? 'flex' : 'none';
+        const lowerTerm = term.toLowerCase().trim();
+        const wrappers = document.querySelectorAll('.role-group-wrapper');
+        wrappers.forEach(wrapper => {
+            let visibleCount = 0;
+            wrapper.querySelectorAll('.role-list-item').forEach(li => {
+                const match = li.dataset.value.toLowerCase().includes(lowerTerm);
+                li.style.display = match ? 'flex' : 'none';
+                if (match) visibleCount++;
+            });
+            if (lowerTerm === '') {
+                wrapper.style.display = '';
+                wrapper.classList.remove('expanded'); // collapse all when search cleared
+            } else if (visibleCount === 0) {
+                wrapper.style.display = 'none';
+            } else {
+                wrapper.style.display = '';
+                wrapper.classList.add('expanded'); // auto-expand matching groups
+            }
         });
     }
     document.addEventListener('click', (e) => {
@@ -3324,6 +3548,9 @@ function getRoleIcon(roleName) {
         if (li) {
             document.querySelectorAll('.role-list-item').forEach(el => el.classList.remove('selected'));
             li.classList.add('selected');
+            // Auto-expand the parent group so user sees the selection in dropdown
+            const wrapper = li.closest('.role-group-wrapper');
+            if (wrapper) wrapper.classList.add('expanded');
         }
         const startBtn = document.getElementById('btnStart');
         if (startBtn) {
