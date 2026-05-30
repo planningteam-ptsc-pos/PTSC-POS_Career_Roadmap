@@ -78,6 +78,20 @@
             color: var(--oil-slate);
             transition: all 0.5s ease;
         }
+        /* Auto-zoom desktop layout to 90% so UI fits without Ctrl+− */
+        @media (min-width: 1025px) {
+            html { zoom: 0.9; }
+            /* Firefox does not support zoom — fall back to transform scale */
+            @supports (-moz-appearance: none) {
+                html { zoom: unset; }
+                body {
+                    transform: scale(0.9);
+                    transform-origin: top left;
+                    width: 111.12%;        /* 100/0.9 to fill viewport */
+                    height: 111.12%;
+                }
+            }
+        }
         .bg-fixed-overlay {
             position: fixed; top: 0vh; bottom: 0vh; left: -2vw; right: -2vw;
             background-size: cover !important;
