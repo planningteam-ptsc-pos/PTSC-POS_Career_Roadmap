@@ -78,18 +78,17 @@
             color: var(--oil-slate);
             transition: all 0.5s ease;
         }
-        /* Auto-zoom desktop layout to 90% so UI fits without Ctrl+− */
+        /* Auto-zoom desktop layout to 90% so UI fits without Ctrl+−.
+           Uses transform: scale on #app instead of CSS zoom because zoom
+           corrupts getBoundingClientRect() in the mindmap SVG connection layer. */
         @media (min-width: 1025px) {
-            html { zoom: 0.9; }
-            /* Firefox does not support zoom — fall back to transform scale */
-            @supports (-moz-appearance: none) {
-                html { zoom: unset; }
-                body {
-                    transform: scale(0.9);
-                    transform-origin: top left;
-                    width: 111.12%;        /* 100/0.9 to fill viewport */
-                    height: 111.12%;
-                }
+            #app {
+                transform: scale(0.9);
+                transform-origin: top left;
+                width: 111.111vw !important;
+                height: 111.111vh !important;
+                right: auto !important;
+                bottom: auto !important;
             }
         }
         .bg-fixed-overlay {
@@ -3645,16 +3644,27 @@ function getRoleIcon(roleName) {
         const wrapperDiv = document.getElementById('companyMapWrapper');
         const centerNode = document.getElementById('companyMapCenterNode');
         if (!svg || !wrapperDiv || !centerNode) return;
+        // The whole #app may be transform:scale(...)'d on desktop. getBoundingClientRect()
+        // returns SCALED screen pixels, but the SVG (no viewBox, sized via w-full/h-full)
+        // draws in the wrapper's UNSCALED CSS-pixel space. Divide all measured deltas by the
+        // effective scale so path coordinates land in the SVG's own coordinate system.
+        const appEl = document.getElementById('app');
+        let scale = 1;
+        if (appEl) {
+            const r = appEl.getBoundingClientRect();
+            if (appEl.offsetWidth > 0) scale = r.width / appEl.offsetWidth;
+        }
+        if (!scale || !isFinite(scale) || scale === 0) scale = 1;
         const mmRect = wrapperDiv.getBoundingClientRect();
         const cRect = centerNode.getBoundingClientRect();
-        const cX = cRect.left + cRect.width / 2 - mmRect.left;
-        const cY = cRect.top + cRect.height / 2 - mmRect.top;
+        const cX = (cRect.left + cRect.width / 2 - mmRect.left) / scale;
+        const cY = (cRect.top + cRect.height / 2 - mmRect.top) / scale;
         svg.innerHTML = '';
         document.querySelectorAll('.company-map-node-l1').forEach((node) => {
             const nRect = node.getBoundingClientRect();
             const side = node.closest('.company-map-side').classList.contains('left') ? 'left' : 'right';
-            const nX = (side === 'right' ? nRect.left : nRect.right) - mmRect.left;
-            const nY = nRect.top + nRect.height / 2 - mmRect.top;
+            const nX = ((side === 'right' ? nRect.left : nRect.right) - mmRect.left) / scale;
+            const nY = (nRect.top + nRect.height / 2 - mmRect.top) / scale;
             const cp1X = cX + (nX - cX) * 0.5;
             const pathD = `M ${cX} ${cY} C ${cp1X} ${cY}, ${cp1X} ${nY}, ${nX} ${nY}`;
             const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
