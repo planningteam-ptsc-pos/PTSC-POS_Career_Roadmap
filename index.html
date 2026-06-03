@@ -1843,9 +1843,116 @@
     }
 }
 
+        /* ===== LOGIN GATE (additive) ===== */
+        #loginGate {
+            position: fixed; inset: 0; z-index: 5000;
+            display: flex; align-items: center; justify-content: center;
+            padding: 24px;
+            background: linear-gradient(135deg, #0c4a6e 0%, #075985 45%, #0369a1 100%);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        #loginGate::before {
+            content: ''; position: absolute; inset: 0;
+            background-image: radial-gradient(circle at 20% 30%, rgba(56,189,248,0.25), transparent 45%), radial-gradient(circle at 80% 70%, rgba(37,99,235,0.3), transparent 45%);
+            pointer-events: none;
+        }
+        .login-card {
+            position: relative; z-index: 2;
+            width: 100%; max-width: 410px;
+            background: rgba(255,255,255,0.98);
+            border-radius: 28px;
+            box-shadow: 0 25px 70px rgba(2, 30, 60, 0.45);
+            padding: 40px 34px 34px;
+            animation: loginUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes loginUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+        .login-logo { width: 62px; height: 62px; margin: 0 auto 18px; border-radius: 18px; background: linear-gradient(135deg, #38bdf8, #2563eb); display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 24px rgba(37,99,235,0.4); }
+        .login-logo svg { width: 32px; height: 32px; color: #fff; }
+        .login-title { text-align: center; font-size: 21px; font-weight: 800; color: #0f172a; letter-spacing: -0.02em; margin-bottom: 4px; }
+        .login-subtitle { text-align: center; font-size: 13px; color: #64748b; margin-bottom: 26px; line-height: 1.5; }
+        .login-field { margin-bottom: 16px; }
+        .login-label { display: block; font-size: 12px; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 7px; }
+        .login-input-wrap { position: relative; }
+        .login-input-wrap > svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: #94a3b8; pointer-events: none; }
+        .login-input {
+            width: 100%; box-sizing: border-box;
+            padding: 13px 44px 13px 42px;
+            border: 1.5px solid #e2e8f0; border-radius: 14px;
+            font-size: 15px; color: #0f172a; outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            font-family: inherit; background: #f8fafc;
+        }
+        .login-input:focus { border-color: #2563eb; box-shadow: 0 0 0 4px rgba(37,99,235,0.12); background: #fff; }
+        .login-toggle-pw { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #94a3b8; background: none; border: none; padding: 4px; display: flex; }
+        .login-toggle-pw svg { width: 18px; height: 18px; }
+        .login-btn {
+            width: 100%; margin-top: 8px;
+            padding: 14px; border: none; border-radius: 14px;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8); color: #fff;
+            font-size: 15px; font-weight: 800; cursor: pointer;
+            font-family: inherit; letter-spacing: 0.02em;
+            transition: transform 0.15s, box-shadow 0.2s, opacity 0.2s;
+            box-shadow: 0 8px 20px rgba(37,99,235,0.35);
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .login-btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 12px 26px rgba(37,99,235,0.45); }
+        .login-btn:active:not(:disabled) { transform: translateY(0); }
+        .login-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+        .login-spinner { width: 18px; height: 18px; border: 2.5px solid rgba(255,255,255,0.4); border-top-color: #fff; border-radius: 50%; animation: loginSpin 0.7s linear infinite; }
+        @keyframes loginSpin { to { transform: rotate(360deg); } }
+        .login-error {
+            margin-top: 14px; padding: 11px 14px; border-radius: 12px;
+            background: #fef2f2; border: 1px solid #fecaca; color: #b91c1c;
+            font-size: 13px; font-weight: 600; text-align: center;
+            display: none; align-items: center; justify-content: center; gap: 7px;
+        }
+        .login-error.show { display: flex; animation: loginShake 0.4s; }
+        @keyframes loginShake { 0%,100%{transform:translateX(0);} 25%{transform:translateX(-6px);} 75%{transform:translateX(6px);} }
+        .login-error svg { width: 16px; height: 16px; flex-shrink: 0; }
+        .login-foot { text-align: center; font-size: 11px; color: #94a3b8; margin-top: 22px; }
+        body.login-locked { overflow: hidden !important; }
+        #loginGate.hide { opacity: 0; visibility: hidden; transition: opacity 0.45s ease, visibility 0.45s ease; }
+        @media (max-width: 480px) { .login-card { padding: 32px 22px 26px; } }
 </style>
 </head>
 <body class="flex flex-col">
+<!-- ===== LOGIN GATE (additive) ===== -->
+<div id="loginGate">
+    <div class="login-card">
+        <div class="login-logo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <div class="login-title">PTSC POS Career Roadmap</div>
+        <div class="login-subtitle">Vui lòng đăng nhập để truy cập hệ thống lộ trình nghề nghiệp</div>
+        <form id="loginForm" autocomplete="off">
+            <div class="login-field">
+                <label class="login-label" for="loginUser">Tên đăng nhập</label>
+                <div class="login-input-wrap">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    <input type="text" id="loginUser" class="login-input" placeholder="Nhập tên đăng nhập" autocomplete="username" required>
+                </div>
+            </div>
+            <div class="login-field">
+                <label class="login-label" for="loginPass">Mật khẩu</label>
+                <div class="login-input-wrap">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    <input type="password" id="loginPass" class="login-input" placeholder="Nhập mật khẩu" autocomplete="current-password" required>
+                    <button type="button" class="login-toggle-pw" id="loginTogglePw" aria-label="Hiện/ẩn mật khẩu">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                    </button>
+                </div>
+            </div>
+            <button type="submit" class="login-btn" id="loginSubmitBtn">
+                <span id="loginBtnText">Đăng nhập</span>
+            </button>
+            <div class="login-error" id="loginError">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <span id="loginErrorText">Sai tên đăng nhập hoặc mật khẩu</span>
+            </div>
+        </form>
+        <div class="login-foot">© PTSC Offshore Services — Nội bộ</div>
+    </div>
+</div>
 <div class="bg-fixed-overlay" id="bgOverlay"></div>
 <div id="app" class="absolute inset-0 flex flex-col p-4 md:p-6 lg:p-8 overflow-hidden">
     <!-- Theme Selector -->
@@ -3927,6 +4034,133 @@ function getRoleIcon(roleName) {
     })();
     /* AI BOT WIDGET JS END */
     showPage(1);
+</script>
+<!-- ===== LOGIN GATE LOGIC (additive, self-contained) ===== -->
+<script>
+(function () {
+    const gate = document.getElementById('loginGate');
+    if (!gate) return;
+    const form = document.getElementById('loginForm');
+    const userInput = document.getElementById('loginUser');
+    const passInput = document.getElementById('loginPass');
+    const submitBtn = document.getElementById('loginSubmitBtn');
+    const btnText = document.getElementById('loginBtnText');
+    const errorBox = document.getElementById('loginError');
+    const errorText = document.getElementById('loginErrorText');
+    const togglePw = document.getElementById('loginTogglePw');
+    const SESSION_KEY = 'ptsc_pos_authed';
+
+    document.body.classList.add('login-locked');
+
+    // Skip gate if already authenticated this browser session
+    try {
+        if (sessionStorage.getItem(SESSION_KEY) === '1') { unlock(); return; }
+    } catch (e) {}
+
+    // Show/hide password
+    if (togglePw) {
+        togglePw.addEventListener('click', function () {
+            const isPw = passInput.type === 'password';
+            passInput.type = isPw ? 'text' : 'password';
+            togglePw.innerHTML = isPw
+                ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" y1="2" x2="22" y2="22"/></svg>'
+                : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>';
+        });
+    }
+
+    function showError(msg) {
+        errorText.textContent = msg;
+        errorBox.classList.add('show');
+    }
+    function hideError() { errorBox.classList.remove('show'); }
+
+    function setLoading(on) {
+        submitBtn.disabled = on;
+        btnText.innerHTML = on
+            ? '<span class="login-spinner"></span> Đang kiểm tra...'
+            : 'Đăng nhập';
+    }
+
+    function unlock() {
+        gate.classList.add('hide');
+        document.body.classList.remove('login-locked');
+        setTimeout(function () { if (gate && gate.parentNode) gate.style.display = 'none'; }, 500);
+    }
+
+    // Minimal CSV parser (independent of app, so existing features are untouched)
+    function parseCsvLite(text) {
+        const rows = [];
+        let row = [], cell = '', inQ = false;
+        for (let i = 0; i < text.length; i++) {
+            const ch = text[i], nx = text[i + 1];
+            if (ch === '"') { if (inQ && nx === '"') { cell += '"'; i++; } else inQ = !inQ; }
+            else if (ch === ',' && !inQ) { row.push(cell); cell = ''; }
+            else if ((ch === '\n' || ch === '\r') && !inQ) { if (ch === '\r' && nx === '\n') i++; row.push(cell); if (row.some(c => c.trim() !== '')) rows.push(row); row = []; cell = ''; }
+            else cell += ch;
+        }
+        if (cell !== '' || row.length) { row.push(cell); if (row.some(c => c.trim() !== '')) rows.push(row); }
+        return rows;
+    }
+
+    let credentialsCache = null;
+    async function loadCredentials() {
+        if (credentialsCache) return credentialsCache;
+        const cfgRes = await fetch('./config.json');
+        if (!cfgRes.ok) throw new Error('config');
+        const cfg = await cfgRes.json();
+        if (!cfg.sheetUrl2) throw new Error('sheetUrl2');
+        const csvRes = await fetch(cfg.sheetUrl2);
+        if (!csvRes.ok) throw new Error('sheet');
+        const rows = parseCsvLite(await csvRes.text());
+        // Locate header row containing user_name + password
+        let hIdx = -1, uCol = -1, pCol = -1;
+        for (let i = 0; i < rows.length; i++) {
+            const lc = rows[i].map(c => c.trim().toLowerCase());
+            const u = lc.indexOf('user_name');
+            const p = lc.indexOf('password');
+            if (u !== -1 && p !== -1) { hIdx = i; uCol = u; pCol = p; break; }
+        }
+        if (hIdx === -1) throw new Error('cols');
+        const creds = [];
+        for (let i = hIdx + 1; i < rows.length; i++) {
+            const u = (rows[i][uCol] || '').trim();
+            const p = (rows[i][pCol] || '').trim();
+            if (u !== '') creds.push({ u: u, p: p });
+        }
+        credentialsCache = creds;
+        return creds;
+    }
+
+    form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        hideError();
+        const u = userInput.value.trim();
+        const p = passInput.value;
+        if (!u || !p) { showError('Vui lòng nhập đầy đủ thông tin'); return; }
+        setLoading(true);
+        try {
+            const creds = await loadCredentials();
+            const match = creds.find(function (c) {
+                return c.u.toLowerCase() === u.toLowerCase() && c.p === p;
+            });
+            if (match) {
+                try { sessionStorage.setItem(SESSION_KEY, '1'); } catch (e) {}
+                unlock();
+            } else {
+                setLoading(false);
+                showError('Sai tên đăng nhập hoặc mật khẩu');
+                passInput.value = '';
+                passInput.focus();
+            }
+        } catch (err) {
+            setLoading(false);
+            showError('Không kết nối được dữ liệu đăng nhập. Thử lại.');
+        }
+    });
+
+    // Focus username on load
+    setTimeout(function () { if (userInput) userInput.focus(); }, 300);
+})();
 </script>
 </body>
 </html>
