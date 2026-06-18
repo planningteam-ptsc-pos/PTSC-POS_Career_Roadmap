@@ -4057,6 +4057,7 @@ function getRoleIcon(roleName) {
     const errorText = document.getElementById('loginErrorText');
     const togglePw = document.getElementById('loginTogglePw');
 
+    let authDataCache = null;
     document.body.classList.add('login-locked');
 
     // NOTE: No session persistence — every page reload requires logging in again.
@@ -4122,7 +4123,6 @@ function getRoleIcon(roleName) {
         return rows;
     }
 
-    let authDataCache = null;
     async function loadAuthData() {
         if (authDataCache) return authDataCache;
         const cfgRes = await fetch('./config.json', { cache: 'no-store' });
