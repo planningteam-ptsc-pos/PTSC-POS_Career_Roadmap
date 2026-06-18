@@ -4125,42 +4125,66 @@ function getRoleIcon(roleName) {
     let authDataCache = null;
     async function loadAuthData() {
         if (authDataCache) return authDataCache;
-        const cfgRes = await fetch('./config.json');
+        const cfgRes = await fetch('./config.json', { cache: 'no-store' });
         if (!cfgRes.ok) throw new Error('config');
         const cfg = await cfgRes.json();
         if (!cfg.sheetUrl2) throw new Error('sheetUrl2');
-        const csvRes = await fetch(cfg.sheetUrl2);
+        // Cache-bust so Google doesn't serve a stale CSV after you change pw_active
+        const sep = cfg.sheetUrl2.indexOf('?') === -1 ? '?' : '&';
+        const csvUrl = cfg.sheetUrl2 + sep + '_cb=' + Date.now();
+        const csvRes = await fetch(csvUrl, { cache: 'no-store' });
         if (!csvRes.ok) throw new Error('sheet');
         const rows = parseCsvLite(await csvRes.text());
-        // Locate header row containing user_name + password (and optionally pw_active)
-        let hIdx = -1, uCol = -1, pCol = -1, aCol = -1;
+
+        // Normalize a header cell: lowercase, strip spaces/underscores (so "pw_active",
+        // "pw active", "PW Active", "pwactive" all match the same key).
+        const norm = (s) => String(s || '').trim().toLowerCase().replace(/[\s_]+/g, '');
+
+        // --- 1) Find credentials header (row with user_name + password) ---
+        let hIdx = -1, uCol = -1, pCol = -1;
         for (let i = 0; i < rows.length; i++) {
-            const lc = rows[i].map(c => c.trim().toLowerCase());
-            const u = lc.indexOf('user_name');
-            const p = lc.indexOf('password');
-            if (u !== -1 && p !== -1) {
-                hIdx = i; uCol = u; pCol = p;
-                aCol = lc.indexOf('pw_active');
-                break;
-            }
+            const keys = rows[i].map(norm);
+            const u = keys.indexOf('username');
+            const p = keys.indexOf('password');
+            if (u !== -1 && p !== -1) { hIdx = i; uCol = u; pCol = p; break; }
         }
         if (hIdx === -1) throw new Error('cols');
         const creds = [];
-        // pw_active: default ON (require login) unless first non-empty value below header is F/FALSE/0/NO/OFF.
-        let pwActive = true;
-        let pwActiveFound = false;
         for (let i = hIdx + 1; i < rows.length; i++) {
             const u = (rows[i][uCol] || '').trim();
             const p = (rows[i][pCol] || '').trim();
             if (u !== '') creds.push({ u: u, p: p });
-            if (aCol !== -1 && !pwActiveFound) {
-                const raw = (rows[i][aCol] || '').trim().toUpperCase();
+        }
+
+        // --- 2) Find pw_active column INDEPENDENTLY (scan every row for the header) ---
+        // This is robust even if pw_active sits in a different conceptual block of the sheet.
+        let pwActive = true;            // default: require login
+        let pwActiveRaw = '(not found)';
+        let aRow = -1, aCol = -1;
+        for (let i = 0; i < rows.length && aCol === -1; i++) {
+            const keys = rows[i].map(norm);
+            const idx = keys.indexOf('pwactive');
+            if (idx !== -1) { aRow = i; aCol = idx; }
+        }
+        if (aCol !== -1) {
+            // Read first non-empty value below the pw_active header
+            for (let i = aRow + 1; i < rows.length; i++) {
+                const raw = (rows[i][aCol] || '').trim();
                 if (raw !== '') {
-                    pwActiveFound = true;
-                    pwActive = !(raw === 'F' || raw === 'FALSE' || raw === '0' || raw === 'NO' || raw === 'OFF');
+                    pwActiveRaw = raw;
+                    const up = raw.toUpperCase();
+                    pwActive = !(up === 'F' || up === 'FALSE' || up === '0' || up === 'NO' || up === 'OFF');
+                    break;
                 }
             }
         }
+
+        // Helpful diagnostics — open DevTools (F12) → Console to verify what was read.
+        console.info('[LoginGate] pw_active column found:', aCol !== -1,
+                     '| raw value:', pwActiveRaw,
+                     '| => require login:', pwActive,
+                     '| credentials loaded:', creds.length);
+
         authDataCache = { creds: creds, pwActive: pwActive };
         return authDataCache;
     }
